@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 declare type Hash = string
 // TransactionId consist of: `${txHash}${?txLogIndex}`
@@ -8,6 +8,7 @@ declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
   +to: string,
   +from: string,
+  +input: string,
   +value: string,
   +gasUsed: string,
   +isError: string,
@@ -16,6 +17,7 @@ declare type TransactionFromBlockExplorer = {|
   +timeStamp: string,
   +blockNumber: string,
   +contractAddress: string,
+  +nonce: string,
 |}
 
 declare type ERC20EventName = 'Transfer'
@@ -94,6 +96,7 @@ declare type TransactionEventType = 0 | 1 | 2
 declare type TransactionData = {|
   +gasPrice: string,
   +nonce: number,
+  +hasInput: boolean,
 |}
 
 declare type TransactionBlockData = {|
@@ -120,13 +123,15 @@ declare type Transaction = {|
   +isRemoved: boolean,
 |}
 
+declare type TransactionPrimaryKeys = {|
+  +id: TransactionId,
+  +blockNumber: BlockNumber,
+  +assetAddress: AssetAddress,
+|}
+
 declare type TransactionWithPrimaryKeys = {|
   ...Transaction,
-  +keys: {|
-    +id: TransactionId,
-    +blockNumber: BlockNumber,
-    +assetAddress: AssetAddress,
-  |},
+  +keys: TransactionPrimaryKeys,
 |}
 
 declare type Transactions = {
@@ -174,6 +179,7 @@ declare type TransactionsPersist = {|
 declare type TransactionsState = {|
   +persist: TransactionsPersist,
   +searchQuery: string,
-  +isOnlyPending: boolean,
-  +isConnectionError: boolean,
+  +isErrorFiltered: boolean,
+  +isStuckFiltered: boolean,
+  +isPendingFiltered: boolean,
 |}

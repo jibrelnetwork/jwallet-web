@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   Form,
@@ -52,6 +53,7 @@ export type Props = {|
   onBack?: ?WalletsImportBackHandler,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
   +hint: string,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -72,10 +74,6 @@ const INITIAL_VALUES: FormFields = {
   walletType: null,
 }
 
-const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of the wallet you want 
-to import. You can also enter a public key or address to access wallet in read-only mode. We 
-support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
-
 function getInitialValues(): FormFields {
   return {
     ...INITIAL_VALUES,
@@ -83,7 +81,7 @@ function getInitialValues(): FormFields {
   }
 }
 
-export class WalletsImportView extends Component<Props, StateProps> {
+class WalletsImportViewComponent extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
   }
@@ -105,12 +103,22 @@ export class WalletsImportView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return t`Import Wallet`
+        return i18n._(
+          'WalletsImport.import.title',
+          null,
+          { defaults: 'Import wallet' },
+        )
 
       case STEPS.PASSWORD:
-        return t`Enter Security Password to Protect Your Wallet`
+        return i18n._(
+          'WalletsImport.password.title',
+          null,
+          { defaults: 'Enter Security Password to Protect Your Wallet' },
+        )
 
       default:
         return ''
@@ -184,6 +192,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
     } = {},
     submitting: isSubmitting,
   }: FormRenderProps) => {
+    const { i18n } = this.props
     const infoDataMessage: ?string = getInfoDataMessage(
       data,
       passphrase,
@@ -200,6 +209,13 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
     const successDataMessage: ?string = getSuccessDataMessage(data)
 
+    const DEFAULT_DATA_MESSAGE: string = i18n._(
+      'WalletsImport.data.description.default',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'Enter a private key or backup phrase of the wallet you want to import. You can also enter a public key or address to access wallet in read-only mode. We support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.' },
+    )
+
     return (
       <form
         onSubmit={handleSubmit}
@@ -207,7 +223,11 @@ export class WalletsImportView extends Component<Props, StateProps> {
       >
         <Field
           component={JInputField}
-          label={t`Wallet Name`}
+          label={i18n._(
+            'WalletsImport.name',
+            null,
+            { defaults: 'Wallet Name' },
+          )}
           infoMessage={checkNameExists(name)}
           name='name'
           isDisabled={isSubmitting}
@@ -215,7 +235,11 @@ export class WalletsImportView extends Component<Props, StateProps> {
         <Field
           component={JTextArea}
           onChange={this.handleChange(form.change)}
-          label={t`Address, Key, Mnemonic`}
+          label={i18n._(
+            'WalletsImport.data',
+            null,
+            { defaults: 'Address, Key, Mnemonic' },
+          )}
           errorMessage={errorDataMessage}
           infoMessage={infoDataMessage || successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
@@ -233,7 +257,11 @@ export class WalletsImportView extends Component<Props, StateProps> {
           isLoading={isSubmitting}
           isDisabled={!!infoDataMessage || !!errorDataMessage || !(name.trim() && data.trim())}
         >
-          {t`Import`}
+          {i18n._(
+            'WalletsImport.submit',
+            null,
+            { defaults: 'Import' },
+          )}
         </Button>
       </form>
     )
@@ -281,3 +309,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
     )
   }
 }
+
+export const WalletsImportView = withI18n()(
+  WalletsImportViewComponent,
+)

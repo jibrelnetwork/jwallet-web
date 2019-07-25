@@ -1,50 +1,66 @@
-// @flow
+// @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
-import PopupButton from 'components/PopupButton'
+import { PopupButton } from 'components'
 
 import {
   JText,
   JCheckbox,
 } from 'components/base'
 
+import styles from './transactionsFilter.m.scss'
+
 type Props = {|
   +setOnlyPending: (boolean) => void,
+  +i18n: I18nType,
   +filterCount: number,
-  +isOnlyPending: boolean,
+  +isPendingFiltered: boolean,
 |}
 
 class TransactionsFilter extends PureComponent<Props> {
   static defaultProps = {
-    isOnlyPending: false,
+    isPendingFiltered: false,
   }
 
   render() {
     const {
       setOnlyPending,
+      i18n,
       filterCount,
-      isOnlyPending,
-    } = this.props
+      isPendingFiltered,
+    }: Props = this.props
 
     return (
-      <PopupButton icon={filterCount ? 'filter-selected' : 'filter'} counter={filterCount}>
-        <div className='transactions-filter'>
-          <div className='title'>
+      <PopupButton
+        icon={filterCount ? 'filter-selected' : 'filter'}
+        counter={filterCount}
+      >
+        <div className={styles.core}>
+          <div className={styles.title}>
             <JText
               color='gray'
               size='normal'
               weight='bold'
-              value={t`Filter`}
+              value={i18n._(
+                'TransactionsFilter.filter',
+                null,
+                { defaults: 'Filter' },
+              )}
               whiteSpace='wrap'
             />
           </div>
           <JCheckbox
             onChange={setOnlyPending}
             name='only-pending'
-            label={t`Only pending`}
-            isChecked={isOnlyPending}
+            label={i18n._(
+              'TransactionsFilter.pendingOnly',
+              null,
+              { defaults: 'Only pending' },
+            )}
+            isChecked={isPendingFiltered}
           />
         </div>
       </PopupButton>
@@ -52,4 +68,5 @@ class TransactionsFilter extends PureComponent<Props> {
   }
 }
 
-export default TransactionsFilter
+const TransactionsFilterEnhanced = withI18n()(TransactionsFilter)
+export { TransactionsFilterEnhanced as TransactionsFilter }

@@ -1,7 +1,6 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
 import { map } from 'lodash-es'
 
 import {
@@ -33,13 +32,15 @@ export type AddressPickerItem = {|
 |}
 
 export type Props = {|
+  +onItemClick: (address: string, index: number) => any,
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  label: string,
-  addresses: AddressPickerItem[],
+  +label: string,
+  +addresses: AddressPickerItem[],
 |}
 
 export function AddressPicker({
+  onItemClick,
   meta,
   input,
   label,
@@ -47,16 +48,15 @@ export function AddressPicker({
 }: Props) {
   const {
     value,
-    onFocus: handleFocus,
     onBlur: handleBlur,
-    onChange: handleChange,
+    onFocus: handleFocus,
   } = input
 
   const {
     fiatBalance = '',
     address: activeAddress = '',
     name: activeAddressName = '',
-  } = addresses.find(addr => addr.address === value) || {}
+  } = addresses.find((_, index) => index === value) || {}
 
   return (
     <JPickerBody
@@ -81,7 +81,7 @@ export function AddressPicker({
       )}
     >
       <JPickerList
-        onItemClick={handleChange}
+        onItemClick={onItemClick}
         activeItemKey={value}
       >
         {map(addresses, (item: AddressPickerItem) => (
@@ -94,9 +94,4 @@ export function AddressPicker({
       </JPickerList>
     </JPickerBody>
   )
-}
-
-AddressPicker.defaultProps = {
-  label: t`Address`,
-  addresses: [],
 }

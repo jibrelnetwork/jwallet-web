@@ -1,22 +1,29 @@
 // @flow
 
 import React from 'react'
+import { useI18n } from 'app/hooks'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
 
 import {
-  JTabs, JFlatButton, SearchInput,
+  JTabs,
+  JFlatButton,
+  SearchInput,
 } from 'components/base'
 
 import {
-  TransactionsList,
+  HistoryList,
   TransactionsFilter,
 } from 'components'
 
-function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
+function getTransactionsTabs(
+  i18n,
+  asset: DigitalAsset,
+  assetBalance: ?Balance,
+  isFetched: boolean,
+) {
   const {
     name,
     symbol,
@@ -33,7 +40,11 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   )
 
   return {
-    '/assets': t`Digital Assets`,
+    '/assets': i18n._(
+      'Transactions.Asset.assetsHome',
+      null,
+      { defaults: 'Digital Assets' },
+    ),
     [`/history/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
@@ -60,7 +71,7 @@ type Props = {|
   +assetAddress: AssetAddress,
   +ownerAddress: ?OwnerAddress,
   +isLoading: boolean,
-  +isOnlyPending: boolean,
+  +isPendingFiltered: boolean,
   +isCurrentBlockEmpty: boolean,
 |}
 
@@ -82,20 +93,21 @@ function TransactionsAssetView({
   assetAddress,
   ownerAddress,
   isLoading,
-  isOnlyPending,
+  isPendingFiltered,
   isCurrentBlockEmpty,
 }: Props) {
   if (!(ownerAddress && network)) {
     return null
   }
 
+  const i18n = useI18n()
   const asset: ?DigitalAsset = digitalAssets[params.asset]
 
   if (!asset) {
     return null
   }
 
-  const filterCount: number = isOnlyPending ? 1 : 0
+  const filterCount: number = isPendingFiltered ? 1 : 0
   const isLoadingOrBlockEmpty: boolean = isLoading || isCurrentBlockEmpty
   const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
 
@@ -103,7 +115,7 @@ function TransactionsAssetView({
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
+          <JTabs tabs={getTransactionsTabs(i18n, asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
               <SearchInput
@@ -115,10 +127,16 @@ function TransactionsAssetView({
               <TransactionsFilter
                 setOnlyPending={setIsOnlyPending}
                 filterCount={filterCount}
-                isOnlyPending={isOnlyPending}
+                isPendingFiltered={isPendingFiltered}
               />
             </div>
-            <div className='send' title={t`Send asset`}>
+            <div
+              className='send' title={i18n._(
+                'Transactions.Asset.send',
+                null,
+                { defaults: 'Send Asset' },
+              )}
+            >
               <JFlatButton
                 to={`/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'
@@ -138,7 +156,7 @@ function TransactionsAssetView({
       </div>
       <div className='content'>
         <Scrollbars autoHide>
-          <TransactionsList
+          <HistoryList
             editComment={editComment}
             removeFavorite={removeFavorite}
             items={transactions}

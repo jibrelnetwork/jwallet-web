@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
@@ -10,15 +11,16 @@ import { toastsPlugin } from 'store/plugins'
 import copyIconButtonStyle from './copyIconButton.m.scss'
 
 type Props = {|
-  +title: string,
+  +i18n: I18nType,
+  +title: ?string,
   +content: string,
-  +toastMessage: string,
+  +toastMessage: ?string,
 |}
 
-export class CopyIconButton extends PureComponent<Props> {
+class CopyIconButton extends PureComponent<Props> {
   static defaultProps = {
-    title: '',
-    toastMessage: '',
+    title: null,
+    toastMessage: null,
   }
 
   handleCopy = (address: Address) => () => {
@@ -36,6 +38,7 @@ export class CopyIconButton extends PureComponent<Props> {
 
   render() {
     const {
+      i18n,
       title,
       content,
     }: Props = this.props
@@ -43,7 +46,11 @@ export class CopyIconButton extends PureComponent<Props> {
     return (
       <button
         onClick={this.handleCopy(this.props.content)}
-        title={title || t`Copy ${content}`}
+        title={title || i18n._(
+          'common.CopyIconButton.title',
+          { content },
+          { defaults: 'Copy {content}' },
+        )}
         className={`__copy-icon-button ${copyIconButtonStyle.core}`}
         type='button'
       >
@@ -52,3 +59,6 @@ export class CopyIconButton extends PureComponent<Props> {
     )
   }
 }
+
+const CopyIconButtonEnhanced = withI18n()(CopyIconButton)
+export { CopyIconButtonEnhanced as CopyIconButton }

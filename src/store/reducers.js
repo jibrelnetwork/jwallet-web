@@ -20,7 +20,6 @@ import favorites from 'store/modules/favorites'
 import digitalAssets from 'store/modules/digitalAssets'
 import digitalAssetsAdd from 'store/modules/addAsset'
 import digitalAssetsEdit from 'store/modules/editAsset'
-import digitalAssetsSend from 'store/modules/digitalAssetsSend'
 import digitalAssetsGrid from 'store/modules/digitalAssetsGrid'
 import digitalAssetsManage from 'store/modules/digitalAssetsManage'
 
@@ -52,7 +51,6 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
     // digitalAssets
     digitalAssetsAdd,
     digitalAssetsEdit,
-    digitalAssetsSend,
     digitalAssetsGrid,
     digitalAssetsManage,
     ...persistReducers({

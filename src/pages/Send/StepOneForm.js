@@ -3,8 +3,10 @@
 import React, { PureComponent } from 'react'
 import createCaluclateDecorator from 'final-form-calculate'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { max } from 'lodash-es'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import {
   Form,
   Field,
@@ -62,6 +64,7 @@ type Props = {|
   +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +getAssetByAddress: (assetAddress: string) => DigitalAsset,
   +getAssetBalanceByAddress: (assetAddress: string) => ?string,
+  +i18n: I18nType,
 |}
 
 type OwnProps = {|
@@ -113,6 +116,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       getAssetByAddress,
       getAssetBalanceByAddress,
+      i18n,
     } = this.props
 
     const {
@@ -123,14 +127,30 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const selectedAssetBalance = getAssetBalanceByAddress(assetAddress)
 
-    const amountError = !isValidNumeric(amountValue) &&
-      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+    const amountFormatError = !isValidNumeric(amountValue)
       ? {
-        amountValue: t`Invalid amount value`,
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.invalid',
+          null,
+          { defaults: 'Invalid amount value' },
+        ),
       }
       : undefined
 
-    if (assetAddress && amountValue && recipientAddress) {
+    const amountBalanceError = isValidNumeric(amountValue) &&
+      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+      ? {
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.tooMuch',
+          null,
+          { defaults: 'Amount exceeds current balance' },
+        ),
+      }
+      : undefined
+
+    const isAmountValid = !(amountFormatError && amountBalanceError)
+
+    if (assetAddress && isAmountValid && recipientAddress) {
       await this.requestGasLimit({
         assetAddress,
         amountValue,
@@ -144,7 +164,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       toBigNumber(gasPriceValue).lt(1) ||
       toBigNumber(gasPriceValue).gt(1000)
         ? {
-          gasPriceValue: t`Invalid gas price value`,
+          gasPriceValue: i18n._(
+            'Send.StepOneForm.input.gasPriceValue.error.invalid',
+            null,
+            { defaults: 'Invalid gas price value' },
+          ),
         }
         : undefined
 
@@ -152,12 +176,17 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       !isValidNumeric(gasLimitValue) ||
       parseInt(gasLimitValue, 10) < 21000
       ? {
-        gasLimitValue: t`Invalid gas limit`,
+        gasLimitValue: i18n._(
+          'Send.StepOneForm.input.gasLimitValue.error.invalid',
+          null,
+          { defaults: 'Invalid gas limit' },
+        ),
       }
       : undefined
 
     return {
-      ...amountError,
+      ...amountFormatError,
+      ...amountBalanceError,
       ...gasPriceError,
       ...gasLimitError,
     }
@@ -279,6 +308,10 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     } = this.state
 
     const {
+      i18n,
+    } = this.props
+
+    const {
       recipientAddress,
       assetAddress,
       amountValue,
@@ -356,7 +389,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isLoading={isSubmitting}
           isDisabled={isFormDisabled}
         >
-          {t`Send`}
+          {i18n._(
+            'Send.StepOneForm.form.actions.submit',
+            null,
+            { defaults: 'Send' },
+          )}
         </Button>
       </form>
     )
@@ -433,6 +470,9 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const ConnectedStepOneForm = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
+export const ConnectedStepOneForm = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+  ),
 )(StepOneForm)

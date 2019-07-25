@@ -1,8 +1,13 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import {
+  withI18n,
+  Trans,
+} from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 
 import { StartLayout } from 'layouts'
 
@@ -32,16 +37,12 @@ export type Props = {|
   agreements: {
     [agreement: string]: boolean,
   },
+  i18n: I18nType,
 |}
 
-/* eslint-disable max-len */
-const conditions = {
-  understandPrivateDataPolicy: t`I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser.`,
-  consentNoWarranty: t`I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind.`,
-  consentTrackingCookies: t`I consent to allow cookies for collecting anonymous usage data to improve quality of provided service.`,
-  acceptTermsAndConditions: t`I have read and accepted`,
-}
-/* eslint-enable max-len */
+type OwnProps = {|
+  i18n: I18nType,
+|}
 
 class AgreementsScreen extends PureComponent<Props> {
   onChange = (key: string) => (isChecked: boolean) => {
@@ -57,7 +58,30 @@ class AgreementsScreen extends PureComponent<Props> {
   }
 
   render() {
-    const { agreements } = this.props
+    const {
+      agreements,
+      i18n,
+    } = this.props
+
+    /* eslint-disable max-len */
+    const conditions = {
+      understandPrivateDataPolicy: i18n._(
+        'Agreements.understandPrivateDataPolicy',
+        null,
+        { defaults: 'I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser' },
+      ),
+      consentNoWarranty: i18n._(
+        'Agreements.consentNoWarranty',
+        null,
+        { defaults: 'I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind' },
+      ),
+      consentTrackingCookies: i18n._(
+        'Agreements.consentTrackingCookies',
+        null,
+        { defaults: 'I consent to allow cookies for collecting anonymous usage data to improve quality of provided service' },
+      ),
+    }
+    /* eslint-enable max-len */
 
     const isAllAgreementsChecked = CONDITIONS_LIST.every(key => agreements[key])
 
@@ -69,7 +93,13 @@ class AgreementsScreen extends PureComponent<Props> {
             className={agreementsViewStyle.icon}
             color='blue'
           />
-          <h1 className={agreementsViewStyle.title}>{t`Terms and Conditions`}</h1>
+          <h1 className={agreementsViewStyle.title}>
+            {i18n._(
+              'Agreements.title',
+              null,
+              { defaults: 'Terms and Conditions' },
+            )}
+          </h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
               <div className={agreementsViewStyle.item} key={key}>
@@ -91,20 +121,11 @@ class AgreementsScreen extends PureComponent<Props> {
                     isChecked={agreements[key]}
                     isRegular
                   >
-                    {t`I have read and accepted `}
-                    <JLink
-                      theme='text-blue'
-                      href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
-                    >
-                      {t`Terms of Use`}
-                    </JLink>
-                    <span className='label'>{t` and `}</span>
-                    <JLink
-                      theme='text-blue'
-                      href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
-                    >
-                      {t`Privacy Policy.`}
-                    </JLink>
+                    {/* eslint-disable max-len */}
+                    <Trans id='Agreements.acceptTermsAndConditions'>
+                      I have read and accepted <JLink theme='text-blue' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-blue' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
+                    </Trans>
+                    {/* eslint-enable max-len */}
                   </JCheckbox>
                 )}
               </div>
@@ -118,7 +139,11 @@ class AgreementsScreen extends PureComponent<Props> {
                 isDisabled={!isAllAgreementsChecked}
                 onClick={this.handleAgreementsConfirmClick}
               >
-                {t`Confirm and continue`}
+                {i18n._(
+                  'Agreements.action.submit',
+                  null,
+                  { defaults: 'Confirm and continue' },
+                )}
               </Button>
             </JLink>
           </div>
@@ -141,7 +166,10 @@ const mapDispatchToProps = {
   setAllAgreementsAreConfirmed,
 }
 
-export const AgreementsView = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+export const AgreementsView = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(AgreementsScreen)

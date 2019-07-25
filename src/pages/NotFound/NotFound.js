@@ -1,35 +1,47 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
 
-import {
-  JThumbnail,
-  JFlatButton,
-} from 'components/base'
+import { UserActionInfo } from 'components'
+import { JLink } from 'components/base'
+import { useI18n } from 'app/hooks'
+
+import style from './notFound.m.scss'
 
 export function NotFound() {
+  const i18n = useI18n()
+
   return (
-    <div className='not-found-view'>
-      <div className='content'>
-        <JThumbnail
-          color='white'
-          image='auth-question'
-          title={t`404 – Page Not Found`}
-          isTransparent
-          description={[
-            t`The page you're looking for can't be found.`,
-            t`Check the URL and try again.`,
-          ]}
+    <div className={style.core}>
+      <div className={style.center}>
+        <UserActionInfo
+          title={i18n._(
+            'NotFound.title',
+            null,
+            { defaults: '404. Page Not Found' },
+          )}
+          text={i18n._(
+            'NotFound.description',
+            null,
+            {
+              defaults:
+                'The page you\'re looking for can\'t be found. Check the URL and try again.',
+            },
+          )}
+          iconClassName={style.icon}
+          iconName='ic_attention_48-use-fill'
         />
-        <div className='actions'>
-          <JFlatButton
-            className='back'
-            to='/'
-            color='white'
-            label={t`Back to Home`}
-          />
-        </div>
+        <JLink
+          theme='button-general-confirm'
+          className={style.button}
+          href='/'
+        >
+          {i18n._(
+            'NotFound.goHome',
+            null,
+            { defaults: 'Go to Home' },
+          )}
+        </JLink>
       </div>
     </div>
   )

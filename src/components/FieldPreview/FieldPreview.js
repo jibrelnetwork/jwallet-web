@@ -1,97 +1,91 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+
+import { useI18n } from 'app/hooks'
+import { CopyIconButton } from 'components'
 
 import {
   JLink,
   JIcon,
 } from 'components/base'
-import { clipboard } from 'services'
 
-import style from './fieldPreview.m.scss'
+import styles from './fieldPreview.m.scss'
 
-type Props = {
+type Props = {|
   +label: string,
-  +body: string,
-  link?: string,
-  contact?: string,
-  copy?: ?string,
-  copyMessage?: ?string,
-}
+  +value: string,
+  +link: ?string,
+  +title: ?string,
+  +valueToShow: ?string,
+  +isContact: boolean,
+  +isCopyable: boolean,
+|}
 
-function copyToClipboard({ currentTarget }: SyntheticEvent<HTMLButtonElement>): void {
-  const value = currentTarget.getAttribute('data-value')
-  const message = currentTarget.getAttribute('data-message')
-
-  if (value) {
-    clipboard.copyText(value)
-  }
-
-  if (message) {
-    // FIXME: Call real snackbar method
-    alert(message)
-  }
-}
-
-function FieldPreviewInternal({
-  label,
-  body,
+export function FieldPreview({
   link,
-  contact,
-  copy,
-  copyMessage,
+  label,
+  title,
+  value,
+  valueToShow,
+  isContact,
+  isCopyable,
 }: Props) {
+  const i18n = useI18n()
+
   return (
-    <div className={style.core}>
-      <div className={style.data}>
-        <div className={style.label}>{label}</div>
-        <div className={style.body}>
-          {
-            link
-              ? <JLink className={style.link} href={link}>{body}</JLink>
-              : <span>{body}</span>
-          }
+    <div className={`__field-preview ${styles.core}`}>
+      <div className={styles.data}>
+        <div className={styles.label}>
+          {label}
+        </div>
+        <div className={styles.value}>
+          {link ? (
+            <JLink
+              className={styles.link}
+              href={`https://${link}`}
+            >
+              {valueToShow || value}
+            </JLink>
+          ) : (
+            <span>
+              {valueToShow || value}
+            </span>
+          )}
         </div>
       </div>
-      <div className={style.actions}>
-        {contact && (
+      <div className={styles.actions}>
+        {isContact && (
           <JLink
-            className={style.action}
-            title={t`Add Contact`}
-            href={`/contacts/add?address=${contact}`}
+            className={styles.action}
+            title={i18n._(
+              'components.FieldPreview.action.contact',
+              null,
+              { defaults: 'Add Contact' },
+            )}
+            href={`/contacts/add?address=${value}`}
           >
             <JIcon
-              className={style.actionIcon}
+              className={styles.icon}
               name='add-contact-use-fill'
             />
           </JLink>)
         }
-        {copy && (
-          <button
-            className={style.action}
-            type='button'
-            title={t`Copy`}
-            data-value={copy}
-            data-message={copyMessage}
-            onClick={copyToClipboard}
-          >
-            <JIcon
-              className={style.actionIcon}
-              name='copy-use-fill'
-            />
-          </button>)
-        }
+        {isCopyable && (
+          <CopyIconButton
+            title={title}
+            content={value}
+          />
+        )}
       </div>
     </div>
   )
 }
 
-FieldPreviewInternal.defaultProps = {
-  link: '',
-  contact: '',
-  copy: undefined,
-  copyMessage: undefined,
+FieldPreview.defaultProps = {
+  link: null,
+  title: null,
+  valueToShow: null,
+  isContact: false,
+  isCopyable: false,
 }
-
-export const FieldPreview = React.memo<Props>(FieldPreviewInternal)

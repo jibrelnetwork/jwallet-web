@@ -2,7 +2,8 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
@@ -22,9 +23,10 @@ export type Props = {|
   +activeIndex: number,
   +derivationIndex: number,
   +isOpen: boolean,
+  +i18n: I18nType,
 |}
 
-export class AddressChooser extends Component<Props> {
+class AddressChooserComponent extends Component<Props> {
   bodyRef = React.createRef<HTMLDivElement>()
 
   componentDidUpdate({ isOpen }: Props) {
@@ -53,6 +55,7 @@ export class AddressChooser extends Component<Props> {
       activeIndex,
       derivationIndex,
       isOpen,
+      i18n,
     }: Props = this.props
 
     return (
@@ -65,7 +68,11 @@ export class AddressChooser extends Component<Props> {
         <div className={styles.main}>
           <div className={styles.header}>
             <div className={styles.title}>
-              {t`Choose Address`}
+              {i18n._(
+                'common.WalletCard.AddressChooser.choose',
+                null,
+                { defaults: 'Choose Address' },
+              )}
             </div>
             <JLink
               href={`/wallets/${walletId}/addresses`}
@@ -76,7 +83,11 @@ export class AddressChooser extends Component<Props> {
                 className={titleHeaderStyles.icon}
               />
               <span className={titleHeaderStyles.label}>
-                {t`Manage`}
+                {i18n._(
+                  'common.WalletCard.AddressChooser.manage',
+                  null,
+                  { defaults: 'Manage' },
+                )}
               </span>
             </JLink>
             <button
@@ -121,3 +132,7 @@ export class AddressChooser extends Component<Props> {
     )
   }
 }
+
+export const AddressChooser = withI18n()(
+  AddressChooserComponent,
+)

@@ -1,36 +1,35 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React from 'react'
-import { t } from 'ttag'
-
-import { JLink } from 'components/base'
+import classNames from 'classnames'
+import { useI18n } from 'app/hooks'
 
 import svgLogoWhite from 'public/assets/logo/logo-white.svg'
+import { JLink } from 'components/base'
 
 import menuPanelStyle from './menuPanel.m.scss'
+
+import { Back } from './components/Back'
+import { Wallet } from './components/Wallet'
+import { Actions } from './components/Actions'
+import { Network } from './components/Network'
 
 import {
   getMenuMeta,
   type MenuMeta,
 } from './menuMeta'
 
-import { Wallet } from './components/Wallet'
-import { Back } from './components/Back'
-import { Actions } from './components/Actions'
-import { Network } from './components/Network'
-
 type Props = {|
   +routeName: string,
 |}
 
-export function MenuPanel({
-  routeName,
-}: Props) {
+export function MenuPanel({ routeName }: Props) {
+  const i18n = useI18n()
   const menuMeta: MenuMeta = getMenuMeta(routeName)
+
   const {
     isMinimized,
-    previousRouteNameFallback,
+    previousRoute,
   }: MenuMeta = menuMeta
 
   return (
@@ -51,7 +50,11 @@ export function MenuPanel({
       >
         <img
           src={svgLogoWhite}
-          alt={t`Jwallet Logo`}
+          alt={i18n._(
+            'layout.MenuLayout.logo.alt',
+            null,
+            { defaults: 'Jwallet Logo' },
+          )}
           width='136'
           height='48'
           className={menuPanelStyle.logoImage}
@@ -60,7 +63,7 @@ export function MenuPanel({
       <Wallet />
       <Actions routeName={routeName} />
       <Back
-        previousRouteNameFallback={previousRouteNameFallback}
+        previousRoute={previousRoute}
         isMinimized={isMinimized}
       />
     </header>

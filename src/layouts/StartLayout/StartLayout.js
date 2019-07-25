@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import svgLogoBlue from 'public/assets/logo/logo-blue.svg'
 
@@ -19,6 +19,8 @@ export function StartLayout({
   className,
   hasNoLogo,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div
       className={classNames(
@@ -31,7 +33,11 @@ export function StartLayout({
         <img
           className={startLayoutStyle.logo}
           src={svgLogoBlue}
-          alt={t`Jwallet Logo`}
+          alt={i18n._(
+            'layout.StartLayout.logo.alt',
+            null,
+            { defaults: 'Jwallet Logo' },
+          )}
           width='136'
           height='48'
         />

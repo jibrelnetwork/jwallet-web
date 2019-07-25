@@ -2,6 +2,12 @@
 
 .core {
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &.empty {
+    height: 100%;
+  }
 }
 
 .search {
@@ -18,4 +24,21 @@
   font-weight: 600;
   color: $main-black-40;
   text-transform: uppercase;
+}
+
+.center {
+  @include flex-column-center;
+
+  flex: 1 1 auto;
+}
+
+.empty-contacts {
+  @include font(16px, 24px);
+
+  display: block;
+  width: 100%;
+  max-width: 352px;
+  margin-top: -112px;
+  text-align: center;
+  color: $main-black-40;
 }

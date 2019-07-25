@@ -2,8 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
 
+import { useI18n } from 'app/hooks'
 import { CopyIconButton } from 'components'
 
 import copyableFieldStyles from './copyableField.m.scss'
@@ -17,6 +17,12 @@ export function CopyableField({
   value,
   label,
 }: Props) {
+  const labelOrNothing = label
+    ? ` ${label}`
+    : ''
+
+  const i18n = useI18n()
+
   return (
     <div
       className={classNames(
@@ -34,7 +40,11 @@ export function CopyableField({
       </div>
       <CopyIconButton
         content={value}
-        title={t`Copy${label ? ' ' : ''}${label || ''}`}
+        title={i18n._(
+          'common.CopyableField.copy',
+          { labelOrNothing },
+          { defaults: 'Copy{labelOrNothing}' },
+        )}
       />
     </div>
   )

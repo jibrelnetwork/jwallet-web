@@ -231,13 +231,9 @@ function getTransactionsByOwnerForActiveAssets(
     }, {})
 }
 
-function* checkTransactionsFetched(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-  activeAssets: DigitalAsset[],
-): Saga<boolean> {
+function* checkTransactionsFetched(activeAssets: DigitalAsset[]): Saga<boolean> {
   const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
-    yield select(selectTransactionsByOwner, networkId, ownerAddress)
+    yield select(selectTransactionsByOwner)
 
   const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
@@ -264,13 +260,9 @@ function* getWalletCreatedBlockNumber(): Saga<void> {
   return createdBlockNumber && createdBlockNumber.mainnet
 }
 
-function* checkTransactionsLoading(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-  activeAssets: DigitalAsset[],
-): Saga<boolean> {
+function* checkTransactionsLoading(activeAssets: DigitalAsset[]): Saga<boolean> {
   const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
-    yield select(selectTransactionsByOwner, networkId, ownerAddress)
+    yield select(selectTransactionsByOwner)
 
   const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
@@ -315,13 +307,13 @@ function* syncProcessingBlockStatus(): Saga<void> {
         isTransactionsLoading,
       }: BlockData = processingBlock
 
-      const isFetched: boolean = yield* checkTransactionsFetched(networkId, ownerAddress, assets)
+      const isFetched: boolean = yield* checkTransactionsFetched(assets)
 
       if (!isTransactionsFetched && isFetched) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
       }
 
-      const isLoading: boolean = yield* checkTransactionsLoading(networkId, ownerAddress, assets)
+      const isLoading: boolean = yield* checkTransactionsLoading(assets)
 
       if (isTransactionsLoading && !isLoading) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
@@ -555,13 +547,11 @@ function getTasksToRefetchByOwner(
 
 function* resyncTransactionsByOwnerAddress(
   requestQueue: Channel,
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
   toBlock: number,
 ): Saga<void> {
   while (true) {
     const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
-      yield select(selectTransactionsByOwner, networkId, ownerAddress)
+      yield select(selectTransactionsByOwner)
 
     if (!itemsByOwner) {
       yield delay(resyncTransactionsTimeout)
@@ -597,14 +587,10 @@ function getTasksToFetchByTransactionId(
   ]), [])
 }
 
-function* resyncTransactionsByTransactionId(
-  requestQueue: Channel,
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-): Saga<void> {
+function* resyncTransactionsByTransactionId(requestQueue: Channel): Saga<void> {
   while (true) {
     const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
-      yield select(selectTransactionsByOwner, networkId, ownerAddress)
+      yield select(selectTransactionsByOwner)
 
     if (!itemsByOwner) {
       yield delay(resyncTransactionsTimeout)
@@ -636,8 +622,6 @@ function* resyncTransactionsStart(
 ): Saga<void> {
   const {
     requestQueue,
-    networkId,
-    ownerAddress,
     toBlock,
   } = action.payload
 
@@ -646,10 +630,10 @@ function* resyncTransactionsStart(
   }
 
   const resyncTransactionsByOwnerAddressTask: Task<typeof resyncTransactionsByOwnerAddress> =
-    yield fork(resyncTransactionsByOwnerAddress, requestQueue, networkId, ownerAddress, toBlock)
+    yield fork(resyncTransactionsByOwnerAddress, requestQueue, toBlock)
 
   const resyncTransactionsByTransactionIdTask: Task<typeof resyncTransactionsByTransactionId> =
-    yield fork(resyncTransactionsByTransactionId, requestQueue, networkId, ownerAddress)
+    yield fork(resyncTransactionsByTransactionId, requestQueue)
 
   yield take(transactions.RESYNC_TRANSACTIONS_STOP)
   yield cancel(resyncTransactionsByOwnerAddressTask)
@@ -729,10 +713,8 @@ function* checkPendingTransaction(
 
   const transaction: ExtractReturn<typeof selectTransactionById> = yield select(
     selectTransactionById,
-    networkId,
-    ownerAddress,
-    assetAddress,
     transactionId,
+    assetAddress,
   )
 
   if (!transaction) {
@@ -745,14 +727,12 @@ function* checkPendingTransaction(
     return
   }
 
-  const { hash }: Transaction = transaction
+  const { hash }: TransactionWithPrimaryKeys = transaction
 
   const pendingTransaction: ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
     selectPendingTransactionByHash,
-    networkId,
-    ownerAddress,
-    assetAddress,
     hash,
+    assetAddress,
   )
 
   if (!pendingTransaction) {

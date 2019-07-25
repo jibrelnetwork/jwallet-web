@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4'
 import Promise from 'bluebird'
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { type Store } from 'redux'
 
 import { web3 } from 'services'
@@ -24,6 +24,7 @@ import {
 import {
   setActiveWallet,
   setWalletsItems,
+  changeActiveAddress,
 } from 'store/modules/wallets'
 
 import {
@@ -121,7 +122,11 @@ class WalletsPlugin {
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
     if (!(data && name)) {
-      throw new Error(t`Invalid wallet data`)
+      throw new Error(i18n._(
+        'WalletsImport.errors.dataInvalid',
+        null,
+        { defaults: 'Invalid wallet data' },
+      ))
     }
 
     try {
@@ -160,7 +165,11 @@ class WalletsPlugin {
       }
 
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'WalletsImport.errors.passwordInvalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
 
@@ -199,7 +208,12 @@ class WalletsPlugin {
     )
 
     if (foundWallet) {
-      throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
+      // FIXME: Do we need to translate this? Looks like internal error text
+      throw new Error(i18n._(
+        'WalletsImport.errors.walletIsNotUnique',
+        { propertyName },
+        { defaults: 'Wallet with such {propertyName} already exists' },
+      ))
     }
   }
 
@@ -309,6 +323,7 @@ class WalletsPlugin {
     )
 
     this.dispatch(setActiveWallet(walletId))
+    this.dispatch(changeActiveAddress())
 
     return newItems
   }
@@ -345,7 +360,11 @@ class WalletsPlugin {
       gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
 
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'entity.Password.error.invalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
 

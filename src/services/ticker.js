@@ -1,7 +1,5 @@
 // @flow strict
 
-import { t } from 'ttag'
-
 import config from 'config'
 import getENVVar from 'utils/config/getENVVar'
 import { typeUtils } from 'utils'
@@ -25,7 +23,7 @@ function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> 
       return callApi(params, (retryCount - 1))
     }
 
-    throw new Error(t`TickerRequestError`)
+    throw new Error('Ticker Request Error')
   }
 
   return fetch(requestInfo, {

@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 import {
   delay,
   channel,
@@ -155,7 +153,7 @@ export function* processQueue(
       } else if (request.module === 'transaction') {
         yield* requestTransaction(request, network, ownerAddress)
       } else {
-        throw new Error(t`Task handler for module ${request.module} is not defined`)
+        throw new Error(`Task handler for module ${request.module} is not defined`)
       }
     } catch (err) {
       if (request.retryCount && request.retryCount > 0) {

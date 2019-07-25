@@ -41,7 +41,7 @@ describe('Render', () => {
     }
     const wrapper = shallow(<FieldPreview {...props} />)
 
-    expect(wrapper.find('.actions').children().length).toBe(1)
+    expect(wrapper.find('.actions').children()).toHaveLength(1)
   })
 
   test('Add Contact button is rendered', () => {
@@ -53,7 +53,7 @@ describe('Render', () => {
     }
     const wrapper = shallow(<FieldPreview {...props} />)
 
-    expect(wrapper.find('.actions').children().length).toBe(1)
+    expect(wrapper.find('.actions').children()).toHaveLength(1)
   })
 
   test('Both actions is rendered', () => {
@@ -66,7 +66,7 @@ describe('Render', () => {
     }
     const wrapper = shallow(<FieldPreview {...props} />)
 
-    expect(wrapper.find('.actions > .action').length).toBe(2)
+    expect(wrapper.find('.actions > .action')).toHaveLength(2)
   })
 
   test('Applying copy message', () => {
@@ -80,6 +80,6 @@ describe('Render', () => {
     }
     const wrapper = shallow(<FieldPreview {...props} />)
 
-    expect(wrapper.find('.actions > .action').length).toBe(2)
+    expect(wrapper.find('.actions > .action')).toHaveLength(2)
   })
 })

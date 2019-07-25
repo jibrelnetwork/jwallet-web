@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
@@ -25,13 +26,14 @@ export type Props = {|
   +name: string,
   +type: WalletCustomType,
   +derivationIndex: number,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +ethBalance: ?BigNumber,
 |}
 
-export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
+class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps> {
   walletRef = React.createRef<HTMLDivElement>()
 
   constructor(props: Props) {
@@ -95,14 +97,18 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       type,
       walletId,
       derivationIndex,
+      i18n,
     }: Props = this.props
-
-    const addressesCount: number = (derivationIndex + 1)
-    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
 
     return (
       <div className={styles.core}>
-        <TitleHeader title={t`Manage Addresses`}>
+        <TitleHeader
+          title={i18n._(
+            'WalletsItemAddresses.title',
+            null,
+            { defaults: 'Manage Addresses' },
+          )}
+        >
           <Button
             onClick={this.handleAdd}
             className={titleHeaderStyle.action}
@@ -113,7 +119,11 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
               className={titleHeaderStyle.icon}
             />
             <span className={titleHeaderStyle.label}>
-              {t`Add New Address`}
+              {i18n._(
+                'WalletsItemAddresses.actions.addAddress',
+                null,
+                { defaults: 'Add New Address' },
+              )}
             </span>
           </Button>
         </TitleHeader>
@@ -127,7 +137,14 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
                 {name}
               </div>
               <div className={styles.addresses}>
-                {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
+                {i18n._(
+                  'WalletsItemAddresses.wallet.description', {
+                    count: derivationIndex + 1,
+                  }, {
+                    /* eslint-disable-next-line max-len */
+                    defaults: 'Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}',
+                  },
+                )}
               </div>
             </div>
             <div className={`${styles.name} ${styles.balance}`}>
@@ -153,3 +170,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     )
   }
 }
+
+export const WalletsItemAddressesView = withI18n()(
+  WalletsItemAddressesViewComponent,
+)

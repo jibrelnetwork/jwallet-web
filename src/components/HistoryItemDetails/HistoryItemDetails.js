@@ -1,64 +1,295 @@
 // @flow strict
 
+import classNames from 'classnames'
+import React, { Component } from 'react'
+import { debounce } from 'lodash-es'
 import { connect } from 'react-redux'
 
-import { edit } from 'store/modules/comments'
-import { selectFavorites } from 'store/selectors/favorites'
-import { selectAddressWalletsNames } from 'store/selectors/wallets'
-import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { getShortenedAddress } from 'utils/address'
-
 import { PageNotFoundError } from 'errors'
-import {
-  MEMO, transactionsIndex,
-} from 'store/transactionsIndex'
+import { toBigNumber } from 'utils/numbers'
+import { formatAssetBalance } from 'utils/formatters'
+import { edit as editNote } from 'store/modules/comments'
+import { selectCommentsItems } from 'store/selectors/comments'
+import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
+import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
-  type Props,
-  HistoryItemDetailsInternal,
-} from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+  selectTransactionById,
+  selectPendingTransactionByHash,
+} from 'store/selectors/transactions'
 
-export type ContainerProps = {
-  txHash: TransactionId,
+import {
+  getNote,
+  getTxFee,
+  checkStuck,
+} from 'utils/transactions'
+
+import styles from './historyItemDetails.m.scss'
+import { Burn } from './components/Burn/Burn'
+import { Mint } from './components/Mint/Mint'
+// import { Stuck } from './components/Stuck/Stuck'
+import { Failed } from './components/Failed/Failed'
+import { Pending } from './components/Pending/Pending'
+import { Incoming } from './components/Incoming/Incoming'
+import { Outgoing } from './components/Outgoing/Outgoing'
+import { ContractCall } from './components/ContractCall/ContractCall'
+import { ContractCreation } from './components/ContractCreation/ContractCreation'
+
+type OwnProps = {|
+  +id: TransactionId,
+  +asset?: AssetAddress,
+  +blockNumber?: BlockNumber,
+  +isPage?: boolean,
+|}
+
+type Props = {|
+  ...OwnProps,
+  +editNote: (id: TransactionId, note: string) => any,
+  +fee: string,
+  +to: ?Address,
+  +hash: string,
+  +note: ?string,
+  +from: ?Address,
+  +amount: ?string,
+  +toName: ?string,
+  +fromName: ?string,
+  +assetName: string,
+  +amountStr: string,
+  +assetSymbol: string,
+  +assetAddress: AssetAddress,
+  +contractAddress: ?OwnerAddress,
+  +eventType: TransactionEventType,
+  +blockExplorerUISubdomain: BlockExplorerUISubdomain,
+  +timestamp: number,
+  +assetDecimals: number,
+  +isSent: boolean,
+  +hasInput: boolean,
+  +isFailed: boolean,
+  +isPending: boolean,
+|}
+
+export type CardProps = {|
+  ...Props,
+  onEditFinish: (note: string) => any,
+|}
+
+type StateProps = {|
+  +note: ?string,
+|}
+
+const EDIT_NOTE_DELAY: number = 500
+
+class HistoryItemDetails extends Component<Props, StateProps> {
+  cardRef = React.createRef<HTMLDivElement>()
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      note: this.props.note,
+    }
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.id !== this.props.id) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ note: this.props.note })
+
+      if (this.cardRef && this.cardRef.current) {
+        this.cardRef.current.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth',
+        })
+      }
+    }
+  }
+
+  editNote = debounce(this.props.editNote, EDIT_NOTE_DELAY, {
+    leading: false,
+    trailing: true,
+  })
+
+  handleEditNote = (note: string) => {
+    this.setState({ note })
+    this.editNote(this.props.id, note)
+  }
+
+  getCardComponent = () => {
+    const {
+      to,
+      from,
+      eventType,
+      contractAddress,
+      timestamp,
+      isSent,
+      hasInput,
+      isFailed,
+      isPending,
+    }: Props = this.props
+
+    const isMintable: boolean = (eventType === 2)
+    const isEventBurn: boolean = (isMintable && !to)
+    const isEventMint: boolean = (isMintable && !from)
+
+    if (isFailed) {
+      return Failed
+    }
+
+    if (isPending && checkStuck(timestamp)) {
+      // return Stuck
+    }
+
+    if (isPending) {
+      return Pending
+    }
+
+    if (isEventBurn) {
+      return Burn
+    }
+
+    if (isEventMint) {
+      return Mint
+    }
+
+    if (hasInput) {
+      return ContractCall
+    }
+
+    if (contractAddress) {
+      return ContractCreation
+    }
+
+    return isSent ? Outgoing : Incoming
+  }
+
+  render() {
+    const CardComponent = this.getCardComponent()
+
+    return (
+      <div
+        ref={this.cardRef}
+        className={classNames(styles.wrap, this.props.isPage && styles.page)}
+      >
+        <CardComponent
+          {...this.props}
+          onEditFinish={this.handleEditNote}
+          note={this.state.note}
+        />
+      </div>
+    )
+  }
 }
 
-const mapDispatchToProps = {
-  editNote: edit,
-}
-
-function getPrimaryName(
+function mapStateToProps(
   state: AppState,
-  address: OwnerAddress,
-): string {
-  const favorites = selectFavorites(state)
-  const addressNames = selectAddressWalletsNames(state)
+  {
+    id,
+    asset,
+    blockNumber,
+  }: OwnProps,
+) {
+  const item: ?TransactionWithPrimaryKeys = selectTransactionById(
+    state,
+    id,
+    asset,
+    blockNumber,
+  ) || selectPendingTransactionByHash(
+    state,
+    id,
+    asset,
+  )
 
-  return favorites[address]
-    || addressNames[address]
-    || getShortenedAddress(address)
-}
-
-function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
-  const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
-    ? MEMO.transactionsIndex
-    : transactionsIndex(state)
-  const transactionRecord = dataMap[txHash]
-
-  if (!transactionRecord) {
+  if (!item) {
     throw new PageNotFoundError()
   }
 
+  const {
+    keys: {
+      assetAddress,
+    },
+    data,
+    blockData,
+    receiptData,
+    to,
+    from,
+    hash,
+    amount,
+    blockHash,
+    eventType,
+    contractAddress,
+    isRemoved,
+  }: TransactionWithPrimaryKeys = item
+
+  if (!(data && blockData && receiptData)) {
+    throw new PageNotFoundError()
+  }
+
+  const notes: Comments = selectCommentsItems(state)
+  const network: Network = selectCurrentNetworkOrThrow(state)
+  const addressNames: AddressNames = selectAllAddressNames(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
+  const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
+
+  const { timestamp }: TransactionBlockData = blockData
+  const isZeroAmount: boolean = toBigNumber(amount).isZero()
+  const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
+
+  const {
+    name: assetName,
+    symbol: assetSymbol,
+    blockchainParams: {
+      decimals: assetDecimals,
+    },
+  }: DigitalAsset = digitalAsset
+
+  const amountStr: ?string = isZeroAmount ? null : formatAssetBalance(
+    assetAddress,
+    amount,
+    assetDecimals,
+    assetSymbol,
+  )
+
   return {
-    ...transactionRecord,
-    fromName: getPrimaryName(state, transactionRecord.from),
-    toName: getPrimaryName(state, transactionRecord.to),
-    blockExplorer: blockExplorerUISubdomain,
+    to,
+    from,
+    hash,
+    amount,
+    eventType,
+    assetName,
+    assetSymbol,
+    assetAddress,
+    contractAddress,
+    toName: to && addressNames[to],
+    fromName: from && addressNames[from],
+    blockExplorerUISubdomain: network.blockExplorerUISubdomain,
+    amountStr: amountStr && `${isSent ? '-' : '+'}\u00A0${amountStr}`,
+    fee: getTxFee(
+      receiptData.gasUsed,
+      data.gasPrice,
+    ),
+    note: getNote(
+      notes,
+      id,
+      hash,
+    ),
+    timestamp,
+    assetDecimals,
+    isPending: !blockHash,
+    hasInput: data.hasInput,
+    isFailed: !receiptData.status || isRemoved,
+    isSent: !!from && (ownerAddress.toLowerCase() === from.toLowerCase()),
   }
 }
 
-export const HistoryItemDetails = (
-  connect< Props, ContainerProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)(
-    (HistoryItemDetailsInternal),
-  )
-)
+const mapDispatchToProps = {
+  editNote,
+}
+
+const HistoryItemDetailsEnhanced = connect<Props, OwnProps, _, _, _, _>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HistoryItemDetails)
+
+export { HistoryItemDetailsEnhanced as HistoryItemDetails }

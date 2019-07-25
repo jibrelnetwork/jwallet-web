@@ -1,25 +1,28 @@
 // @flow
 
-import React from 'react'
 import { connect } from 'react-redux'
 import {
+  values,
   sortBy,
 } from 'lodash-es'
+
+import { selectFavoritesItems } from 'store/selectors/favorites'
 
 import {
   type Props,
   ContactsView,
 } from './ContactsView'
 
-import CONTACT_LIST from './CONTACT_LIST'
+function mapStateToProps(state: AppState) {
+  const favorites = selectFavoritesItems(state)
 
-function mapStateToProps() {
-  const contactsList: Contact[] = sortBy(CONTACT_LIST, ['name', 'id'])
+  const contactsList = sortBy(values(favorites), ['name', 'address'])
 
   return {
     list: contactsList,
   }
 }
 
-export const Contacts =
-  connect< Props, {||}, _, _, _, _ >(mapStateToProps)(React.memo<Props>(ContactsView))
+export const Contacts = connect< Props, OwnPropsEmpty, _, _, _, _ >(
+  mapStateToProps,
+)(ContactsView)
