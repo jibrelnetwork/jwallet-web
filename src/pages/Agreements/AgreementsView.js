@@ -123,7 +123,7 @@ class AgreementsScreen extends PureComponent<Props> {
                   >
                     {/* eslint-disable max-len */}
                     <Trans id='Agreements.acceptTermsAndConditions'>
-                      I have read and accepted <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
+                      I have read and accepted <JLink theme='text-blue' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-blue' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
                     </Trans>
                     {/* eslint-enable max-len */}
                   </JCheckbox>
