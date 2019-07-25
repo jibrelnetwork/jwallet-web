@@ -1,21 +1,22 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import createRouter5 from 'router5'
 import browserPlugin from 'router5-plugin-browser'
-import { RouterProvider } from 'react-router5'
+import React, { PureComponent } from 'react'
 import { storiesOf } from '@storybook/react'
+import { RouterProvider } from 'react-router5'
 import { action } from '@storybook/addon-actions'
+
 import {
-  withKnobs,
+  text,
   number,
   select,
-  text,
+  withKnobs,
 } from '@storybook/addon-knobs'
 
 import { ethereum } from 'data/assets'
 
-import { PureTransactionItem as TransactionItem } from './TransactionItem'
+import { Item } from './Item'
 
 function getRandomAmount(max) {
   return Math.floor(Math.random() * Math.floor(max))
@@ -99,7 +100,7 @@ const TYPES = {
   send: 'out',
 }
 
-storiesOf('TransactionItemNew', module)
+storiesOf('HistoryListItem', module)
   .addDecorator(withKnobs)
   .add('Single', () => {
     const router = createRouter5([], {
@@ -110,7 +111,7 @@ storiesOf('TransactionItemNew', module)
     return (
       <RouterProvider router={router}>
         <div className='story'>
-          <TransactionItem
+          <Item
             txAddress={defaultTransaction.id}
             offset='mb16'
             transaction={{
@@ -136,7 +137,7 @@ storiesOf('TransactionItemNew', module)
       const transaction = getTransaction()
 
       return (
-        <TransactionItem
+        <Item
           key={transaction.id}
           txAddress={transaction.id}
           offset='mb16'

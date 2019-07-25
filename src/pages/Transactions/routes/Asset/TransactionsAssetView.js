@@ -71,7 +71,7 @@ type Props = {|
   +assetAddress: AssetAddress,
   +ownerAddress: ?OwnerAddress,
   +isLoading: boolean,
-  +isOnlyPending: boolean,
+  +isPendingFiltered: boolean,
   +isCurrentBlockEmpty: boolean,
 |}
 
@@ -93,7 +93,7 @@ function TransactionsAssetView({
   assetAddress,
   ownerAddress,
   isLoading,
-  isOnlyPending,
+  isPendingFiltered,
   isCurrentBlockEmpty,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -107,7 +107,7 @@ function TransactionsAssetView({
     return null
   }
 
-  const filterCount: number = isOnlyPending ? 1 : 0
+  const filterCount: number = isPendingFiltered ? 1 : 0
   const isLoadingOrBlockEmpty: boolean = isLoading || isCurrentBlockEmpty
   const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
 
@@ -127,7 +127,7 @@ function TransactionsAssetView({
               <TransactionsFilter
                 setOnlyPending={setIsOnlyPending}
                 filterCount={filterCount}
-                isOnlyPending={isOnlyPending}
+                isPendingFiltered={isPendingFiltered}
               />
             </div>
             <div
