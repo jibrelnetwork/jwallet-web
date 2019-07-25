@@ -24,6 +24,7 @@ import {
 import {
   setActiveWallet,
   setWalletsItems,
+  changeActiveAddress,
 } from 'store/modules/wallets'
 
 import {
@@ -322,6 +323,7 @@ class WalletsPlugin {
     )
 
     this.dispatch(setActiveWallet(walletId))
+    this.dispatch(changeActiveAddress())
 
     return newItems
   }
