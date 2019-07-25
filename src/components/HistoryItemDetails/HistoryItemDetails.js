@@ -27,13 +27,13 @@ import {
 } from 'utils/transactions'
 
 import styles from './historyItemDetails.m.scss'
-import { In } from './components/In/In'
-import { Out } from './components/Out/Out'
 import { Burn } from './components/Burn/Burn'
 import { Mint } from './components/Mint/Mint'
 // import { Stuck } from './components/Stuck/Stuck'
 import { Failed } from './components/Failed/Failed'
 import { Pending } from './components/Pending/Pending'
+import { Incoming } from './components/Incoming/Incoming'
+import { Outgoing } from './components/Outgoing/Outgoing'
 import { ContractCall } from './components/ContractCall/ContractCall'
 import { ContractCreation } from './components/ContractCreation/ContractCreation'
 
@@ -161,7 +161,7 @@ class HistoryItemDetails extends Component<Props, StateProps> {
       return ContractCreation
     }
 
-    return isSent ? Out : In
+    return isSent ? Outgoing : Incoming
   }
 
   render() {

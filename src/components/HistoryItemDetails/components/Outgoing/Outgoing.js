@@ -4,15 +4,29 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { useI18n } from 'app/hooks'
-import { JIcon } from 'components/base'
+import { divDecimals } from 'utils/numbers'
 import { DateTimeFormat } from 'app/components'
+
+import {
+  JIcon,
+  JLink,
+} from 'components/base'
 
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
 import { type CardProps } from '../../HistoryItemDetails'
 import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
 
-export function In(props: CardProps) {
+function getSendLink({
+  to,
+  amount,
+  assetAddress,
+  assetDecimals,
+}: CardProps): string {
+  return `/send?asset=${assetAddress}&to=${to || ''}&amount=${divDecimals(amount, assetDecimals)}`
+}
+
+export function Outgoing(props: CardProps) {
   const {
     onEditFinish: handleEditNote,
     note,
@@ -26,19 +40,19 @@ export function In(props: CardProps) {
       <div className={styles.card}>
         <div className={classNames(styles.header, styles.success)}>
           <div className={styles.status}>
-            <JIcon name='ic_trx_in_24-use-fill' />
+            <JIcon name='ic_trx_out_24-use-fill' />
           </div>
           <div className={styles.description}>
             <div className={styles.title}>
               {i18n._(
-                'HistoryItemDetails.In.title',
+                'HistoryItemDetails.Outgoing.title',
                 null,
                 { defaults: 'Success' },
               )}
             </div>
             <div className={styles.subtitle}>
               {i18n._(
-                'HistoryItemDetails.In.subtitle',
+                'HistoryItemDetails.Outgoing.subtitle',
                 null,
                 { defaults: 'Transfer processed.' },
               )}
@@ -54,6 +68,16 @@ export function In(props: CardProps) {
         onChange={handleEditNote}
         value={note}
       />
+      <JLink
+        href={getSendLink(props)}
+        theme='button-secondary'
+      >
+        {i18n._(
+          'HistoryItemDetails.Outgoing.repeat',
+          null,
+          { defaults: 'Repeat Payment' },
+        )}
+      </JLink>
     </div>
   )
 }
