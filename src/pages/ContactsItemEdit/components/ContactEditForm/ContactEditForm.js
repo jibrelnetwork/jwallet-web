@@ -3,7 +3,6 @@
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
-import { checkAddressValid } from 'utils/address'
 
 import {
   Form,
@@ -17,7 +16,7 @@ import {
 } from 'components/base'
 
 import offset from 'styles/offsets.m.scss'
-import style from './contactAddForm.m.scss'
+import style from './contactEditForm.m.scss'
 
 export type FormValues = {|
   address: string,
@@ -28,45 +27,19 @@ export type FormValues = {|
 export type Props = {|
   +initialValues: FormValues,
   +i18n: I18nType,
-  +checkContactExists: (address: OwnerAddress) => boolean,
-  +addContact: (contact: FormValues) => any,
+  +onEditFinish: (contact: FormValues) => any,
+  +onDelete: (address: OwnerAddress) => any,
   +goBack: () => any,
 |}
 
-class ContactAddFormComponent extends PureComponent<Props> {
-  validate = (values: FormValues) => {
-    const {
-      i18n,
-      checkContactExists,
-    } = this.props
-    const { address } = values
-
-    if (!checkAddressValid(address)) {
-      return {
-        address: i18n._(
-          'ContactsEditForm.input.address.error.invalid',
-          null,
-          { defaults: 'Invalid address' },
-        ),
-      }
-    }
-
-    if (checkContactExists(address)) {
-      return {
-        address: i18n._(
-          'ContactsEditForm.input.address.error.exists',
-          null,
-          { defaults: 'Contact with this address already exists' },
-        ),
-      }
-    }
-
-    return null
+class ContactEditFormComponent extends PureComponent<Props> {
+  handleSubmit = (values: FormValues) => {
+    this.props.onEditFinish(values)
+    this.props.goBack()
   }
 
-  handleSubmit = (values: FormValues) => {
-    this.props.addContact(values)
-    this.props.goBack()
+  handleDeleteClick = () => {
+    this.props.onDelete(this.props.initialValues.address)
   }
 
   render() {
@@ -75,14 +48,11 @@ class ContactAddFormComponent extends PureComponent<Props> {
       initialValues,
     } = this.props
 
-    const { address } = initialValues
-
     return (
       <Form
         render={({
           handleSubmit,
           submitting,
-          valid: isValid,
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
@@ -106,7 +76,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 { defaults: 'Address' },
               )}
               name='address'
-              isDisabled={submitting || address}
+              isDisabled
             />
             <Field
               className={offset.mb32}
@@ -126,14 +96,21 @@ class ContactAddFormComponent extends PureComponent<Props> {
             />
             <Button
               type='submit'
-              isDisabled={!isValid}
+              className={offset.mb16}
               isLoading={submitting}
             >
               {i18n._('ContactForm.actions.save', null, { defaults: 'Save' })}
             </Button>
+            <Button
+              type='button'
+              isLoading={submitting}
+              theme='secondary'
+              onClick={this.handleDeleteClick}
+            >
+              {i18n._('ContactForm.actions.delete', null, { defaults: 'Delete Contact' })}
+            </Button>
           </form>
         )}
-        validate={this.validate}
         onSubmit={this.handleSubmit}
         initialValues={initialValues}
       />
@@ -141,4 +118,4 @@ class ContactAddFormComponent extends PureComponent<Props> {
   }
 }
 
-export const ContactAddForm = withI18n()(ContactAddFormComponent)
+export const ContactEditForm = withI18n()(ContactEditFormComponent)

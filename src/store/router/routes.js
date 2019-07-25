@@ -52,23 +52,19 @@ export const routes: Array<{|
   name: 'Contacts',
   hasMenu: true,
 }, {
-  path: '/contacts/empty',
-  name: 'ContactsEmpty',
-  hasMenu: true,
-}, {
   path: '/contacts/:contactId',
   name: 'ContactsItem',
   hasMenu: true,
 }, {
-  path: '/contacts/add?:address&:name&:note',
+  path: '/contacts/add?:address&:name',
   name: 'ContactsItemAdd',
   hasMenu: true,
 }, {
-  path: '/contacts/:contactId/edit',
+  path: '/contacts/edit/:contactId',
   name: 'ContactsItemEdit',
   hasMenu: true,
 }, {
-  path: '/contacts/:contactId/delete',
+  path: '/contacts/delete/:contactId',
   name: 'ContactsItemDelete',
   hasMenu: false,
 }, {

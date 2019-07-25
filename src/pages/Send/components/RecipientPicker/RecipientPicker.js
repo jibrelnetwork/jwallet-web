@@ -16,6 +16,7 @@ import {
   startsWithOrEndsWith,
   checkAddressPartValid,
 } from 'utils/address'
+import { filterContacts } from 'utils/search/filterContacts'
 
 import { Empty } from './Tabs/Empty'
 import { ContactItem } from './ContactItem/ContactItem'
@@ -26,12 +27,6 @@ import {
   Tabs,
   type Tab,
 } from './Tabs/Tabs'
-
-type Contact = {|
-  +name?: string,
-  +description?: string,
-  +address: Address,
-|}
 
 export type RecipientPickerWalletAddress = {|
   address: Address,
@@ -45,21 +40,6 @@ export type RecipientPickerWallet = {|
   name: string,
   addresses: RecipientPickerWalletAddress[],
 |}
-
-function filterContacts(
-  contacts: Contact[],
-  searchQuery: string,
-): Contact[] {
-  const query: string = searchQuery.trim().toLowerCase()
-
-  return !query
-    ? contacts
-    : contacts.filter(({
-      name, description, address,
-    }) => (name && name.toLowerCase().search(query) !== -1) ||
-      (description && description.toLowerCase().search(query) !== -1) ||
-      startsWithOrEndsWith(address, query))
-}
 
 function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
   const query: string = searchQuery.trim().toLowerCase()
@@ -94,7 +74,7 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
 export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  +contacts: Contact[],
+  +contacts: Favorite[],
   +wallets: RecipientPickerWallet[],
   +className: string,
   +label: string,
