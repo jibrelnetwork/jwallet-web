@@ -4,8 +4,17 @@
   width: 100%;
 }
 
+.wrap {
+  width: 100%;
+
+  &.page {
+    margin-bottom: 32px;
+  }
+}
+
 .card {
   width: 100%;
+  margin-bottom: 16px;
   box-shadow: $normal-shadow;
   border-radius: 4px;
   overflow: hidden;
@@ -14,7 +23,8 @@
 .header {
   @include flex-row;
 
-  padding: 24px 0 22px;
+  max-height: 120px;
+  padding: 24px;
 
   &.success {
     background-color: $main-blue;
@@ -24,40 +34,41 @@
     background-color: $main-black-50;
   }
 
-  &.fail,
-  &.stuck {
+  &.error {
     background-color: $main-red;
   }
 }
 
-.statusIcon {
-  @include flex-row;
+.status {
   @include sprite-icon-color($white);
 
-  justify-content: center;
-  width: 100%;
-  min-width: 24px;
-  max-width: 64px;
+  height: 100%;
 }
 
 .description {
-  @include font(14px, 22px);
-
+  max-width: 240px;
+  margin-left: 16px;
   color: $white;
+
+  &.wide {
+    max-width: 440px;
+  }
 }
 
-.status {
-  margin-bottom: 5px;
+.title {
+  @include font(16px, 24px);
+
+  margin-bottom: 4px;
   font-weight: 600;
-  text-transform: capitalize;
 }
 
-.comment {
-  margin-bottom: 2px;
+.subtitle {
+  @include font(14px, 22px);
 }
 
 .date {
   @include font(12px, 20px);
 
+  margin-top: 2px;
   color: $white-60;
 }

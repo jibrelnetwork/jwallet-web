@@ -5,7 +5,6 @@ import AssetBalance from './AssetBalance'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
 import MnemonicAddresses from './MnemonicAddresses'
-import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
@@ -22,9 +21,9 @@ export { UserActionInfo } from './UserActionInfo/UserActionInfo'
 export { MnemonicOptions } from './MnemonicOptions/MnemonicOptions'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
-export { TransactionItem } from './TransactionItemNew/TransactionItem'
 export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
+export { TransactionsFilter } from './TransactionsFilter/TransactionsFilter'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
 export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
@@ -39,7 +38,6 @@ export {
   WalletLoading,
   CloseableScreen,
   MnemonicAddresses,
-  TransactionsFilter,
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,

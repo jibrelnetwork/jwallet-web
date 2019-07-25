@@ -1,40 +1,45 @@
-// @flow
+// @flow strict
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import PopupButton from 'components/PopupButton'
+import { PopupButton } from 'components'
 
 import {
   JText,
   JCheckbox,
 } from 'components/base'
 
+import styles from './transactionsFilter.m.scss'
+
 type Props = {|
   +setOnlyPending: (boolean) => void,
-  +filterCount: number,
-  +isOnlyPending: boolean,
   +i18n: I18nType,
+  +filterCount: number,
+  +isPendingFiltered: boolean,
 |}
 
 class TransactionsFilter extends PureComponent<Props> {
   static defaultProps = {
-    isOnlyPending: false,
+    isPendingFiltered: false,
   }
 
   render() {
     const {
       setOnlyPending,
-      filterCount,
-      isOnlyPending,
       i18n,
-    } = this.props
+      filterCount,
+      isPendingFiltered,
+    }: Props = this.props
 
     return (
-      <PopupButton icon={filterCount ? 'filter-selected' : 'filter'} counter={filterCount}>
-        <div className='transactions-filter'>
-          <div className='title'>
+      <PopupButton
+        icon={filterCount ? 'filter-selected' : 'filter'}
+        counter={filterCount}
+      >
+        <div className={styles.core}>
+          <div className={styles.title}>
             <JText
               color='gray'
               size='normal'
@@ -55,7 +60,7 @@ class TransactionsFilter extends PureComponent<Props> {
               null,
               { defaults: 'Only pending' },
             )}
-            isChecked={isOnlyPending}
+            isChecked={isPendingFiltered}
           />
         </div>
       </PopupButton>
@@ -63,4 +68,5 @@ class TransactionsFilter extends PureComponent<Props> {
   }
 }
 
-export default withI18n()(TransactionsFilter)
+const TransactionsFilterEnhanced = withI18n()(TransactionsFilter)
+export { TransactionsFilterEnhanced as TransactionsFilter }

@@ -1,13 +1,8 @@
-// @flow
-
-import {
-  isNil,
-  isObject,
-} from 'lodash-es'
+// @flow strict
 
 import config from 'config'
-import isZero from 'utils/numbers/isZero'
 import getENVVar from 'utils/config/getENVVar'
+import { isZero } from 'utils/numbers'
 import { getAddressChecksum } from 'utils/address'
 import * as type from 'utils/type'
 
@@ -86,34 +81,37 @@ function checkETHTransaction(data: Object): boolean {
     type.isString(data.gas) &&
     type.isString(data.from) &&
     type.isString(data.hash) &&
+    type.isString(data.input) &&
+    type.isString(data.nonce) &&
     type.isString(data.value) &&
     type.isString(data.gasUsed) &&
     type.isString(data.isError) &&
     type.isString(data.blockHash) &&
     type.isString(data.timeStamp) &&
     type.isString(data.blockNumber) &&
-    type.isString(data.contractAddress) &&
-    type.isString(data.nonce)
+    type.isString(data.contractAddress)
   )
 }
 
 function filterETHTransactions(list: any[]): Object[] {
   return list.filter((item: any): boolean => {
-    if (isNil(item) || !isObject(item)) {
+    if (type.isVoid(item) || !type.isObject(item)) {
       return false
     }
 
     const {
+      input,
       value,
       isError,
       contractAddress,
     }: Object = item
 
     const isEmptyAmount: boolean = isZero(value)
+    const isEmptyInput: boolean = (input === '0x')
     const isFailed: boolean = (parseInt(isError, 16) === 1)
     const isContractCreation: boolean = !!contractAddress.length
 
-    return !(isEmptyAmount && !isContractCreation && !isFailed)
+    return !isEmptyAmount || !isEmptyInput || isContractCreation || isFailed
   })
 }
 
@@ -127,6 +125,8 @@ function prepareETHTransactions(data: Object[]): Transactions {
       to,
       from,
       hash,
+      input,
+      nonce,
       value,
       gasUsed,
       isError,
@@ -135,13 +135,13 @@ function prepareETHTransactions(data: Object[]): Transactions {
       timeStamp,
       blockNumber,
       contractAddress,
-      nonce,
     }: TransactionFromBlockExplorer = item
 
     const newTransaction: Transaction = {
       data: {
         gasPrice,
-        nonce: Number(nonce),
+        nonce: parseInt(nonce, 10) || 0,
+        hasInput: (input !== '0x'),
       },
       blockData: {
         timestamp: parseInt(timeStamp, 10) || 0,
@@ -159,7 +159,6 @@ function prepareETHTransactions(data: Object[]): Transactions {
       eventType: 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
-      isCanceled: false,
     }
 
     return {

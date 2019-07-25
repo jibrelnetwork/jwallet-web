@@ -11,6 +11,7 @@ export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEn
 export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
 export { History } from './Transactions/History'
+export { HistoryItem } from './HistoryItem/HistoryItem'
 
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
@@ -27,8 +28,6 @@ export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
-
-export { HistoryItem } from './HistoryItem/HistoryItem'
 
 export { NotFound } from './NotFound/NotFound'
 

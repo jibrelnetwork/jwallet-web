@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 export const FETCH_BY_OWNER_REQUEST = '@@transactions/FETCH_BY_OWNER_REQUEST'
 
@@ -20,7 +20,7 @@ export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSAC
 export const REMOVE_PENDING_TRANSACTIONS = '@@transactions/REMOVE_PENDING_TRANSACTIONS'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
-export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
+export const SET_PENDING_FILTER = '@@transactions/SET_PENDING_FILTER'
 
 type UpdateTransactionData = {|
   +data?: TransactionData,
@@ -245,12 +245,10 @@ export function changeSearchInput(searchQuery: string) {
   }
 }
 
-export function setIsOnlyPending(isOnlyPending: boolean) {
+export function setPendingFilter(payload: boolean) {
   return {
-    type: SET_IS_ONLY_PENDING,
-    payload: {
-      isOnlyPending,
-    },
+    type: SET_PENDING_FILTER,
+    payload,
   }
 }
 
@@ -264,7 +262,7 @@ type TransactionsAction =
   ExtractReturn<typeof updateTransactionData> |
   ExtractReturn<typeof addPendingTransaction> |
   ExtractReturn<typeof changeSearchInput> |
-  ExtractReturn<typeof setIsOnlyPending>
+  ExtractReturn<typeof setPendingFilter>
 
 const initialState: TransactionsState = {
   persist: {
@@ -272,8 +270,9 @@ const initialState: TransactionsState = {
     pending: {},
   },
   searchQuery: '',
-  isOnlyPending: false,
-  isConnectionError: false,
+  isErrorFiltered: false,
+  isStuckFiltered: false,
+  isPendingFiltered: false,
 }
 
 function transactions(
@@ -650,10 +649,10 @@ function transactions(
         searchQuery: action.payload.searchQuery,
       }
 
-    case SET_IS_ONLY_PENDING:
+    case SET_PENDING_FILTER:
       return {
         ...state,
-        isOnlyPending: action.payload.isOnlyPending,
+        isPendingFiltered: action.payload,
       }
 
     default:

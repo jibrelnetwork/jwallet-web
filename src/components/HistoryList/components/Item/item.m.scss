@@ -1,0 +1,103 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row;
+  @include property-transition(box-shadow);
+
+  height: 88px;
+  max-height: 88px;
+  margin-bottom: 16px;
+  align-items: center;
+  border-radius: 4px;
+  background-color: $white;
+  box-shadow: $normal-shadow;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $select-shadow;
+  }
+
+  &.active {
+    box-shadow: $select-shadow;
+  }
+}
+
+.icon {
+  width: 24px;
+  margin-left: 32px;
+
+  &.error {
+    @include sprite-icon-color($main-red);
+  }
+
+  &.pending {
+    @include sprite-icon-color($main-black-40);
+  }
+
+  &.in,
+  &.out {
+    @include sprite-icon-color($main-blue);
+  }
+}
+
+.info {
+  @include flex-column;
+
+  margin-left: 32px;
+  overflow: hidden;
+}
+
+.title,
+.note {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title,
+.amount {
+  @include font(16px, 24px);
+
+  font-weight: 600;
+  color: $main-black;
+}
+
+.title {
+  margin-bottom: 2px;
+
+  &.error {
+    color: $main-red;
+  }
+
+  &.in,
+  &.out {
+    color: $main-blue;
+  }
+}
+
+.note {
+  @include font(14px, 22px);
+
+  font-weight: 400;
+  color: $main-black-40;
+}
+
+.amount {
+  margin-left: auto;
+
+  &.error {
+    color: $main-red;
+  }
+
+  &.in {
+    color: $main-blue;
+  }
+}
+
+.symbol {
+  @include sprite-icon-color($main-black-30);
+
+  margin: 0 32px 0 16px;
+  color: $main-black-30;
+}
