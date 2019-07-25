@@ -59,15 +59,15 @@ function ContactItemDetailsComponent({
           <h2 className={style.contactTitle}>{name || address}</h2>
         </div>
         <FieldPreview
+          value={address}
+          valueToShow={getShortenedAddress(address)}
+          link={getAddressLink(address, blockExplorer)}
           label={i18n._(
             'common.ContactsItemDetails.address.title',
             null,
             { defaults: 'Address' },
           )}
-          body={getShortenedAddress(address)}
-          link={getAddressLink(address, blockExplorer)}
-          copy={address}
-          copyMessage='Address was copied.'
+          isCopyable
         />
       </div>
       <div className={style.noteWrapper}>
