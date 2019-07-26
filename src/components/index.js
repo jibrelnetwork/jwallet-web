@@ -7,6 +7,7 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
+export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
 export { HistoryList } from './HistoryList/HistoryList'
 export { TitleHeader } from './TitleHeader/TitleHeader'
