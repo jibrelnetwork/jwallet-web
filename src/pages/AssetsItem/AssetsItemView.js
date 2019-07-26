@@ -75,7 +75,7 @@ type Props = {|
   +isCurrentBlockEmpty: boolean,
 |}
 
-function TransactionsAssetView({
+function AssetsItemView({
   editComment,
   removeFavorite,
   setIsOnlyPending,
@@ -176,4 +176,4 @@ function TransactionsAssetView({
   )
 }
 
-export default TransactionsAssetView
+export default AssetsItemView
