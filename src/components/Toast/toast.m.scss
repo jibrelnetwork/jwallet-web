@@ -1,0 +1,36 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+  @include property-transition(bottom, max-height, opacity);
+
+  z-index: 1;
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  width: 100vw;
+  max-height: auto;
+  overflow: visible;
+  opacity: 1;
+
+  &.empty {
+    bottom: 4px;
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+
+.data {
+  @include flex-column-center;
+
+  position: relative;
+  padding: 16px;
+  background-color: $main-black-60;
+  border-radius: 4px;
+}
+
+.message {
+  @include font(14px, 22px);
+
+  color: $white;
+}

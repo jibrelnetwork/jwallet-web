@@ -3,20 +3,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { CURRENCIES } from 'data'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { selectTickerItems } from 'store/selectors/ticker'
+import { selectCurrentBlock } from 'store/selectors/blocks'
+import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+
+import {
+  getFiatBalance,
+  getDigitalAssetsWithBalance,
+} from 'utils/digitalAssets'
+
 import {
   selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
-
-import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
-import { CURRENCIES } from 'data'
-import { selectCurrentBlock } from 'store/selectors/blocks'
-import { getFiatBalance } from 'store/utils/getFiatBalances'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectAllAddressNames } from 'store/selectors/favorites'
-import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-import { selectFiatCurrency } from 'store/selectors/user'
-import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
   checkMultiAddressType,
@@ -33,7 +37,7 @@ import {
   JLink,
 } from 'components/base'
 
-import menuPanelStyle from '../menuPanel.m.scss'
+import styles from '../menuPanel.m.scss'
 
 type Props = {|
   +walletName: string,
@@ -53,21 +57,21 @@ export function WalletView({
   return (
     <JLink
       href='/wallets'
-      className={`__wallet ${menuPanelStyle.wallet}`}
+      className={`__wallet ${styles.wallet}`}
     >
-      <div className={menuPanelStyle.walletName}>
+      <div className={styles.walletName}>
         {walletName}
       </div>
       {isMnemonic && mnemonicAddressName && (
-        <div className={menuPanelStyle.addressName}>
+        <div className={styles.addressName}>
           {mnemonicAddressName}
         </div>
       )}
-      <div className={menuPanelStyle.balance}>
+      <div className={styles.balance}>
         {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
       </div>
       <JIcon
-        className={menuPanelStyle.chevron}
+        className={styles.chevron}
         name='arrow-right-use-fill'
         color='white'
       />
@@ -75,19 +79,30 @@ export function WalletView({
   )
 }
 
-function getTotalFiatBalance(state: AppState, assets: DigitalAssetWithBalance[]): number {
-  return assets.reduce((result: number, digitalAsset: DigitalAssetWithBalance): number =>
-    result + (getFiatBalance(state, digitalAsset) || 0), 0)
+function getTotalFiatBalance(
+  assets: DigitalAssetWithBalance[],
+  fiatCourses: FiatCourses,
+  fiatCurrency: FiatCurrencyCode,
+): number {
+  return assets.reduce((
+    result: number,
+    digitalAsset: DigitalAssetWithBalance,
+  ): number => result + (getFiatBalance(
+    digitalAsset,
+    fiatCourses,
+    fiatCurrency,
+  ) || 0), 0)
 }
 
 function mapStateToProps(state: AppState) {
   const wallet = selectActiveWallet(state)
+  const fiatCourses: FiatCourses = selectTickerItems(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
+  const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const fiatCurrency: FiatCurrency = selectFiatCurrency(state)
 
   const balances: ?Balances = selectBalancesByBlockNumber(
     state,
@@ -112,7 +127,11 @@ function mapStateToProps(state: AppState) {
     walletName,
     mnemonicAddressName,
     fiatCurrency: CURRENCIES[fiatCurrency].symbol,
-    fiatBalance: getTotalFiatBalance(state, assetsWithBalance),
+    fiatBalance: getTotalFiatBalance(
+      assetsWithBalance,
+      fiatCourses,
+      fiatCurrency,
+    ),
     isMnemonic,
   }
 }

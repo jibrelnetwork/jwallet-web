@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import checkETH from './checkETH'
 import checkJNT from './checkJNT'
@@ -10,6 +10,8 @@ import getDigitalAssetByAddress from './getDigitalAssetByAddress'
 import compareDigitalAssetsByName from './compareDigitalAssetsByName'
 import getDigitalAssetsWithBalance from './getDigitalAssetsWithBalance'
 import compareDigitalAssetsByBalance from './compareDigitalAssetsByBalance'
+
+export { getFiatBalance } from './getFiatBalance'
 
 export {
   checkETH,

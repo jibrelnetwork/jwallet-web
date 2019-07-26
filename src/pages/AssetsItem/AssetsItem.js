@@ -48,7 +48,7 @@ import {
 import { edit as editComment } from 'store/modules/comments'
 import { remove as removeFavorite } from 'store/modules/favorites'
 
-import TransactionsAssetView from './TransactionsAssetView'
+import AssetsItemView from './AssetsItemView'
 
 type OwnProps = {|
   +params: {|
@@ -161,6 +161,6 @@ const mapDispatchToProps = {
   removeItemsByAsset,
 }
 
-export default (
+export const AssetsItem = (
   connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
-)(TransactionsAssetView)
+)(AssetsItemView)

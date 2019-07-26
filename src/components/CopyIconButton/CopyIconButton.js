@@ -6,22 +6,31 @@ import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
+import { toastsPlugin } from 'store/plugins'
 
 import copyIconButtonStyle from './copyIconButton.m.scss'
 
-export type Props = {|
+type Props = {|
   +i18n: I18nType,
   +title: ?string,
   +content: string,
+  +toastMessage: ?string,
 |}
 
 class CopyIconButton extends PureComponent<Props> {
   static defaultProps = {
     title: null,
+    toastMessage: null,
   }
 
   handleCopy = (address: Address) => () => {
     clipboard.copyText(address)
+
+    const { toastMessage }: Props = this.props
+
+    if (toastMessage) {
+      toastsPlugin.showToast(toastMessage)
+    }
   }
 
   render() {
