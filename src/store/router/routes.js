@@ -89,7 +89,7 @@ export const routes: Array<{|
   hasMenu: true,
 }, {
   path: '/receive',
-  name: 'Receive',
+  name: 'ReceiveAsset',
   hasMenu: true,
 }, {
   path: '/send?:asset&:to&:amount',

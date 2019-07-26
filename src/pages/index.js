@@ -13,8 +13,7 @@ export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEn
 export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
 export { Send } from './Send/Send'
-export { default as Receive }
-  from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
+export { ReceiveAsset } from './ReceiveAsset/ReceiveAsset'
 
 export { History } from './History/History'
 export { HistoryItem } from './HistoryItem/HistoryItem'
