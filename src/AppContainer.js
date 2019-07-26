@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { RouterProvider } from 'react-router5'
@@ -13,6 +13,7 @@ import {
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
+import { Toast } from 'components'
 import { type AppAction } from 'store/modules'
 import { LanguageProvider } from 'app/components'
 
@@ -64,6 +65,7 @@ export class AppContainer extends React.Component<Props, ComponentState> {
             <PersistGate persistor={persistor}>
               <RouterProvider router={router}>
                 <AppRouter />
+                <Toast />
               </RouterProvider>
             </PersistGate>
           )}

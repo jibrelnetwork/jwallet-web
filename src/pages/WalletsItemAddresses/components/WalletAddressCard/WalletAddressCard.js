@@ -100,12 +100,17 @@ class WalletAddressCard extends Component<Props, StateProps> {
             {address}
           </div>
           <CopyIconButton
+            content={address}
             title={i18n._(
               'WalletsItemAddresses.WalletAddressCard.actions.copy',
               { addressName },
               { defaults: 'Copy {addressName}' },
             )}
-            content={address}
+            toastMessage={i18n._(
+              'WalletsItemAddresses.WalletAddressCard.actions.message',
+              null,
+              { defaults: 'Address copied.' },
+            )}
           />
         </div>
       </div>
