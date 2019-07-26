@@ -10,11 +10,11 @@ import { formatAssetBalance } from 'utils/formatters'
 import {
   JTabs,
   JFlatButton,
-  SearchInput,
 } from 'components/base'
 
 import {
   HistoryList,
+  SearchInput,
   TransactionsFilter,
 } from 'components'
 
