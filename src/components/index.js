@@ -2,9 +2,7 @@
 
 import QRCode from './QRCode'
 import AssetBalance from './AssetBalance'
-import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
-import MnemonicAddresses from './MnemonicAddresses'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
@@ -35,9 +33,7 @@ export { default as PopupButton } from './PopupButton'
 export {
   QRCode,
   AssetBalance,
-  WalletLoading,
   CloseableScreen,
-  MnemonicAddresses,
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
