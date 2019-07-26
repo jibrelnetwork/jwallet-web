@@ -4,77 +4,79 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { useI18n } from 'app/hooks'
+import { useFocus } from 'utils/hooks/useFocus'
 
 import {
   JIcon,
   Button,
 } from 'components/base'
 
-import { useFocus } from 'utils/hooks/useFocus'
-
-import searchFilterStyle from 'components/base/SearchInput/SearchFilter/searchFilter.m.scss'
+import styles from './searchFilter.m.scss'
 
 type Props = {|
-  activeCount?: number,
-  children: React$Node,
+  +children: React$Node,
+  +activeCount: number,
 |}
 
 export function SearchFilter({
-  activeCount,
   children,
+  activeCount,
 }: Props) {
   const [isFocused, {
-    onFocus,
-    onBlur,
+    onBlur: handleBlur,
+    onFocus: handleFocus,
   }] = useFocus()
 
   const i18n = useI18n()
 
   // JIcon data-focused is required to turn off weird webpack optimization that breaks storybook
   return (
-    <div className={`__search-filter ${searchFilterStyle.core}`}>
+    <div className={`__search-filter ${styles.core}`}>
       {isFocused && (
         <div
-          className={`__overlay ${searchFilterStyle.overlay}`}
-          onClick={onBlur}
+          onClick={handleBlur}
+          className={styles.overlay}
         />
       )}
       <Button
-        theme='additional'
+        onClick={isFocused ? handleBlur : handleFocus}
         className={classNames(
-          searchFilterStyle.button,
-          isFocused && searchFilterStyle.active,
+          styles.button,
+          isFocused && styles.active,
         )}
-        onClick={isFocused ? onBlur : onFocus}
+        theme='additional'
       >
         {i18n._(
-          'common.SearchInput.SearchFilter.action.filter',
+          'common.SearchInput.SearchFilter.label',
           null,
           { defaults: 'Filter' },
         )}
-        {!!activeCount && activeCount > 0 && (
-          <em className={searchFilterStyle.count}>
+        {!!activeCount && (
+          <em className={styles.count}>
             {activeCount}
           </em>
         )}
       </Button>
       <div
         className={classNames(
-          searchFilterStyle.dropdown,
-          isFocused && searchFilterStyle.open,
+          styles.dropdown,
+          isFocused && styles.open,
         )}
       >
         <button
-          className={`__close ${searchFilterStyle.close}`}
-          type='button'
-          onClick={onBlur}
+          onClick={handleBlur}
+          className={styles.close}
           title={i18n._(
-            'common.SearchInput.SearchFilter.action.close',
+            'components.base.SearchInput.SearchFilter.close',
             null,
             { defaults: 'Close filter' },
           )}
+          type='button'
         >
-          <JIcon data-focused={isFocused} name='ic_close_24-use-fill' />
+          <JIcon
+            data-focused={isFocused}
+            name='ic_close_24-use-fill'
+          />
         </button>
         {children}
       </div>
