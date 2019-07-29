@@ -48,7 +48,7 @@ export function Pending(props: CardProps) {
                 ) : i18n._(
                   'HistoryItemDetails.Pending.subtitle.another',
                   null,
-                  { defaults: 'Contract Call stuck.' },
+                  { defaults: 'Contract Call is being processed. This may take some time.' },
                 )
               }
             </div>
