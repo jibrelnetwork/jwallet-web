@@ -4,20 +4,21 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
+
 import {
   get,
   isEqual,
 } from 'lodash-es'
 
+import noResultImg from 'public/assets/pic_assets_112.svg'
+import { SearchInput } from 'components'
+
 import {
   JIcon,
-  SearchInput,
   JLink,
   Header,
   Button,
 } from 'components/base'
-
-import noResultImg from 'public/assets/pic_assets_112.svg'
 
 import { AssetItem } from './components/AssetItem/AssetItem'
 import { filterAssetByQuery } from './filterAssetByQuery'

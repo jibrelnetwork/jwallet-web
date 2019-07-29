@@ -1,22 +1,26 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+// import { type I18n as I18nType } from '@lingui/core'
 
-import { PopupButton } from 'components'
+import { SearchFilter } from 'components'
+import { selectTransactions } from 'store/selectors/transactions'
 
 import {
-  JText,
-  JCheckbox,
-} from 'components/base'
+  setErrorFilter,
+  setPendingFilter,
+} from 'store/modules/transactions'
 
-import styles from './transactionsFilter.m.scss'
+// import styles from './transactionsFilter.m.scss'
 
 type Props = {|
-  +setOnlyPending: (boolean) => void,
-  +i18n: I18nType,
-  +filterCount: number,
+  // +setErrorFilter: (boolean) => void,
+  // +setPendingFilter: (boolean) => void,
+  // +i18n: I18nType,
+  +isErrorFiltered: boolean,
   +isPendingFiltered: boolean,
 |}
 
@@ -27,46 +31,45 @@ class TransactionsFilter extends PureComponent<Props> {
 
   render() {
     const {
-      setOnlyPending,
-      i18n,
-      filterCount,
+      // setErrorFilter,
+      // setPendingFilter,
+      // i18n,
+      isErrorFiltered,
       isPendingFiltered,
     }: Props = this.props
 
     return (
-      <PopupButton
-        icon={filterCount ? 'filter-selected' : 'filter'}
-        counter={filterCount}
-      >
-        <div className={styles.core}>
-          <div className={styles.title}>
-            <JText
-              color='gray'
-              size='normal'
-              weight='bold'
-              value={i18n._(
-                'TransactionsFilter.filter',
-                null,
-                { defaults: 'Filter' },
-              )}
-              whiteSpace='wrap'
-            />
-          </div>
-          <JCheckbox
-            onChange={setOnlyPending}
-            name='only-pending'
-            label={i18n._(
-              'TransactionsFilter.pendingOnly',
-              null,
-              { defaults: 'Only pending' },
-            )}
-            isChecked={isPendingFiltered}
-          />
-        </div>
-      </PopupButton>
+      <SearchFilter activeCount={isErrorFiltered + isPendingFiltered}>
+        <span>Test</span>
+      </SearchFilter>
     )
   }
 }
 
-const TransactionsFilterEnhanced = withI18n()(TransactionsFilter)
+function mapStateToProps(state: AppState) {
+  const {
+    isErrorFiltered,
+    // isStuckFiltered,
+    isPendingFiltered,
+  }: TransactionsState = selectTransactions(state)
+
+  return {
+    isErrorFiltered,
+    isPendingFiltered,
+  }
+}
+
+const mapDispatchToProps = {
+  setErrorFilter,
+  setPendingFilter,
+}
+
+const TransactionsFilterEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(TransactionsFilter)
+
 export { TransactionsFilterEnhanced as TransactionsFilter }

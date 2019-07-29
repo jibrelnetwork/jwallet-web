@@ -4,13 +4,12 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
 
+import { changeSearchInput } from 'store/modules/transactions'
+import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 
 import {
-  removeDuplicates,
-  sortTransactions,
-  filterTransactions,
-  searchTransactions,
+  prepareListForRendering,
   flattenTransactionsByOwner,
   flattenPendingTransactionsByOwner,
 } from 'utils/transactions'
@@ -31,23 +30,8 @@ import {
   HistoryView,
 } from './HistoryView'
 
-function prepareTransactions(
-  items: TransactionWithPrimaryKeys[],
-  pending: TransactionWithPrimaryKeys[],
-  names: AddressNames,
-  searchQuery: string,
-  isPendingFiltered: boolean,
-): TransactionWithPrimaryKeys[] {
-  const merged: TransactionWithPrimaryKeys[] = [...items, ...pending]
-  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isPendingFiltered)
-  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
-  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
-
-  return sorted
-}
-
 function mapStateToProps(state: AppState) {
+  const notes: Comments = selectCommentsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state)
@@ -68,21 +52,27 @@ function mapStateToProps(state: AppState) {
   const isProcessing: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
 
   return {
-    items: isCurrentBlockEmpty
-      ? []
-      : prepareTransactions(
-        flatten,
-        flattenPending,
-        addressNames,
-        searchQuery,
-        isPendingFiltered,
-      ),
+    searchQuery,
+    items: isCurrentBlockEmpty ? [] : prepareListForRendering(
+      [...flatten, ...flattenPending],
+      notes,
+      addressNames,
+      searchQuery,
+      { isPendingFiltered },
+    ),
     currentBlock: currentBlock && currentBlock.number,
     isLoading: isCurrentBlockEmpty || isProcessing,
   }
 }
 
+const mapDispatchToProps = {
+  changeSearchInput,
+}
+
 export const History = compose(
   withI18n(),
-  connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(HistoryView)

@@ -4,16 +4,11 @@ import classNames from 'classnames'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { checkStuck } from 'utils/transactions'
 import { HistoryItemDetails } from 'components'
 import { selectCommentsItems } from 'store/selectors/comments'
-import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
-
-import {
-  getNote,
-  checkStuck,
-} from 'utils/transactions'
 
 import {
   JIcon,
@@ -24,12 +19,12 @@ import styles from './historyList.m.scss'
 import { Item } from './components/Item/Item'
 import { Empty } from './components/Empty/Empty'
 
-type HistoryListHandler = (e: Event) => any
+type HistoryListHandler = (e: SyntheticUIEvent<HTMLDivElement>) => any
 
 type OwnProps = {|
   +onListScroll: ?HistoryListHandler,
   +onAsideScroll: ?HistoryListHandler,
-  +items: TransactionWithPrimaryKeys[],
+  +items: TransactionWithNoteAndNames[],
   +currentBlock: number,
   +isLoading: boolean,
 |}
@@ -37,7 +32,6 @@ type OwnProps = {|
 type Props = {|
   ...OwnProps,
   +notes: Comments,
-  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +ownerAddress: OwnerAddress,
 |}
@@ -112,8 +106,6 @@ class HistoryList extends Component<Props, StateProps> {
       onListScroll: handleListScroll,
       onAsideScroll: handleAsideScroll,
       items,
-      notes,
-      addressNames,
       digitalAssets,
       ownerAddress,
       isLoading,
@@ -148,13 +140,15 @@ class HistoryList extends Component<Props, StateProps> {
               keys,
               to,
               from,
-              hash,
+              note,
               amount,
+              toName,
+              fromName,
               blockHash,
               eventType,
               contractAddress,
               isRemoved,
-            }: TransactionWithPrimaryKeys) => {
+            }: TransactionWithNoteAndNames) => {
               const {
                 id,
                 assetAddress,
@@ -176,19 +170,15 @@ class HistoryList extends Component<Props, StateProps> {
                     id={id}
                     to={to}
                     from={from}
+                    note={note}
                     amount={amount}
+                    toName={toName}
+                    fromName={fromName}
                     eventType={eventType}
                     assetAddress={assetAddress}
-                    toName={to && addressNames[to]}
                     assetSymbol={digitalAsset.symbol}
                     contractAddress={contractAddress}
-                    fromName={from && addressNames[from]}
                     assetDecimals={digitalAsset.blockchainParams.decimals}
-                    note={getNote(
-                      notes,
-                      id,
-                      hash,
-                    )}
                     isPending={isPending}
                     hasInput={data.hasInput}
                     isActive={this.checkActive(keys)}
@@ -236,13 +226,11 @@ class HistoryList extends Component<Props, StateProps> {
 
 function mapStateToProps(state: AppState) {
   const notes: Comments = selectCommentsItems(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
 
   return {
     notes,
-    addressNames,
     digitalAssets,
     ownerAddress,
   }

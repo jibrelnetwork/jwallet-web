@@ -140,6 +140,14 @@ declare type TransactionWithPrimaryKeys = {|
   +keys: TransactionPrimaryKeys,
 |}
 
+declare type TransactionWithNoteAndNames = {|
+  ...TransactionWithPrimaryKeys,
+  // fields below are necessary for searching
+  +note: ?string,
+  +toName: ?string,
+  +fromName: ?string,
+|}
+
 declare type Transactions = {
   [TransactionId]: ?Transaction,
 }
