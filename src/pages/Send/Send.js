@@ -47,7 +47,7 @@ type Props = {|
   +network: Network,
   +ownerAddress: OwnerAddress,
   +goHome: () => any,
-  +openTransaction: (txHash: string) => any,
+  +openTransaction: (txHash: Hash) => any,
   +getAssetDecimals: (assetAddress: string) => number,
   +i18n: I18nType,
   +addPendingTransaction: (
@@ -200,8 +200,9 @@ class SendAsset extends Component<Props, ComponentState> {
         assetAddress,
         {
           data: {
-            gasPrice,
             nonce,
+            gasPrice,
+            hasInput: false,
           },
           blockData: {
             timestamp: Date.now() / 1000,
@@ -210,6 +211,7 @@ class SendAsset extends Component<Props, ComponentState> {
             status: 1,
             gasUsed: parseInt(gasLimit, 10),
           },
+          amount,
           hash: txHash,
           to: recipientAddress,
           blockHash: null,
@@ -217,7 +219,6 @@ class SendAsset extends Component<Props, ComponentState> {
           from: ownerAddress,
           contractAddress: null,
           eventType: checkETH(assetAddress) ? 0 : 1,
-          amount,
           isRemoved: false,
         },
       )
@@ -319,7 +320,7 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = {
   addPendingTransaction: transaction.addPendingTransaction,
   goHome: () => actions.navigateTo('Home'),
-  openTransaction: (txHash: string) => actions.navigateTo('HistoryItem', { itemId: txHash }),
+  openTransaction: (txHash: Hash) => actions.navigateTo('HistoryItem', { id: txHash }),
 }
 
 export const Send = compose(
