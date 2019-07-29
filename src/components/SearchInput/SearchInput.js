@@ -1,31 +1,30 @@
 // @flow strict
 
-import React, { Children } from 'react'
 import classNames from 'classnames'
+import React, { Children } from 'react'
 
 import { useI18n } from 'app/hooks'
 import { JIcon } from 'components/base'
-
 import { useFocus } from 'utils/hooks/useFocus'
 
-import searchInputStyle from './searchInput.m.scss'
+import styles from './searchInput.m.scss'
 
 type Props = {|
-  +onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
+  +onChange: (SyntheticInputEvent<HTMLInputElement>) => any,
   +value: ?string,
-  className?: ?string,
-  children?: ?React$Node,
+  +className: ?string,
+  +children: ?React$Node,
 |}
 
 export function SearchInput({
-  onChange,
+  children,
   value,
   className,
-  children,
+  onChange: handleChange,
 }: Props) {
   const [isFocused, {
-    onFocus,
-    onBlur,
+    onBlur: handleBlur,
+    onFocus: handleFocus,
   }] = useFocus()
 
   const i18n = useI18n()
@@ -34,31 +33,35 @@ export function SearchInput({
     <div
       className={classNames(
         '__search',
-        searchInputStyle.core,
-        isFocused && searchInputStyle.focused,
+        styles.core,
+        isFocused && styles.focused,
         className,
       )}
     >
-      <label className={searchInputStyle.label}>
+      <label
+        className={styles.label}
+        htmlFor='search-input'
+      >
         <JIcon
-          className={searchInputStyle.icon}
+          className={styles.icon}
           name='ic_search_24-use-fill'
         />
         <input
-          className={searchInputStyle.input}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          onChange={handleChange}
           value={value}
+          className={styles.input}
           placeholder={i18n._(
-            'common.SearchInput.input.placeholder',
+            'components.SearchInput.placeholder',
             null,
             { defaults: 'Search' },
           )}
+          id='search-input'
         />
       </label>
       {Children.count(children) > 0 && (
-        <aside className={searchInputStyle.aside}>
+        <aside className={styles.aside}>
           {children}
         </aside>
       )}
@@ -67,7 +70,7 @@ export function SearchInput({
 }
 
 SearchInput.defaultProps = {
-  className: null,
-  value: undefined,
   children: null,
+  value: null,
+  className: null,
 }
