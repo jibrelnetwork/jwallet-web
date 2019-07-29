@@ -9,8 +9,9 @@ import {
   Header,
   JIcon,
   JLink,
-  SearchInput,
 } from 'components/base'
+
+import { SearchInput } from 'components'
 import { splitContactName } from 'utils/formatters'
 import { useInputValue } from 'utils/hooks/useInputValue'
 import { filterContacts } from 'utils/search/filterContacts'

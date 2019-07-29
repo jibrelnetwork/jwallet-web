@@ -4,14 +4,16 @@ import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { i18n } from 'i18n/lingui'
 
-import DigitalAssetsManage from 'components/DigitalAssetsManage'
+import {
+  SearchInput,
+  DigitalAssetsManage,
+} from 'components'
 
 import {
   JIcon,
   JText,
   JLink,
   JLinkBack,
-  SearchInput,
 } from 'components/base'
 
 type Props = {|

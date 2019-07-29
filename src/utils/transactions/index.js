@@ -2,9 +2,6 @@
 
 import getTxLink from './getTxLink'
 import getAddressLink from './getAddressLink'
-import sortTransactions from './sortTransactions'
-import filterTransactions from './filterTransactions'
-import searchTransactions from './searchTransactions'
 import flattenTransactions from './flattenTransactions'
 import getTransactionValue from './getTransactionValue'
 import checkTransactionLoading from './checkTransactionLoading'
@@ -21,14 +18,11 @@ export { getNote } from './getNote'
 export { getTxFee } from './getTxFee'
 export { getTxById } from './getTxById'
 export { checkStuck } from './checkStuck'
-export { removeDuplicates } from './removeDuplicates'
+export { prepareListForRendering } from './prepareListForRendering'
 
 export {
   getTxLink,
   getAddressLink,
-  sortTransactions,
-  filterTransactions,
-  searchTransactions,
   flattenTransactions,
   getTransactionValue,
   checkTransactionLoading,
