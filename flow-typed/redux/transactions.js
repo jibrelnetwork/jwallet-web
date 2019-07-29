@@ -8,6 +8,12 @@ declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
   +to: string,
   +from: string,
+  /**
+   * input field is always presented in transaction payload
+   * when input is empty, the field has value "0x"
+   *
+   * it is necessary to define "abstract" contract method call
+   */
   +input: string,
   +value: string,
   +gasUsed: string,
