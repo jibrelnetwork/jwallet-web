@@ -228,24 +228,36 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
       'WalletsItemUpgrade.input.data.info',
       null,
       // eslint-disable-next-line max-len
-      { defaults: 'To unlock all features you need to provide a wallet backup \nphrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other \ncrypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", \n"Mnemonic phrase" etc.' },
+      { defaults: 'To unlock all features you need to provide a wallet backup phrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other crypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", "Mnemonic", "Mnemonic phrase" etc.' },
     )
 
-    /* eslint-disable max-len */
     return (
       <form
         onSubmit={handleSubmit}
         className={walletsItemUpgradeStyle.form}
       >
         <UserActionInfo
-          title={i18n._('WalletsItemUpgrade.data.title', null, { defaults: 'Your Wallet Is in Read-Only Mode' })}
+          title={i18n._(
+            'WalletsItemUpgrade.data.title',
+            null,
+            { defaults: 'Your Wallet Is in Read-Only Mode' },
+          )}
           iconClassName={walletsItemUpgradeStyle.icon}
-          text={i18n._('WalletsItemUpgrade.data.description', null, { defaults: 'Add private key to get the full access to Jwallet features and send assets.' })}
+          text={i18n._(
+            'WalletsItemUpgrade.data.description',
+            null,
+            // eslint-disable-next-line max-len
+            { defaults: 'Add private key to get the full access to Jwallet features and send assets.' },
+          )}
           iconName='ic_key_48-use-fill'
         />
         <Field
           component={JTextArea}
-          label={i18n._('WalletsItemUpgrade.input.data.title', null, { defaults: 'Backup Phrase' })}
+          label={i18n._(
+            'WalletsItemUpgrade.input.data.title',
+            null,
+            { defaults: 'Backup Phrase' },
+          )}
           errorMessage={errorDataMessage}
           infoMessage={successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
@@ -263,11 +275,14 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
           isDisabled={isDisabled}
           isLoading={isSubmitting}
         >
-          {i18n._('WalletsItemUpgrade.data.actions.submit', null, { defaults: 'Unlock' })}
+          {i18n._(
+            'WalletsItemUpgrade.data.actions.submit',
+            null,
+            { defaults: 'Unlock' },
+          )}
         </Button>
       </form>
     )
-    /* eslint-enable max-len */
   }
 
   renderPasswordStep = (formRenderProps: FormRenderProps) => {
@@ -291,13 +306,21 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
     const { i18n } = this.props
     const handleGoHome = this.goToHome
 
-    /* eslint-disable max-len */
     return (
       <div className={walletsItemUpgradeStyle.finish}>
         <UserActionInfo
-          title={i18n._('WalletsItemUpgrade.finish.title', null, { defaults: 'Features Unlocked' })}
+          title={i18n._(
+            'WalletsItemUpgrade.finish.title',
+            null,
+            { defaults: 'Features Unlocked' },
+          )}
           iconClassName={walletsItemUpgradeStyle.icon}
-          text={i18n._('WalletsItemUpgrade.finish.description', null, { defaults: 'Congratulations, you have full access to Jwallet features. \nStart using them now!' })}
+          text={i18n._(
+            'WalletsItemUpgrade.finish.description',
+            null,
+            // eslint-disable-next-line max-len
+            { defaults: 'Congratulations, you have full access to Jwallet features. \nStart using them now!' },
+          )}
           iconName='ic_success_48-use-fill'
         />
         <div className={walletsItemUpgradeStyle.buttons}>
@@ -305,12 +328,15 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
             onClick={handleGoHome}
             theme='general'
           >
-            {i18n._('WalletsItemUpgrade.finish.actions.submit', null, { defaults: 'Go to Wallet' })}
+            {i18n._(
+              'WalletsItemUpgrade.finish.actions.submit',
+              null,
+              { defaults: 'Go to Wallet' },
+            )}
           </Button>
         </div>
       </div>
     )
-    /* eslint-enable max-len */
   }
 
   renderForm = (formRenderProps: FormRenderProps) => {
