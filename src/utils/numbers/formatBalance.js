@@ -32,10 +32,5 @@ export function formatBalance(
     }
   }
 
-  const res: string = valueBN.toFormat(dp, rm)
-  const [int, dec] = res.split('.')
-  const intBN = toBigNumber(int)
-  const isZeroDec: boolean = toBigNumber(dec).isZero()
-
-  return `${intBN}${isZeroDec ? '' : '.'}${isZeroDec ? '' : dec.replace(/0+$/, '')}`
+  return valueBN.toFormat(dp, rm)
 }
