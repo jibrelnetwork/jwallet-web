@@ -3,15 +3,13 @@
 .main,
 .right {
   height: calc(100vh - 112px);
+  padding: 0 16px;
   flex-grow: 1;
   overflow-y: scroll;
 }
 
 .main {
   @include property-transition(max-width);
-
-  margin-right: -16px;
-  padding-right: 16px;
 }
 
 .right {
@@ -25,8 +23,6 @@
 
 .list {
   @include flex-column;
-
-  max-width: 1120px;
 
   > .loader {
     @include flex-row-center;
@@ -65,12 +61,10 @@
   @include flex-row;
 
   position: relative;
-  overflow: visible;
+  width: 1120px + (2 * 16px); // 2 * 16px for paddings
+  margin-left: -16px;
 
   &.active {
-    margin-right: -16px;
-    overflow: hidden;
-
     .main {
       max-width: 752px;
     }
@@ -78,9 +72,7 @@
     .right {
       right: 0;
       max-width: 400px;
-      padding-left: 32px;
-      padding-right: 16px;
-      margin-right: -16px;
+      padding-left: 16px;
       opacity: 1;
     }
   }

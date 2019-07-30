@@ -20,6 +20,8 @@ export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSAC
 export const REMOVE_PENDING_TRANSACTIONS = '@@transactions/REMOVE_PENDING_TRANSACTIONS'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
+export const SET_ERROR_FILTER = '@@transactions/SET_ERROR_FILTER'
+export const SET_STUCK_FILTER = '@@transactions/SET_STUCK_FILTER'
 export const SET_PENDING_FILTER = '@@transactions/SET_PENDING_FILTER'
 
 type UpdateTransactionData = {|
@@ -245,6 +247,20 @@ export function changeSearchInput(searchQuery: string) {
   }
 }
 
+export function setErrorFilter(payload: boolean) {
+  return {
+    type: SET_ERROR_FILTER,
+    payload,
+  }
+}
+
+export function setStuckFilter(payload: boolean) {
+  return {
+    type: SET_STUCK_FILTER,
+    payload,
+  }
+}
+
 export function setPendingFilter(payload: boolean) {
   return {
     type: SET_PENDING_FILTER,
@@ -262,6 +278,8 @@ type TransactionsAction =
   ExtractReturn<typeof updateTransactionData> |
   ExtractReturn<typeof addPendingTransaction> |
   ExtractReturn<typeof changeSearchInput> |
+  ExtractReturn<typeof setErrorFilter> |
+  ExtractReturn<typeof setStuckFilter> |
   ExtractReturn<typeof setPendingFilter>
 
 const initialState: TransactionsState = {
@@ -647,6 +665,18 @@ function transactions(
       return {
         ...state,
         searchQuery: action.payload.searchQuery,
+      }
+
+    case SET_ERROR_FILTER:
+      return {
+        ...state,
+        isErrorFiltered: action.payload,
+      }
+
+    case SET_STUCK_FILTER:
+      return {
+        ...state,
+        isStuckFiltered: action.payload,
       }
 
     case SET_PENDING_FILTER:

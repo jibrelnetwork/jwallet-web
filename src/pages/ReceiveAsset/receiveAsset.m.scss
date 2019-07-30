@@ -1,0 +1,26 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  min-height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+  padding: $new-page-header-height 0;
+}
+
+.container {
+  max-width: 544px;
+  width: 544px;
+}
+
+.qrbox {
+  margin-bottom: 16px;
+  background-color: $white;
+  padding: 24px;
+  box-shadow: $normal-shadow;
+}
+
+.input {
+  margin-bottom: 32px;
+}

@@ -4,7 +4,6 @@ import MenuLayout from 'layouts/MenuLayout'
 
 import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
-import Receive from './routes/Receive'
 
 export default {
   path: 'digital-assets',
@@ -15,6 +14,5 @@ export default {
   childRoutes: [
     AddAsset,
     EditAsset,
-    Receive,
   ],
 }

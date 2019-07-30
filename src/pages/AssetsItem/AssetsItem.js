@@ -30,10 +30,7 @@ import {
 } from 'store/selectors/transactions'
 
 import {
-  removeDuplicates,
-  sortTransactions,
-  filterTransactions,
-  searchTransactions,
+  prepareListForRendering,
   flattenTransactionsByAsset,
   flattenPendingTransactions,
   checkTransactionsByAssetLoading,
@@ -55,29 +52,6 @@ type OwnProps = {|
     +asset: string,
   |},
 |}
-
-function prepareTransactions(
-  items: ?TransactionsByAssetAddress,
-  pending: ?Transactions,
-  assetAddress: string,
-  names: AddressNames,
-  searchQuery: string,
-  isPendingFiltered: boolean,
-): TransactionWithPrimaryKeys[] {
-  if (!items) {
-    return []
-  }
-
-  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetAddress)
-  const flattenPen: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetAddress)
-  const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPen]
-  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isPendingFiltered)
-  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
-  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
-
-  return sorted
-}
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const wallet: Wallet = selectActiveWalletOrThrow(state)
@@ -107,11 +81,15 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     isPendingFiltered,
   }: TransactionsState = selectTransactions(state)
 
-  const transactionsByAsset: ?TransactionsByAssetAddress =
-    selectTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
+  const items: ?TransactionsByAssetAddress = selectTransactionsByAsset(
+    state,
+    assetAddress,
+  )
 
-  const pendingTransactions: ?Transactions =
-    selectPendingTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
+  const pending: ?Transactions = selectPendingTransactionsByAsset(
+    state,
+    assetAddress,
+  )
 
   const isCurrentBlockEmpty: boolean = !currentBlock
   const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
@@ -120,7 +98,10 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const createdBlockNumber: ?number = wallet.createdBlockNumber && wallet.createdBlockNumber.mainnet
   const minBlock: ?number = createdBlockNumber || deploymentBlockNumber
 
-  const isLoading: boolean = checkTransactionsByAssetLoading(transactionsByAsset, minBlock)
+  const isLoading: boolean = checkTransactionsByAssetLoading(items, minBlock)
+
+  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetAddress)
+  const flattenPen: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetAddress)
 
   return {
     network,
@@ -138,17 +119,16 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     isLoading,
     isPendingFiltered,
     isCurrentBlockEmpty,
-    transactions: isCurrentBlockEmpty ? [] : prepareTransactions(
-      transactionsByAsset,
-      pendingTransactions,
-      assetAddress,
+    transactions: isCurrentBlockEmpty ? [] : prepareListForRendering(
+      [...flatten, ...flattenPen],
+      comments,
       {
         ...favorites,
         ...addressNames,
         ...addressWalletsNames,
       },
       searchQuery,
-      isPendingFiltered,
+      { isPendingFiltered },
     ),
   }
 }

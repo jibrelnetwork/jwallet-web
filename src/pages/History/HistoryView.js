@@ -3,14 +3,21 @@
 import React, { PureComponent } from 'react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import { HistoryList } from 'components'
 import { Header } from 'components/base'
+
+import {
+  HistoryList,
+  SearchInput,
+  TransactionsFilter,
+} from 'components'
 
 import styles from './history.m.scss'
 
 export type Props = {|
-  +items: TransactionWithPrimaryKeys[],
+  +changeSearchInput: (value: string) => any,
+  +items: TransactionWithNoteAndNames[],
   +i18n: I18nType,
+  +searchQuery: string,
   +currentBlock: number,
   +isLoading: boolean,
 |}
@@ -35,20 +42,25 @@ export class HistoryView extends PureComponent<Props, StateProps> {
     }
   }
 
-  handleListScroll = (e: Event) => {
+  handleListScroll = (e: SyntheticUIEvent<HTMLDivElement>) => {
     // $FlowFixMe
     this.setState({ isListScrolled: !!e.target.scrollTop })
   }
 
-  handleAsideScroll = (e: Event) => {
+  handleAsideScroll = (e: SyntheticUIEvent<HTMLDivElement>) => {
     // $FlowFixMe
     this.setState({ isAsideScrolled: !!e.target.scrollTop })
+  }
+
+  handleChangeSearchInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    this.props.changeSearchInput(e.target.value)
   }
 
   render() {
     const {
       i18n,
       items,
+      searchQuery,
       currentBlock,
       isLoading,
     }: Props = this.props
@@ -67,7 +79,14 @@ export class HistoryView extends PureComponent<Props, StateProps> {
             null,
             { defaults: 'History' },
           )}
-        />
+        >
+          <SearchInput
+            onChange={this.handleChangeSearchInput}
+            value={searchQuery}
+          >
+            <TransactionsFilter />
+          </SearchInput>
+        </Header>
         <HistoryList
           onListScroll={this.handleListScroll}
           onAsideScroll={this.handleAsideScroll}

@@ -16,6 +16,7 @@ export function Pending(props: CardProps) {
     onEditFinish: handleEditNote,
     note,
     isPage,
+    hasInput,
   }: CardProps = props
 
   const i18n = useI18n()
@@ -37,10 +38,19 @@ export function Pending(props: CardProps) {
             </div>
             <div className={styles.subtitle}>
               {i18n._(
-                'HistoryItemDetails.Pending.subtitle.input',
                 null,
-                { defaults: 'Contract Call is being processed. This may take some time.' },
               )}
+              {hasInput
+                ? i18n._(
+                  'HistoryItemDetails.Pending.subtitle.input',
+                  null,
+                  { defaults: 'Transfer is being processed. This may take some time.' },
+                ) : i18n._(
+                  'HistoryItemDetails.Pending.subtitle.another',
+                  null,
+                  { defaults: 'Contract Call is being processed. This may take some time.' },
+                )
+              }
             </div>
           </div>
         </div>
