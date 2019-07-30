@@ -44,14 +44,12 @@ type Props = {|
   +fiatCurrency: string,
   +mnemonicAddressName: string,
   +fiatBalance: number,
-  +isMnemonic: boolean,
 |}
 
 export function WalletView({
   walletName,
   fiatCurrency,
   mnemonicAddressName,
-  isMnemonic,
   fiatBalance,
 }: Props) {
   return (
@@ -62,7 +60,7 @@ export function WalletView({
       <div className={styles.walletName}>
         {walletName}
       </div>
-      {isMnemonic && mnemonicAddressName && (
+      {mnemonicAddressName && (
         <div className={styles.addressName}>
           {mnemonicAddressName}
         </div>
@@ -118,8 +116,9 @@ function mapStateToProps(state: AppState) {
 
   const walletName: string = wallet ? wallet.name : ''
   const isMnemonic: boolean = wallet ? checkMultiAddressType(wallet.customType) : false
+  const isSimplified: boolean = isMnemonic && !!wallet && !!wallet.isSimplified
 
-  const mnemonicAddressName: string = (wallet && ownerAddress && isMnemonic)
+  const mnemonicAddressName: string = (wallet && ownerAddress && !isSimplified)
     ? getMnemonicAddressName(wallet, addressNames[ownerAddress])
     : ''
 
@@ -132,7 +131,6 @@ function mapStateToProps(state: AppState) {
       fiatCourses,
       fiatCurrency,
     ),
-    isMnemonic,
   }
 }
 
