@@ -18,8 +18,8 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWallet,
-  selectActiveWalletAddress,
+  selectActiveWalletOrThrow,
+  selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
 import {
@@ -93,14 +93,14 @@ function getTotalFiatBalance(
 }
 
 function mapStateToProps(state: AppState) {
-  const wallet = selectActiveWallet(state)
+  const wallet = selectActiveWalletOrThrow(state)
   const fiatCourses: FiatCourses = selectTickerItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
   const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
 
   const balances: ?Balances = selectBalancesByBlockNumber(
     state,
@@ -114,16 +114,18 @@ function mapStateToProps(state: AppState) {
     balances,
   )
 
-  const walletName: string = wallet ? wallet.name : ''
-  const isMnemonic: boolean = wallet ? checkMultiAddressType(wallet.customType) : false
-  const isSimplified: boolean = isMnemonic && !!wallet && !!wallet.isSimplified
+  const {
+    name,
+    customType,
+    isSimplified,
+  } = wallet
 
-  const mnemonicAddressName: string = (wallet && ownerAddress && !isSimplified)
+  const mnemonicAddressName: string = checkMultiAddressType(customType) && !isSimplified
     ? getMnemonicAddressName(wallet, addressNames[ownerAddress])
     : ''
 
   return {
-    walletName,
+    walletName: name,
     mnemonicAddressName,
     fiatCurrency: CURRENCIES[fiatCurrency].symbol,
     fiatBalance: getTotalFiatBalance(
