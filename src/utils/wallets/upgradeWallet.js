@@ -5,7 +5,10 @@ import { encryptData } from 'utils/encryption'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import { WalletInconsistentDataError } from 'errors'
 
-import { checkReadOnlyType } from '.'
+import {
+  getTypeByInput,
+  checkReadOnlyType,
+} from '.'
 
 export type UpgradeWalletData = {|
   +wallet: Wallet,
@@ -32,8 +35,8 @@ function addMnemonic(
   return {
     encrypted: {
       mnemonic: encryptData({
-        data: mnemonic,
         key: internalKey,
+        data: mnemonic.toLowerCase(),
       }),
       passphrase: encryptData({
         key: internalKey,
@@ -47,6 +50,33 @@ function addMnemonic(
     },
     customType: 'mnemonic',
     derivationPath: (derivationPath || '').trim(),
+    isReadOnly: false,
+  }
+}
+
+function addXPRV(
+  {
+    xpub,
+    id: walletId,
+  }: Wallet,
+  xprv: string,
+  internalKey: Uint8Array,
+): WalletUpdatedData {
+  if (!xpub) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
+  }
+
+  return {
+    encrypted: {
+      xprv: encryptData({
+        data: xprv,
+        key: internalKey,
+      }),
+      mnemonic: null,
+      passphrase: null,
+      privateKey: null,
+    },
+    customType: 'xprv',
     isReadOnly: false,
   }
 }
@@ -67,7 +97,7 @@ function addPrivateKey(
     encrypted: {
       privateKey: encryptData({
         key: internalKey,
-        data: strip0x(privateKey),
+        data: strip0x(privateKey.toLowerCase()),
       }),
       xprv: null,
       mnemonic: null,
@@ -86,7 +116,6 @@ export function upgradeWallet({
   internalKey,
 }: UpgradeWalletData): WalletUpdatedData {
   const {
-    xpub,
     customType,
     id: walletId,
   }: Wallet = wallet
@@ -95,21 +124,34 @@ export function upgradeWallet({
     throw new WalletInconsistentDataError({ walletId }, 'Wallet is not read only')
   }
 
-  const preparedData: string = (data || '').trim().toLowerCase()
+  const preparedData: string = (data || '').trim()
+  const inputType: ?WalletCustomType = getTypeByInput(preparedData)
 
-  if (xpub) {
-    return addMnemonic(
-      wallet,
-      preparedData,
-      passphrase,
-      derivationPath,
-      internalKey,
-    )
+  switch (inputType) {
+    case 'mnemonic':
+      return addMnemonic(
+        wallet,
+        preparedData,
+        passphrase,
+        derivationPath,
+        internalKey,
+      )
+
+    case 'xprv':
+      return addXPRV(
+        wallet,
+        preparedData,
+        internalKey,
+      )
+
+    case 'privateKey':
+      return addPrivateKey(
+        wallet,
+        preparedData,
+        internalKey,
+      )
+
+    default:
+      throw new Error('Invalid input type')
   }
-
-  return addPrivateKey(
-    wallet,
-    preparedData,
-    internalKey,
-  )
 }
