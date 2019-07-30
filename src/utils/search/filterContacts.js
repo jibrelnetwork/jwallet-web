@@ -4,6 +4,8 @@ import {
   startsWithOrEndsWith,
 } from 'utils/address'
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
+
 export function filterContacts(
   contacts: Favorite[],
   searchQuery: string,
@@ -14,7 +16,7 @@ export function filterContacts(
     ? contacts
     : contacts.filter(({
       name, description, address,
-    }) => (name && name.toLowerCase().search(query) !== -1) ||
-      (description && description.toLowerCase().search(query) !== -1) ||
+    }) => (name && name.toLowerCase().search(escapeRegExp(query)) !== -1) ||
+      (description && description.toLowerCase().search(escapeRegExp(query)) !== -1) ||
       startsWithOrEndsWith(address, query))
 }
