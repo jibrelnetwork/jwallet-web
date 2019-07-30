@@ -10,11 +10,11 @@ import { formatAssetBalance } from 'utils/formatters'
 import {
   JTabs,
   JFlatButton,
-  SearchInput,
 } from 'components/base'
 
 import {
   HistoryList,
+  SearchInput,
   TransactionsFilter,
 } from 'components'
 
@@ -57,7 +57,7 @@ type Props = {|
   +changeSearchInput: (string) => void,
   +editComment: (CommentId, string) => void,
   +removeItemsByAsset: (AssetAddress) => void,
-  +transactions: TransactionWithPrimaryKeys[],
+  +transactions: TransactionWithNoteAndNames[],
   +params: {|
     +asset: string,
   |},
