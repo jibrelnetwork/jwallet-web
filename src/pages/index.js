@@ -27,8 +27,6 @@ export { default as SettingsSecurityPassword }
 export { AssetsItem } from './AssetsItem/AssetsItem'
 export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
 export { default as AssetsItemEdit } from './DigitalAssets/routes/EditAsset/EditAssetContainer'
-export { default as AssetsManage }
-  from './DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer'
 
 export { Contacts } from './Contacts/Contacts'
 export { ContactsItem } from './ContactsItem/ContactsItem'
