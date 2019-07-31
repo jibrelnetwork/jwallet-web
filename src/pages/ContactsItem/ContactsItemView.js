@@ -11,7 +11,7 @@ import { ContactsItemDetails } from 'components/ContactsItemDetails/ContactsItem
 import style from './contactsItem.m.scss'
 
 export type Props = {|
-  contactId: ContactId,
+  contactId: Address,
 |}
 
 export function ContactsItemView(props: Props) {
@@ -24,7 +24,7 @@ export function ContactsItemView(props: Props) {
         onBack={null}
       />
       <ContactsItemDetails
-        className={offset.mb32}
+        className={offset.mb16}
         contactId={props.contactId}
       />
       <JLink

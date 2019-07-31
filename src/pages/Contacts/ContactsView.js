@@ -32,7 +32,7 @@ function extractAlphabet(list: Favorite[]): { [string]: Favorite[] } {
   const resultList = {}
 
   list.forEach((item) => {
-    const { firstChar } = splitContactName(item.name || '')[0]
+    const { firstChar } = splitContactName(item.name || '')[0] || {}
     const char = firstChar || NAMELESS_SYMBOL
 
     if (resultList[char]) {
