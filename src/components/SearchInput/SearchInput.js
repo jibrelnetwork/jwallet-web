@@ -58,6 +58,7 @@ export function SearchInput({
             { defaults: 'Search' },
           )}
           id='search-input'
+          maxLength={256}
         />
       </label>
       {Children.count(children) > 0 && (
