@@ -43,7 +43,14 @@ const {
   getNonce,
 } = web3
 
+type OwnProps = {|
+  +to?: string,
+  +asset?: string,
+  +amount?: string,
+|}
+
 type Props = {|
+  ...OwnProps,
   +network: Network,
   +ownerAddress: OwnerAddress,
   +goHome: () => any,
@@ -73,16 +80,26 @@ type ComponentState = {|
 |}
 
 class SendAsset extends Component<Props, ComponentState> {
-  state = {
-    currentStep: STEPS.SEND_FORM,
-    sendFormValues: {
-      assetAddress: 'Ethereum',
-      recipientAddress: '',
-      amountValue: '',
-      isPriorityOpen: false,
-      gasPriceValue: '',
-      gasLimitValue: '21000',
-    },
+  constructor(props) {
+    super(props)
+
+    const {
+      to,
+      asset,
+      amount,
+    }: Props = props
+
+    this.state = {
+      currentStep: STEPS.SEND_FORM,
+      sendFormValues: {
+        gasPriceValue: '',
+        gasLimitValue: '21000',
+        amountValue: amount || '',
+        recipientAddress: to || '',
+        assetAddress: asset || 'Ethereum',
+        isPriorityOpen: false,
+      },
+    }
   }
 
   handleAssetAddressChange = (assetAddress: string) => {
@@ -325,7 +342,7 @@ const mapDispatchToProps = {
 
 export const Send = compose(
   withI18n(),
-  connect<Props, OwnPropsEmpty, _, _, _, _>(
+  connect<Props, OwnProps, _, _, _, _>(
     mapStateToProps,
     mapDispatchToProps,
   ),

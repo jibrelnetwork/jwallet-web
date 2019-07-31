@@ -21,6 +21,7 @@ import {
 } from 'components/base'
 
 import { AssetItem } from './components/AssetItem/AssetItem'
+import { ManageAssetItem } from './components/AssetItem/ManageAssetItem'
 import { filterAssetByQuery } from './filterAssetByQuery'
 
 import homeStyle from './home.m.scss'
@@ -30,17 +31,23 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 const ASSETS_HEADER_BOTTOM_EDGE = 376
 
 export type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
   +items: DigitalAssetWithBalance[],
+  setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
   +i18n: I18nType,
 |}
 
 type ComponentState = {|
   searchQuery: string,
   isInManageMode: boolean,
+  assetsState: {
+    [assetAddress: string]: boolean,
+  },
   isSticky: boolean,
 |}
+
+function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
+  return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
+}
 
 class HomeViewComponent extends Component<Props, ComponentState> {
   constructor(props: Props) {
@@ -49,13 +56,13 @@ class HomeViewComponent extends Component<Props, ComponentState> {
     this.state = {
       searchQuery: '',
       isInManageMode: false,
+      assetsState: {},
       isSticky: false,
     }
   }
 
   componentDidMount() {
     this.rootWrapper.addEventListener('scroll', this.handleScroll)
-    this.props.openView()
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: ComponentState) {
@@ -79,7 +86,6 @@ class HomeViewComponent extends Component<Props, ComponentState> {
 
   componentWillUnmount() {
     this.rootWrapper.removeEventListener('scroll', this.handleScroll)
-    this.props.closeView()
   }
 
   rootWrapper = window.root || document.getElementById('root')
@@ -104,27 +110,85 @@ class HomeViewComponent extends Component<Props, ComponentState> {
     }
   }
 
-  handleClickManage = () => {
-    this.setState(({
-      isInManageMode,
-    }) => ({
-      isInManageMode: !isInManageMode,
-    }))
+  handleEnterManageMode = () => {
+    const assetsState = this.props.items.reduce((reduceResult, item) => {
+      reduceResult[item.blockchainParams.address] = Boolean(item.isActive)
+
+      return reduceResult
+    }, {})
+
+    this.setState({
+      assetsState,
+      isInManageMode: true,
+    })
   }
 
-  renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => (
-    <ul className={homeStyle.assetList}>
-      {filteredItems.map((item) => {
-        const address = get(item, 'blockchainParams.address')
+  handleLeaveManageMode = () => {
+    const {
+      assetsState,
+    } = this.state
 
-        return (
-          <li key={address}>
-            <AssetItem address={address} />
-          </li>
-        )
-      })}
-    </ul>
-  )
+    const {
+      items,
+      setAssetIsActive,
+    } = this.props
+
+    const diff = items.map(item =>
+      Boolean(item.isActive) !== assetsState[item.blockchainParams.address]
+        ? {
+          isActive: assetsState[item.blockchainParams.address],
+          address: item.blockchainParams.address,
+        }
+        : undefined).filter(Boolean)
+
+    diff.forEach(({
+      address,
+      isActive,
+    }) => setAssetIsActive(address, isActive))
+
+    this.setState({
+      isInManageMode: false,
+    })
+  }
+
+  handleManageAssetCheck = (address: string, isChecked: boolean) => {
+    this.setState({
+      assetsState: {
+        ...this.state.assetsState,
+        [address]: isChecked,
+      },
+    })
+  }
+
+  renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => {
+    const {
+      isInManageMode,
+      assetsState,
+    } = this.state
+
+    return (
+      <ul className={homeStyle.assetList}>
+        {filteredItems.map((item) => {
+          const address = get(item, 'blockchainParams.address')
+
+          return (
+            <li key={address}>
+              {isInManageMode
+                ? (
+                  <ManageAssetItem
+                    address={address}
+                    isChecked={assetsState[address] || false}
+                    onCheck={this.handleManageAssetCheck}
+                  />
+                ) : (
+                  <AssetItem address={address} />
+                )}
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
 
   renderEmptyList = () => {
     const { i18n } = this.props
@@ -155,12 +219,15 @@ class HomeViewComponent extends Component<Props, ComponentState> {
       items,
       i18n,
     } = this.props
+
     const {
       isInManageMode,
       isSticky,
     } = this.state
 
-    const filteredItems = items.filter(item => filterAssetByQuery(
+    const assetItems = isInManageMode ? items : filterActiveDigitalAssets(items)
+
+    const filteredItems = assetItems.filter(item => filterAssetByQuery(
       item,
       this.state.searchQuery,
     ))
@@ -256,7 +323,7 @@ class HomeViewComponent extends Component<Props, ComponentState> {
                   <Button
                     className={`__save-button ${homeStyle.save}`}
                     theme='additional'
-                    onClick={this.handleClickManage}
+                    onClick={this.handleLeaveManageMode}
                   >
                     {i18n._(
                       'Home.assets.save',
@@ -269,7 +336,7 @@ class HomeViewComponent extends Component<Props, ComponentState> {
                   <Button
                     className='__manage-button'
                     theme='additional-icon'
-                    onClick={this.handleClickManage}
+                    onClick={this.handleEnterManageMode}
                   >
                     <JIcon
                       name='ic_manage_24-use-fill'
