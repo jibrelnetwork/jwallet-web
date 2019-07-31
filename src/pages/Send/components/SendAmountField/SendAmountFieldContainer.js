@@ -62,7 +62,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     },
   } = ownProps
 
-  const gasPrice = fromGweiToWei(gasPriceGWei)
+  const gasPrice = isValidNumeric(gasPriceGWei) ? fromGweiToWei(gasPriceGWei) : 0
 
   const isEthereumAsset = (assetAddress === 'Ethereum')
 
