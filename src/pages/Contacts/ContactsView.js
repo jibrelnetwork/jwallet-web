@@ -44,6 +44,8 @@ function extractAlphabet(list: Favorite[]): { [string]: Favorite[] } {
     }
   })
 
+  // resultList.sort((a, b) => (a > b) ? -1 : 1)
+
   return resultList
 }
 
@@ -54,6 +56,9 @@ export function ContactsView({
   const [searchQuery, { onChange: handleSearchChange }] = useInputValue()
   const contacts = filterContacts(list, searchQuery)
   const alphabetList = extractAlphabet(contacts)
+
+  // eslint-disable-next-line fp/no-mutating-methods
+  const letters = Object.keys(alphabetList).sort()
 
   const isEmpty = list.length === 0
 
@@ -97,7 +102,7 @@ export function ContactsView({
         </div>
       ) : (
         <ul className='__contacts-list'>
-          {Object.keys(alphabetList).map(k => (
+          {letters.map(k => (
             <li key={k}>
               <div className={style.contactGroupTitle}>{k}</div>
               <ul>
