@@ -402,7 +402,22 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
   calculate = createCaluclateDecorator({
     field: 'assetAddress',
     updates: {
-      amountValue: () => '',
+      amountValue: (_, allValues: ?SendFormValues) => {
+        if (!allValues) {
+          return ''
+        }
+
+        const {
+          amountValue,
+          assetAddress,
+        }: SendFormValues = allValues
+
+        if (this.props.initialValues.assetAddress !== assetAddress) {
+          return ''
+        }
+
+        return amountValue
+      },
       isPriorityOpen: () => false,
       gasPriceValue: () => this.requestGasPrice(),
       gasLimitValue: (_, allValues: ?SendFormValues) => allValues
