@@ -19,6 +19,7 @@ export function Mint({
   hash,
   note,
   amount,
+  amountStr,
   assetName,
   assetSymbol,
   assetAddress,
@@ -60,7 +61,7 @@ export function Mint({
           symbol={assetSymbol}
           address={assetAddress}
         />
-        {!hasInput && amount && <AmountField value={amount} />}
+        {!hasInput && amount && <AmountField value={amountStr} />}
         <TransactionHashField
           value={hash}
           blockExplorerUISubdomain={blockExplorerUISubdomain}
