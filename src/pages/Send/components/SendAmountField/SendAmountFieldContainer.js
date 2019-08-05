@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
@@ -7,9 +7,10 @@ import { i18n } from 'i18n/lingui'
 
 import { CURRENCIES } from 'data'
 import { selectFiatCurrency } from 'store/selectors/user'
+import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
-import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
+
 import {
   toBigNumber,
   divDecimals,
@@ -82,14 +83,14 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const {
     value: assetBalance,
-  } = selectBalanceByAssetAddressToCurrentBlock(
+  } = selectBalanceByAssetAddress(
     state,
     assetAddress,
   ) || {}
 
   const {
     value: ethereumBalance,
-  } = selectBalanceByAssetAddressToCurrentBlock(
+  } = selectBalanceByAssetAddress(
     state,
     'Ethereum',
   ) || {}

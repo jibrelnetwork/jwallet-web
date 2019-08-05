@@ -2,18 +2,12 @@
 
 import { connect } from 'react-redux'
 
-import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { setAssetIsActive } from 'store/modules/digitalAssets'
+import { selectProcessingBlock } from 'store/selectors/blocks'
+import { selectActiveWalletOrThrow } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectTransactionsByOwner } from 'store/selectors/transactions'
-
-import {
-  selectActiveWalletOrThrow,
-  selectActiveWalletAddress,
-} from 'store/selectors/wallets'
-
-import {
-  selectDigitalAssetsItems,
-} from 'store/selectors/digitalAssets'
 
 import {
   filterAssetsBalances,
@@ -22,35 +16,16 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectCurrentBlock,
-  selectProcessingBlock,
-} from 'store/selectors/blocks'
-
-import {
-  setAssetIsActive,
-} from 'store/modules/digitalAssets'
-
-import {
   HomeView,
   type Props,
 } from './HomeView'
 
 function mapStateToProps(state: AppState) {
   const wallet: Wallet = selectActiveWalletOrThrow(state)
-
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state)
-  const processingBlock: ?BlockData = selectProcessingBlock(state)
   const assets: DigitalAssets = selectDigitalAssetsItems(state)
+  const processingBlock: ?BlockData = selectProcessingBlock(state)
   const txs: ?TransactionsByOwner = selectTransactionsByOwner(state)
-
-  const assetsBalances: ?Balances = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    currentBlock ? currentBlock.number.toString() : null,
-  )
+  const assetsBalances: ?Balances = selectBalancesByBlockNumber(state)
 
   /**
    * filterAssetsBalances is necessary to make sure that app displays

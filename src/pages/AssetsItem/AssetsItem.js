@@ -67,12 +67,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
 
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    currentBlock ? currentBlock.number.toString() : null,
-  )
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(state)
 
   const assetBalance: ?Balance = assetsBalances ? assetsBalances[assetAddress] : null
 
