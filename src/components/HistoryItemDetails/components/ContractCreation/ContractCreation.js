@@ -24,6 +24,7 @@ export function ContractCreation({
   contractAddress,
   blockExplorerUISubdomain,
   timestamp,
+  isPending,
 }: CardProps) {
   const i18n = useI18n()
 
@@ -66,7 +67,10 @@ export function ContractCreation({
           value={hash}
           blockExplorerUISubdomain={blockExplorerUISubdomain}
         />
-        <FeeField value={fee} />
+        <FeeField
+          value={fee}
+          isPending={isPending}
+        />
       </div>
       <NoteField
         onChange={handleEditNote}

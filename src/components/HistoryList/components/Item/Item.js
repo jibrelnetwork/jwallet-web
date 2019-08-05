@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
+import config from 'config'
 import { formatAssetBalance } from 'utils/formatters'
 
 import {
@@ -85,6 +86,7 @@ class Item extends PureComponent<Props> {
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
+    const isCancel: boolean = (to === config.cancelAddress)
 
     if (isFailed) {
       return 'error_declined'
@@ -106,7 +108,7 @@ class Item extends PureComponent<Props> {
       return 'in'
     }
 
-    if (hasInput) {
+    if (hasInput || isCancel) {
       return 'success'
     }
 
@@ -189,11 +191,10 @@ class Item extends PureComponent<Props> {
     const {
       amount,
       isSent,
-      isStuck,
       isFailed,
     }: Props = this.props
 
-    if (toBigNumber(amount).isZero() || isStuck || isFailed) {
+    if (toBigNumber(amount).isZero() || isFailed) {
       return ''
     }
 

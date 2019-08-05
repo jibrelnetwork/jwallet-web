@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { useI18n } from 'app/hooks'
 import { DateTimeFormat } from 'app/components'
@@ -16,6 +17,32 @@ import { NoteField } from '../NoteField/NoteField'
 import { type CardProps } from '../../HistoryItemDetails'
 import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
 
+function getSubtitle(
+  i18n: I18nType,
+  hasInput: boolean,
+  isCancel: boolean,
+): string {
+  if (isCancel) {
+    return i18n._(
+      'HistoryItemDetails.Stuck.subtitle.cancel',
+      null,
+      { defaults: 'Cancel transfer stuck.' },
+    )
+  } else if (hasInput) {
+    return i18n._(
+      'HistoryItemDetails.Stuck.subtitle.transfer',
+      null,
+      { defaults: 'Transfer stuck.' },
+    )
+  }
+
+  return i18n._(
+    'HistoryItemDetails.Stuck.subtitle.another',
+    null,
+    { defaults: 'Contract Call stuck.' },
+  )
+}
+
 export function Stuck(props: CardProps) {
   const {
     onEditFinish: handleEditNote,
@@ -23,6 +50,7 @@ export function Stuck(props: CardProps) {
     note,
     timestamp,
     hasInput,
+    isCancel,
   }: CardProps = props
 
   const i18n = useI18n()
@@ -43,17 +71,11 @@ export function Stuck(props: CardProps) {
               )}
             </div>
             <div className={styles.subtitle}>
-              {hasInput
-                ? i18n._(
-                  'HistoryItemDetails.Stuck.subtitle.transfer',
-                  null,
-                  { defaults: 'Transfer stuck.' },
-                ) : i18n._(
-                  'HistoryItemDetails.Stuck.subtitle.another',
-                  null,
-                  { defaults: 'Contract Call stuck.' },
-                )
-              }
+              {getSubtitle(
+                i18n,
+                hasInput,
+                isCancel,
+              )}
             </div>
             <div className={styles.date}>
               <DateTimeFormat value={timestamp * 1000} />
