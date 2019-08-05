@@ -29,10 +29,35 @@ export type Props = {|
   +i18n: I18nType,
   +onEditFinish: (contact: FormValues) => any,
   +onDelete: (address: OwnerAddress) => any,
+  +checkContactExistsByName: (name: string, address: OwnerAddress) => boolean,
   +goBack: () => any,
 |}
 
 class ContactEditFormComponent extends PureComponent<Props> {
+  validate = (values: FormValues) => {
+    const {
+      checkContactExistsByName,
+      i18n,
+    } = this.props
+
+    const {
+      name,
+      address,
+    } = values
+
+    if (checkContactExistsByName(name, address)) {
+      return {
+        name: i18n._(
+          'ContactsEditForm.input.name.error.exists',
+          null,
+          { defaults: 'Contact with this name already exists' },
+        ),
+      }
+    }
+
+    return null
+  }
+
   handleSubmit = (values: FormValues) => {
     this.props.onEditFinish(values)
     this.props.goBack()
@@ -53,6 +78,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
         render={({
           handleSubmit,
           submitting,
+          pristine,
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
@@ -100,6 +126,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
               type='submit'
               className={offset.mb16}
               isLoading={submitting}
+              isDisabled={pristine}
             >
               {i18n._('ContactForm.actions.save', null, { defaults: 'Save' })}
             </Button>
@@ -114,6 +141,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
           </form>
         )}
         onSubmit={this.handleSubmit}
+        validate={this.validate}
         initialValues={initialValues}
       />
     )
