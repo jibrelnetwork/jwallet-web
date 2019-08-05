@@ -6,7 +6,6 @@ import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
-import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
 
 import {
@@ -77,12 +76,13 @@ class AddressChooserComponent extends Component<Props> {
             <JLink
               href={`/wallets/${walletId}/addresses`}
               className={classNames(styles.manage, buttonStyles.additionalIcon)}
+              theme='button-additional-icon'
             >
               <JIcon
+                className={buttonStyles.icon}
                 name='ic_manage_24-use-fill'
-                className={titleHeaderStyles.icon}
               />
-              <span className={titleHeaderStyles.label}>
+              <span className={buttonStyles.label}>
                 {i18n._(
                   'common.WalletCard.AddressChooser.manage',
                   null,
