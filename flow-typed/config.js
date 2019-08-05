@@ -56,4 +56,5 @@ declare type AppConfig = {|
   +fiatCoursesSyncTimeout: number,
   +sessionIDKey: string,
   +messageCopyTimeout: number,
+  +cancelAddress: string,
 |}
