@@ -1,0 +1,24 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  min-height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+}
+
+.icon {
+  @include sprite-icon-color($main-black-60);
+}
+
+.fee {
+  @include font(14px 22px);
+
+  margin-bottom: 32px;
+  color: $main-blue;
+}
+
+.button {
+  width: 160px;
+}
