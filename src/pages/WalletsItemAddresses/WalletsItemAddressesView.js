@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
+import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
 
@@ -111,14 +111,14 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
         >
           <Button
             onClick={this.handleAdd}
-            className={titleHeaderStyle.action}
+            className={titleHeaderStyles.action}
             theme='additional-icon'
           >
             <JIcon
               name='ic_add_24-use-fill'
-              className={titleHeaderStyle.icon}
+              className={titleHeaderStyles.icon}
             />
-            <span className={titleHeaderStyle.label}>
+            <span className={titleHeaderStyles.label}>
               {i18n._(
                 'WalletsItemAddresses.actions.addAddress',
                 null,
