@@ -77,13 +77,11 @@ function getBalancesForActiveAssets(
 }
 
 function* checkBalancesFetched(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
   blockNumber: BlockNumber,
   activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByBlockNumber: ExtractReturn<typeof selectBalancesByBlockNumber> =
-    yield select(selectBalancesByBlockNumber, networkId, ownerAddress, blockNumber)
+    yield select(selectBalancesByBlockNumber, blockNumber)
 
   if (!itemsByBlockNumber) {
     return false
@@ -114,13 +112,11 @@ function* checkBalancesFetched(
 }
 
 function* checkBalancesLoading(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
   blockNumber: BlockNumber,
   activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByBlockNumber: ExtractReturn<typeof selectBalancesByBlockNumber> =
-    yield select(selectBalancesByBlockNumber, networkId, ownerAddress, blockNumber)
+    yield select(selectBalancesByBlockNumber, blockNumber)
 
   if (!itemsByBlockNumber) {
     return true
@@ -191,8 +187,6 @@ function* syncProcessingBlockStatus(): Saga<void> {
       const blockNumber: BlockNumber = number.toString()
 
       const isFetched: boolean = yield* checkBalancesFetched(
-        networkId,
-        ownerAddress,
         blockNumber,
         activeAssets,
       )
@@ -202,8 +196,6 @@ function* syncProcessingBlockStatus(): Saga<void> {
       }
 
       const isLoading: boolean = yield* checkBalancesLoading(
-        networkId,
-        ownerAddress,
         blockNumber,
         activeAssets,
       )
