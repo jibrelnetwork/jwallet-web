@@ -16,6 +16,10 @@ import {
   type FormValues,
 } from './components/ContactEditForm/ContactEditForm'
 
+import {
+  checkContactExistsByName as checkContactExistsByNameFn,
+} from '../ContactsItemAdd/ContactsItemAdd'
+
 import style from './contactsItemEdit.m.scss'
 
 type OwnProps = {|
@@ -29,6 +33,7 @@ type Props = {|
   +address: OwnerAddress,
   +onEditFinish: (contact: FormValues) => ?FormValues,
   +onDelete: (address: OwnerAddress) => any,
+  +checkContactExistsByName: (name: string, address: OwnerAddress) => boolean,
   +goBack: () => any,
 |}
 
@@ -37,6 +42,7 @@ function ContactsItemEditView({
   name,
   description,
   onEditFinish,
+  checkContactExistsByName,
   onDelete,
   goBack,
 }: Props) {
@@ -60,6 +66,7 @@ function ContactsItemEditView({
       <ContactEditForm
         initialValues={initialValues}
         onEditFinish={onEditFinish}
+        checkContactExistsByName={checkContactExistsByName}
         onDelete={onDelete}
         goBack={goBack}
       />
@@ -84,6 +91,7 @@ function mapStateToProps(
   } = favorite
 
   return {
+    checkContactExistsByName: checkContactExistsByNameFn(state),
     address,
     name,
     description,
