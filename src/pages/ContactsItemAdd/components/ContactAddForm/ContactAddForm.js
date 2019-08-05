@@ -60,7 +60,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
       }
     }
 
-    if (checkContactExistsByAddress(name)) {
+    if (checkContactExistsByAddress(address)) {
       return {
         address: i18n._(
           'ContactsEditForm.input.address.error.exists',
