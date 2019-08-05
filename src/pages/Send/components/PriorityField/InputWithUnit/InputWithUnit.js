@@ -20,7 +20,11 @@ type Props = {|
 
 // Allow to use only digits and dot and remove leading zeroes
 function filterNumericValue(value: string) {
-  return trimLeadingZeroes(value.replace(/[^\d.]/g, ''))
+  return trimLeadingZeroes(
+    value.replace(/[^\d.]/g, '')
+      .replace(/^00+/g, '0')
+      .replace('..', '.'),
+  )
 }
 
 class InputWithUnit extends PureComponent<Props> {

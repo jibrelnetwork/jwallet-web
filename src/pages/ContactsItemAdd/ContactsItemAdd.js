@@ -6,7 +6,10 @@ import { actions as routerActions } from 'redux-router5'
 import { useI18n } from 'app/hooks'
 
 import { TitleHeader } from 'components'
-import { selectFavorite } from 'store/selectors/favorites'
+import {
+  selectFavorite,
+  selectFavoritesItems,
+} from 'store/selectors/favorites'
 
 import * as favorites from 'store/modules/favorites'
 
@@ -24,7 +27,8 @@ type OwnProps = {|
 
 type Props = {|
   ...OwnProps,
-  +checkContactExists: (address: OwnerAddress) => boolean,
+  +checkContactExistsByAddress: (address: OwnerAddress) => boolean,
+  +checkContactExistsByName: (name: string, contactId: string) => boolean,
   +addContact: (contact: FormValues) => ?FormValues,
   +goBack: () => any,
 |}
@@ -32,9 +36,10 @@ type Props = {|
 function ContactsItemAddView({
   address,
   name,
-  checkContactExists,
-  addContact,
   goBack,
+  addContact,
+  checkContactExistsByAddress,
+  checkContactExistsByName,
 }: Props) {
   const i18n = useI18n()
 
@@ -54,7 +59,8 @@ function ContactsItemAddView({
       />
       <ContactAddForm
         initialValues={initialValues}
-        checkContactExists={checkContactExists}
+        checkContactExistsByAddress={checkContactExistsByAddress}
+        checkContactExistsByName={checkContactExistsByName}
         addContact={addContact}
         goBack={goBack}
       />
@@ -62,8 +68,16 @@ function ContactsItemAddView({
   )
 }
 
-const checkContactExists = (state: AppState) => (address: OwnerAddress) =>
+const checkContactExistsByAddress = (state: AppState) => (address: OwnerAddress) =>
   !!selectFavorite(state, address)
+
+export const checkContactExistsByName = (state: AppState) =>
+  (name: string, contactId: string = '') => {
+    const contacts = selectFavoritesItems(state)
+
+    return Object.keys(contacts).reduce((res, id: $Keys<typeof contacts>) =>
+      res || (id !== contactId && contacts[id] && contacts[id].name === name), false) || false
+  }
 
 function mapStateToProps(
   state: AppState,
@@ -75,7 +89,8 @@ function mapStateToProps(
   return {
     address: address || '',
     name: name || '',
-    checkContactExists: checkContactExists(state),
+    checkContactExistsByAddress: checkContactExistsByAddress(state),
+    checkContactExistsByName: checkContactExistsByName(state),
   }
 }
 

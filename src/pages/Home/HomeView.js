@@ -11,6 +11,7 @@ import {
 } from 'lodash-es'
 
 import noResultImg from 'public/assets/pic_assets_112.svg'
+import buttonStyles from 'components/base/Button/button.m.scss'
 import { SearchInput } from 'components'
 
 import {
@@ -340,13 +341,15 @@ class HomeViewComponent extends Component<Props, ComponentState> {
                   >
                     <JIcon
                       name='ic_manage_24-use-fill'
-                      className={`${Button.iconClassName}`}
+                      className={buttonStyles.icon}
                     />
-                    {i18n._(
-                      'Home.assets.manage',
-                      null,
-                      { defaults: 'Manage' },
-                    )}
+                    <span className={buttonStyles.label}>
+                      {i18n._(
+                        'Home.assets.manage',
+                        null,
+                        { defaults: 'Manage' },
+                      )}
+                    </span>
                   </Button>
                 )
               }

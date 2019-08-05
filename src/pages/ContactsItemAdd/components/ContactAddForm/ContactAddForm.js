@@ -3,7 +3,10 @@
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
-import { checkAddressValid } from 'utils/address'
+import {
+  checkAddressValid,
+  getAddressChecksum,
+} from 'utils/address'
 
 import {
   Form,
@@ -28,7 +31,8 @@ export type FormValues = {|
 export type Props = {|
   +initialValues: FormValues,
   +i18n: I18nType,
-  +checkContactExists: (address: OwnerAddress) => boolean,
+  +checkContactExistsByAddress: (address: OwnerAddress) => boolean,
+  +checkContactExistsByName: (name: string, contcactId: string) => boolean,
   +addContact: (contact: FormValues) => any,
   +goBack: () => any,
 |}
@@ -37,9 +41,14 @@ class ContactAddFormComponent extends PureComponent<Props> {
   validate = (values: FormValues) => {
     const {
       i18n,
-      checkContactExists,
+      checkContactExistsByAddress,
+      checkContactExistsByName,
     } = this.props
-    const { address } = values
+
+    const {
+      name,
+      address,
+    } = values
 
     if (!checkAddressValid(address)) {
       return {
@@ -51,7 +60,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
       }
     }
 
-    if (checkContactExists(address)) {
+    if (checkContactExistsByAddress(name)) {
       return {
         address: i18n._(
           'ContactsEditForm.input.address.error.exists',
@@ -61,11 +70,27 @@ class ContactAddFormComponent extends PureComponent<Props> {
       }
     }
 
+    if (checkContactExistsByName(name, address)) {
+      return {
+        name: i18n._(
+          'ContactsEditForm.input.name.error.exists',
+          null,
+          { defaults: 'Contact with this name already exists' },
+        ),
+      }
+    }
+
     return null
   }
 
   handleSubmit = (values: FormValues) => {
-    this.props.addContact(values)
+    const addressWithChecksum = getAddressChecksum(values.address)
+
+    this.props.addContact({
+      ...values,
+      address: addressWithChecksum,
+    })
+
     this.props.goBack()
   }
 
@@ -97,6 +122,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
               )}
               name='name'
               isDisabled={submitting}
+              maxlength={32}
             />
             <Field
               component={JInputField}
@@ -123,6 +149,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 { defaults: 'This note is only visible to you.' },
               )}
               isDisabled={submitting}
+              maxlength={256}
             />
             <Button
               type='submit'

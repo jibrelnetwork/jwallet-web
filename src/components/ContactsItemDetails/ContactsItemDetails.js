@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import {
   JIcon,
-  JInput,
+  JInputField,
   JLink,
 } from 'components/base'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -71,7 +71,7 @@ function ContactItemDetailsComponent({
         />
       </div>
       <div className={style.noteWrapper}>
-        <JInput
+        <JInputField
           label={i18n._(
             'common.ContactsItemDetails.note.title',
             null,
@@ -83,8 +83,12 @@ function ContactItemDetailsComponent({
             { defaults: 'This note is only visible to you.' },
           )}
           color='gray'
-          value={description}
-          onChange={(value: string) => setNoteText(address, value)}
+          input={{
+            value: description,
+            onChange: (e: SyntheticInputEvent<HTMLInputElement>) =>
+              setNoteText(address, e.target.value),
+          }}
+          maxlength={256}
         />
       </div>
     </div>
