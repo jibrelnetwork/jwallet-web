@@ -1,25 +1,24 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
 import { useI18n } from 'app/hooks'
 
-import {
-  Button,
-  Header,
-  JIcon,
-  JLink,
-} from 'components/base'
-
+import offset from 'styles/offsets.m.scss'
+import noContactsImg from 'public/assets/pic_contacts_112.svg'
+import buttonStyles from 'components/base/Button/button.m.scss'
 import { SearchInput } from 'components'
 import { splitContactName } from 'utils/formatters'
 import { useInputValue } from 'utils/hooks/useInputValue'
 import { filterContacts } from 'utils/search/filterContacts'
 
-import noContactsImg from 'public/assets/pic_contacts_112.svg'
-import offset from 'styles/offsets.m.scss'
-import style from './contacts.m.scss'
+import {
+  JIcon,
+  JLink,
+  Header,
+} from 'components/base'
 
+import style from './contacts.m.scss'
 import { ContactItem } from './components/ContactItem/ContactItem'
 
 export type Props = {|
@@ -73,8 +72,13 @@ export function ContactsView({
           theme='button-additional-icon'
           className={style.addContact}
         >
-          <JIcon name='add-contact-use-fill' className={Button.iconClassName} />
-          {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
+          <JIcon
+            name='add-contact-use-fill'
+            className={buttonStyles.icon}
+          />
+          <span className={buttonStyles.label}>
+            {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
+          </span>
         </JLink>
       </Header>
       {isEmpty ? (
