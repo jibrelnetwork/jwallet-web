@@ -47,7 +47,7 @@ import {
 
 import * as blocks from '../modules/blocks'
 
-const MAX_FAULTY_DEEP: number = 12
+const MAX_FAULTY_DEEP: number = 6
 
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
   try {

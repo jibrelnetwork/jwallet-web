@@ -23,12 +23,7 @@ import { selectPasswordHint } from 'store/selectors/password'
 import { addPendingTransaction } from 'store/modules/transactions'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
-// import { selectPendingTransactionByHash } from 'store/selectors/transactions'
-
-import {
-  selectTransactionById,
-  selectPendingTransactionByHash,
-} from 'store/selectors/transactions'
+import { selectPendingTransactionByHash } from 'store/selectors/transactions'
 
 import {
   TitleHeader,
@@ -439,15 +434,7 @@ function mapStateToProps(state: AppState, { id }: OwnProps) {
     ETH_ASSET_ADDRESS,
   )
 
-  // const item: ?TransactionWithPrimaryKeys = selectPendingTransactionByHash(
-  //   state,
-  //   id,
-  // )
-
-  const item: ?TransactionWithPrimaryKeys = selectTransactionById(
-    state,
-    id,
-  ) || selectPendingTransactionByHash(
+  const item: ?TransactionWithPrimaryKeys = selectPendingTransactionByHash(
     state,
     id,
   )

@@ -197,7 +197,7 @@ class SendAsset extends Component<Props, ComponentState> {
         value: amount,
         privateKey,
         gasLimit,
-        gasPrice: toBigNumber(1),
+        gasPrice,
         nonce,
       }
 
