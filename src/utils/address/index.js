@@ -2,6 +2,7 @@
 
 export { add0x } from './add0x'
 export { strip0x } from './strip0x'
+export { checkHex } from './checkHex'
 export { getAddressChecksum } from './getAddressChecksum'
 export { getShortenedAddress } from './getShortenedAddress'
 export { checkPrivateKeyValid } from './checkPrivateKeyValid'

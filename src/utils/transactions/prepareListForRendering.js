@@ -17,13 +17,13 @@ const RE_INVALID_HEX: RegExp = /[^a-f0-9]/i
 
 const SEARCH_TRANSACTIONS_RULES: FilterPredicateRules = {
   note: 'words',
-  to: 'anywhere',
+  to: 'beginning',
   toName: 'words',
-  hash: 'anywhere',
-  from: 'anywhere',
+  hash: 'beginning',
+  from: 'beginning',
   fromName: 'words',
-  blockHash: 'anywhere',
-  contractAddress: 'anywhere',
+  blockHash: 'beginning',
+  contractAddress: 'beginning',
 }
 
 const FILTER_PREDICATE: FilterPredicate<TransactionWithNoteAndNames> =

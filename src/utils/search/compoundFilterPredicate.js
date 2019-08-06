@@ -2,12 +2,22 @@
 
 import { get } from 'lodash-es'
 
+import {
+  strip0x,
+  checkHex,
+} from 'utils/address'
+
 export type FilterPredicateRuleType = 'anywhere' | 'beginning' | 'words'
 export type FilterPredicateRules = { [string]: FilterPredicateRuleType }
 export type FilterPredicate<T> = (entity: T, query: string) => boolean
 
+const RE_SPACE: RegExp = new RegExp(/ /)
+
 function getIndex(value: string, query: string): number {
-  return value.toString().toLowerCase().indexOf(query)
+  const preparedQuery: string = checkHex(query) ? strip0x(query) : String(query)
+  const preparedValue: string = checkHex(value) ? strip0x(value) : String(value)
+
+  return preparedValue.toLowerCase().indexOf(preparedQuery)
 }
 
 function checkAnywhere(value: string, query: string): boolean {
@@ -16,6 +26,17 @@ function checkAnywhere(value: string, query: string): boolean {
 
 function checkBeginning(value: string, query: string): boolean {
   return (getIndex(value, query) === 0)
+}
+
+function checkWords(value: string, query: string): boolean {
+  if (RE_SPACE.test(query)) {
+    return checkAnywhere(value, query)
+  }
+
+  return !!value
+    .split(' ')
+    .map((word: string): boolean => checkBeginning(word, query))
+    .find((i: boolean): boolean => i)
 }
 
 export function compoundFilterPredicate<T>(rules: FilterPredicateRules): FilterPredicate<T> {
@@ -43,10 +64,7 @@ export function compoundFilterPredicate<T>(rules: FilterPredicateRules): FilterP
           return checkBeginning(value, queryLC)
 
         case 'words':
-          return !!value
-            .split(' ')
-            .map((word: string): boolean => checkBeginning(word, queryLC))
-            .find((i: boolean): boolean => i)
+          return checkWords(value, queryLC)
 
         default:
           return false
