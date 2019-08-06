@@ -47,6 +47,8 @@ import {
 
 import * as blocks from '../modules/blocks'
 
+const MAX_FAULTY_DEEP: number = 6
+
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
   try {
     while (true) {
@@ -60,18 +62,28 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
       }
 
       try {
-        const block: BlockData = yield call(web3.getBlock, network, 'latest')
+        const block: BlockData = yield call(
+          web3.getBlock,
+          network,
+          'latest',
+        )
+
+        const nextAvailableBlock: BlockData = yield call(
+          web3.getBlock,
+          network,
+          block.number - MAX_FAULTY_DEEP,
+        )
 
         if (!latestBlock) {
-          yield put(blocks.setLatestBlock(networkId, block))
+          yield put(blocks.setLatestBlock(networkId, nextAvailableBlock))
         } else {
-          const isForked: boolean = (block.number < latestBlock.number)
-          const isBlockMined: boolean = (block.number > latestBlock.number)
+          const isForked: boolean = (nextAvailableBlock.number < latestBlock.number)
+          const isBlockMined: boolean = (nextAvailableBlock.number > latestBlock.number)
 
           if (isBlockMined) {
-            yield put(blocks.setLatestBlock(networkId, block))
+            yield put(blocks.setLatestBlock(networkId, nextAvailableBlock))
           } else if (isForked) {
-            yield put(blocks.nodeForked(networkId, latestBlock, block))
+            yield put(blocks.nodeForked(networkId, latestBlock, nextAvailableBlock))
           }
         }
 

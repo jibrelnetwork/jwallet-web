@@ -6,9 +6,7 @@ import { connect } from 'react-redux'
 import { CURRENCIES } from 'data'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
-import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
@@ -95,19 +93,11 @@ function getTotalFiatBalance(
 function mapStateToProps(state: AppState) {
   const wallet = selectActiveWalletOrThrow(state)
   const fiatCourses: FiatCourses = selectTickerItems(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state)
-  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const balances: ?Balances = selectBalancesByBlockNumber(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
   const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
   const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
-
-  const balances: ?Balances = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    currentBlock ? currentBlock.number.toString() : null,
-  )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
     assets,

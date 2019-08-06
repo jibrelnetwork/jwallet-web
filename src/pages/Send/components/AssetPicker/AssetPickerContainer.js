@@ -3,10 +3,6 @@
 import { connect } from 'react-redux'
 
 import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
-
-import { selectCurrentBlock } from 'store/selectors/blocks'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
@@ -22,20 +18,8 @@ type OwnProps = {|
 |}
 
 function mapStateToProps(state: AppState) {
-  const networkId = selectCurrentNetworkId(state)
-  const ownerAddress = selectActiveWalletAddress(state)
   const activeAssets = selectActiveDigitalAssets(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
-
-  const assetsBalances = ownerAddress
-    ? selectBalancesByBlockNumber(
-      state,
-      networkId,
-      ownerAddress,
-      currentBlockNumber.toString(),
-    )
-    : null
+  const assetsBalances = selectBalancesByBlockNumber(state)
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
     activeAssets,

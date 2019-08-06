@@ -160,6 +160,8 @@ const config: AppConfig = {
   sessionIDKey: 'jwallet.activeTab',
 
   messageCopyTimeout: 2000,
+
+  cancelAddress: '0x000000000000000000000063616E63656c6c6564',
 }
 
 export default config

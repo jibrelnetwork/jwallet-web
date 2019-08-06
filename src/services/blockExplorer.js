@@ -100,18 +100,20 @@ function filterETHTransactions(list: any[]): Object[] {
     }
 
     const {
+      to,
       input,
       value,
       isError,
       contractAddress,
     }: Object = item
 
-    const isEmptyAmount: boolean = isZero(value)
-    const isEmptyInput: boolean = (input === '0x')
+    const isNotEmptyAmount: boolean = isZero(value)
+    const isNotEmptyInput: boolean = (input === '0x')
+    const isCancel: boolean = (to === config.cancelAddress)
     const isFailed: boolean = (parseInt(isError, 16) === 1)
     const isContractCreation: boolean = !!contractAddress.length
 
-    return !isEmptyAmount || !isEmptyInput || isContractCreation || isFailed
+    return isNotEmptyAmount || isNotEmptyInput || isCancel || isFailed || isContractCreation
   })
 }
 

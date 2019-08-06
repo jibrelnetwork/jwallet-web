@@ -43,6 +43,10 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRoute: '/history',
   },
+  HistoryItemCancel: {
+    isMinimized: true,
+    previousRoute: '/history',
+  },
   Contacts: {
     isMinimized: false,
     previousRoute: '/',

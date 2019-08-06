@@ -17,6 +17,7 @@ export { ReceiveAsset } from './ReceiveAsset/ReceiveAsset'
 
 export { History } from './History/History'
 export { HistoryItem } from './HistoryItem/HistoryItem'
+export { HistoryItemCancel } from './HistoryItemCancel/HistoryItemCancel'
 
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'

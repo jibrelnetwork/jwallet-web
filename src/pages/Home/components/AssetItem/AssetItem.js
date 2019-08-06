@@ -10,8 +10,8 @@ import { formatAssetBalance } from 'utils/formatters'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
+import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 
 import {
   divDecimals,
@@ -127,7 +127,7 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
   const fiatCourses: FiatCourses = selectTickerItems(state)
   const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
 
-  const balance: ?Balance = selectBalanceByAssetAddressToCurrentBlock(
+  const balance: ?Balance = selectBalanceByAssetAddress(
     state,
     address,
   )

@@ -2,9 +2,14 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { useI18n } from 'app/hooks'
-import { JIcon } from 'components/base'
+
+import {
+  JIcon,
+  JLink,
+} from 'components/base'
 
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
@@ -14,12 +19,13 @@ import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
 export function Pending(props: CardProps) {
   const {
     onEditFinish: handleEditNote,
+    id,
     note,
     isPage,
-    hasInput,
+    isCancel,
   }: CardProps = props
 
-  const i18n = useI18n()
+  const i18n: I18nType = useI18n()
 
   return (
     <div className={styles.core}>
@@ -31,26 +37,21 @@ export function Pending(props: CardProps) {
           <div className={classNames(styles.description, isPage && styles.wide)}>
             <div className={styles.title}>
               {i18n._(
-                'HistoryItemDetails.Pending.title',
+                'HistoryItemDetails.Pending.title.another',
                 null,
                 { defaults: 'Pending' },
               )}
             </div>
             <div className={styles.subtitle}>
-              {i18n._(
+              {isCancel ? i18n._(
+                'HistoryItemDetails.Pending.subtitle.cancel',
                 null,
+                { defaults: 'Cancel transfer. This may take some time.' },
+              ) : i18n._(
+                'HistoryItemDetails.Pending.subtitle.another',
+                null,
+                { defaults: 'Transfer is being processed. This may take some time.' },
               )}
-              {hasInput
-                ? i18n._(
-                  'HistoryItemDetails.Pending.subtitle.input',
-                  null,
-                  { defaults: 'Transfer is being processed. This may take some time.' },
-                ) : i18n._(
-                  'HistoryItemDetails.Pending.subtitle.another',
-                  null,
-                  { defaults: 'Contract Call is being processed. This may take some time.' },
-                )
-              }
             </div>
           </div>
         </div>
@@ -60,6 +61,17 @@ export function Pending(props: CardProps) {
         onChange={handleEditNote}
         value={note}
       />
+      <JLink
+        className={styles.cancel}
+        theme='button-secondary'
+        href={`/history/${id}/cancel`}
+      >
+        {i18n._(
+          'HistoryItem.Pending.cancel',
+          null,
+          { defaults: 'Cancel' },
+        )}
+      </JLink>
     </div>
   )
 }

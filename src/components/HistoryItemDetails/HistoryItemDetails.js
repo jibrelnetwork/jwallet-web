@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { debounce } from 'lodash-es'
 import { connect } from 'react-redux'
 
+import config from 'config'
 import { PageNotFoundError } from 'errors'
 import { toBigNumber } from 'utils/numbers'
 import { formatAssetBalance } from 'utils/formatters'
@@ -65,6 +66,7 @@ type Props = {|
   +timestamp: number,
   +assetDecimals: number,
   +isSent: boolean,
+  +isCancel: boolean,
   +hasInput: boolean,
   +isFailed: boolean,
   +isPending: boolean,
@@ -278,6 +280,7 @@ function mapStateToProps(
     assetDecimals,
     isPending: !blockHash,
     hasInput: data.hasInput,
+    isCancel: (to === config.cancelAddress),
     isFailed: !receiptData.status || isRemoved,
     isSent: !!from && (ownerAddress.toLowerCase() === from.toLowerCase()),
   }

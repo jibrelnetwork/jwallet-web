@@ -24,9 +24,10 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 
 import { Button } from 'components/base'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
-import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
+
 import {
   toBigNumber,
   fromWeiToGWei,
@@ -465,7 +466,7 @@ const getAssetByAddress = (state: AppState) => (assetAddress: string) => {
 }
 
 const getAssetBalanceByAddress = (state: AppState) => (assetAddress: string) => {
-  const { value: assetBalance } = selectBalanceByAssetAddressToCurrentBlock(
+  const { value: assetBalance } = selectBalanceByAssetAddress(
     state,
     assetAddress,
   ) || {}

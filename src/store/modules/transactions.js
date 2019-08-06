@@ -444,6 +444,7 @@ function transactions(
                   ...itemsByAsset,
                   [blockNumber]: {
                     ...itemsByBlock,
+                    isError: false,
                     items: newTransactions,
                   },
                 },
