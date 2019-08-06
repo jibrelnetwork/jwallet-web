@@ -266,7 +266,7 @@ function mapStateToProps(
     toName: to && addressNames[to],
     fromName: from && addressNames[from],
     blockExplorerUISubdomain: network.blockExplorerUISubdomain,
-    amountStr: amountStr && `${isSent ? '-' : '+'}\u00A0${amountStr}`,
+    amountStr: amountStr && `${isSent ? '−' : '+'}\u00A0${amountStr}`,
     fee: getTxFee(
       receiptData.gasUsed,
       data.gasPrice,
