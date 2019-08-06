@@ -44,6 +44,10 @@ export const routes: Array<{|
   name: 'AssetsItem',
   hasMenu: true,
 }, {
+  path: '/assets/:assetId/details',
+  name: 'AssetDetails',
+  hasMenu: true,
+}, {
   path: '/assets/:assetId/edit',
   name: 'AssetsItemEdit',
   hasMenu: true,

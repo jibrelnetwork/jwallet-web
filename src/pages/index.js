@@ -26,6 +26,7 @@ export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
 
 export { AssetsItem } from './AssetsItem/AssetsItem'
+export { AssetDetails } from './AssetDetails/AssetDetails'
 export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
 export { default as AssetsItemEdit } from './DigitalAssets/routes/EditAsset/EditAssetContainer'
 
