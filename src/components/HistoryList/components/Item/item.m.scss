@@ -43,7 +43,7 @@
 .info {
   @include flex-column;
 
-  margin-left: 32px;
+  margin: 0 32px;
   overflow: hidden;
 }
 
