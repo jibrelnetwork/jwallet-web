@@ -29,6 +29,7 @@ type Props = {|
   +iconPosition: ?JInputIconPosition,
   +sideBorderRadius: JInputSideBorderRadius,
   +rows: ?number,
+  +maxLength: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
   +isDisabled: boolean,
@@ -45,6 +46,7 @@ type ChildrenProps = {|
   +className: string,
   +value: ?JInputValue,
   +placeholder: ?string,
+  +maxLength: ?number,
   +disabled: boolean,
   +autoFocus: boolean,
 |}
@@ -69,6 +71,7 @@ class JInput extends PureComponent<Props> {
     infoMessage: null,
     errorMessage: null,
     rows: 0,
+    maxLength: null,
     isLoading: false,
     isPinCode: false,
     isDisabled: false,
@@ -78,8 +81,8 @@ class JInput extends PureComponent<Props> {
   }
 
   componentDidUpdate() {
-    if (this.textarea.current) {
-      const { current } = this.textarea
+    if (this.textareaRef.current) {
+      const { current } = this.textareaRef
 
       while (
         current.clientHeight < current.scrollHeight &&
@@ -92,7 +95,7 @@ class JInput extends PureComponent<Props> {
     }
   }
 
-  textarea = React.createRef()
+  textareaRef = React.createRef<HTMLTextAreaElement>()
 
   render() {
     const {
@@ -105,6 +108,7 @@ class JInput extends PureComponent<Props> {
       color,
       label,
       value,
+      maxLength,
       sideBorderRadius,
       placeholder,
       infoMessage,
@@ -132,10 +136,11 @@ class JInput extends PureComponent<Props> {
       placeholder: labelOrPlaceholder,
       onBlur,
       onFocus,
+      maxLength,
     }
 
     const children = isMultiline
-      ? <textarea {...baseProps} rows={rows} ref={this.textarea} />
+      ? <textarea {...baseProps} rows={rows} ref={this.textareaRef} />
       : <input {...baseProps} type={type} />
 
     return (
