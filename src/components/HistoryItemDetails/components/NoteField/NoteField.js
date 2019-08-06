@@ -31,6 +31,7 @@ export function NoteField({
         { defaults: 'This note is only visible to you.' },
       )}
       color='gray'
+      maxLength={256}
     />
   )
 }
