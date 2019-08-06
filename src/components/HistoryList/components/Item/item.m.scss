@@ -23,7 +23,7 @@
 }
 
 .icon {
-  width: 24px;
+  min-width: 24px;
   margin-left: 32px;
 
   &.error {
@@ -43,7 +43,7 @@
 .info {
   @include flex-column;
 
-  margin-left: 32px;
+  margin: 0 32px;
   overflow: hidden;
 }
 
