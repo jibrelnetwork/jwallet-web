@@ -41,11 +41,11 @@ function checkWords(value: string, query: string): boolean {
 
 export function compoundFilterPredicate<T>(rules: FilterPredicateRules): FilterPredicate<T> {
   return function filterPredicate(entity: T, query: string): boolean {
-    if (!query) {
+    const queryLC: string = query.toLowerCase().trim()
+
+    if (!queryLC) {
       return true
     }
-
-    const queryLC: string = query.toLowerCase()
 
     return !!Object.keys(rules).map((path: string) => {
       const value: ?string = get(entity, path)

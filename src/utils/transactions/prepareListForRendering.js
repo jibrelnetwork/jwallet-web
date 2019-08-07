@@ -12,9 +12,6 @@ type FilterOptions = {|
   +isPendingFiltered: boolean,
 |}
 
-const RE_HEX_PREFIX: RegExp = /^0x/i
-const RE_INVALID_HEX: RegExp = /[^a-f0-9]/i
-
 const SEARCH_TRANSACTIONS_RULES: FilterPredicateRules = {
   note: 'words',
   to: 'beginning',
@@ -79,18 +76,6 @@ function filter(
   return items.filter((item: TransactionWithNoteAndNames): boolean => checkPending(item))
 }
 
-function sanitizeQuery(searchQuery: string): string {
-  const trimmed: string = searchQuery.trim()
-  const hasHexPrefix: boolean = RE_HEX_PREFIX.test(searchQuery)
-  const isHex: boolean = hasHexPrefix && !RE_INVALID_HEX.test(searchQuery)
-
-  if (isHex) {
-    return trimmed.substr(2)
-  }
-
-  return trimmed
-}
-
 function search(
   items: TransactionWithNoteAndNames[],
   searchQuery: string,
@@ -99,11 +84,9 @@ function search(
     return items
   }
 
-  const query: string = sanitizeQuery(searchQuery)
-
   return items.filter((item: TransactionWithNoteAndNames): boolean => FILTER_PREDICATE(
     item,
-    query,
+    searchQuery,
   ))
 }
 

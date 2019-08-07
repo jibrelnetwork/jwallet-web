@@ -1,22 +1,30 @@
 // @flow
 
 import {
-  startsWithOrEndsWith,
-} from 'utils/address'
+  type FilterPredicate,
+  type FilterPredicateRules,
+  compoundFilterPredicate,
+} from 'utils/search'
 
-import escapeRegExp from 'utils/regexp/escapeRegExp'
+const SEARCH_CONTACTS_RULES: FilterPredicateRules = {
+  description: 'words',
+  name: 'words',
+  address: 'beginning',
+}
+
+const FILTER_PREDICATE: FilterPredicate<Favorite> =
+  compoundFilterPredicate<Favorite>(SEARCH_CONTACTS_RULES)
 
 export function filterContacts(
-  contacts: Favorite[],
+  items: Favorite[],
   searchQuery: string,
 ): Favorite[] {
-  const query: string = searchQuery.trim().toLowerCase()
+  if (!searchQuery) {
+    return items
+  }
 
-  return !query
-    ? contacts
-    : contacts.filter(({
-      name, description, address,
-    }) => (name && name.toLowerCase().search(escapeRegExp(query)) !== -1) ||
-      (description && description.toLowerCase().search(escapeRegExp(query)) !== -1) ||
-      startsWithOrEndsWith(address, query))
+  return items.filter((item: Favorite): boolean => FILTER_PREDICATE(
+    item,
+    searchQuery,
+  ))
 }
