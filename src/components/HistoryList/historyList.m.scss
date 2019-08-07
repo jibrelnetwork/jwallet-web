@@ -3,13 +3,14 @@
 .main,
 .right {
   height: calc(100vh - 112px);
-  padding: 0 16px;
   flex-grow: 1;
   overflow-y: scroll;
 }
 
 .main {
   @include property-transition(max-width);
+
+  padding: 0 16px;
 }
 
 .right {
@@ -63,6 +64,7 @@
   position: relative;
   width: 1120px + (2 * 16px); // 2 * 16px for paddings
   margin-left: -16px;
+  overflow: hidden;
 
   &.active {
     .main {
@@ -72,7 +74,7 @@
     .right {
       right: 0;
       max-width: 400px;
-      padding-left: 16px;
+      padding: 0 16px;
       opacity: 1;
     }
   }
