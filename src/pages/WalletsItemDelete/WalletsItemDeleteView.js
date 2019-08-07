@@ -4,12 +4,15 @@ import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import { walletsPlugin } from 'store/plugins'
-
 import {
   UserActionInfo,
   ButtonWithConfirm,
 } from 'components'
+
+import {
+  toastsPlugin,
+  walletsPlugin,
+} from 'store/plugins'
 
 import walletsItemDeleteStyle from './walletsItemDelete.m.scss'
 
@@ -23,7 +26,18 @@ const DELETE_CONFIRM_TIMEOUT: number = 15
 
 class WalletsItemDeleteViewComponent extends PureComponent<Props> {
   handleRemove = () => {
-    walletsPlugin.removeWallet(this.props.walletId)
+    const {
+      i18n,
+      walletId,
+    }: Props = this.props
+
+    walletsPlugin.removeWallet(walletId)
+
+    toastsPlugin.showToast(i18n._(
+      'WalletsItemDelete.toast',
+      null,
+      { defaults: 'Wallet deleted' },
+    ))
   }
 
   render() {

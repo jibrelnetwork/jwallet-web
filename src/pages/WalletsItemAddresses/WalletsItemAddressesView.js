@@ -5,8 +5,12 @@ import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
-import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
+
+import {
+  toastsPlugin,
+  walletsPlugin,
+} from 'store/plugins'
 
 import {
   JIcon,
@@ -88,7 +92,18 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
   }
 
   handleAdd = () => {
-    walletsPlugin.deriveOneMoreAddress(this.props.walletId)
+    const {
+      i18n,
+      walletId,
+    }: Props = this.props
+
+    walletsPlugin.deriveOneMoreAddress(walletId)
+
+    toastsPlugin.showToast(i18n._(
+      'WalletsItemAddresses.toast',
+      null,
+      { defaults: 'Address Added' },
+    ))
   }
 
   render() {

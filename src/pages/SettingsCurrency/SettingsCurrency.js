@@ -15,9 +15,10 @@ import {
 
 import { TitleHeader } from 'components'
 import { Button } from 'components/base'
+import { toastsPlugin } from 'store/plugins'
 import { type FiatCurrencyCode } from 'data'
-import { selectFiatCurrency } from 'store/selectors/user'
 import { setFiatCurrency } from 'store/modules/user'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 import stylesOffsets from 'styles/offsets.m.scss'
 
@@ -26,14 +27,14 @@ import { CurrencyPicker } from './components/CurrencyPicker/CurrencyPicker'
 import styles from './settingsCurrency.m.scss'
 
 type FormValues = {|
-  currencyCode: FiatCurrencyCode,
+  +currencyCode: FiatCurrencyCode,
 |}
 
 type Props = {|
-  goBack: () => any,
-  setFiatCurrency: (code: FiatCurrencyCode) => any,
-  selectedCurrencyCode: FiatCurrencyCode,
-  i18n: I18nType,
+  +goBack: () => any,
+  +setFiatCurrency: (code: FiatCurrencyCode) => any,
+  +selectedCurrencyCode: FiatCurrencyCode,
+  +i18n: I18nType,
 |}
 
 class SettingsCurrencyPage extends Component<Props> {
@@ -43,6 +44,12 @@ class SettingsCurrencyPage extends Component<Props> {
 
   handleSubmit = (values: FormValues) => {
     this.props.setFiatCurrency(values.currencyCode)
+
+    toastsPlugin.showToast(this.props.i18n._(
+      'SettingsCurrency.toast',
+      null,
+      { defaults: 'Currency changed' },
+    ))
   }
 
   handleBackClick = () => {

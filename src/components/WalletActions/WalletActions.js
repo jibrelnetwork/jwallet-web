@@ -6,7 +6,11 @@ import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
-import { walletsPlugin } from 'store/plugins'
+
+import {
+  toastsPlugin,
+  walletsPlugin,
+} from 'store/plugins'
 
 import {
   JIcon,
@@ -56,9 +60,21 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
   }
 
   handleCopyAddress = (event: SyntheticEvent<HTMLSpanElement>) => {
+    const {
+      id,
+      i18n,
+    }: Props = this.props
+
     this.setState({ isToggled: false })
-    const address: Address = walletsPlugin.getAddress(this.props.id)
+    const address: Address = walletsPlugin.getAddress(id)
     clipboard.copyText(address)
+
+    toastsPlugin.showToast(i18n._(
+      'common.WalletActions.toast',
+      null,
+      { defaults: 'Address Copied' },
+    ))
+
     event.stopPropagation()
   }
 

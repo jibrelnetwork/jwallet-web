@@ -41,9 +41,14 @@ export function CopyableField({
       <CopyIconButton
         content={value}
         title={i18n._(
-          'common.CopyableField.copy',
+          'CopyableField.copy',
           { labelOrNothing },
           { defaults: 'Copy{labelOrNothing}' },
+        )}
+        toastMessage={label && i18n._(
+          'CopyableField.toast',
+          { label },
+          { defaults: '{ label } copied' },
         )}
       />
     </div>
