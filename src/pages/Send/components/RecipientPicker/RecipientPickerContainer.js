@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import {
   selectWalletsItems,
 } from 'store/selectors/wallets'
+import {
+  selectFavoritesItems,
+} from 'store/selectors/favorites'
 
 import {
   RecipientPicker,
@@ -20,15 +23,28 @@ type OwnProps = {|
 
 function mapStateToProps(state: AppState) {
   const walletItems = selectWalletsItems(state)
-  // const activeWalletId = selectActiveWalletId(state)
+  const contactItems = selectFavoritesItems(state)
 
-  // console.log('walletItems', walletItems)
+  // eslint-disable-next-line fp/no-mutating-methods
+  const contacts = Object
+    .keys(contactItems)
+    .map(address => contactItems[address])
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (!a.name) {
+        return 1
+      }
 
-  // #TODO: remove active wallet and address from walletItems
+      if (!b.name) {
+        return -1
+      }
+
+      return a.name > b.name ? 1 : -1
+    })
 
   return {
     // to be implemented when addresses functionality will be available
-    contacts: [],
+    contacts,
     wallets: prepareWallets(walletItems),
   }
 }
