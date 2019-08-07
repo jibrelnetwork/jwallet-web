@@ -357,11 +357,21 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           className={stylesOffsets.mb16}
           component={ConnectedAssetPicker}
           name='assetAddress'
+          label={i18n._(
+            'Send.StepOneForm.assetAddress.title',
+            null,
+            { defaults: 'Asset' },
+          )}
         />
         <Field
           className={stylesOffsets.mb16}
           component={ConnectedRecipientPicker}
           name='recipientAddress'
+          label={i18n._(
+            'Send.StepOneForm.recipientAddress.title',
+            null,
+            { defaults: 'Recipient' },
+          )}
         />
         <Field
           className={stylesOffsets.mb16}
@@ -371,6 +381,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           gasLimit={gasLimitValue}
           showBlockchainFee={!isPriorityOpen}
           name='amountValue'
+          label={i18n._(
+            'Send.StepOneForm.amount.title',
+            null,
+            { defaults: 'Amount' },
+          )}
         />
         <Field
           isLoading={isGasPriceLoading}

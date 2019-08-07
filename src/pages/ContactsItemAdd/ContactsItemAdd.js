@@ -73,6 +73,10 @@ const checkContactExistsByAddress = (state: AppState) => (address: OwnerAddress)
 
 export const checkContactExistsByName = (state: AppState) =>
   (name: string, contactId: string = '') => {
+    if (!name || !name.trim()) {
+      return false
+    }
+
     const contacts = selectFavoritesItems(state)
 
     return Object.keys(contacts).reduce((res, id: $Keys<typeof contacts>) =>
