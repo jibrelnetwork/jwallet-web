@@ -1,4 +1,4 @@
-@import "styles/colors";
+@import "styles/mixins";
 
 .core {
   position: relative;
@@ -27,8 +27,11 @@
 }
 
 .description {
+  @include ellipsis;
+
   display: block;
   font-size: 12px;
   line-height: 20px;
   color: $main-black-40;
+  max-width: 462px;
 }
