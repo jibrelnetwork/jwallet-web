@@ -286,6 +286,7 @@ class Item extends PureComponent<Props> {
               symbol={assetSymbol}
               address={assetAddress}
               className={styles.symbol}
+              color='gray'
               size={24}
             />
           </>
