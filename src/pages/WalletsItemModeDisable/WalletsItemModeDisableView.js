@@ -85,7 +85,7 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
     toastsPlugin.showToast(i18n._(
       'WalletsItemModeDisable.toast',
       null,
-      { defaults: 'Multi-address Mode disabled' },
+      { defaults: 'Multi-address Mode disabled.' },
     ))
   }
 

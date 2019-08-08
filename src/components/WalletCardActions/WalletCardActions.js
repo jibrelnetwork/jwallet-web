@@ -59,7 +59,7 @@ class WalletCardActionsComponent extends PureComponent<Props, StateProps> {
     toastsPlugin.showToast(i18n._(
       'common.WalletCardActions.toast',
       null,
-      { defaults: 'Address Copied' },
+      { defaults: 'Address Copied.' },
     ))
 
     event.stopPropagation()

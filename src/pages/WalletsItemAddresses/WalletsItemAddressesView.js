@@ -102,7 +102,7 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
     toastsPlugin.showToast(i18n._(
       'WalletsItemAddresses.toast',
       null,
-      { defaults: 'Address Added' },
+      { defaults: 'Address Added.' },
     ))
   }
 
