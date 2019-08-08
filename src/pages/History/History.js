@@ -38,7 +38,7 @@ function mapStateToProps(state: AppState) {
 
   const {
     searchQuery,
-    // isErrorFiltered,
+    isErrorFiltered,
     // isStuckFiltered,
     isPendingFiltered,
   }: TransactionsState = selectTransactions(state)
@@ -58,7 +58,10 @@ function mapStateToProps(state: AppState) {
       notes,
       addressNames,
       searchQuery,
-      { isPendingFiltered },
+      {
+        isErrorFiltered,
+        isPendingFiltered,
+      },
     ),
     currentBlock: currentBlock && currentBlock.number,
     isLoading: isCurrentBlockEmpty || isProcessing,

@@ -4,22 +4,18 @@ import React, { PureComponent } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-// import { type I18n as I18nType } from '@lingui/core'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { SearchFilter } from 'components'
+import { JCheckbox } from 'components/base'
 import { selectTransactions } from 'store/selectors/transactions'
 
-import {
-  setErrorFilter,
-  setPendingFilter,
-} from 'store/modules/transactions'
-
-// import styles from './transactionsFilter.m.scss'
+import * as transactions from 'store/modules/transactions'
 
 type Props = {|
-  // +setErrorFilter: (boolean) => void,
-  // +setPendingFilter: (boolean) => void,
-  // +i18n: I18nType,
+  +setErrorFilter: (boolean) => void,
+  +setPendingFilter: (boolean) => void,
+  +i18n: I18nType,
   +isErrorFiltered: boolean,
   +isPendingFiltered: boolean,
 |}
@@ -31,16 +27,37 @@ class TransactionsFilter extends PureComponent<Props> {
 
   render() {
     const {
-      // setErrorFilter,
-      // setPendingFilter,
-      // i18n,
+      setErrorFilter,
+      setPendingFilter,
+      i18n,
       isErrorFiltered,
       isPendingFiltered,
     }: Props = this.props
 
     return (
       <SearchFilter activeCount={isErrorFiltered + isPendingFiltered}>
-        <span>Test</span>
+        <JCheckbox
+          onChange={setErrorFilter}
+          name='error-filter'
+          isChecked={isErrorFiltered}
+        >
+          {i18n._(
+            'TransactionsFilter.error',
+            null,
+            { defaults: 'Error transfer' },
+          )}
+        </JCheckbox>
+        <JCheckbox
+          onChange={setPendingFilter}
+          name='pending-filter'
+          isChecked={isPendingFiltered}
+        >
+          {i18n._(
+            'TransactionsFilter.pending',
+            null,
+            { defaults: 'Pending transfer' },
+          )}
+        </JCheckbox>
       </SearchFilter>
     )
   }
@@ -60,8 +77,8 @@ function mapStateToProps(state: AppState) {
 }
 
 const mapDispatchToProps = {
-  setErrorFilter,
-  setPendingFilter,
+  setErrorFilter: transactions.setErrorFilter,
+  setPendingFilter: transactions.setPendingFilter,
 }
 
 const TransactionsFilterEnhanced = compose(
