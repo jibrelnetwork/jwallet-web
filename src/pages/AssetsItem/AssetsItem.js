@@ -1,27 +1,23 @@
-// @flow
+// @flow strict
 
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withI18n } from '@lingui/react'
 
-import { selectCurrentBlock } from 'store/selectors/blocks'
+import { changeSearchInput } from 'store/modules/transactions'
 import { selectCommentsItems } from 'store/selectors/comments'
-import { selectBalancesByBlockNumber } from 'store/selectors/balances'
-import { selectFavoritesAddressNames } from 'store/selectors/favorites'
-import {
-  selectDigitalAssetsItems,
-  selectDigitalAssetOrThrow,
-} from 'store/selectors/digitalAssets'
+import { selectAllAddressNames } from 'store/selectors/favorites'
 
 import {
-  selectNetworkById,
-  selectCurrentNetworkId,
-} from 'store/selectors/networks'
+  prepareListForRendering,
+  flattenTransactionsByAsset,
+  flattenPendingTransactions,
+} from 'utils/transactions'
 
 import {
-  selectActiveWalletOrThrow,
-  selectAddressNames,
-  selectActiveWalletAddress,
-  selectAddressWalletsNames,
-} from 'store/selectors/wallets'
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
 
 import {
   selectTransactions,
@@ -30,112 +26,57 @@ import {
 } from 'store/selectors/transactions'
 
 import {
-  prepareListForRendering,
-  flattenTransactionsByAsset,
-  flattenPendingTransactions,
-  checkTransactionsByAssetLoading,
-} from 'utils/transactions'
-
-import {
-  setPendingFilter,
-  changeSearchInput,
-  removeItemsByAsset,
-} from 'store/modules/transactions'
-
-import { edit as editComment } from 'store/modules/comments'
-import { remove as removeFavorite } from 'store/modules/favorites'
-
-import AssetsItemView from './AssetsItemView'
+  type Props,
+  AssetsItemView,
+} from './AssetsItemView'
 
 type OwnProps = {|
-  +params: {|
-    +asset: string,
-  |},
+  +assetId: string,
 |}
 
-function mapStateToProps(state: AppState, ownProps: OwnProps) {
-  const wallet: Wallet = selectActiveWalletOrThrow(state)
-
-  const assetAddress: string = ownProps.params.asset
-  const comments: Comments = selectCommentsItems(state)
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const addressNames: AddressNames = selectAddressNames(state)
-  const network: ?Network = selectNetworkById(state, networkId)
-  const favorites: AddressNames = selectFavoritesAddressNames(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
-
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(state)
-
-  const assetBalance: ?Balance = assetsBalances ? assetsBalances[assetAddress] : null
+function mapStateToProps(state: AppState, { assetId }: OwnProps) {
+  const notes: Comments = selectCommentsItems(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state)
+  const addressNames: AddressNames = selectAllAddressNames(state)
+  const processingBlock: ?BlockData = selectProcessingBlock(state)
 
   const {
     searchQuery,
+    // isErrorFiltered,
+    // isStuckFiltered,
     isPendingFiltered,
   }: TransactionsState = selectTransactions(state)
 
-  const items: ?TransactionsByAssetAddress = selectTransactionsByAsset(
-    state,
-    assetAddress,
-  )
-
-  const pending: ?Transactions = selectPendingTransactionsByAsset(
-    state,
-    assetAddress,
-  )
+  const pending: ?Transactions = selectPendingTransactionsByAsset(state, assetId)
+  const items: ?TransactionsByAssetAddress = selectTransactionsByAsset(state, assetId)
+  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetId)
+  const flattenPending: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetId)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
-  const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
-
-  const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
-  const createdBlockNumber: ?number = wallet.createdBlockNumber && wallet.createdBlockNumber.mainnet
-  const minBlock: ?number = createdBlockNumber || deploymentBlockNumber
-
-  const isLoading: boolean = checkTransactionsByAssetLoading(items, minBlock)
-
-  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetAddress)
-  const flattenPen: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetAddress)
+  const isProcessing: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
 
   return {
-    network,
-    comments,
-    favorites,
-    addressNames: {
-      ...addressNames,
-      ...addressWalletsNames,
-    },
-    digitalAssets,
     searchQuery,
-    assetBalance,
-    assetAddress,
-    ownerAddress,
-    isLoading,
-    isPendingFiltered,
-    isCurrentBlockEmpty,
-    transactions: isCurrentBlockEmpty ? [] : prepareListForRendering(
-      [...flatten, ...flattenPen],
-      comments,
-      {
-        ...favorites,
-        ...addressNames,
-        ...addressWalletsNames,
-      },
+    items: isCurrentBlockEmpty ? [] : prepareListForRendering(
+      [...flatten, ...flattenPending],
+      notes,
+      addressNames,
       searchQuery,
       { isPendingFiltered },
     ),
+    currentBlock: currentBlock && currentBlock.number,
+    isLoading: isCurrentBlockEmpty || isProcessing,
   }
 }
 
 const mapDispatchToProps = {
-  editComment,
-  removeFavorite,
-  setPendingFilter,
   changeSearchInput,
-  removeItemsByAsset,
 }
 
-export const AssetsItem = (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+export const AssetsItem = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(AssetsItemView)
