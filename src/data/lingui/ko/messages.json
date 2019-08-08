@@ -395,5 +395,7 @@
     "common.WalletCardActions.toast": "",
     "walletsPlugin.toast.create": "",
     "walletsPlugin.toast.import": "",
-    "SettingsCurrency.toast": ""
+    "SettingsCurrency.toast": "",
+    "TransactionsFilter.error": "",
+    "TransactionsFilter.pending": ""
 }
