@@ -9,6 +9,7 @@ import {
 import { getNote } from '.'
 
 type FilterOptions = {|
+  +isErrorFiltered: boolean,
   +isPendingFiltered: boolean,
 |}
 
@@ -59,21 +60,76 @@ function removeDuplicates(items: TransactionWithNoteAndNames[]): TransactionWith
   }, [])
 }
 
-function checkPending({ blockHash }: TransactionWithNoteAndNames): boolean {
-  return !blockHash
+function checkError(
+  {
+    receiptData,
+    isRemoved,
+  }: TransactionWithNoteAndNames,
+  isErrorFiltered: boolean,
+): boolean {
+  if (!receiptData) {
+    return false
+  }
+
+  const isFailed: boolean = (!receiptData.status || isRemoved)
+
+  return isErrorFiltered && isFailed
+}
+
+function checkPending(
+  { blockHash }: TransactionWithNoteAndNames,
+  isPendingFiltered: boolean,
+): boolean {
+  return isPendingFiltered && !blockHash
+}
+
+function checkFiltersResult(
+  result: boolean,
+  flag: boolean,
+): boolean {
+  if (result || flag) {
+    return true
+  }
+
+  return false
+}
+
+function checkItem(
+  item: TransactionWithNoteAndNames,
+  {
+    isErrorFiltered,
+    isPendingFiltered,
+  }: FilterOptions,
+): boolean {
+  return [
+    checkError(
+      item,
+      isErrorFiltered,
+    ),
+    checkPending(
+      item,
+      isPendingFiltered,
+    ),
+  ].reduce(checkFiltersResult, false)
 }
 
 function filter(
   items: TransactionWithNoteAndNames[],
-  {
-    isPendingFiltered,
-  }: FilterOptions,
+  filters: FilterOptions,
 ): TransactionWithNoteAndNames[] {
-  if (!isPendingFiltered) {
+  const {
+    isErrorFiltered,
+    isPendingFiltered,
+  }: FilterOptions = filters
+
+  if (!(isErrorFiltered || isPendingFiltered)) {
     return items
   }
 
-  return items.filter((item: TransactionWithNoteAndNames): boolean => checkPending(item))
+  return items.filter((item: TransactionWithNoteAndNames): boolean => checkItem(
+    item,
+    filters,
+  ))
 }
 
 function search(

@@ -10,6 +10,7 @@
   height: 32px;
   padding: 5px 12px;
   overflow: visible;
+  cursor: pointer;
 
   &.active {
     background: $main-blue-20;
@@ -34,6 +35,7 @@
 }
 
 .dropdown {
+  z-index: 1;
   display: none;
   position: absolute;
   top: 100%;
@@ -41,7 +43,7 @@
   min-width: 287px;
   background: $white;
   margin: 9px 0 0 0;
-  padding: 48px 64px 32px 24px;
+  padding: 48px 56px 32px 28px;
   border-radius: 4px;
   box-shadow: $normal-shadow;
 
@@ -63,10 +65,10 @@
   border: none;
   line-height: 0;
   fill: $main-black-40;
+  cursor: pointer;
 
   &:hover,
   &:active {
-    cursor: pointer;
     fill: $main-blue;
   }
 }

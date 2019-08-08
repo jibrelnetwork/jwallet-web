@@ -395,5 +395,7 @@
     "common.WalletCardActions.toast": "Address Copied.",
     "walletsPlugin.toast.create": "Wallet created.",
     "walletsPlugin.toast.import": "Wallet imported.",
-    "SettingsCurrency.toast": "Currency changed."
+    "SettingsCurrency.toast": "Currency changed.",
+    "TransactionsFilter.error": "Error transfer",
+    "TransactionsFilter.pending": "Pending transfer"
 }
