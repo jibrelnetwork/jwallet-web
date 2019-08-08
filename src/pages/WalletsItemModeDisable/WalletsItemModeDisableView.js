@@ -11,10 +11,14 @@ import {
 } from 'react-final-form'
 
 import { Button } from 'components/base'
-import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { formatAssetBalance } from 'utils/formatters'
 import { type AddressPickerItem } from 'components/AddressPicker/AddressPicker'
+
+import {
+  toastsPlugin,
+  walletsPlugin,
+} from 'store/plugins'
 
 import {
   AddressPicker,
@@ -71,7 +75,18 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
   }
 
   handleDisable = () => {
-    walletsPlugin.switchMode(this.props.walletId, this.state.addressIndex)
+    const {
+      i18n,
+      walletId,
+    }: Props = this.props
+
+    walletsPlugin.switchMode(walletId, this.state.addressIndex)
+
+    toastsPlugin.showToast(i18n._(
+      'WalletsItemModeDisable.toast',
+      null,
+      { defaults: 'Multi-address Mode disabled' },
+    ))
   }
 
   handleClick = (address: string, addressIndex: number) => {

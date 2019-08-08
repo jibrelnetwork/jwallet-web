@@ -7,14 +7,19 @@ import {
   hideToast,
 } from 'store/modules/toasts'
 
+import { selectToastsData } from 'store/selectors/toasts'
+
 const ONE_SECOND: number = 1000
-const TOAST_DELAY: number = 3 * ONE_SECOND
+const SHOW_TOAST_DELAY: number = 100
+const HIDE_TOAST_DELAY: number = 3 * ONE_SECOND
 
 class ToastsPlugin {
   store: ?Store<AppState, any>
+  timeoutId: ?TimeoutID
 
   constructor() {
     this.store = null
+    this.timeoutId = null
   }
 
   connect = (store: Store<AppState, any>) => {
@@ -29,6 +34,8 @@ class ToastsPlugin {
     return this.store.getState()
   }
 
+  getToast = (): ?ToastData => selectToastsData(this.getState())
+
   dispatch = (action: Object) => {
     if (!this.store) {
       throw new Error('Plugin error')
@@ -37,9 +44,9 @@ class ToastsPlugin {
     return this.store.dispatch(action)
   }
 
-  showToast = (
+  showToastImmediately = (
     message: string,
-    options?: ToastOptions = { type: 'base' },
+    options: ToastOptions,
   ) => {
     this.dispatch(showToast(
       message,
@@ -50,9 +57,41 @@ class ToastsPlugin {
       return
     }
 
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       this.dispatch(hideToast())
-    }, TOAST_DELAY)
+    }, HIDE_TOAST_DELAY)
+  }
+
+  showToastWithDelay = (
+    message: string,
+    options: ToastOptions,
+  ) => {
+    setTimeout(() => {
+      this.showToastImmediately(
+        message,
+        options,
+      )
+    }, SHOW_TOAST_DELAY)
+  }
+
+  showToast = (
+    message: string,
+    options?: ToastOptions = { type: 'base' },
+  ) => {
+    if (this.getToast()) {
+      this.dispatch(hideToast())
+      clearTimeout(this.timeoutId)
+
+      this.showToastWithDelay(
+        message,
+        options,
+      )
+    } else {
+      this.showToastImmediately(
+        message,
+        options,
+      )
+    }
   }
 }
 

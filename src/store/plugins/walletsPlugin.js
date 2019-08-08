@@ -39,6 +39,8 @@ import {
 
 import * as walletsUtils from 'utils/wallets'
 
+import { toastsPlugin } from '.'
+
 export type ImportWalletPayload = {|
   +data: string,
   +name: string,
@@ -154,8 +156,20 @@ class WalletsPlugin {
 
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
+
+        toastsPlugin.showToast(i18n._(
+          'walletsPlugin.toast.create',
+          null,
+          { defaults: 'Wallet created' },
+        ))
       } else {
         gaSendEvent('ImportWallet', 'WalletCreated')
+
+        toastsPlugin.showToast(i18n._(
+          'walletsPlugin.toast.import',
+          null,
+          { defaults: 'Wallet imported' },
+        ))
       }
     } catch (err) {
       if (createdBlockNumber) {
