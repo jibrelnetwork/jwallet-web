@@ -14,19 +14,19 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import stylesOffsets from 'styles/offsets.m.scss'
+import { Button } from 'components/base'
 import { TitleHeader } from 'components'
+import { toastsPlugin } from 'store/plugins'
+import { type LanguageCode } from 'data/languages'
+
 import {
   withLanguageChange,
   type WithLanguageChangeProps,
 } from 'app/components'
-import { type LanguageCode } from 'data/languages'
-import { Button } from 'components/base'
-
-import stylesOffsets from 'styles/offsets.m.scss'
-
-import { LanguagePicker } from './components/LanguagePicker/LanguagePicker'
 
 import styles from './settingsLanguage.m.scss'
+import { LanguagePicker } from './components/LanguagePicker/LanguagePicker'
 
 type FormValues = {|
   language: LanguageCode,
@@ -45,7 +45,18 @@ type OwnProps = {|
 
 class SettingsLanguagePage extends Component<Props> {
   handleSubmit = async (values: FormValues) => {
-    await this.props.changeLanguage(values.language)
+    const {
+      i18n,
+      changeLanguage,
+    }: Props = this.props
+
+    await changeLanguage(values.language)
+
+    toastsPlugin.showToast(i18n._(
+      'SettingsLanguage.toast',
+      null,
+      { defaults: 'Language changed' },
+    ))
   }
 
   handleBackClick = () => {

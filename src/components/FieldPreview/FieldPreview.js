@@ -59,7 +59,7 @@ export function FieldPreview({
           <JLink
             className={styles.action}
             title={i18n._(
-              'components.FieldPreview.action.contact',
+              'FieldPreview.action.contact',
               null,
               { defaults: 'Add Contact' },
             )}
@@ -75,6 +75,11 @@ export function FieldPreview({
           <CopyIconButton
             title={title}
             content={value}
+            toastMessage={i18n._(
+              'FieldPreview.toast',
+              { label },
+              { defaults: '{ label } copied' },
+            )}
           />
         )}
       </div>
