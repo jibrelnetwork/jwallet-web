@@ -96,9 +96,6 @@
 }
 
 .symbol {
-  @include sprite-icon-color($main-black-30);
-
   min-width: 24px;
   margin: 0 32px 0 16px;
-  color: $main-black-30;
 }
