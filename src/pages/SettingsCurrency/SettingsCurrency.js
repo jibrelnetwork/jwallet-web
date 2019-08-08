@@ -43,9 +43,10 @@ class SettingsCurrencyPage extends Component<Props> {
   }
 
   handleSubmit = (values: FormValues) => {
+    const { i18n }: Props = this.props
     this.props.setFiatCurrency(values.currencyCode)
 
-    toastsPlugin.showToast(this.props.i18n._(
+    toastsPlugin.showToast(i18n._(
       'SettingsCurrency.toast',
       null,
       { defaults: 'Currency changed.' },
