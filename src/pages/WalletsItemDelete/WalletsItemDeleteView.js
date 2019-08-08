@@ -36,7 +36,7 @@ class WalletsItemDeleteViewComponent extends PureComponent<Props> {
     toastsPlugin.showToast(i18n._(
       'WalletsItemDelete.toast',
       null,
-      { defaults: 'Wallet deleted' },
+      { defaults: 'Wallet deleted.' },
     ))
   }
 

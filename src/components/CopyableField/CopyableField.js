@@ -48,7 +48,7 @@ export function CopyableField({
         toastMessage={label && i18n._(
           'CopyableField.toast',
           { label },
-          { defaults: '{ label } copied' },
+          { defaults: '{ label } copied.' },
         )}
       />
     </div>

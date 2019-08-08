@@ -78,7 +78,7 @@ export function FieldPreview({
             toastMessage={i18n._(
               'FieldPreview.toast',
               { label },
-              { defaults: '{ label } copied' },
+              { defaults: '{ label } copied.' },
             )}
           />
         )}

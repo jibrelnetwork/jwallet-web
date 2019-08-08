@@ -48,7 +48,7 @@ class SettingsCurrencyPage extends Component<Props> {
     toastsPlugin.showToast(this.props.i18n._(
       'SettingsCurrency.toast',
       null,
-      { defaults: 'Currency changed' },
+      { defaults: 'Currency changed.' },
     ))
   }
 

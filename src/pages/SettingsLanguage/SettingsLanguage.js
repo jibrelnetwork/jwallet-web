@@ -55,7 +55,7 @@ class SettingsLanguagePage extends Component<Props> {
     toastsPlugin.showToast(i18n._(
       'SettingsLanguage.toast',
       null,
-      { defaults: 'Language changed' },
+      { defaults: 'Language changed.' },
     ))
   }
 

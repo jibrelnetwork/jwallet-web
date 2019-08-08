@@ -34,7 +34,7 @@ class WalletsItemModeEnableViewComponent extends PureComponent<Props> {
     toastsPlugin.showToast(i18n._(
       'WalletsItemModeEnable.toast',
       null,
-      { defaults: 'Multi-address Mode enabled' },
+      { defaults: 'Multi-address Mode enabled.' },
     ))
   }
 

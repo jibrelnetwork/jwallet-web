@@ -160,7 +160,7 @@ class WalletsPlugin {
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.create',
           null,
-          { defaults: 'Wallet created' },
+          { defaults: 'Wallet created.' },
         ))
       } else {
         gaSendEvent('ImportWallet', 'WalletCreated')
@@ -168,7 +168,7 @@ class WalletsPlugin {
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.import',
           null,
-          { defaults: 'Wallet imported' },
+          { defaults: 'Wallet imported.' },
         ))
       }
     } catch (err) {
