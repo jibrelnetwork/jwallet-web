@@ -37,17 +37,6 @@ class TransactionsFilter extends PureComponent<Props> {
     return (
       <SearchFilter activeCount={isErrorFiltered + isPendingFiltered}>
         <JCheckbox
-          onChange={setErrorFilter}
-          name='error-filter'
-          isChecked={isErrorFiltered}
-        >
-          {i18n._(
-            'TransactionsFilter.error',
-            null,
-            { defaults: 'Error transfer' },
-          )}
-        </JCheckbox>
-        <JCheckbox
           onChange={setPendingFilter}
           name='pending-filter'
           isChecked={isPendingFiltered}
@@ -56,6 +45,17 @@ class TransactionsFilter extends PureComponent<Props> {
             'TransactionsFilter.pending',
             null,
             { defaults: 'Pending transfer' },
+          )}
+        </JCheckbox>
+        <JCheckbox
+          onChange={setErrorFilter}
+          name='error-filter'
+          isChecked={isErrorFiltered}
+        >
+          {i18n._(
+            'TransactionsFilter.error',
+            null,
+            { defaults: 'Error transfer' },
           )}
         </JCheckbox>
       </SearchFilter>
