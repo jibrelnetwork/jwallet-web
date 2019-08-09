@@ -76,9 +76,9 @@ export class AssetsItemView extends PureComponent<Props, StateProps> {
         <Header
           className={(isListScrolled || isAsideScrolled) ? styles.scrolled : ''}
           title={i18n._(
-            'History.title',
+            'AssetsItem.title',
             null,
-            { defaults: 'History' },
+            { defaults: 'Transfers' },
           )}
         >
           <SearchInput

@@ -42,7 +42,7 @@ function mapStateToProps(state: AppState, { assetId }: OwnProps) {
 
   const {
     searchQuery,
-    // isErrorFiltered,
+    isErrorFiltered,
     // isStuckFiltered,
     isPendingFiltered,
   }: TransactionsState = selectTransactions(state)
@@ -62,7 +62,10 @@ function mapStateToProps(state: AppState, { assetId }: OwnProps) {
       notes,
       addressNames,
       searchQuery,
-      { isPendingFiltered },
+      {
+        isErrorFiltered,
+        isPendingFiltered,
+      },
     ),
     currentBlock: currentBlock && currentBlock.number,
     isLoading: isCurrentBlockEmpty || isProcessing,

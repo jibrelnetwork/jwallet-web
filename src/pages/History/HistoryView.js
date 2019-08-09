@@ -93,6 +93,7 @@ export class HistoryView extends PureComponent<Props, StateProps> {
           items={items}
           currentBlock={currentBlock}
           isLoading={isLoading}
+          withDetailsPanel
         />
       </div>
     )
