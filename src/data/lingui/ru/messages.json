@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet может быть открыт только в одной вкладке одновременно.",
     "SingularTabBlockScreen.description.1": "Пожалуйста, перезагрузите эту вкладку, чтобы продолжить использование.",
     "SingularTabBlockScreen.title": "Jwallet поддерживает только одну вкладку",
-    "Transactions.Asset.assetsHome": "Цифровые активы",
-    "Transactions.Asset.send": "Отправить актив",
     "TransactionsList.Empty.default": "Похоже, вы пока не провели никаких транзакций.",
     "TransactionsList.Empty.filtered": "Нет элементов для отображения",
     "WalletBackupForm": "Резервное копирование {name}",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "",
     "SettingsCurrency.toast": "",
     "TransactionsFilter.error": "",
-    "TransactionsFilter.pending": ""
+    "TransactionsFilter.pending": "",
+    "AssetsItem.title": ""
 }

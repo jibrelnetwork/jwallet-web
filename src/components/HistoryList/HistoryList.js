@@ -27,6 +27,7 @@ type OwnProps = {|
   +items: TransactionWithNoteAndNames[],
   +currentBlock: number,
   +isLoading: boolean,
+  +withDetailsPanel?: boolean,
 |}
 
 type Props = {|
@@ -43,6 +44,7 @@ type StateProps = {|
 class HistoryList extends Component<Props, StateProps> {
   static defaultProps = {
     isLoading: false,
+    withDetailsPanel: false,
   }
 
   constructor(props: Props) {
@@ -79,8 +81,12 @@ class HistoryList extends Component<Props, StateProps> {
     return false
   }
 
-  handleSetActive = (activeItemKeys: TransactionPrimaryKeys) => () => {
-    this.setState({ activeItemKeys })
+  handleSetActive = (activeItemKeys: TransactionPrimaryKeys) => {
+    if (!this.props.withDetailsPanel) {
+      return undefined
+    }
+
+    return () => this.setState({ activeItemKeys })
   }
 
   handleClearActive = () => {
@@ -109,6 +115,7 @@ class HistoryList extends Component<Props, StateProps> {
       digitalAssets,
       ownerAddress,
       isLoading,
+      withDetailsPanel,
     }: Props = this.props
 
     if (!(isLoading || items.length)) {
@@ -126,6 +133,7 @@ class HistoryList extends Component<Props, StateProps> {
         className={classNames(
           styles.core,
           activeItemKeys && styles.active,
+          withDetailsPanel && styles.details,
         )}
       >
         <div
@@ -196,29 +204,31 @@ class HistoryList extends Component<Props, StateProps> {
             )}
           </ul>
         </div>
-        <div
-          onScroll={handleAsideScroll || undefined}
-          className={styles.right}
-        >
-          <div className={styles.sidebar}>
-            <div className={styles.details}>
-              {activeItemKeys && (
-                <HistoryItemDetails
-                  id={activeItemKeys.id}
-                  asset={activeItemKeys.assetAddress}
-                  blockNumber={activeItemKeys.blockNumber}
-                />
-              )}
-              <button
-                onClick={this.handleClearActive}
-                className={styles.close}
-                type='button'
-              >
-                <JIcon name='ic_close_24-use-fill' />
-              </button>
+        {withDetailsPanel && (
+          <div
+            onScroll={handleAsideScroll || undefined}
+            className={styles.right}
+          >
+            <div className={styles.sidebar}>
+              <div className={styles.details}>
+                {activeItemKeys && (
+                  <HistoryItemDetails
+                    id={activeItemKeys.id}
+                    asset={activeItemKeys.assetAddress}
+                    blockNumber={activeItemKeys.blockNumber}
+                  />
+                )}
+                <button
+                  onClick={this.handleClearActive}
+                  className={styles.close}
+                  type='button'
+                >
+                  <JIcon name='ic_close_24-use-fill' />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     )
   }

@@ -1,16 +1,9 @@
-// @flow
+// @flow strict
 
-import React from 'react'
-import { useI18n } from 'app/hooks'
-import { Scrollbars } from 'react-custom-scrollbars'
+import React, { PureComponent } from 'react'
+import { type I18n as I18nType } from '@lingui/core'
 
-import handle from 'utils/eventHandlers/handle'
-import { formatAssetBalance } from 'utils/formatters'
-
-import {
-  JTabs,
-  JFlatButton,
-} from 'components/base'
+import { Header } from 'components/base'
 
 import {
   HistoryList,
@@ -18,162 +11,91 @@ import {
   TransactionsFilter,
 } from 'components'
 
-function getTransactionsTabs(
-  i18n,
-  asset: DigitalAsset,
-  assetBalance: ?Balance,
-  isFetched: boolean,
-) {
-  const {
-    name,
-    symbol,
-    blockchainParams: {
-      address,
-      decimals,
-    },
-  }: DigitalAsset = asset
+import styles from './assetItem.m.scss'
 
-  const balance: string = formatAssetBalance(
-    address,
-    assetBalance ? assetBalance.value : 0,
-    decimals,
-  )
-
-  return {
-    '/assets': i18n._(
-      'Transactions.Asset.assetsHome',
-      null,
-      { defaults: 'Digital Assets' },
-    ),
-    [`/history/${address}`]: (isFetched && assetBalance)
-      ? `${name} — ${balance} ${symbol}`
-      : name,
-  }
-}
-
-type Props = {|
-  +removeFavorite: (Address) => void,
-  +setIsOnlyPending: (boolean) => void,
-  +changeSearchInput: (string) => void,
-  +editComment: (CommentId, string) => void,
-  +removeItemsByAsset: (AssetAddress) => void,
-  +transactions: TransactionWithNoteAndNames[],
-  +params: {|
-    +asset: string,
-  |},
-  +network: ?Network,
-  +comments: Comments,
-  +favorites: AddressNames,
-  +addressNames: AddressNames,
-  +digitalAssets: DigitalAssets,
-  +assetBalance: ?Balance,
+export type Props = {|
+  +changeSearchInput: (value: string) => any,
+  +items: TransactionWithNoteAndNames[],
+  +i18n: I18nType,
   +searchQuery: string,
-  +assetAddress: AssetAddress,
-  +ownerAddress: ?OwnerAddress,
+  +currentBlock: number,
   +isLoading: boolean,
-  +isPendingFiltered: boolean,
-  +isCurrentBlockEmpty: boolean,
+  /* :: +assetId: string, */
 |}
 
-function AssetsItemView({
-  editComment,
-  removeFavorite,
-  setIsOnlyPending,
-  changeSearchInput,
-  removeItemsByAsset,
-  transactions,
-  params,
-  network,
-  comments,
-  favorites,
-  addressNames,
-  digitalAssets,
-  searchQuery,
-  assetBalance,
-  assetAddress,
-  ownerAddress,
-  isLoading,
-  isPendingFiltered,
-  isCurrentBlockEmpty,
-}: Props) {
-  if (!(ownerAddress && network)) {
-    return null
+type StateProps = {|
+  +isListScrolled: boolean,
+  +isAsideScrolled: boolean,
+|}
+
+export class AssetsItemView extends PureComponent<Props, StateProps> {
+  static defaultProps = {
+    currentBlock: 0,
+    isLoading: false,
   }
 
-  const i18n = useI18n()
-  const asset: ?DigitalAsset = digitalAssets[params.asset]
+  constructor(props: Props) {
+    super(props)
 
-  if (!asset) {
-    return null
+    this.state = {
+      isListScrolled: false,
+      isAsideScrolled: false,
+    }
   }
 
-  const filterCount: number = isPendingFiltered ? 1 : 0
-  const isLoadingOrBlockEmpty: boolean = isLoading || isCurrentBlockEmpty
-  const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
+  handleListScroll = (e: SyntheticUIEvent<HTMLDivElement>) => {
+    // $FlowFixMe
+    this.setState({ isListScrolled: !!e.target.scrollTop })
+  }
 
-  return (
-    <div className='transactions-view -asset'>
-      <div className='header'>
-        <div className='container'>
-          <JTabs tabs={getTransactionsTabs(i18n, asset, assetBalance, isBalanceAllowed)} />
-          <div className='actions'>
-            <div className='search'>
-              <SearchInput
-                onChange={changeSearchInput}
-                value={searchQuery}
-              />
-            </div>
-            <div className='filter'>
-              <TransactionsFilter
-                setOnlyPending={setIsOnlyPending}
-                filterCount={filterCount}
-                isPendingFiltered={isPendingFiltered}
-              />
-            </div>
-            <div
-              className='send' title={i18n._(
-                'Transactions.Asset.send',
-                null,
-                { defaults: 'Send Asset' },
-              )}
-            >
-              <JFlatButton
-                to={`/send?asset=${asset.blockchainParams.address}`}
-                iconColor='gray'
-                iconName='upload'
-              />
-            </div>
-            <div className='refetch' title='Resync'>
-              <JFlatButton
-                onClick={handle(removeItemsByAsset)(assetAddress)}
-                iconColor='gray'
-                iconName='reload'
-                isDisabled={isLoadingOrBlockEmpty}
-              />
-            </div>
-          </div>
-        </div>
+  handleAsideScroll = (e: SyntheticUIEvent<HTMLDivElement>) => {
+    // $FlowFixMe
+    this.setState({ isAsideScrolled: !!e.target.scrollTop })
+  }
+
+  handleChangeSearchInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    this.props.changeSearchInput(e.target.value)
+  }
+
+  render() {
+    const {
+      i18n,
+      items,
+      searchQuery,
+      currentBlock,
+      isLoading,
+    }: Props = this.props
+
+    const {
+      isListScrolled,
+      isAsideScrolled,
+    }: StateProps = this.state
+
+    return (
+      <div className={styles.core}>
+        <Header
+          className={(isListScrolled || isAsideScrolled) ? styles.scrolled : ''}
+          title={i18n._(
+            'AssetsItem.title',
+            null,
+            { defaults: 'Transfers' },
+          )}
+        >
+          <SearchInput
+            onChange={this.handleChangeSearchInput}
+            value={searchQuery}
+          >
+            <TransactionsFilter />
+          </SearchInput>
+        </Header>
+        <HistoryList
+          onListScroll={this.handleListScroll}
+          onAsideScroll={this.handleAsideScroll}
+          items={items}
+          currentBlock={currentBlock}
+          isLoading={isLoading}
+        />
       </div>
-      <div className='content'>
-        <Scrollbars autoHide>
-          <HistoryList
-            editComment={editComment}
-            removeFavorite={removeFavorite}
-            items={transactions}
-            comments={comments}
-            favorites={favorites}
-            addressNames={addressNames}
-            digitalAssets={digitalAssets}
-            assetAddress={params.asset}
-            ownerAddress={ownerAddress}
-            blockExplorerUISubdomain={network.blockExplorerUISubdomain}
-            isFiltered={!!filterCount || !!searchQuery}
-            isLoading={isLoadingOrBlockEmpty}
-          />
-        </Scrollbars>
-      </div>
-    </div>
-  )
+    )
+  }
 }
-
-export default AssetsItemView

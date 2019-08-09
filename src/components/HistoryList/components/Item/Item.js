@@ -21,8 +21,10 @@ import {
 
 import styles from './item.m.scss'
 
+type ItemHandler = (transactionId: TransactionId) => any
+
 export type OwnProps = {|
-  +onClick: (transactionId: TransactionId) => any,
+  +onClick: ?ItemHandler,
   +id: TransactionId,
   +isActive: boolean,
 |}
@@ -63,7 +65,7 @@ class Item extends PureComponent<Props> {
       isActive,
     } = this.props
 
-    if (isActive) {
+    if (!onClick || isActive) {
       return
     }
 

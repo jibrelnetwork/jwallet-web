@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet只能在一個分頁中同時打開。",
     "SingularTabBlockScreen.description.1": "請重新加載此分頁以繼續使用它。",
     "SingularTabBlockScreen.title": "Jwallet僅支持單個分頁",
-    "Transactions.Asset.assetsHome": "數字資產",
-    "Transactions.Asset.send": "傳送資產",
     "TransactionsList.Empty.default": "你似乎尚未進行任何交易。",
     "TransactionsList.Empty.filtered": "沒有可顯示的項目",
     "WalletBackupForm": "備份{name}",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "",
     "SettingsCurrency.toast": "",
     "TransactionsFilter.error": "",
-    "TransactionsFilter.pending": ""
+    "TransactionsFilter.pending": "",
+    "AssetsItem.title": ""
 }

@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet solo se puede abrir en una pestaña a la vez.",
     "SingularTabBlockScreen.description.1": "Recargue esta pestaña para continuar usándola.",
     "SingularTabBlockScreen.title": "Jwallet solo admite una pestaña",
-    "Transactions.Asset.assetsHome": "Activos digitales",
-    "Transactions.Asset.send": "Enviar activo",
     "TransactionsList.Empty.default": "Parece que aún no ha efectuado ninguna transacción.",
     "TransactionsList.Empty.filtered": "No hay entradas que mostrar",
     "WalletBackupForm": "Copia de seguridad {name}",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "",
     "SettingsCurrency.toast": "",
     "TransactionsFilter.error": "",
-    "TransactionsFilter.pending": ""
+    "TransactionsFilter.pending": "",
+    "AssetsItem.title": ""
 }
