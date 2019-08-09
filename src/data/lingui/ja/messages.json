@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwalletは同時に1つのタブでのみ開くことができます。",
     "SingularTabBlockScreen.description.1": "使用を続行するにはこのタブを再読み込みしてください。",
     "SingularTabBlockScreen.title": "Jwalletはシングルタブのみをサポートします",
-    "Transactions.Asset.assetsHome": "デジタル資産",
-    "Transactions.Asset.send": "資産を送信",
     "TransactionsList.Empty.default": "まだ取引が作成されていないようです。",
     "TransactionsList.Empty.filtered": "表示するアイテムがありません",
     "WalletBackupForm": "{name}をバックアップ",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "",
     "SettingsCurrency.toast": "",
     "TransactionsFilter.error": "",
-    "TransactionsFilter.pending": ""
+    "TransactionsFilter.pending": "",
+    "AssetsItem.title": ""
 }

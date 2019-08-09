@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet can be open only in one tab simultaneously.",
     "SingularTabBlockScreen.description.1": "Please reload this tab to continue using it.",
     "SingularTabBlockScreen.title": "Jwallet supports only single tab",
-    "Transactions.Asset.assetsHome": "Digital Assets",
-    "Transactions.Asset.send": "Send Asset",
     "TransactionsList.Empty.default": "Looks like you haven't made any transactions yet.",
     "TransactionsList.Empty.filtered": "There are no items to display",
     "WalletBackupForm": "Back Up {name}",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "Wallet imported.",
     "SettingsCurrency.toast": "Currency changed.",
     "TransactionsFilter.error": "Error transfer",
-    "TransactionsFilter.pending": "Pending transfer"
+    "TransactionsFilter.pending": "Pending transfer",
+    "AssetsItem.title": "Transfers"
 }

@@ -138,8 +138,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet 只能在一个选项卡中同时打开。",
     "SingularTabBlockScreen.description.1": "请重新加载此选项卡以继续使用。",
     "SingularTabBlockScreen.title": "Jwallet 仅支持单个选项卡",
-    "Transactions.Asset.assetsHome": "数字资产",
-    "Transactions.Asset.send": "发送资产",
     "TransactionsList.Empty.default": "看起来您尚未进行任何交易。",
     "TransactionsList.Empty.filtered": "没有可显示的项目",
     "WalletBackupForm": "备份{name}",
@@ -397,5 +395,6 @@
     "walletsPlugin.toast.import": "",
     "SettingsCurrency.toast": "",
     "TransactionsFilter.error": "",
-    "TransactionsFilter.pending": ""
+    "TransactionsFilter.pending": "",
+    "AssetsItem.title": ""
 }
