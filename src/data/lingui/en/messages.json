@@ -322,7 +322,7 @@
     "HistoryItemDetails.ContractCall.title": "Success",
     "HistoryItemDetails.ContractCreation.subtitle": "Contract created.",
     "HistoryItemDetails.ContractCreation.title": "Success",
-    "HistoryItemDetails.Failed.subtitle.another": "Contract Call declined.",
+    "HistoryItemDetails.Failed.subtitle.another": "Transfer declined.",
     "HistoryItemDetails.Failed.title": "Error",
     "HistoryItemDetails.Incoming.subtitle": "Transfer processed.",
     "HistoryItemDetails.Incoming.title": "Success",
