@@ -38,6 +38,7 @@
   "dependencies": {
     "@jibrelnetwork/contracts-jsapi": "1.1.0",
     "@lingui/react": "2.8.3",
+    "abi-decoder": "2.2.0",
     "bignumber.js": "4.1.0",
     "bitcore-lib": "0.16.0",
     "bitcore-mnemonic": "1.7.0",
