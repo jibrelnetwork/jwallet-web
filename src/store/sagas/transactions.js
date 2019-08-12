@@ -702,6 +702,66 @@ function* recursiveRequestTransactions(
   }
 }
 
+function* checkFailedContractTransfer(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  toBlockStr: BlockNumber,
+  item: ?Transaction,
+): Saga<void> {
+  if (!(item && item.contractTransferData && item.to)) {
+    return
+  }
+
+  const modifiedItem: Transaction = {
+    ...item,
+    data: {
+      ...item.data,
+      hasInput: false, // move it to transfers
+    },
+    to: item.contractTransferData.to,
+    amount: item.contractTransferData.amount,
+    eventType: 1,
+  }
+
+  yield put(transactions.fetchByBlockSuccess(
+    networkId,
+    ownerAddress,
+    item.to,
+    toBlockStr,
+    { [item.hash]: modifiedItem },
+  ))
+}
+
+function* checkFailedContractTransfers(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  toBlockStr: BlockNumber,
+  txs: Transactions,
+): Transactions {
+  yield all(Object.keys(txs).map((txId: TransactionId) => checkFailedContractTransfer(
+    networkId,
+    ownerAddress,
+    toBlockStr,
+    txs[txId],
+  )))
+
+  return Object.keys(txs).reduce((
+    result: Transactions,
+    txId: TransactionId,
+  ): Transactions => {
+    const item: ?Transaction = txs[txId]
+
+    if (!item || item.contractTransferData) {
+      return result
+    }
+
+    return {
+      ...result,
+      [txId]: item,
+    }
+  }, {})
+}
+
 function* checkPendingTransaction(transactionId: TransactionId): Saga<void> {
   const transaction: ExtractReturn<typeof selectTransactionById> = yield select(
     selectTransactionById,
@@ -881,17 +941,22 @@ export function* requestTransactions(
           toBlock,
         )
 
+        const ethTXs: Transactions = yield checkFailedContractTransfers(
+          networkId,
+          ownerAddress,
+          toBlockStr,
+          txs,
+        )
+
         yield put(transactions.fetchByBlockSuccess(
           networkId,
           ownerAddress,
           assetAddress,
           toBlockStr,
-          txs,
+          ethTXs,
         ))
 
-        const txIds: TransactionId[] = Object.keys(txs)
-
-        yield all(txIds.map((txId: TransactionId) => checkPendingTransaction(txId)))
+        yield all(Object.keys(txs).map((txId: TransactionId) => checkPendingTransaction(txId)))
 
         break
       }
