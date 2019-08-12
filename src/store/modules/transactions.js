@@ -15,7 +15,6 @@ export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
 export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
 export const ADD_PENDING_TRANSACTION = '@@transactions/ADD_PENDING_TRANSACTION'
-export const CHECK_PENDING_TRANSACTION = '@@transactions/CHECK_PENDING_TRANSACTION'
 export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSACTION'
 export const REMOVE_PENDING_TRANSACTIONS = '@@transactions/REMOVE_PENDING_TRANSACTIONS'
 
@@ -185,23 +184,6 @@ export function addPendingTransaction(
       networkId,
       assetAddress,
       ownerAddress,
-    },
-  }
-}
-
-export function checkPendingTransaction(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-  assetAddress: AssetAddress,
-  transactionId: TransactionId,
-) {
-  return {
-    type: CHECK_PENDING_TRANSACTION,
-    payload: {
-      networkId,
-      assetAddress,
-      ownerAddress,
-      transactionId,
     },
   }
 }
