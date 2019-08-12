@@ -120,7 +120,7 @@ class HistoryList extends Component<Props, StateProps> {
 
     if (!(isLoading || items.length)) {
       return (
-        <div className={`${styles.transactionsList} ${styles.empty}`}>
+        <div className={styles.list}>
           <Empty isFiltered={false} />
         </div>
       )
