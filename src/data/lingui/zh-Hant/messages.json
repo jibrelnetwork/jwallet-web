@@ -362,7 +362,6 @@
     "HistoryItemDetails.Failed.subtitle.cancel": "轉帳未取消。",
     "HistoryItemDetails.Failed.subtitle.input": "呼叫合約被拒。",
     "HistoryItemDetails.Outgoing.subtitle.another": "轉帳已處理。",
-    "HistoryItemDetails.Outgoing.subtitle.cancel": "轉帳已取消。",
     "HistoryItemDetails.Pending.subtitle.cancel": "取消轉帳。這可能需要一些時間。",
     "HistoryItemDetails.Pending.title.another": "待處理",
     "HistoryItemDetails.Stuck.subtitle.cancel": "取消轉帳卡住。",
@@ -396,5 +395,7 @@
     "SettingsCurrency.toast": "已變更貨幣。",
     "TransactionsFilter.error": "轉帳時出錯",
     "TransactionsFilter.pending": "擱置中的轉帳",
-    "AssetsItem.title": "轉帳"
+    "AssetsItem.title": "轉帳",
+    "HistoryItemDetails.Cancel.subtitle.cancel": "",
+    "HistoryItemDetails.Cancel.title": ""
 }
