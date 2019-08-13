@@ -38,7 +38,7 @@ type Props = {|
   +amount: string,
   +toName: ?string,
   +fromName: ?string,
-  +assetSymbol: string,
+  +assetSymbol: ?string,
   +contractAddress: ?Address,
   +assetAddress: AssetAddress,
   +eventType: TransactionEventType,
@@ -78,6 +78,7 @@ class Item extends PureComponent<Props> {
       to,
       from,
       eventType,
+      assetSymbol,
       isSent,
       isStuck,
       hasInput,
@@ -85,6 +86,7 @@ class Item extends PureComponent<Props> {
       isPending,
     }: Props = this.props
 
+    const isUnknownAsset: boolean = !assetSymbol
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
@@ -110,7 +112,7 @@ class Item extends PureComponent<Props> {
       return 'in'
     }
 
-    if (hasInput || isCancel) {
+    if (hasInput || isCancel || isUnknownAsset) {
       return 'success'
     }
 
@@ -273,7 +275,7 @@ class Item extends PureComponent<Props> {
             </div>
           )}
         </div>
-        {txAmount && (
+        {txAmount && assetSymbol && (
           <>
             <div
               title={divDecimals(amount, assetDecimals)}

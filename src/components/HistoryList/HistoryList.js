@@ -167,7 +167,11 @@ class HistoryList extends Component<Props, StateProps> {
               const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
               const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
 
-              if (!(digitalAsset && data && blockData && receiptData)) {
+              const assetDecimals: number = digitalAsset && digitalAsset.blockchainParams
+                ? digitalAsset.blockchainParams.decimals
+                : 18
+
+              if (!(data && blockData && receiptData)) {
                 return null
               }
 
@@ -184,9 +188,9 @@ class HistoryList extends Component<Props, StateProps> {
                     fromName={fromName}
                     eventType={eventType}
                     assetAddress={assetAddress}
-                    assetSymbol={digitalAsset.symbol}
+                    assetSymbol={digitalAsset && digitalAsset.symbol}
                     contractAddress={contractAddress}
-                    assetDecimals={digitalAsset.blockchainParams.decimals}
+                    assetDecimals={assetDecimals}
                     isPending={isPending}
                     hasInput={data.hasInput}
                     isActive={this.checkActive(keys)}
