@@ -61,6 +61,7 @@ export const ADDRESSES_AVAILABLE = {
   '0x3883f5e181fccaf8410fa61e12b59bad963fb645': 'theta',
   '0x6531f133e6deebe7f2dce5a0441aa7ef330b4e53': 'time',
   '0xaaaf91d9b90df800df4f55c205fd6989c977e73a': 'tkn',
+  '0xf230b790e05390fc8295f4d3f60332c93bed42e2': 'trx',
   '0x39bb259f66e1c59d5abef88375979b4d20d98022': 'wax',
   '0x667088b212ce3d06a1b553a7221e1fd19000d9af': 'wings',
   '0x4df812f6064def1e5e029f1ca858777cc98d2d81': 'xaur',
