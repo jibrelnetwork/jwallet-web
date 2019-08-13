@@ -12,8 +12,8 @@ import { formatAssetBalance } from 'utils/formatters'
 import { edit as editNote } from 'store/modules/comments'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectDigitalAsset } from 'store/selectors/digitalAssets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
@@ -56,9 +56,9 @@ type Props = {|
   +amount: ?string,
   +toName: ?string,
   +fromName: ?string,
-  +assetName: string,
   +amountStr: string,
-  +assetSymbol: string,
+  +assetName: ?string,
+  +assetSymbol: ?string,
   +assetAddress: AssetAddress,
   +contractAddress: ?OwnerAddress,
   +eventType: TransactionEventType,
@@ -232,19 +232,19 @@ function mapStateToProps(
   const network: Network = selectCurrentNetworkOrThrow(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
-  const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
+  const digitalAsset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
 
   const { timestamp }: TransactionBlockData = blockData
   const isZeroAmount: boolean = toBigNumber(amount).isZero()
   const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
 
   const {
+    blockchainParams,
     name: assetName,
     symbol: assetSymbol,
-    blockchainParams: {
-      decimals: assetDecimals,
-    },
-  }: DigitalAsset = digitalAsset
+  } = digitalAsset || {}
+
+  const assetDecimals: number = blockchainParams ? blockchainParams.decimals : 18
 
   const amountStr: ?string = isZeroAmount ? null : formatAssetBalance(
     assetAddress,

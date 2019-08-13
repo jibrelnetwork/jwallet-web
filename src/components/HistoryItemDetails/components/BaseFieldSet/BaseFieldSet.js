@@ -28,7 +28,7 @@ export function BaseFieldSet({
 }: CardProps) {
   return (
     <>
-      {!hasInput && !isCancel && (
+      {!hasInput && !isCancel && assetName && assetSymbol && (
         <AssetItemPreview
           name={assetName}
           symbol={assetSymbol}
