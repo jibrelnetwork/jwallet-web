@@ -4,33 +4,27 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { useI18n } from 'app/hooks'
-import { divDecimals } from 'utils/numbers'
+import { JIcon } from 'components/base'
 import { DateTimeFormat } from 'app/components'
 
-import {
-  JIcon,
-  JLink,
-} from 'components/base'
-
 import styles from '../../historyItemDetails.m.scss'
+import { FeeField } from '../FeeField/FeeField'
 import { NoteField } from '../NoteField/NoteField'
 import { type CardProps } from '../../HistoryItemDetails'
-import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
+import { AddressField } from '../AddressField/AddressField'
+import { TransactionHashField } from '../TransactionHashField/TransactionHashField'
 
-function getRepeatLink({
-  to,
-  amount,
-  assetAddress,
-  assetDecimals,
-}: CardProps): string {
-  return `/send?asset=${assetAddress}&to=${to || ''}&amount=${divDecimals(amount, assetDecimals)}`
-}
-
-export function Outgoing(props: CardProps) {
+export function Cancel(props: CardProps) {
   const {
     onEditFinish: handleEditNote,
+    fee,
+    from,
+    hash,
     note,
+    fromName,
+    blockExplorerUISubdomain,
     timestamp,
+    isPending,
   }: CardProps = props
 
   const i18n = useI18n()
@@ -40,21 +34,21 @@ export function Outgoing(props: CardProps) {
       <div className={styles.card}>
         <div className={classNames(styles.header, styles.success)}>
           <div className={styles.status}>
-            <JIcon name='ic_trx_out_24-use-fill' />
+            <JIcon name='ic_trx_success_24-use-fill' />
           </div>
           <div className={styles.description}>
             <div className={styles.title}>
               {i18n._(
-                'HistoryItemDetails.Outgoing.title',
+                'HistoryItemDetails.Cancel.title',
                 null,
                 { defaults: 'Success' },
               )}
             </div>
             <div className={styles.subtitle}>
               {i18n._(
-                'HistoryItemDetails.Outgoing.subtitle.another',
+                'HistoryItemDetails.Cancel.subtitle.cancel',
                 null,
-                { defaults: 'Transfer processed.' },
+                { defaults: 'Transfer canceled.' },
               )}
             </div>
             <div className={styles.date}>
@@ -62,22 +56,27 @@ export function Outgoing(props: CardProps) {
             </div>
           </div>
         </div>
-        <BaseFieldSet {...props} />
+        {from && (
+          <AddressField
+            value={from}
+            name={fromName}
+            blockExplorerUISubdomain={blockExplorerUISubdomain}
+            type='sender'
+          />
+        )}
+        <TransactionHashField
+          value={hash}
+          blockExplorerUISubdomain={blockExplorerUISubdomain}
+        />
+        <FeeField
+          value={fee}
+          isPending={isPending}
+        />
       </div>
       <NoteField
         onChange={handleEditNote}
         value={note}
       />
-      <JLink
-        href={getRepeatLink(props)}
-        theme='button-secondary'
-      >
-        {i18n._(
-          'HistoryItemDetails.Outgoing.repeat',
-          null,
-          { defaults: 'Repeat Payment' },
-        )}
-      </JLink>
     </div>
   )
 }

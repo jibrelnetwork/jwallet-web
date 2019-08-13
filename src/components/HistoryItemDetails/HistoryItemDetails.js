@@ -31,6 +31,7 @@ import styles from './historyItemDetails.m.scss'
 import { Burn } from './components/Burn/Burn'
 import { Mint } from './components/Mint/Mint'
 // import { Stuck } from './components/Stuck/Stuck'
+import { Cancel } from './components/Cancel/Cancel'
 import { Failed } from './components/Failed/Failed'
 import { Pending } from './components/Pending/Pending'
 import { Incoming } from './components/Incoming/Incoming'
@@ -123,14 +124,17 @@ class HistoryItemDetails extends Component<Props, StateProps> {
       to,
       from,
       eventType,
+      assetSymbol,
       contractAddress,
       timestamp,
       isSent,
       hasInput,
+      isCancel,
       isFailed,
       isPending,
     }: Props = this.props
 
+    const isUnknownAsset: boolean = !assetSymbol
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
@@ -155,12 +159,16 @@ class HistoryItemDetails extends Component<Props, StateProps> {
       return Mint
     }
 
-    if (hasInput) {
+    if (hasInput || isUnknownAsset) {
       return ContractCall
     }
 
     if (contractAddress) {
       return ContractCreation
+    }
+
+    if (isCancel) {
+      return Cancel
     }
 
     return isSent ? Outgoing : Incoming
@@ -246,7 +254,7 @@ function mapStateToProps(
 
   const assetDecimals: number = blockchainParams ? blockchainParams.decimals : 18
 
-  const amountStr: ?string = isZeroAmount ? null : formatAssetBalance(
+  const amountStr: ?string = (isZeroAmount || !assetSymbol) ? null : formatAssetBalance(
     assetAddress,
     amount,
     assetDecimals,

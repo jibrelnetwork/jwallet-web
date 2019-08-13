@@ -22,20 +22,18 @@ export function BaseFieldSet({
   assetSymbol,
   assetAddress,
   blockExplorerUISubdomain,
-  hasInput,
-  isCancel,
   isPending,
 }: CardProps) {
   return (
     <>
-      {!hasInput && !isCancel && assetName && assetSymbol && (
+      {assetName && assetSymbol && (
         <AssetItemPreview
           name={assetName}
           symbol={assetSymbol}
           address={assetAddress}
         />
       )}
-      {!hasInput && !isCancel && amount && <AmountField value={amountStr} />}
+      {amount && <AmountField value={amountStr} />}
       {from && (
         <AddressField
           value={from}
@@ -44,7 +42,7 @@ export function BaseFieldSet({
           type='sender'
         />
       )}
-      {to && !isCancel && (
+      {to && (
         <AddressField
           value={to}
           name={toName}
