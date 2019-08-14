@@ -50,6 +50,10 @@ type Props = {|
   +isPending: boolean,
 |}
 
+function checkCancel(to: ?Address): boolean {
+  return (to === config.cancelAddress)
+}
+
 class Item extends PureComponent<Props> {
   static defaultProps = {
     isSent: false,
@@ -90,7 +94,6 @@ class Item extends PureComponent<Props> {
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
-    const isCancel: boolean = (to === config.cancelAddress)
 
     if (isFailed) {
       return 'error_declined'
@@ -112,7 +115,7 @@ class Item extends PureComponent<Props> {
       return 'in'
     }
 
-    if (hasInput || isCancel || isUnknownAsset) {
+    if (hasInput || isUnknownAsset || checkCancel(to)) {
       return 'success'
     }
 
@@ -168,6 +171,14 @@ class Item extends PureComponent<Props> {
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
+
+    if (checkCancel(to)) {
+      return i18n._(
+        'HistoryList.Item.title.cancel',
+        null,
+        { defaults: 'Cancel transfer' },
+      )
+    }
 
     if (isEventBurn) {
       return i18n._(
