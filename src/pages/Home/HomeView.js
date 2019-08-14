@@ -153,8 +153,6 @@ class HomeViewComponent extends Component<Props, StateProps> {
       isActive,
     ))
 
-    console.error('Hello')
-
     this.setState({
       searchQuery: '',
       isInManageMode: false,
