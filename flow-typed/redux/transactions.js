@@ -114,10 +114,16 @@ declare type TransactionReceiptData = {|
   +status: TransactionStatus,
 |}
 
+declare type TransactionContractTransferData = {|
+  +amount: string,
+  +to: OwnerAddress,
+|}
+
 declare type Transaction = {|
   +data: ?TransactionData,
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
+  +contractTransferData?: TransactionContractTransferData,
   +hash: Hash,
   +amount: string,
   +blockHash: ?Hash,

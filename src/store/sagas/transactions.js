@@ -43,6 +43,7 @@ import {
 import {
   selectActiveWalletOrThrow,
   selectActiveWalletAddress,
+  selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
 import {
@@ -701,20 +702,70 @@ function* recursiveRequestTransactions(
   }
 }
 
-function* checkPendingTransaction(
-  action: ExtractReturn<typeof transactions.checkPendingTransaction>,
+function* checkFailedContractTransfer(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  toBlockStr: BlockNumber,
+  item: ?Transaction,
 ): Saga<void> {
-  const {
+  if (!(item && item.contractTransferData && item.to)) {
+    return
+  }
+
+  const modifiedItem: Transaction = {
+    ...item,
+    data: {
+      ...item.data,
+      hasInput: false, // move it to transfers
+    },
+    to: item.contractTransferData.to,
+    amount: item.contractTransferData.amount,
+    eventType: 1,
+  }
+
+  yield put(transactions.fetchByBlockSuccess(
     networkId,
     ownerAddress,
-    assetAddress,
-    transactionId,
-  } = action.payload
+    item.to,
+    toBlockStr,
+    { [item.hash]: modifiedItem },
+  ))
+}
 
+function* checkFailedContractTransfers(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  toBlockStr: BlockNumber,
+  txs: Transactions,
+): Transactions {
+  yield all(Object.keys(txs).map((txId: TransactionId) => checkFailedContractTransfer(
+    networkId,
+    ownerAddress,
+    toBlockStr,
+    txs[txId],
+  )))
+
+  return Object.keys(txs).reduce((
+    result: Transactions,
+    txId: TransactionId,
+  ): Transactions => {
+    const item: ?Transaction = txs[txId]
+
+    if (!item || item.contractTransferData) {
+      return result
+    }
+
+    return {
+      ...result,
+      [txId]: item,
+    }
+  }, {})
+}
+
+function* checkPendingTransaction(transactionId: TransactionId): Saga<void> {
   const transaction: ExtractReturn<typeof selectTransactionById> = yield select(
     selectTransactionById,
     transactionId,
-    assetAddress,
   )
 
   if (!transaction) {
@@ -732,14 +783,26 @@ function* checkPendingTransaction(
   const pendingTransaction: ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
     selectPendingTransactionByHash,
     hash,
-    assetAddress,
   )
 
   if (!pendingTransaction) {
     return
   }
 
-  yield put(transactions.removePendingTransaction(networkId, ownerAddress, assetAddress, hash))
+  const { assetAddress }: TransactionPrimaryKeys = pendingTransaction.keys
+
+  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+    yield select(selectCurrentNetworkId)
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
+
+  yield put(transactions.removePendingTransaction(
+    networkId,
+    ownerAddress,
+    assetAddress,
+    hash,
+  ))
 }
 
 export function* requestTransaction(
@@ -811,12 +874,7 @@ export function* requestTransaction(
       break
   }
 
-  yield put(transactions.checkPendingTransaction(
-    networkId,
-    ownerAddress,
-    assetAddress,
-    transactionId,
-  ))
+  yield checkPendingTransaction(transactionId)
 }
 
 function* fetchEventsData(
@@ -883,22 +941,22 @@ export function* requestTransactions(
           toBlock,
         )
 
+        const ethTXs: Transactions = yield checkFailedContractTransfers(
+          networkId,
+          ownerAddress,
+          toBlockStr,
+          txs,
+        )
+
         yield put(transactions.fetchByBlockSuccess(
           networkId,
           ownerAddress,
           assetAddress,
           toBlockStr,
-          txs,
+          ethTXs,
         ))
 
-        const txIds: TransactionId[] = Object.keys(txs)
-
-        yield all(txIds.map((txId: TransactionId) => put(transactions.checkPendingTransaction(
-          networkId,
-          ownerAddress,
-          assetAddress,
-          txId,
-        ))))
+        yield all(Object.keys(txs).map((txId: TransactionId) => checkPendingTransaction(txId)))
 
         break
       }
@@ -1042,5 +1100,4 @@ export function* transactionsRootSaga(): Saga<void> {
   yield takeEvery(transactions.REMOVE_ITEMS_BY_ASSET, removeItemsByAsset)
   yield takeEvery(transactions.FETCH_BY_OWNER_REQUEST, fetchByOwnerRequest)
   yield takeEvery(transactions.RESYNC_TRANSACTIONS_START, resyncTransactionsStart)
-  yield takeEvery(transactions.CHECK_PENDING_TRANSACTION, checkPendingTransaction)
 }

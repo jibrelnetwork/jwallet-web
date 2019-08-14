@@ -8,14 +8,23 @@ import { JIcon } from 'components/base'
 import { DateTimeFormat } from 'app/components'
 
 import styles from '../../historyItemDetails.m.scss'
+import { FeeField } from '../FeeField/FeeField'
 import { NoteField } from '../NoteField/NoteField'
 import { type CardProps } from '../../HistoryItemDetails'
-import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
+import { AddressField } from '../AddressField/AddressField'
+import { TransactionHashField } from '../TransactionHashField/TransactionHashField'
 
 export function ContractCall(props: CardProps) {
   const {
     onEditFinish: handleEditNote,
+    to,
+    fee,
+    from,
+    hash,
     note,
+    toName,
+    fromName,
+    blockExplorerUISubdomain,
     timestamp,
   }: CardProps = props
 
@@ -48,7 +57,27 @@ export function ContractCall(props: CardProps) {
             </div>
           </div>
         </div>
-        <BaseFieldSet {...props} />
+        {from && (
+          <AddressField
+            value={from}
+            name={fromName}
+            blockExplorerUISubdomain={blockExplorerUISubdomain}
+            type='sender'
+          />
+        )}
+        {to && (
+          <AddressField
+            value={to}
+            name={toName}
+            blockExplorerUISubdomain={blockExplorerUISubdomain}
+            type='recipient'
+          />
+        )}
+        <TransactionHashField
+          value={hash}
+          blockExplorerUISubdomain={blockExplorerUISubdomain}
+        />
+        <FeeField value={fee} />
       </div>
       <NoteField
         onChange={handleEditNote}

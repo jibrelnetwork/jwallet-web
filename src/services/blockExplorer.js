@@ -1,10 +1,41 @@
 // @flow strict
 
+import abiDecoder from 'abi-decoder'
+
 import config from 'config'
 import getENVVar from 'utils/config/getENVVar'
 import { isZero } from 'utils/numbers'
 import { getAddressChecksum } from 'utils/address'
 import * as type from 'utils/type'
+
+type BlockExplorerAPIParams = {|
+  +action: 'txlist',
+  +sort: SortDirection,
+  +page?: number,
+  +offset?: number,
+  +endblock?: number,
+  +startblock?: number,
+|}
+
+const ERC20_TRANSFER_ABI = [{
+  constant: false,
+  inputs: [{
+    name: 'to',
+    type: 'address',
+  }, {
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'transfer',
+  outputs: [{
+    name: 'success',
+    type: 'bool',
+  }],
+  payable: false,
+  type: 'function',
+}]
+
+abiDecoder.addABI(ERC20_TRANSFER_ABI)
 
 const { blockExplorerAPIOptions }: AppConfig = config
 
@@ -17,15 +48,6 @@ const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } =
 
 const BLOCKEXPLORER_API: string =
   getENVVar('__BLOCKEXPLORER_API__') || __DEFAULT_BLOCKEXPLORER_API__
-
-type BlockExplorerAPIParams = {|
-  +action: 'txlist',
-  +sort: SortDirection,
-  +page?: number,
-  +offset?: number,
-  +endblock?: number,
-  +startblock?: number,
-|}
 
 function callApi(
   params: BlockExplorerAPIParams,
@@ -117,6 +139,60 @@ function filterETHTransactions(list: any[]): Object[] {
   })
 }
 
+function checkTransferInput(name: string): boolean {
+  return (name === 'transfer')
+}
+
+function getInputParams(params: any[]): TransactionContractTransferData {
+  return params.reduce((
+    result: TransactionContractTransferData,
+    param: any,
+  ): TransactionContractTransferData => {
+    if (!param) {
+      return result
+    }
+
+    const {
+      name,
+      value,
+      type: paramType,
+    } = param
+
+    if ((name === 'to') && (paramType === 'address')) {
+      return {
+        ...result,
+        to: getAddressChecksum(value),
+      }
+    } else if ((name === 'value') && (paramType === 'uint256')) {
+      return {
+        ...result,
+        amount: value,
+      }
+    }
+
+    return result
+  }, {
+    amount: '0',
+    to: `0x${'0'.repeat(40)}`,
+  })
+}
+
+function modifyTransferTransaction(
+  item: Transaction,
+  input: string,
+): Transaction {
+  const data = abiDecoder.decodeMethod(input)
+
+  if (!(data && checkTransferInput(data.name))) {
+    return item
+  }
+
+  return {
+    ...item,
+    contractTransferData: getInputParams(data.params),
+  }
+}
+
 function prepareETHTransactions(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkETHTransaction(item)) {
@@ -139,11 +215,13 @@ function prepareETHTransactions(data: Object[]): Transactions {
       contractAddress,
     }: TransactionFromBlockExplorer = item
 
+    const hasInput: boolean = (input !== '0x')
+
     const newTransaction: Transaction = {
       data: {
         gasPrice,
+        hasInput,
         nonce: parseInt(nonce, 10) || 0,
-        hasInput: (input !== '0x'),
       },
       blockData: {
         timestamp: parseInt(timeStamp, 10) || 0,
@@ -161,6 +239,16 @@ function prepareETHTransactions(data: Object[]): Transactions {
       eventType: 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
+    }
+
+    if (isError && hasInput) {
+      return {
+        ...result,
+        [hash]: modifyTransferTransaction(
+          newTransaction,
+          input,
+        ),
+      }
     }
 
     return {

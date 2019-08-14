@@ -42,3 +42,7 @@ export function FeeField({
     />
   )
 }
+
+FeeField.defaultProps = {
+  isPending: false,
+}

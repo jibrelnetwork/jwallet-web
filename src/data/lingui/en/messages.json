@@ -322,7 +322,7 @@
     "HistoryItemDetails.ContractCall.title": "Success",
     "HistoryItemDetails.ContractCreation.subtitle": "Contract created.",
     "HistoryItemDetails.ContractCreation.title": "Success",
-    "HistoryItemDetails.Failed.subtitle.another": "Contract Call declined.",
+    "HistoryItemDetails.Failed.subtitle.another": "Transfer declined.",
     "HistoryItemDetails.Failed.title": "Error",
     "HistoryItemDetails.Incoming.subtitle": "Transfer processed.",
     "HistoryItemDetails.Incoming.title": "Success",
@@ -362,7 +362,6 @@
     "HistoryItemDetails.Failed.subtitle.cancel": "Transfer not canceled.",
     "HistoryItemDetails.Failed.subtitle.input": "Contract Call declined.",
     "HistoryItemDetails.Outgoing.subtitle.another": "Transfer processed.",
-    "HistoryItemDetails.Outgoing.subtitle.cancel": "Transfer canceled.",
     "HistoryItemDetails.Pending.subtitle.cancel": "Cancel transfer. This may take some time.",
     "HistoryItemDetails.Pending.title.another": "Pending",
     "HistoryItemDetails.Stuck.subtitle.cancel": "Cancel transfer stuck.",
@@ -396,5 +395,7 @@
     "SettingsCurrency.toast": "Currency changed.",
     "TransactionsFilter.error": "Error transfer",
     "TransactionsFilter.pending": "Pending transfer",
-    "AssetsItem.title": "Transfers"
+    "AssetsItem.title": "Transfers",
+    "HistoryItemDetails.Cancel.subtitle.cancel": "Transfer canceled.",
+    "HistoryItemDetails.Cancel.title": "Success"
 }

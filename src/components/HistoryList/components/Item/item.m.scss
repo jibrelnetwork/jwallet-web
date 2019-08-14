@@ -7,6 +7,7 @@
   height: 88px;
   max-height: 88px;
   margin-bottom: 16px;
+  padding-right: 32px;
   align-items: center;
   border-radius: 4px;
   background-color: $white;
@@ -66,10 +67,6 @@
 .title {
   margin-bottom: 2px;
 
-  &.error {
-    color: $main-red;
-  }
-
   &.in,
   &.out {
     color: $main-blue;
@@ -97,5 +94,5 @@
 
 .symbol {
   min-width: 24px;
-  margin: 0 32px 0 16px;
+  margin-left: 16px;
 }

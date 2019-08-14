@@ -12,8 +12,8 @@ import { formatAssetBalance } from 'utils/formatters'
 import { edit as editNote } from 'store/modules/comments'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectDigitalAsset } from 'store/selectors/digitalAssets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
@@ -31,6 +31,7 @@ import styles from './historyItemDetails.m.scss'
 import { Burn } from './components/Burn/Burn'
 import { Mint } from './components/Mint/Mint'
 // import { Stuck } from './components/Stuck/Stuck'
+import { Cancel } from './components/Cancel/Cancel'
 import { Failed } from './components/Failed/Failed'
 import { Pending } from './components/Pending/Pending'
 import { Incoming } from './components/Incoming/Incoming'
@@ -56,9 +57,9 @@ type Props = {|
   +amount: ?string,
   +toName: ?string,
   +fromName: ?string,
-  +assetName: string,
   +amountStr: string,
-  +assetSymbol: string,
+  +assetName: ?string,
+  +assetSymbol: ?string,
   +assetAddress: AssetAddress,
   +contractAddress: ?OwnerAddress,
   +eventType: TransactionEventType,
@@ -123,14 +124,17 @@ class HistoryItemDetails extends Component<Props, StateProps> {
       to,
       from,
       eventType,
+      assetSymbol,
       contractAddress,
       timestamp,
       isSent,
       hasInput,
+      isCancel,
       isFailed,
       isPending,
     }: Props = this.props
 
+    const isUnknownAsset: boolean = !assetSymbol
     const isMintable: boolean = (eventType === 2)
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
@@ -155,12 +159,16 @@ class HistoryItemDetails extends Component<Props, StateProps> {
       return Mint
     }
 
-    if (hasInput) {
+    if (hasInput || isUnknownAsset) {
       return ContractCall
     }
 
     if (contractAddress) {
       return ContractCreation
+    }
+
+    if (isCancel) {
+      return Cancel
     }
 
     return isSent ? Outgoing : Incoming
@@ -232,21 +240,21 @@ function mapStateToProps(
   const network: Network = selectCurrentNetworkOrThrow(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
-  const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
+  const digitalAsset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
 
   const { timestamp }: TransactionBlockData = blockData
   const isZeroAmount: boolean = toBigNumber(amount).isZero()
   const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
 
   const {
+    blockchainParams,
     name: assetName,
     symbol: assetSymbol,
-    blockchainParams: {
-      decimals: assetDecimals,
-    },
-  }: DigitalAsset = digitalAsset
+  } = digitalAsset || {}
 
-  const amountStr: ?string = isZeroAmount ? null : formatAssetBalance(
+  const assetDecimals: number = blockchainParams ? blockchainParams.decimals : 18
+
+  const amountStr: ?string = (isZeroAmount || !assetSymbol) ? null : formatAssetBalance(
     assetAddress,
     amount,
     assetDecimals,

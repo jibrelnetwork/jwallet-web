@@ -56,11 +56,13 @@ export function Mint({
             </div>
           </div>
         </div>
-        <AssetItemPreview
-          name={assetName}
-          symbol={assetSymbol}
-          address={assetAddress}
-        />
+        {assetName && assetSymbol && (
+          <AssetItemPreview
+            name={assetName}
+            symbol={assetSymbol}
+            address={assetAddress}
+          />
+        )}
         {!hasInput && amount && <AmountField value={amountStr} />}
         <TransactionHashField
           value={hash}
