@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "Актив",
     "Home.assets.manage": "Управлять",
     "Home.assets.save": "Сохранить",
-    "Home.assets.title": "Активы",
     "Home.noSearchResults.alt": "Нет результатов поиска в списке активов",
     "Home.noSearchResults.description": "Результаты поиска отсутствуют.",
     "Home.transfer.exchange": "Обменять",
@@ -396,6 +395,9 @@
     "TransactionsFilter.error": "Ошибка при выполнении перевода",
     "TransactionsFilter.pending": "Перевод обрабатывается",
     "AssetsItem.title": "Переводы",
-    "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.subtitle.cancel": "Перевод отменен.",
+    "HistoryItemDetails.Cancel.title": "Выполнено",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }

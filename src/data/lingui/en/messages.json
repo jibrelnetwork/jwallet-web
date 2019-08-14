@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "Asset",
     "Home.assets.manage": "Manage",
     "Home.assets.save": "Save",
-    "Home.assets.title": "Assets",
     "Home.noSearchResults.alt": "No search results in assets list",
     "Home.noSearchResults.description": "No Search Results.",
     "Home.transfer.exchange": "Exchange",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "Pending transfer",
     "AssetsItem.title": "Transfers",
     "HistoryItemDetails.Cancel.subtitle.cancel": "Transfer canceled.",
-    "HistoryItemDetails.Cancel.title": "Success"
+    "HistoryItemDetails.Cancel.title": "Success",
+    "Home.assets.add": "Add Asset",
+    "Home.assets.title.default": "Assets",
+    "Home.assets.title.manage": "Manage Assets"
 }

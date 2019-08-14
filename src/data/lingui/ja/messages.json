@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "資産",
     "Home.assets.manage": "管理",
     "Home.assets.save": "保存",
-    "Home.assets.title": "資産",
     "Home.noSearchResults.alt": "資産リストに検索結果がありません",
     "Home.noSearchResults.description": "検索結果がありません。",
     "Home.transfer.exchange": "交換",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "保留中送金",
     "AssetsItem.title": "送金",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.title": "",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }

@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "资产",
     "Home.assets.manage": "管理",
     "Home.assets.save": "保存",
-    "Home.assets.title": "资产",
     "Home.noSearchResults.alt": "资产列表中没有搜索结果",
     "Home.noSearchResults.description": "没有搜索结果。",
     "Home.transfer.exchange": "交换",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "待转账",
     "AssetsItem.title": "转帐",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.title": "",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }
