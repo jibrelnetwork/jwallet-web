@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "Activo",
     "Home.assets.manage": "Gestionar",
     "Home.assets.save": "Guardar",
-    "Home.assets.title": "Activos",
     "Home.noSearchResults.alt": "No hay resultados de búsqueda en la lista de activos",
     "Home.noSearchResults.description": "No hay resultados de búsqueda.",
     "Home.transfer.exchange": "Intercambiar",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "Transferencia pendiente",
     "AssetsItem.title": "Transferencias",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.title": "",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }

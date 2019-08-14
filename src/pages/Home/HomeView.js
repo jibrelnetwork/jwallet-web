@@ -13,6 +13,7 @@ import {
 import noResultImg from 'public/assets/pic_assets_112.svg'
 import buttonStyles from 'components/base/Button/button.m.scss'
 import { SearchInput } from 'components'
+import { searchAssets } from 'utils/search'
 
 import {
   JIcon,
@@ -23,34 +24,38 @@ import {
 
 import { AssetItem } from './components/AssetItem/AssetItem'
 import { ManageAssetItem } from './components/AssetItem/ManageAssetItem'
-import { filterAssetByQuery } from './filterAssetByQuery'
 
-import homeStyle from './home.m.scss'
+import styles from './home.m.scss'
 
 // eslint-disable-next-line max-len
 const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
 const ASSETS_HEADER_BOTTOM_EDGE = 376
 
 export type Props = {|
+  +setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
   +items: DigitalAssetWithBalance[],
-  setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
   +i18n: I18nType,
 |}
 
-type ComponentState = {|
-  searchQuery: string,
-  isInManageMode: boolean,
-  assetsState: {
+type StateProps = {|
+  +searchQuery: string,
+  +isInManageMode: boolean,
+  +assetsState: {
     [assetAddress: string]: boolean,
   },
-  isSticky: boolean,
+  +isSticky: boolean,
+|}
+
+type AssetState = {|
+  +address: AssetAddress,
+  isActive: boolean,
 |}
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
 }
 
-class HomeViewComponent extends Component<Props, ComponentState> {
+class HomeViewComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -66,7 +71,7 @@ class HomeViewComponent extends Component<Props, ComponentState> {
     this.rootWrapper.addEventListener('scroll', this.handleScroll)
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: ComponentState) {
+  shouldComponentUpdate(nextProps: Props, nextState: StateProps) {
     if (
       nextProps.items
         .find(
@@ -125,29 +130,33 @@ class HomeViewComponent extends Component<Props, ComponentState> {
   }
 
   handleLeaveManageMode = () => {
-    const {
-      assetsState,
-    } = this.state
+    const { assetsState }: StateProps = this.state
 
     const {
       items,
       setAssetIsActive,
-    } = this.props
+    }: Props = this.props
 
-    const diff = items.map(item =>
-      Boolean(item.isActive) !== assetsState[item.blockchainParams.address]
-        ? {
+    const diff: AssetState[] = items
+      .map((item: DigitalAssetWithBalance): ?AssetState =>
+        (Boolean(item.isActive) === assetsState[item.blockchainParams.address]) ? null : {
           isActive: assetsState[item.blockchainParams.address],
           address: item.blockchainParams.address,
-        }
-        : undefined).filter(Boolean)
+        })
+      .filter(Boolean)
 
     diff.forEach(({
       address,
       isActive,
-    }) => setAssetIsActive(address, isActive))
+    }: AssetState) => setAssetIsActive(
+      address,
+      isActive,
+    ))
+
+    console.error('Hello')
 
     this.setState({
+      searchQuery: '',
       isInManageMode: false,
     })
   }
@@ -168,7 +177,7 @@ class HomeViewComponent extends Component<Props, ComponentState> {
     } = this.state
 
     return (
-      <ul className={homeStyle.assetList}>
+      <ul className={styles.assetList}>
         {filteredItems.map((item) => {
           const address = get(item, 'blockchainParams.address')
 
@@ -198,7 +207,7 @@ class HomeViewComponent extends Component<Props, ComponentState> {
       <figure>
         <img
           src={noResultImg}
-          className={homeStyle.emptyIcon}
+          className={styles.emptyIcon}
           alt={i18n._(
             'Home.noSearchResults.alt',
             null,
@@ -219,36 +228,36 @@ class HomeViewComponent extends Component<Props, ComponentState> {
     const {
       items,
       i18n,
-    } = this.props
+    }: Props = this.props
 
     const {
+      searchQuery,
       isInManageMode,
       isSticky,
-    } = this.state
+    }: StateProps = this.state
 
-    const assetItems = isInManageMode ? items : filterActiveDigitalAssets(items)
+    const filteredItems: DigitalAssetWithBalance[] = searchAssets(
+      isInManageMode ? items : filterActiveDigitalAssets(items),
+      searchQuery,
+    )
 
-    const filteredItems = assetItems.filter(item => filterAssetByQuery(
-      item,
-      this.state.searchQuery,
-    ))
-    const isEmptyAssetsList = filteredItems.length <= 0
+    const isEmptyAssetsList: boolean = !filteredItems.length
 
     return (
-      <div className={homeStyle.core}>
-        <section className={homeStyle.linksSection}>
+      <div className={styles.core}>
+        <section className={styles.linksSection}>
           <Header title={i18n._(
             'Home.transfer.title',
             null,
             { defaults: 'Transfer' },
           )}
           />
-          <nav className={homeStyle.links}>
+          <nav className={styles.links}>
             <JLink
-              className={homeStyle.link}
+              className={styles.link}
               href='/send'
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-send-use-fill'
                   color='blue'
@@ -261,10 +270,10 @@ class HomeViewComponent extends Component<Props, ComponentState> {
               )}
             </JLink>
             <JLink
-              className={homeStyle.link}
+              className={styles.link}
               href='/receive'
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-receive-use-fill'
                   color='blue'
@@ -277,10 +286,10 @@ class HomeViewComponent extends Component<Props, ComponentState> {
               )}
             </JLink>
             <JLink
-              className={homeStyle.link}
+              className={styles.link}
               href={JCASH_UTM_URL}
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-exchange-use-fill'
                   color='blue'
@@ -296,35 +305,57 @@ class HomeViewComponent extends Component<Props, ComponentState> {
         </section>
         <section
           className={classNames(
-            homeStyle.assetsSection,
-            isEmptyAssetsList && homeStyle.empty,
+            styles.assetsSection,
+            isEmptyAssetsList && styles.empty,
           )}
         >
           <div
             className={classNames(
-              homeStyle.assetsHeaderWrapper,
-              isSticky && homeStyle.sticky,
+              styles.assetsHeaderWrapper,
+              isSticky && styles.sticky,
             )}
           >
             <Header
-              title={i18n._(
-                'Home.assets.title',
+              title={isInManageMode ? i18n._(
+                'Home.assets.title.manage',
+                null,
+                { defaults: 'Manage Assets' },
+              ) : i18n._(
+                'Home.assets.title.default',
                 null,
                 { defaults: 'Assets' },
               )}
-              className={homeStyle.assetsHeader}
+              className={styles.assetsHeader}
             >
-              <div className={homeStyle.search}>
+              <div className={styles.search}>
                 <SearchInput
                   onChange={this.handleSearchQueryInput}
+                  value={searchQuery}
                 />
               </div>
-              {isInManageMode
-                ? (
+              {isInManageMode ? (
+                <>
+                  <JLink
+                    className={styles.add}
+                    href='/assets/add'
+                    theme='button-additional-icon'
+                  >
+                    <JIcon
+                      className={buttonStyles.icon}
+                      name='ic_add_24-use-fill'
+                    />
+                    <span className={buttonStyles.label}>
+                      {i18n._(
+                        'Home.assets.add',
+                        null,
+                        { defaults: 'Add Asset' },
+                      )}
+                    </span>
+                  </JLink>
                   <Button
-                    className={`__save-button ${homeStyle.save}`}
-                    theme='additional'
                     onClick={this.handleLeaveManageMode}
+                    className={styles.save}
+                    theme='additional'
                   >
                     {i18n._(
                       'Home.assets.save',
@@ -332,30 +363,29 @@ class HomeViewComponent extends Component<Props, ComponentState> {
                       { defaults: 'Save' },
                     )}
                   </Button>
-                )
-                : (
-                  <Button
-                    className='__manage-button'
-                    theme='additional-icon'
-                    onClick={this.handleEnterManageMode}
-                  >
-                    <JIcon
-                      name='ic_manage_24-use-fill'
-                      className={buttonStyles.icon}
-                    />
-                    <span className={buttonStyles.label}>
-                      {i18n._(
-                        'Home.assets.manage',
-                        null,
-                        { defaults: 'Manage' },
-                      )}
-                    </span>
-                  </Button>
-                )
-              }
+                </>
+              ) : (
+                <Button
+                  className='__manage-button'
+                  theme='additional-icon'
+                  onClick={this.handleEnterManageMode}
+                >
+                  <JIcon
+                    name='ic_manage_24-use-fill'
+                    className={buttonStyles.icon}
+                  />
+                  <span className={buttonStyles.label}>
+                    {i18n._(
+                      'Home.assets.manage',
+                      null,
+                      { defaults: 'Manage' },
+                    )}
+                  </span>
+                </Button>
+              )}
             </Header>
           </div>
-          <div className={homeStyle.content}>
+          <div className={styles.content}>
             {isEmptyAssetsList
               ? this.renderEmptyList()
               : this.renderAssetsList(filteredItems)

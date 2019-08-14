@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "자산",
     "Home.assets.manage": "관리",
     "Home.assets.save": "저장",
-    "Home.assets.title": "자산",
     "Home.noSearchResults.alt": "자산 목록에 검색 결과 없음",
     "Home.noSearchResults.description": "검색 결과 없음.",
     "Home.transfer.exchange": "교환",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "이체 대기 중",
     "AssetsItem.title": "이체",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.title": "",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }

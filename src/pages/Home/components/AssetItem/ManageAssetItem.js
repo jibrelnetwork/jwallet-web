@@ -3,14 +3,14 @@
 import React from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import checkETH from 'utils/digitalAssets/checkETH'
 
 import offsetsStyle from 'styles/offsets.m.scss'
+import { checkETH } from 'utils/digitalAssets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
-  JAssetSymbol,
   JSwitch,
+  JAssetSymbol,
 } from 'components/base'
 
 import styles from './assetItem.m.scss'
@@ -62,16 +62,15 @@ function ManageAssetItem({
           {symbol}
         </div>
       </div>
-      <div
-        className={classNames(styles.item, styles.arrowIcon)}
-      >
-        <JSwitch
-          name={`asset-${address}`}
-          onChange={handleAssetCheck(address, handleCheck)}
-          isChecked={isChecked}
-          isDisabled={checkETH(address)}
-        />
-      </div>
+      {!checkETH(address) && (
+        <div className={classNames(styles.item, styles.arrowIcon)}>
+          <JSwitch
+            name={`asset-${address}`}
+            onChange={handleAssetCheck(address, handleCheck)}
+            isChecked={isChecked}
+          />
+        </div>
+      )}
     </div>
   )
 }

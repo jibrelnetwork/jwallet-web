@@ -45,7 +45,6 @@
     "HistoryItemDetails.AssetItemPreview.label": "資產",
     "Home.assets.manage": "管理",
     "Home.assets.save": "儲存",
-    "Home.assets.title": "資產",
     "Home.noSearchResults.alt": "資產清單中沒有搜索結果",
     "Home.noSearchResults.description": "沒有搜索結果。",
     "Home.transfer.exchange": "交換",
@@ -397,5 +396,8 @@
     "TransactionsFilter.pending": "擱置中的轉帳",
     "AssetsItem.title": "轉帳",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
-    "HistoryItemDetails.Cancel.title": ""
+    "HistoryItemDetails.Cancel.title": "",
+    "Home.assets.add": "",
+    "Home.assets.title.default": "",
+    "Home.assets.title.manage": ""
 }
