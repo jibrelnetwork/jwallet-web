@@ -13,16 +13,22 @@ import {
 import styles from './assetItemPreview.m.scss'
 
 type Props = {|
-  name: string,
-  symbol: string,
-  address: string,
+  +name: ?string,
+  +symbol: ?string,
+  +address: string,
+  +isCancel: boolean,
 |}
 
 export function AssetItemPreview({
   name,
   symbol,
   address,
+  isCancel,
 }: Props) {
+  if (!name || !symbol || isCancel) {
+    return null
+  }
+
   const i18n = useI18n()
 
   return (
@@ -55,4 +61,8 @@ export function AssetItemPreview({
       </div>
     </JLink>
   )
+}
+
+AssetItemPreview.defaultProps = {
+  isCancel: false,
 }

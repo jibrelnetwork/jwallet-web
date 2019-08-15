@@ -7,9 +7,17 @@ import { FieldPreview } from 'components'
 
 type Props = {|
   +value: string,
+  +isCancel: boolean,
 |}
 
-export function AmountField({ value }: Props) {
+export function AmountField({
+  value,
+  isCancel,
+}: Props) {
+  if (isCancel) {
+    return null
+  }
+
   const i18n = useI18n()
 
   return (
@@ -22,4 +30,8 @@ export function AmountField({ value }: Props) {
       )}
     />
   )
+}
+
+AmountField.defaultProps = {
+  isCancel: false,
 }
