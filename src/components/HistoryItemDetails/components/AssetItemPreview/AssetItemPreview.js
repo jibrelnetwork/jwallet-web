@@ -16,16 +16,14 @@ type Props = {|
   +name: ?string,
   +symbol: ?string,
   +address: string,
-  +isCancel: boolean,
 |}
 
 export function AssetItemPreview({
   name,
   symbol,
   address,
-  isCancel,
 }: Props) {
-  if (!name || !symbol || isCancel) {
+  if (!name || !symbol) {
     return null
   }
 
@@ -61,8 +59,4 @@ export function AssetItemPreview({
       </div>
     </JLink>
   )
-}
-
-AssetItemPreview.defaultProps = {
-  isCancel: false,
 }

@@ -27,18 +27,14 @@ export function BaseFieldSet({
 }: CardProps) {
   return (
     <>
-      <AssetItemPreview
-        name={assetName}
-        symbol={assetSymbol}
-        address={assetAddress}
-        isCancel={isCancel}
-      />
-      {amount && (
-        <AmountField
-          value={amountStr}
-          isCancel={isCancel}
+      {!isCancel && (
+        <AssetItemPreview
+          name={assetName}
+          symbol={assetSymbol}
+          address={assetAddress}
         />
       )}
+      {amount && !isCancel && <AmountField value={amountStr} />}
       {from && (
         <AddressField
           value={from}
