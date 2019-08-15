@@ -61,17 +61,19 @@ export function Pending(props: CardProps) {
         onChange={handleEditNote}
         value={note}
       />
-      <JLink
-        className={styles.cancel}
-        theme='button-secondary'
-        href={`/history/${id}/cancel`}
-      >
-        {i18n._(
-          'HistoryItem.Pending.cancel',
-          null,
-          { defaults: 'Cancel' },
-        )}
-      </JLink>
+      {!isCancel && (
+        <JLink
+          className={styles.cancel}
+          theme='button-secondary'
+          href={`/history/${id}/cancel`}
+        >
+          {i18n._(
+            'HistoryItem.Pending.cancel',
+            null,
+            { defaults: 'Cancel' },
+          )}
+        </JLink>
+      )}
     </div>
   )
 }
