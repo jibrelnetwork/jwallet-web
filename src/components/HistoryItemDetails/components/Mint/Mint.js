@@ -25,7 +25,6 @@ export function Mint({
   assetAddress,
   blockExplorerUISubdomain,
   timestamp,
-  hasInput,
 }: CardProps) {
   const i18n = useI18n()
 
@@ -56,14 +55,12 @@ export function Mint({
             </div>
           </div>
         </div>
-        {assetName && assetSymbol && (
-          <AssetItemPreview
-            name={assetName}
-            symbol={assetSymbol}
-            address={assetAddress}
-          />
-        )}
-        {!hasInput && amount && <AmountField value={amountStr} />}
+        <AssetItemPreview
+          name={assetName}
+          symbol={assetSymbol}
+          address={assetAddress}
+        />
+        {amount && <AmountField value={amountStr} />}
         <TransactionHashField
           value={hash}
           blockExplorerUISubdomain={blockExplorerUISubdomain}

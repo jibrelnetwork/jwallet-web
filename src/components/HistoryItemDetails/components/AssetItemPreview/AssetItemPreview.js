@@ -13,9 +13,9 @@ import {
 import styles from './assetItemPreview.m.scss'
 
 type Props = {|
-  name: string,
-  symbol: string,
-  address: string,
+  +name: ?string,
+  +symbol: ?string,
+  +address: string,
 |}
 
 export function AssetItemPreview({
@@ -23,6 +23,10 @@ export function AssetItemPreview({
   symbol,
   address,
 }: Props) {
+  if (!name || !symbol) {
+    return null
+  }
+
   const i18n = useI18n()
 
   return (

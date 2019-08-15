@@ -22,18 +22,19 @@ export function BaseFieldSet({
   assetSymbol,
   assetAddress,
   blockExplorerUISubdomain,
+  isCancel,
   isPending,
 }: CardProps) {
   return (
     <>
-      {assetName && assetSymbol && (
+      {!isCancel && (
         <AssetItemPreview
           name={assetName}
           symbol={assetSymbol}
           address={assetAddress}
         />
       )}
-      {amount && <AmountField value={amountStr} />}
+      {amount && !isCancel && <AmountField value={amountStr} />}
       {from && (
         <AddressField
           value={from}
