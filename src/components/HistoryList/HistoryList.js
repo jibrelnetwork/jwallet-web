@@ -22,8 +22,8 @@ import { Empty } from './components/Empty/Empty'
 type HistoryListHandler = (e: SyntheticUIEvent<HTMLDivElement>) => any
 
 type OwnProps = {|
-  +onListScroll: ?HistoryListHandler,
-  +onAsideScroll: ?HistoryListHandler,
+  +onListScroll?: ?HistoryListHandler,
+  +onAsideScroll?: ?HistoryListHandler,
   +items: TransactionWithNoteAndNames[],
   +currentBlock: number,
   +isLoading: boolean,
@@ -43,6 +43,8 @@ type StateProps = {|
 
 class HistoryList extends Component<Props, StateProps> {
   static defaultProps = {
+    onListScroll: undefined,
+    onAsideScroll: undefined,
     isLoading: false,
     withDetailsPanel: false,
   }

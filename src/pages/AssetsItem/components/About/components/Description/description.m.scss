@@ -1,0 +1,46 @@
+@import 'styles/mixins';
+
+.core {
+  @include font(16px, 24px);
+
+  position: relative;
+  max-width: 720px;
+  flex-grow: 1;
+  margin-left: auto;
+  padding-left: 56px;
+  border-left: 1px solid $main-black-10;
+}
+
+.label {
+  font-weight: 900;
+  color: $main-black;
+}
+
+.text {
+  margin-top: 16px;
+  color: $main-black-60;
+  overflow: hidden;
+
+  &.hidden {
+    max-height: 120px;
+  }
+}
+
+.more {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), $white 60%);
+  text-align: right;
+}
+
+.button {
+  color: $main-blue;
+  border-bottom: 1px dashed $main-blue-40;
+  cursor: pointer;
+
+  &:hover {
+    border-bottom-color: transparent;
+  }
+}

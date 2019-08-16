@@ -1,0 +1,32 @@
+@import 'styles/mixins';
+
+.core {
+  position: relative;
+}
+
+.card {
+  @include flex-row;
+
+  max-width: 1120px;
+  padding: 32px 48px 32px 36px;
+  background-color: $white;
+  box-shadow: $normal-shadow;
+}
+
+.info {
+  margin-left: 36px;
+}
+
+.name {
+  @include font(14px, 22px);
+
+  color: $main-black-60;
+}
+
+.balance {
+  @include font(18px, 26px);
+
+  margin-top: 8px;
+  color: $main-black;
+  font-weight: 600;
+}
