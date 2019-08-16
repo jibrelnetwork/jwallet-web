@@ -1,7 +1,7 @@
 FROM node:8-onbuild AS build
 
-ENV MAIN_RPC_ADDR=main.node.jwallet.network \
-    ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
+ENV MAIN_RPC_ADDR=main.jnode.network \
+    ROPSTEN_RPC_ADDR=ropsten.jnode.network
 
 RUN npm r lint-staged
 RUN npm run build:clean
