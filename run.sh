@@ -2,6 +2,8 @@
 
 RUNMODE="${1:-start}"
 
+dockerize -template /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+
 if [ "${RUNMODE}" = "check" ]; then
     /usr/sbin/nginx -t
 else
