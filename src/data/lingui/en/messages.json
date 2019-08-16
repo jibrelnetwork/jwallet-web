@@ -394,10 +394,17 @@
     "SettingsCurrency.toast": "Currency changed.",
     "TransactionsFilter.error": "Error transfer",
     "TransactionsFilter.pending": "Pending transfer",
-    "AssetsItem.title": "Transfers",
     "HistoryItemDetails.Cancel.subtitle.cancel": "Transfer canceled.",
     "HistoryItemDetails.Cancel.title": "Success",
     "Home.assets.add": "Add Asset",
     "Home.assets.title.default": "Assets",
-    "Home.assets.title.manage": "Manage Assets"
+    "Home.assets.title.manage": "Manage Assets",
+    "AssetsItem.About.Description.label": "Description",
+    "AssetsItem.About.Description.more": "Show more",
+    "AssetsItem.About.Links.label.info": "{type} Info",
+    "AssetsItem.About.Links.label.site": "Token Website",
+    "AssetsItem.About.link.details": "Details",
+    "AssetsItem.About.title": "About",
+    "AssetsItem.Transfers.title": "Transfers",
+    "HistoryList.Item.title.cancel": "Cancel transfer"
 }

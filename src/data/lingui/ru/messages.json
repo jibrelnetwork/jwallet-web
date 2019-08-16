@@ -394,10 +394,17 @@
     "SettingsCurrency.toast": "Валюта изменена.",
     "TransactionsFilter.error": "Ошибка при выполнении перевода",
     "TransactionsFilter.pending": "Перевод обрабатывается",
-    "AssetsItem.title": "Переводы",
     "HistoryItemDetails.Cancel.subtitle.cancel": "Перевод отменен.",
     "HistoryItemDetails.Cancel.title": "Выполнено",
     "Home.assets.add": "",
     "Home.assets.title.default": "",
-    "Home.assets.title.manage": ""
+    "Home.assets.title.manage": "",
+    "AssetsItem.About.Description.label": "",
+    "AssetsItem.About.Description.more": "",
+    "AssetsItem.About.Links.label.info": "",
+    "AssetsItem.About.Links.label.site": "",
+    "AssetsItem.About.link.details": "",
+    "AssetsItem.About.title": "",
+    "AssetsItem.Transfers.title": "",
+    "HistoryList.Item.title.cancel": ""
 }

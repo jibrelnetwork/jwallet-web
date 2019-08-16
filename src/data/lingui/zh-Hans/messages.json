@@ -394,10 +394,17 @@
     "SettingsCurrency.toast": "已更改货币。",
     "TransactionsFilter.error": "转账错误",
     "TransactionsFilter.pending": "待转账",
-    "AssetsItem.title": "转帐",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
     "HistoryItemDetails.Cancel.title": "",
     "Home.assets.add": "",
     "Home.assets.title.default": "",
-    "Home.assets.title.manage": ""
+    "Home.assets.title.manage": "",
+    "AssetsItem.About.Description.label": "",
+    "AssetsItem.About.Description.more": "",
+    "AssetsItem.About.Links.label.info": "",
+    "AssetsItem.About.Links.label.site": "",
+    "AssetsItem.About.link.details": "",
+    "AssetsItem.About.title": "",
+    "AssetsItem.Transfers.title": "",
+    "HistoryList.Item.title.cancel": ""
 }

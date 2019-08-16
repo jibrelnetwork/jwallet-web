@@ -394,10 +394,17 @@
     "SettingsCurrency.toast": "Se ha cambiado la divisa.",
     "TransactionsFilter.error": "Transferencia errónea",
     "TransactionsFilter.pending": "Transferencia pendiente",
-    "AssetsItem.title": "Transferencias",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
     "HistoryItemDetails.Cancel.title": "",
     "Home.assets.add": "",
     "Home.assets.title.default": "",
-    "Home.assets.title.manage": ""
+    "Home.assets.title.manage": "",
+    "AssetsItem.About.Description.label": "",
+    "AssetsItem.About.Description.more": "",
+    "AssetsItem.About.Links.label.info": "",
+    "AssetsItem.About.Links.label.site": "",
+    "AssetsItem.About.link.details": "",
+    "AssetsItem.About.title": "",
+    "AssetsItem.Transfers.title": "",
+    "HistoryList.Item.title.cancel": ""
 }
