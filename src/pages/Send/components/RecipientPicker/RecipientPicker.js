@@ -1,8 +1,13 @@
 // @flow strict
 
-import React, {
-  Component,
-} from 'react'
+import React, { Component } from 'react'
+
+import { JIcon } from 'components/base'
+
+import {
+  searchContacts,
+  searchRecipientWallets,
+} from 'utils/search'
 
 import {
   JPickerBody,
@@ -10,66 +15,22 @@ import {
   JPickerCurrent,
   NotFoundItem,
 } from 'components/base/JPicker'
-import { JIcon } from 'components/base'
+
 import {
   getAddressName,
-  startsWithOrEndsWith,
   checkAddressPartValid,
 } from 'utils/address'
-import { filterContacts } from 'utils/search/filterContacts'
 
 import { Empty } from './Tabs/Empty'
 import { ContactItem } from './ContactItem/ContactItem'
 import { ContactIcon } from './ContactIcon/ContactIcon'
 import { WalletList } from './WalletList/WalletList'
 import { QuickSendItem } from './QuickSendItem/QuickSendItem'
+
 import {
   Tabs,
   type Tab,
 } from './Tabs/Tabs'
-
-export type RecipientPickerWalletAddress = {|
-  address: Address,
-  name: string,
-  fiatBalance?: string,
-|}
-
-export type RecipientPickerWallet = {|
-  id: WalletId,
-  type: 'address' | 'mnemonic' | 'read-only',
-  name: string,
-  addresses: RecipientPickerWalletAddress[],
-|}
-
-function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
-  const query: string = searchQuery.trim().toLowerCase()
-
-  if (!query) {
-    return wallets
-  }
-
-  return wallets.map((wallet) => {
-    if (wallet.name && wallet.name.toLowerCase().search(query) !== -1) {
-      return wallet
-    }
-
-    if (wallet.type === 'mnemonic') {
-      // filter addresses
-      const addresses = wallet.addresses.filter((addr, index) =>
-        (getAddressName(addr.name, index).toLowerCase().search(query) !== -1) ||
-      startsWithOrEndsWith(addr.address, query))
-
-      if (addresses.length) {
-        return {
-          ...wallet,
-          addresses,
-        }
-      }
-    }
-
-    return null
-  }).filter(Boolean)
-}
 
 export type Props = {|
   +meta: FinalFormMeta,
@@ -80,10 +41,10 @@ export type Props = {|
   +label: string,
 |}
 
-type ComponentState = {|
-  searchQuery: string,
-  activeTab: Tab,
-  openWallets: string[],
+type StateProps = {|
+  +activeTab: Tab,
+  +searchQuery: string,
+  +openWallets: string[],
 |}
 
 type CurrentRendererInput = {
@@ -95,7 +56,7 @@ type SearchInputRef = {
   current: null | HTMLInputElement,
 }
 
-class RecipientPicker extends Component<Props, ComponentState> {
+class RecipientPicker extends Component<Props, StateProps> {
   static defaultProps = {
     className: '',
   }
@@ -265,12 +226,15 @@ class RecipientPicker extends Component<Props, ComponentState> {
       input,
       contacts,
       // fiatCurrency,
-    } = this.props
+    }: Props = this.props
 
-    const { searchQuery } = this.state
+    const { searchQuery }: StateProps = this.state
+    const activeContact = contacts.find(contact => (contact.address === input.value))
 
-    const activeContact = contacts.find(contact => contact.address === input.value)
-    const filteredContacts = filterContacts(contacts, searchQuery)
+    const filteredContacts: Favorite[] = searchContacts(
+      contacts,
+      searchQuery,
+    )
 
     if (!filteredContacts.length) {
       if (checkAddressPartValid(searchQuery)) {
@@ -322,19 +286,18 @@ class RecipientPicker extends Component<Props, ComponentState> {
     const {
       input,
       wallets,
-    } = this.props
+    }: Props = this.props
 
     if (!wallets.length) {
-      return (
-        <Empty tab='wallets' />
-      )
+      return <Empty tab='wallets' />
     }
 
-    const {
-      searchQuery,
-    } = this.state
+    const { searchQuery }: StateProps = this.state
 
-    const filteredWallets = filterWallets(wallets, searchQuery)
+    const filteredWallets: RecipientPickerWallet[] = searchRecipientWallets(
+      wallets,
+      searchQuery,
+    )
 
     if (!filteredWallets.length) {
       if (checkAddressPartValid(searchQuery)) {
