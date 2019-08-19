@@ -148,3 +148,16 @@ declare type KeyWordArrayEncoder = {|
   +parse: (string) => KeyWordArray,
   +stringify: (KeyWordArray) => string,
 |}
+
+declare type RecipientPickerWalletAddress = {|
+  address: Address,
+  name: string,
+  fiatBalance?: string,
+|}
+
+declare type RecipientPickerWallet = {|
+  id: WalletId,
+  name: string,
+  type: 'address' | 'mnemonic' | 'read-only',
+  addresses: RecipientPickerWalletAddress[],
+|}

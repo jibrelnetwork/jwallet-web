@@ -1,20 +1,20 @@
-// @flow
+// @flow strict
 
 import { connect } from 'react-redux'
 
-import {
-  selectWalletsItems,
-} from 'store/selectors/wallets'
+import { selectWalletsItems } from 'store/selectors/wallets'
+
 import {
   selectFavoritesItems,
+  selectAllAddressNames,
 } from 'store/selectors/favorites'
 
-import {
-  RecipientPicker,
-  type Props,
-} from './RecipientPicker'
-
 import { prepareWallets } from './prepareWallets'
+
+import {
+  type Props,
+  RecipientPicker,
+} from './RecipientPicker'
 
 type OwnProps = {|
   +meta: FinalFormMeta,
@@ -22,8 +22,9 @@ type OwnProps = {|
 |}
 
 function mapStateToProps(state: AppState) {
-  const walletItems = selectWalletsItems(state)
-  const contactItems = selectFavoritesItems(state)
+  const walletItems: Wallet[] = selectWalletsItems(state)
+  const contactItems: Favorites = selectFavoritesItems(state)
+  const addressNames: AddressNames = selectAllAddressNames(state)
 
   // eslint-disable-next-line fp/no-mutating-methods
   const contacts = Object
@@ -43,9 +44,12 @@ function mapStateToProps(state: AppState) {
     })
 
   return {
-    // to be implemented when addresses functionality will be available
     contacts,
-    wallets: prepareWallets(walletItems),
+    wallets: prepareWallets(
+      walletItems,
+      {},
+      addressNames,
+    ),
   }
 }
 
