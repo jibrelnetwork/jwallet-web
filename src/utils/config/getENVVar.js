@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 function getENVVar(key: string): ?string {
   if (!key || (typeof window === 'undefined')) {
@@ -11,7 +11,7 @@ function getENVVar(key: string): ?string {
     return null
   }
 
-  return !/\[|\]/.test(value) ? value : null
+  return !/\{|\}/.test(value) ? value : null
 }
 
 export default getENVVar
