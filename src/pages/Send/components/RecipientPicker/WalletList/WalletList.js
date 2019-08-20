@@ -12,7 +12,6 @@ import { getAddressName } from 'utils/address'
 
 import { SingleWalletItem } from '../SingleWalletItem/SingleWalletItem'
 import { MultiAddressWalletItem } from '../MultiAddressWalletItem/MultiAddressWalletItem'
-import { type RecipientPickerWallet } from '../RecipientPicker'
 
 import jPickerListStyle from './walletList.m.scss'
 

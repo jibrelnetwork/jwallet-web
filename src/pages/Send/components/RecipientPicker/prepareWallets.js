@@ -1,11 +1,7 @@
-// @flow
+// @flow strict
 
 import { generateAddresses } from 'utils/mnemonic'
 import { getAddressName } from 'utils/address'
-
-import {
-  type RecipientPickerWallet,
-} from './RecipientPicker'
 
 export function prepareWallets(
   wallets: Wallet[],

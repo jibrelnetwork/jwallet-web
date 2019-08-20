@@ -5,9 +5,9 @@ import classNames from 'classnames'
 import { useI18n } from 'app/hooks'
 
 import { SearchInput } from 'components'
+import { searchContacts } from 'utils/search'
 import { splitContactName } from 'utils/formatters'
 import { useInputValue } from 'utils/hooks/useInputValue'
-import { filterContacts } from 'utils/search/filterContacts'
 
 import noContactsImg from 'public/assets/pic_contacts_112.svg'
 import noResultImg from 'public/assets/pic_assets_112.svg'
@@ -136,7 +136,12 @@ export function ContactsView({
 }: Props) {
   const i18n = useI18n()
   const [searchQuery, { onChange: handleSearchChange }] = useInputValue()
-  const contacts = filterContacts(list, searchQuery)
+
+  const contacts: Favorite[] = searchContacts(
+    list,
+    searchQuery,
+  )
+
   const alphabetList = extractAlphabet(contacts)
 
   const isEmpty = list.length === 0
