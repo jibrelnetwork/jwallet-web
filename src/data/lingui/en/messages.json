@@ -406,5 +406,6 @@
     "AssetsItem.About.link.details": "Details",
     "AssetsItem.About.title": "About",
     "AssetsItem.Transfers.title": "Transfers",
-    "HistoryList.Item.title.cancel": "Cancel transfer"
+    "HistoryList.Item.title.cancel": "Cancel transfer",
+    "AssetsItem.About.Description.less": "Show less"
 }
