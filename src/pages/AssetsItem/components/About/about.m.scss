@@ -13,8 +13,14 @@
   box-shadow: $normal-shadow;
 }
 
+.symbol {
+  min-width: 32px;
+}
+
 .info {
-  margin-left: 36px;
+  min-width: 248px;
+  padding-left: 36px;
+  border-right: 1px solid $main-black-10;
 }
 
 .name {
