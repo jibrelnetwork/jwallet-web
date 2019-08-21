@@ -394,10 +394,18 @@
     "SettingsCurrency.toast": "通貨が変更されました。",
     "TransactionsFilter.error": "送金エラー",
     "TransactionsFilter.pending": "保留中送金",
-    "AssetsItem.title": "送金",
     "HistoryItemDetails.Cancel.subtitle.cancel": "",
     "HistoryItemDetails.Cancel.title": "",
     "Home.assets.add": "",
     "Home.assets.title.default": "",
-    "Home.assets.title.manage": ""
+    "Home.assets.title.manage": "",
+    "AssetsItem.About.Description.label": "",
+    "AssetsItem.About.Description.more": "",
+    "AssetsItem.About.Links.label.info": "",
+    "AssetsItem.About.Links.label.site": "",
+    "AssetsItem.About.link.details": "",
+    "AssetsItem.About.title": "",
+    "AssetsItem.Transfers.title": "",
+    "HistoryList.Item.title.cancel": "",
+    "AssetsItem.About.Description.less": ""
 }
