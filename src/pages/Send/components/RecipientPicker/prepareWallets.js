@@ -1,70 +1,76 @@
 // @flow strict
 
-import { generateAddresses } from 'utils/mnemonic'
 import { getAddressName } from 'utils/address'
+import { generateAddresses } from 'utils/mnemonic'
 
 export function prepareWallets(
-  wallets: Wallet[],
+  items: Wallet[],
   walletBalances: Object = {},
-  addressNames: Object = {},
+  addressNames: AddressNames = {},
 ): RecipientPickerWallet[] {
-  return wallets.map((wallet) => {
+  return items.map((item: Wallet): ?RecipientPickerWallet => {
     const {
+      id,
+      name,
       xpub,
+      address,
       isSimplified,
       addressIndex,
       derivationIndex,
-    } = wallet
+    } = item
 
     if (xpub) {
       if (isSimplified) {
-        const walletAddresses = generateAddresses(
+        const firstAddress = generateAddresses(
           xpub,
           addressIndex,
           addressIndex + 1,
         )
-        const address = walletAddresses[0]
 
         return {
+          id,
+          name,
           type: 'address',
           addresses: [{
-            address,
-            name: addressNames[address] || '',
             fiatBalance: undefined,
+            address: firstAddress[0],
+            name: addressNames[firstAddress[0]] || '',
           }],
-          id: wallet.id,
-          name: wallet.name,
         }
       } else {
         const walletAddresses = generateAddresses(
           xpub,
           0,
           derivationIndex,
-        ).map((address, index) => ({
-          address,
-          name: getAddressName(addressNames[address], index),
-          fiatBalance: walletBalances[address],
+        ).map((
+          addr: Address,
+          index: number,
+        ): RecipientPickerWalletAddress => ({
+          address: addr,
+          fiatBalance: walletBalances[addr],
+          name: getAddressName(
+            addressNames[addr],
+            index,
+          ),
         }))
 
         return {
+          id,
+          name,
           type: 'mnemonic',
-          id: wallet.id,
           addresses: walletAddresses,
-          name: wallet.name,
         }
       }
-    } else if (wallet.address) {
-      const { address } = wallet
-
+    } else if (address) {
       return {
+        id,
+        name,
         type: 'read-only',
         addresses: [{
           address,
-          name: addressNames[address] || '',
           fiatBalance: undefined,
+          name: addressNames[address] || '',
         }],
-        id: wallet.id,
-        name: wallet.name,
       }
     } else {
       return null

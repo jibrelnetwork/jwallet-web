@@ -41,18 +41,16 @@ export function searchRecipientWallets(
       return item
     }
 
-    if (item.type === 'mnemonic') {
-      const addresses: RecipientPickerWalletAddress[] = item.addresses
-        .filter((address: RecipientPickerWalletAddress): boolean => FILTER_ADDRESSES_PREDICATE(
-          address,
-          searchQuery,
-        ))
+    const addresses: RecipientPickerWalletAddress[] = item.addresses
+      .filter((address: RecipientPickerWalletAddress): boolean => FILTER_ADDRESSES_PREDICATE(
+        address,
+        searchQuery,
+      ))
 
-      if (addresses.length) {
-        return {
-          ...item,
-          addresses,
-        }
+    if (addresses.length) {
+      return {
+        ...item,
+        addresses,
       }
     }
 
