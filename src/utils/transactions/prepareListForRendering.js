@@ -27,20 +27,31 @@ const SEARCH_TRANSACTIONS_RULES: FilterPredicateRules = {
 const FILTER_PREDICATE: FilterPredicate<TransactionWithNoteAndNames> =
   compoundFilterPredicate<TransactionWithNoteAndNames>(SEARCH_TRANSACTIONS_RULES)
 
-function checkDuplicate(
+function checkETHType(eventType: TransactionEventType): boolean {
+  return !eventType
+}
+
+function getDuplicate(
   one: TransactionWithNoteAndNames,
   two: TransactionWithNoteAndNames,
-) {
+): ?TransactionWithNoteAndNames {
   if (one.keys.id === two.keys.id) {
-    return true
+    return one
   }
 
   // if one or two is ETH transaction
-  if ((one.eventType === 0) || (two.eventType === 0)) {
-    return (one.hash === two.hash)
+  if (checkETHType(one.eventType) || checkETHType(two.eventType)) {
+    const isDuplicated: boolean = (one.hash === two.hash)
+
+    if (!isDuplicated) {
+      return null
+    }
+
+    // return ETH item
+    return checkETHType(one.eventType) ? one : two
   }
 
-  return false
+  return null
 }
 
 function removeDuplicates(items: TransactionWithNoteAndNames[]): TransactionWithNoteAndNames[] {
@@ -48,13 +59,31 @@ function removeDuplicates(items: TransactionWithNoteAndNames[]): TransactionWith
     result: TransactionWithNoteAndNames[],
     item: TransactionWithNoteAndNames,
   ) => {
-    const isFound: boolean = !!result.find((i: TransactionWithNoteAndNames) => checkDuplicate(
+    const found: ?TransactionWithNoteAndNames = result.reduce((
+      duplicate: ?TransactionWithNoteAndNames,
+      i: TransactionWithNoteAndNames,
+    ): ?TransactionWithNoteAndNames => duplicate || getDuplicate(
       i,
       item,
-    ))
+    ), null)
 
-    return isFound ? result : [
-      ...result,
+    if (!found) {
+      return [
+        ...result,
+        item,
+      ]
+    }
+
+    // if current item is duplicate
+    if (item.keys.id === found.keys.id) {
+      return result
+    }
+
+    const resultWithoutDuplicates: TransactionWithNoteAndNames[] = result
+      .filter((i: TransactionWithNoteAndNames): boolean => (i.keys.id !== found.keys.id))
+
+    return [
+      ...resultWithoutDuplicates,
       item,
     ]
   }, [])

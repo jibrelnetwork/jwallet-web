@@ -216,6 +216,7 @@ function prepareETHTransactions(data: Object[]): Transactions {
     }: TransactionFromBlockExplorer = item
 
     const hasInput: boolean = (input !== '0x')
+    const status: TransactionStatus = (parseInt(isError, 16) === 1) ? 0 : 1
 
     const newTransaction: Transaction = {
       data: {
@@ -227,8 +228,8 @@ function prepareETHTransactions(data: Object[]): Transactions {
         timestamp: parseInt(timeStamp, 10) || 0,
       },
       receiptData: {
+        status,
         gasUsed: parseInt(gasUsed, 10) || 0,
-        status: (parseInt(isError, 16) === 1) ? 0 : 1,
       },
       hash,
       blockHash,
@@ -241,7 +242,7 @@ function prepareETHTransactions(data: Object[]): Transactions {
       isRemoved: false,
     }
 
-    if (isError && hasInput) {
+    if (!status && hasInput) {
       return {
         ...result,
         [hash]: modifyTransferTransaction(
