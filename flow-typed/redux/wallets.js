@@ -150,14 +150,14 @@ declare type KeyWordArrayEncoder = {|
 |}
 
 declare type RecipientPickerWalletAddress = {|
-  address: Address,
-  name: string,
-  fiatBalance?: string,
+  +name: string,
+  +fiatBalance?: string,
+  +address: OwnerAddress,
 |}
 
 declare type RecipientPickerWallet = {|
-  id: WalletId,
-  name: string,
-  type: 'address' | 'mnemonic' | 'read-only',
-  addresses: RecipientPickerWalletAddress[],
+  +id: WalletId,
+  +name: string,
+  +type: 'address' | 'mnemonic' | 'read-only',
+  +addresses: RecipientPickerWalletAddress[],
 |}
