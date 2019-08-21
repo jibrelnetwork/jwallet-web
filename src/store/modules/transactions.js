@@ -33,7 +33,6 @@ export function fetchByOwnerRequest(
   requestQueue: Channel,
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
-  fromBlock: number,
   toBlock: number,
 ) {
   return {
@@ -43,23 +42,18 @@ export function fetchByOwnerRequest(
       networkId,
       ownerAddress,
       toBlock,
-      fromBlock,
     },
   }
 }
 
 export function resyncTransactionsStart(
   requestQueue: Channel,
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
   toBlock: number,
 ) {
   return {
     type: RESYNC_TRANSACTIONS_START,
     payload: {
       requestQueue,
-      networkId,
-      ownerAddress,
       toBlock,
     },
   }

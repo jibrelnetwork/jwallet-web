@@ -47,7 +47,7 @@ import {
 
 import * as blocks from '../modules/blocks'
 
-const MAX_FAULTY_DEEP: number = 6
+const MAX_FAULTY_DEEP: number = 3
 
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
   try {
@@ -183,7 +183,6 @@ export function* processQueue(
 function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<void> {
   try {
     while (true) {
-      const currentBlock: ?BlockData = yield select(selectCurrentBlock, networkId)
       const processingBlock: ?BlockData = yield select(selectProcessingBlock, networkId)
 
       if (!processingBlock) {
@@ -216,15 +215,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
         requestQueue,
         networkId,
         ownerAddress,
-        currentBlock ? currentBlock.number : 0,
         processingBlock.number,
       ))
 
       yield put(transactions.resyncTransactionsStart(
         requestQueue,
-        networkId,
-        ownerAddress,
-        currentBlock ? currentBlock.number : 0,
+        processingBlock.number,
       ))
 
       yield take(blocks.SET_PROCESSING_BLOCK)

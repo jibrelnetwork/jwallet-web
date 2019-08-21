@@ -328,6 +328,33 @@ function* syncProcessingBlockStatus(): Saga<void> {
   }
 }
 
+function getBlockNumberFromFetch(
+  transactionsByAssetAddress: TransactionsByAssetAddress,
+  latestAvailableBlock: number,
+): number {
+  const fromBlock: number = Object.keys(transactionsByAssetAddress).reduce((
+    result: number,
+    blockNumber: BlockNumber,
+  ) => {
+    const currentBlockNumber: number = parseInt(blockNumber, 10) || GENESIS_BLOCK_NUMBER
+
+    // need to get the biggest block number
+    const isBigger: boolean = (currentBlockNumber > result)
+
+    // block number should be less than latestAvailableBlock number
+    const isValid: boolean = (currentBlockNumber < latestAvailableBlock)
+
+    // return current block number if it satisfies conditions
+    if (isBigger && isValid) {
+      return currentBlockNumber
+    }
+
+    return result
+  }, GENESIS_BLOCK_NUMBER)
+
+  return fromBlock
+}
+
 function* fetchByOwnerRequest(
   action: ExtractReturn<typeof transactions.fetchByOwnerRequest>,
 ): Saga<void> {
@@ -336,10 +363,12 @@ function* fetchByOwnerRequest(
     networkId,
     ownerAddress,
     toBlock,
-    fromBlock,
   } = action.payload
 
   const walletCreatedBlockNumber: ?number = yield* getWalletCreatedBlockNumber()
+
+  const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
+    yield select(selectTransactionsByOwner)
 
   const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
     yield select(selectActiveDigitalAssets)
@@ -360,6 +389,12 @@ function* fetchByOwnerRequest(
     }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
     const isJNT: boolean = checkJNT(address, activeAssets)
+    const itemsByAsset: ?TransactionsByAssetAddress = itemsByOwner && itemsByOwner[address]
+
+    const fromBlock: number = !itemsByAsset ? 0 : getBlockNumberFromFetch(
+      itemsByAsset,
+      toBlock,
+    )
 
     return [
       ...result,
@@ -391,34 +426,6 @@ function* fetchByOwnerRequest(
 
   yield take(blocks.SET_PROCESSING_BLOCK)
   yield cancel(syncProcessingBlockStatusTask)
-}
-
-function getBlockNumberFromFetch(
-  transactionsByAssetAddress: TransactionsByAssetAddress,
-  latestAvailableBlock: number,
-): number {
-  const fromBlock: number = Object.keys(transactionsByAssetAddress).reduce((
-    result: number,
-    blockNumber: BlockNumber,
-  ) => {
-    const currentBlockNumber: number = parseInt(blockNumber, 10) || GENESIS_BLOCK_NUMBER
-
-    // need to get the biggest block number
-    const isBigger: boolean = (currentBlockNumber > result)
-
-    // block number should be less than latestAvailableBlock number
-    const isValid: boolean = (currentBlockNumber < latestAvailableBlock)
-
-    // return result if current block number less than previous or invalid
-    if (!(isBigger && isValid)) {
-      return result
-    }
-
-    // return current block number because at this point it is suitable
-    return currentBlockNumber
-  }, latestAvailableBlock)
-
-  return fromBlock
 }
 
 function getTasksToRefetchByAsset(
@@ -471,14 +478,14 @@ function getTasksToRefetchByAsset(
 function getTasksToRefetchByOwner(
   digitalAssets: DigitalAssets,
   itemsByOwner: TransactionsByOwner,
-  latestBlockNumber: number,
+  toBlock: number,
   walletCreatedBlockNumber: ?number,
 ): SchedulerTransactionsTask[] {
   return Object.keys(itemsByOwner).reduce((
     resultByAssetAddress: SchedulerTransactionsTask[],
     assetAddress: AssetAddress,
   ): SchedulerTransactionsTask[] => {
-    const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
+    const itemsByAsset: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
     const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
 
     if (!(digitalAsset && digitalAsset.isActive)) {
@@ -493,15 +500,20 @@ function getTasksToRefetchByOwner(
     const minBlock: ?number = walletCreatedBlockNumber || deploymentBlockNumber
     const isJNT: boolean = checkJNT(address, flattenDigitalAssets(digitalAssets))
 
+    const fromBlock: number = !itemsByAsset ? 0 : getBlockNumberFromFetch(
+      itemsByAsset,
+      toBlock,
+    )
+
     const fullyResyncTasks: SchedulerTransactionsTask[] = getRequestTransactionsByAssetTasks(
       address,
       GENESIS_BLOCK_NUMBER,
-      latestBlockNumber,
+      fromBlock,
       minBlock,
       isJNT,
     )
 
-    if (!itemsByAssetAddress) {
+    if (!itemsByAsset) {
       return [
         ...resultByAssetAddress,
         ...fullyResyncTasks,
@@ -510,12 +522,12 @@ function getTasksToRefetchByOwner(
 
     const failedRequests: SchedulerTransactionsTask[] = getTasksToRefetchByAsset(
       digitalAsset,
-      itemsByAssetAddress,
+      itemsByAsset,
       walletCreatedBlockNumber,
       isJNT,
     )
 
-    const lastExistedBlock: number = getLastExistedBlockNumberByAsset(itemsByAssetAddress)
+    const lastExistedBlock: number = getLastExistedBlockNumberByAsset(itemsByAsset)
 
     if (!lastExistedBlock) {
       return [
@@ -631,10 +643,17 @@ function* resyncTransactionsStart(
   }
 
   const resyncTransactionsByOwnerAddressTask: Task<typeof resyncTransactionsByOwnerAddress> =
-    yield fork(resyncTransactionsByOwnerAddress, requestQueue, toBlock)
+    yield fork(
+      resyncTransactionsByOwnerAddress,
+      requestQueue,
+      toBlock,
+    )
 
   const resyncTransactionsByTransactionIdTask: Task<typeof resyncTransactionsByTransactionId> =
-    yield fork(resyncTransactionsByTransactionId, requestQueue)
+    yield fork(
+      resyncTransactionsByTransactionId,
+      requestQueue,
+    )
 
   yield take(transactions.RESYNC_TRANSACTIONS_STOP)
   yield cancel(resyncTransactionsByOwnerAddressTask)
