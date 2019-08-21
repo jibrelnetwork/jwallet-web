@@ -59,8 +59,6 @@ function Links({
           <JLink
             href={item.url}
             className={styles.anchor}
-            target='_blank'
-            rel='noopener noreferrer'
           >
             <span className={styles.label}>
               {getURLLabel(i18n, item.type)}
