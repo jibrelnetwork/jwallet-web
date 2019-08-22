@@ -2,12 +2,12 @@
 
 import { connect } from 'react-redux'
 
-import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectFavoritesItems } from 'store/selectors/favorites'
 
 import {
-  selectFavoritesItems,
-  selectAllAddressNames,
-} from 'store/selectors/favorites'
+  selectAddressNames,
+  selectWalletsItems,
+} from 'store/selectors/wallets'
 
 import { prepareWallets } from './prepareWallets'
 
@@ -24,7 +24,7 @@ type OwnProps = {|
 function mapStateToProps(state: AppState) {
   const walletItems: Wallet[] = selectWalletsItems(state)
   const contactItems: Favorites = selectFavoritesItems(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
+  const addressNames: AddressNames = selectAddressNames(state)
 
   // eslint-disable-next-line fp/no-mutating-methods
   const contacts = Object
