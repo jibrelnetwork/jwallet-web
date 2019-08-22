@@ -238,9 +238,17 @@ function mapStateToProps(
 
   const notes: Comments = selectCommentsItems(state)
   const network: Network = selectCurrentNetworkOrThrow(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
   const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
-  const digitalAsset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
+
+  const digitalAsset: ?DigitalAsset = selectDigitalAsset(
+    state,
+    assetAddress,
+  )
+
+  const addressNames: AddressNames = selectAllAddressNames(
+    state,
+    true,
+  )
 
   const { timestamp }: TransactionBlockData = blockData
   const isZeroAmount: boolean = toBigNumber(amount).isZero()

@@ -101,8 +101,12 @@ class Transfers extends PureComponent<Props, StateProps> {
 function mapStateToProps(state: AppState, { assetId }: OwnProps) {
   const notes: Comments = selectCommentsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state)
+
+  const addressNames: AddressNames = selectAllAddressNames(
+    state,
+    true,
+  )
 
   const {
     searchQuery,

@@ -1,8 +1,8 @@
-// @flow
+// @flow strict
 
 import {
   selectAddressNames,
-  selectAddressWalletsNames,
+  selectSingleAddressWalletsNames,
 } from './wallets'
 
 export function selectFavoritesItems(state: AppState) {
@@ -27,14 +27,21 @@ export function selectFavoritesAddressNames(state: AppState): AddressNames {
   }, {})
 }
 
-export function selectAllAddressNames(state: AppState): AddressNames {
-  const addressNames: AddressNames = selectAddressNames(state)
-  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
+export function selectAllAddressNames(
+  state: AppState,
+  hasWalletName?: boolean = false,
+): AddressNames {
+  const addressNames: AddressNames = selectAddressNames(
+    state,
+    hasWalletName,
+  )
+
   const favoritesAddressNames: AddressNames = selectFavoritesAddressNames(state)
+  const singleAddressWalletsNames: AddressNames = selectSingleAddressWalletsNames(state)
 
   return {
-    ...addressNames,
-    ...addressWalletsNames,
     ...favoritesAddressNames,
+    ...addressNames,
+    ...singleAddressWalletsNames,
   }
 }
