@@ -286,7 +286,6 @@
     "common.password.validate.passwordsNotMatch": "Password does not match confirmation",
     "common.settings.worker.error.passwordInvalid": "Password is invalid",
     "encryption.errors.passwordInvalid": "Invalid Password",
-    "entity.Address.defaultName": "Address {index}",
     "entity.Password.error.invalid": "Invalid password",
     "formatters.formatCurrency.errors.codeInvalid": "Invalid Fiat Currency Code",
     "layout.MenuLayout.MenuPanel.link.contacts": "Contacts",
@@ -407,5 +406,7 @@
     "AssetsItem.About.title": "About",
     "AssetsItem.Transfers.title": "Transfers",
     "HistoryList.Item.title.cancel": "Cancel transfer",
-    "AssetsItem.About.Description.less": "Show less"
+    "AssetsItem.About.Description.less": "Show less",
+    "utils.address.getAddressName.address": "Address {index}",
+    "utils.address.getAddressName.wallet": "{walletName} / {addressName}"
 }

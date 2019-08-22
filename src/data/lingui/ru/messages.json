@@ -286,7 +286,6 @@
     "common.password.validate.passwordsNotMatch": "Введенные пароли не совпадают",
     "common.settings.worker.error.passwordInvalid": "Пароль не верен",
     "encryption.errors.passwordInvalid": "Неверный пароль",
-    "entity.Address.defaultName": "Адрес {index}",
     "entity.Password.error.invalid": "Неверный пароль",
     "formatters.formatCurrency.errors.codeInvalid": "Неверный код фиатной валюты",
     "layout.MenuLayout.MenuPanel.link.contacts": "Контакты",
@@ -407,5 +406,7 @@
     "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
-    "AssetsItem.About.Description.less": ""
+    "AssetsItem.About.Description.less": "",
+    "utils.address.getAddressName.address": "",
+    "utils.address.getAddressName.wallet": ""
 }

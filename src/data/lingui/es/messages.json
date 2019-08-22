@@ -286,7 +286,6 @@
     "common.password.validate.passwordsNotMatch": "La contraseña no coincide con la confirmación",
     "common.settings.worker.error.passwordInvalid": "La contraseña no es válida",
     "encryption.errors.passwordInvalid": "Contraseña no válida",
-    "entity.Address.defaultName": "Dirección {index}",
     "entity.Password.error.invalid": "Contraseña no válida",
     "formatters.formatCurrency.errors.codeInvalid": "Código de moneda fiduciaria no válido",
     "layout.MenuLayout.MenuPanel.link.contacts": "Contactos",
@@ -407,5 +406,7 @@
     "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
-    "AssetsItem.About.Description.less": ""
+    "AssetsItem.About.Description.less": "",
+    "utils.address.getAddressName.address": "",
+    "utils.address.getAddressName.wallet": ""
 }

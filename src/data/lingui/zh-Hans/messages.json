@@ -286,7 +286,6 @@
     "common.password.validate.passwordsNotMatch": "密码与确认的输入不匹配",
     "common.settings.worker.error.passwordInvalid": "密码无效",
     "encryption.errors.passwordInvalid": "无效的密码",
-    "entity.Address.defaultName": "地址{index}",
     "entity.Password.error.invalid": "无效的密码",
     "formatters.formatCurrency.errors.codeInvalid": "菲亚特货币代码无效",
     "layout.MenuLayout.MenuPanel.link.contacts": "联系人",
@@ -407,5 +406,7 @@
     "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
-    "AssetsItem.About.Description.less": ""
+    "AssetsItem.About.Description.less": "",
+    "utils.address.getAddressName.address": "",
+    "utils.address.getAddressName.wallet": ""
 }

@@ -286,7 +286,6 @@
     "common.password.validate.passwordsNotMatch": "재입력된 비밀번호가 일치하지 않습니다",
     "common.settings.worker.error.passwordInvalid": "잘못된 비밀번호입니다",
     "encryption.errors.passwordInvalid": "잘못된 비밀번호",
-    "entity.Address.defaultName": "주소 {index}",
     "entity.Password.error.invalid": "잘못된 비밀번호",
     "formatters.formatCurrency.errors.codeInvalid": "잘못된 Fiat 통화 코드",
     "layout.MenuLayout.MenuPanel.link.contacts": "연락처",
@@ -407,5 +406,7 @@
     "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
-    "AssetsItem.About.Description.less": ""
+    "AssetsItem.About.Description.less": "",
+    "utils.address.getAddressName.address": "",
+    "utils.address.getAddressName.wallet": ""
 }
