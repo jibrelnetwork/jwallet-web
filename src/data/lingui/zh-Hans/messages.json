@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "密码和提示不应相同",
     "SetPassword.errors.hintRequired": "密码提示是必需的",
     "SetPassword.errors.passwordsNotMatch": "密码与确认的输入不匹配",
-    "SetPassword.hint.description": "如果您忘记了安全密码，某些功能将无法使用。要恢复访问所有功能，将需要清除数据，并再次使用备份短语重新导入您的钱包。",
-    "SetPassword.hint.label": "输入密码提示",
-    "SetPassword.securityPassword": "输入安全密码",
-    "SetPassword.submit": "设置安全密码",
-    "SetPassword.title": "设置密码以保护您的存储空间",
     "Settings.actions.currency": "货币",
     "Settings.actions.devmode": "开发人员模式",
     "Settings.actions.devmode.disabled": "禁用",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
-    "utils.address.getAddressName.address": "",
-    "utils.address.getAddressName.wallet": ""
+    "SetPassword.hint.description": "",
+    "SetPassword.hint.label": "",
+    "SetPassword.securityPassword": "",
+    "SetPassword.submit": "",
+    "SetPassword.title": "",
+    "entity.address.getAddressName.default": ""
 }

@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "비밀번호와 힌트가 동일해서는 안 됩니다.",
     "SetPassword.errors.hintRequired": "비밀번호 힌트 필요",
     "SetPassword.errors.passwordsNotMatch": "재입력된 비밀번호가 일치하지 않습니다",
-    "SetPassword.hint.description": "보안 비밀번호를 잊어버리면 일부 기능을 사용할 수 없게 됩니다. 모든 기능에 대한 액세스 권한을 복구하려면 데이터를 삭제하고 백업 문구를 사용하여 지갑을 다시 가져와야 합니다.",
-    "SetPassword.hint.label": "비밀번호 힌트 입력",
-    "SetPassword.securityPassword": "보안 비밀번호 임력",
-    "SetPassword.submit": "보안 비밀번호 설정",
-    "SetPassword.title": "안전한 보관을 위한 비밀번호 설정",
     "Settings.actions.currency": "통화",
     "Settings.actions.devmode": "개발자 모드",
     "Settings.actions.devmode.disabled": "사용 중지",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
-    "utils.address.getAddressName.address": "",
-    "utils.address.getAddressName.wallet": ""
+    "SetPassword.hint.description": "",
+    "SetPassword.hint.label": "",
+    "SetPassword.securityPassword": "",
+    "SetPassword.submit": "",
+    "SetPassword.title": "",
+    "entity.address.getAddressName.default": ""
 }

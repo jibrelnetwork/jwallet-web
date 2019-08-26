@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "Password and hint should not be equal",
     "SetPassword.errors.hintRequired": "Password hint is required",
     "SetPassword.errors.passwordsNotMatch": "Password does not match confirmation",
-    "SetPassword.hint.description": "If you forget your Security Password, some functions won’t be available. To restore access to all functions you will need to clear your data and re-import your wallets again using backup phrase.",
-    "SetPassword.hint.label": "Enter Password Hint",
-    "SetPassword.securityPassword": "Enter Security Password",
-    "SetPassword.submit": "Set Security Password",
-    "SetPassword.title": "Set Password to Secure Your Storage",
     "Settings.actions.currency": "Currency",
     "Settings.actions.devmode": "Developer Mode",
     "Settings.actions.devmode.disabled": "Disabled",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "Transfers",
     "HistoryList.Item.title.cancel": "Cancel transfer",
     "AssetsItem.About.Description.less": "Show less",
-    "utils.address.getAddressName.address": "Address {index}",
-    "utils.address.getAddressName.wallet": "{walletName} / {addressName}"
+    "SetPassword.hint.description": "If you forget your Security Password, some functions won’t be available. To restore access to all functions you will need to clear your data and re-import your wallets again using backup phrase.",
+    "SetPassword.hint.label": "Enter Password Hint",
+    "SetPassword.securityPassword": "Enter Security Password",
+    "SetPassword.submit": "Set Security Password",
+    "SetPassword.title": "Set Password to Secure Your Storage",
+    "entity.address.getAddressName.default": "Address {index}"
 }

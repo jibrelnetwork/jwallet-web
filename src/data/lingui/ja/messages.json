@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "パスワードとヒントは同一の値を持てません",
     "SetPassword.errors.hintRequired": "パスワードのヒントが必要です",
     "SetPassword.errors.passwordsNotMatch": "確認用パスワードが一致しません",
-    "SetPassword.hint.description": "セキュリティパスワードを忘れてしまった場合、一部の機能がご利用いただけなくなります。すべての機能へのアクセスを復元するには、データをクリアした後にバックアップフレーズを使用し、再びウォレットをインポートする必要があります。",
-    "SetPassword.hint.label": "パスワードのヒントを入力してください",
-    "SetPassword.securityPassword": "セキュリティパスワードの入力",
-    "SetPassword.submit": "セキュリティパスワードを設定する",
-    "SetPassword.title": "ストレージを保護するためにパスワードを設定する",
     "Settings.actions.currency": "通貨",
     "Settings.actions.devmode": "開発者モード",
     "Settings.actions.devmode.disabled": "無効",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
-    "utils.address.getAddressName.address": "",
-    "utils.address.getAddressName.wallet": ""
+    "SetPassword.hint.description": "",
+    "SetPassword.hint.label": "",
+    "SetPassword.securityPassword": "",
+    "SetPassword.submit": "",
+    "SetPassword.title": "",
+    "entity.address.getAddressName.default": ""
 }

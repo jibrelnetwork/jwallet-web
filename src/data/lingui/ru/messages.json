@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "Подсказка не может быть вашим паролем",
     "SetPassword.errors.hintRequired": "Требуется подсказка пароля",
     "SetPassword.errors.passwordsNotMatch": "Введенные пароли не совпадают",
-    "SetPassword.hint.description": "Если вы забудете свой пароль безопасности, некоторые функции будут недоступны. Чтобы восстановить доступ ко всем функциям, вам необходимо очистить данные и повторно импортировать свои кошельки, используя резервную фразу.",
-    "SetPassword.hint.label": "Введите подсказку пароля",
-    "SetPassword.securityPassword": "Введите пароль безопасности",
-    "SetPassword.submit": "Установить пароль безопасности",
-    "SetPassword.title": "Установите пароль для защиты вашего хранилища",
     "Settings.actions.currency": "Валюта",
     "Settings.actions.devmode": "Режим разработчика",
     "Settings.actions.devmode.disabled": "Отключен",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
-    "utils.address.getAddressName.address": "",
-    "utils.address.getAddressName.wallet": ""
+    "SetPassword.hint.description": "",
+    "SetPassword.hint.label": "",
+    "SetPassword.securityPassword": "",
+    "SetPassword.submit": "",
+    "SetPassword.title": "",
+    "entity.address.getAddressName.default": ""
 }

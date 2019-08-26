@@ -105,11 +105,6 @@
     "SetPassword.errors.hintEqualsPassword": "La contraseña y la pista de contraseña no deben ser idénticas",
     "SetPassword.errors.hintRequired": "Se requiere pista de contraseña",
     "SetPassword.errors.passwordsNotMatch": "La contraseña no coincide con la confirmación",
-    "SetPassword.hint.description": "Si olvida su contraseña de seguridad, algunas funciones no estarán disponibles. Para restaurar el acceso a todas las funciones, tendrá que limpiar sus datos y volver a importar sus monederos de nuevo usando la frase de copia de seguridad.",
-    "SetPassword.hint.label": "Introducir la pista de contraseña",
-    "SetPassword.securityPassword": "Introducir contraseña de seguridad",
-    "SetPassword.submit": "Establecer contraseña de seguridad",
-    "SetPassword.title": "Establecer contraseña para asegurar su almacenamiento",
     "Settings.actions.currency": "Divisa",
     "Settings.actions.devmode": "Modo desarrollador",
     "Settings.actions.devmode.disabled": "Deshabilitado",
@@ -407,6 +402,10 @@
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
-    "utils.address.getAddressName.address": "",
-    "utils.address.getAddressName.wallet": ""
+    "SetPassword.hint.description": "",
+    "SetPassword.hint.label": "",
+    "SetPassword.securityPassword": "",
+    "SetPassword.submit": "",
+    "SetPassword.title": "",
+    "entity.address.getAddressName.default": ""
 }
