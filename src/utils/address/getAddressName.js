@@ -8,17 +8,10 @@ export function getAddressName(
   walletName?: string,
 ) {
   const name: string = addressName || i18n._(
-    'utils.address.getAddressName.address',
+    'entity.address.getAddressName.default',
     { index: addressIndex + 1 },
     { defaults: 'Address {index}' },
   )
 
-  return !walletName ? name : i18n._(
-    'utils.address.getAddressName.wallet',
-    {
-      walletName,
-      addressName: name,
-    },
-    { defaults: '{walletName} / {addressName}' },
-  )
+  return !walletName ? name : `${walletName} / ${name}`
 }
