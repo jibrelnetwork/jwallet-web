@@ -386,34 +386,17 @@ class WalletsPlugin {
   }
 
   reEncryptWallets = async (
-    password: string,
+    internalKeyOld: ?Uint8Array,
     newPassword: string,
     passwordHint: string,
   ): Promise<Wallets> => {
-    const state: AppState = this.getState()
-
-    const {
-      salt,
-      internalKey,
-    }: PasswordPersist = selectPasswordPersist(state)
-
-    if (!internalKey) {
+    if (!internalKeyOld) {
       throw new WalletInconsistentDataError('reEncryptWallets data error')
     }
 
     if (!newPassword) {
       throw new WalletInconsistentDataError('password can\'t be empty')
     }
-
-    const derivedKey: Uint8Array = await deriveKeyFromPassword(
-      password,
-      salt,
-    )
-
-    const internalKeyDec: Uint8Array = decryptInternalKey(
-      internalKey,
-      derivedKey,
-    )
 
     const newSalt: string = generateSalt()
     const newInternalKey: Uint8Array = getNonce()
@@ -432,17 +415,17 @@ class WalletsPlugin {
 
     const newItems: Wallets = items.map((wallet: Wallet) => walletsUtils.reEncryptWallet(
       wallet,
-      internalKeyDec,
+      internalKeyOld,
       newInternalKey,
     ))
 
     this.dispatch(setNewPassword({
-      salt,
+      salt: newSalt,
       internalKey: internalKeyEnc,
       hint: passwordHint || '',
     }))
 
-    this.dispatch(setWalletsItems(newItems, 'Wallets'))
+    this.dispatch(setWalletsItems(newItems))
 
     return newItems
   }
