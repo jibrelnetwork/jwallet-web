@@ -75,13 +75,30 @@ class RecipientPicker extends Component<Props, StateProps> {
       contacts,
       wallets,
       label,
-    } = this.props
+    }: Props = this.props
 
-    const { searchQuery } =  this.state
+    const {
+      activeTab,
+      searchQuery,
+    }: StateProps =  this.state
 
-    const activeContact = contacts.find(contact => contact.address === input.value)
+    const isActiveWalletsTab: boolean = (activeTab === 'wallets')
+    const activeContact: ?Favorite = contacts.find(contact => contact.address === input.value)
 
-    if (activeContact) {
+    const activeWallet: ?RecipientPickerWallet = wallets.find((wallet: RecipientPickerWallet) => {
+      if (wallet.id === input.value) {
+        return true
+      }
+
+      if (wallet.addresses.find(walletAddress => walletAddress.address === input.value)) {
+        return true
+      }
+
+      return false
+    })
+
+    // if current tab is 'wallets' and active wallet was found - just skip code below
+    if (activeContact && !(activeWallet && isActiveWalletsTab)) {
       const title = activeContact.name
         ? activeContact.name
         : activeContact.address
@@ -101,46 +118,37 @@ class RecipientPicker extends Component<Props, StateProps> {
       )
     }
 
-    const activeWallet = wallets.find((wallet) => {
-      if (wallet.id === input.value) {
-        return true
-      }
-
-      if (wallet.addresses.find(walletAddress => walletAddress.address === input.value)) {
-        return true
-      }
-
-      return false
-    })
-
-    if (activeWallet && activeWallet.type === 'mnemonic') {
-      const [activeAddress, activeAddressIndex] =
-        activeWallet.addresses.reduce((
+    if (activeWallet) {
+      if (activeWallet.type === 'mnemonic') {
+        const [activeAddress, activeAddressIndex] = activeWallet.addresses.reduce((
           result,
           walletAddress,
           index,
-        ) => walletAddress.address === input.value
+        ) => (walletAddress.address === input.value)
           ? [walletAddress, index]
           : result, [undefined, 0])
 
-      const title = activeAddress
-        ? `${activeWallet.name} / ${getAddressName(activeAddress.name, activeAddressIndex)}`
-        : activeWallet.name
+        const title: string = !activeAddress ? activeWallet.name : getAddressName(
+          activeAddress.name,
+          activeAddressIndex,
+          activeWallet.name,
+        )
 
-      return (
-        <JPickerCurrent
-          ref={this.searchInputRef}
-          isEditable={isOpen}
-          label={label}
-          value={!isOpen ? title : ''}
-          inputValue={searchQuery}
-          onInputChange={this.handleSearchQueryChange}
-          iconComponent={(
-            <JIcon name='0x-use-fill' color='blue' />
-          )}
-        />
-      )
-    } else if (activeWallet) {
+        return (
+          <JPickerCurrent
+            ref={this.searchInputRef}
+            isEditable={isOpen}
+            label={label}
+            value={!isOpen ? title : ''}
+            inputValue={searchQuery}
+            onInputChange={this.handleSearchQueryChange}
+            iconComponent={(
+              <JIcon name='0x-use-fill' color='blue' />
+            )}
+          />
+        )
+      }
+
       return (
         <JPickerCurrent
           ref={this.searchInputRef}

@@ -118,16 +118,6 @@
     "SettingsLanguage.LanguagePicker.label": "언어",
     "SettingsLanguage.actions.ok": "확인",
     "SettingsLanguage.header.title": "언어",
-    "SettingsSecurityPassword.description": "자금의 잠금을 해제하고 이체할 때 사용되는 비밀번호입니다. 안전하게 보관하세요!",
-    "SettingsSecurityPassword.errors.hintEqualsPassword": "비밀번호와 힌트가 동일해서는 안 됩니다.",
-    "SettingsSecurityPassword.errors.hintRequired": "비밀번호 힌트 필요",
-    "SettingsSecurityPassword.errors.oldPasswordRequired": "이전 비밀번호 필요",
-    "SettingsSecurityPassword.errors.passwordsNotEqual": "일치하지 않음",
-    "SettingsSecurityPassword.errors.passwordsNotMatch": "재입력된 비밀번호가 일치하지 않습니다",
-    "SettingsSecurityPassword.hint": "비밀번호 힌트",
-    "SettingsSecurityPassword.oldPassword": "이전 결제 비밀번호",
-    "SettingsSecurityPassword.submit": "비밀번호 설정",
-    "SettingsSecurityPassword.title": "결제 비밀번호 업데이트",
     "SingularTabBlockScreen.action.reload": "페이지 새로고침",
     "SingularTabBlockScreen.description.0": "Jwallet은 최대 한 개의 탭에서만 열 수 있습니다.",
     "SingularTabBlockScreen.description.1": "계속 사용하려면 현재 탭을 새로고침하십시오.",
@@ -413,5 +403,5 @@
     "components.NewPasswordForm.label.hint": "",
     "components.NewPasswordForm.label.password": "",
     "components.NewPasswordForm.title": "",
-    "entity.Address.defaultName": ""
+    "entity.address.getAddressName.default": "주소 {index}"
 }

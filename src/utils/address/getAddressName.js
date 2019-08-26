@@ -2,12 +2,16 @@
 
 import { i18n } from 'i18n/lingui'
 
-export function getAddressName(name: ?string, addressIndex: number) {
-  const index = addressIndex + 1
-
-  return name || i18n._(
-    'entity.Address.defaultName',
-    { index },
+export function getAddressName(
+  addressName: ?string,
+  addressIndex: number,
+  walletName?: string,
+) {
+  const name: string = addressName || i18n._(
+    'entity.address.getAddressName.default',
+    { index: addressIndex + 1 },
     { defaults: 'Address {index}' },
   )
+
+  return !walletName ? name : `${walletName} / ${name}`
 }

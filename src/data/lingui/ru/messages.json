@@ -118,16 +118,6 @@
     "SettingsLanguage.LanguagePicker.label": "Язык",
     "SettingsLanguage.actions.ok": "Хорошо",
     "SettingsLanguage.header.title": "Язык",
-    "SettingsSecurityPassword.description": "Вы будете использовать этот пароль для разблокировки и перевода средств. Держите его в безопасности!",
-    "SettingsSecurityPassword.errors.hintEqualsPassword": "Подсказка не может быть вашим паролем",
-    "SettingsSecurityPassword.errors.hintRequired": "Требуется подсказка пароля",
-    "SettingsSecurityPassword.errors.oldPasswordRequired": "Требуется старый пароль",
-    "SettingsSecurityPassword.errors.passwordsNotEqual": "Не равны",
-    "SettingsSecurityPassword.errors.passwordsNotMatch": "Введенные пароли не совпадают",
-    "SettingsSecurityPassword.hint": "Подсказка пароля",
-    "SettingsSecurityPassword.oldPassword": "Старый платежный пароль",
-    "SettingsSecurityPassword.submit": "Установить пароль",
-    "SettingsSecurityPassword.title": "Обновить платежный пароль",
     "SingularTabBlockScreen.action.reload": "Перезагрузить страницу",
     "SingularTabBlockScreen.description.0": "Jwallet может быть открыт только в одной вкладке одновременно.",
     "SingularTabBlockScreen.description.1": "Пожалуйста, перезагрузите эту вкладку, чтобы продолжить использование.",
@@ -413,5 +403,5 @@
     "components.NewPasswordForm.label.hint": "",
     "components.NewPasswordForm.label.password": "",
     "components.NewPasswordForm.title": "",
-    "entity.Address.defaultName": ""
+    "entity.address.getAddressName.default": "Адрес {index}"
 }

@@ -118,16 +118,6 @@
     "SettingsLanguage.LanguagePicker.label": "Language",
     "SettingsLanguage.actions.ok": "OK",
     "SettingsLanguage.header.title": "Language",
-    "SettingsSecurityPassword.description": "You will use this password to unlock and transfer your funds. Keep it secure!",
-    "SettingsSecurityPassword.errors.hintEqualsPassword": "Password and hint should not be equal",
-    "SettingsSecurityPassword.errors.hintRequired": "Password hint is required",
-    "SettingsSecurityPassword.errors.oldPasswordRequired": "Old password is required",
-    "SettingsSecurityPassword.errors.passwordsNotEqual": "Not equal",
-    "SettingsSecurityPassword.errors.passwordsNotMatch": "Password does not match confirmation",
-    "SettingsSecurityPassword.hint": "Password hint",
-    "SettingsSecurityPassword.oldPassword": "Old payment password",
-    "SettingsSecurityPassword.submit": "Set password",
-    "SettingsSecurityPassword.title": "Update payment password",
     "SingularTabBlockScreen.action.reload": "Reload Page",
     "SingularTabBlockScreen.description.0": "Jwallet can be open only in one tab simultaneously.",
     "SingularTabBlockScreen.description.1": "Please reload this tab to continue using it.",
@@ -413,5 +403,5 @@
     "components.NewPasswordForm.label.hint": "Enter Password Hint",
     "components.NewPasswordForm.label.password": "Enter Security Password",
     "components.NewPasswordForm.title": "Set Password to Secure Your Storage",
-    "entity.Address.defaultName": "Address {index}"
+    "entity.address.getAddressName.default": "Address {index}"
 }

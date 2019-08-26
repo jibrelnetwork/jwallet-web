@@ -16,7 +16,6 @@ export { reEncryptWallet } from './reEncryptWallet'
 export { checkReadOnlyType } from './checkReadOnlyType'
 export { findWalletByProperty } from './findWalletByProperty'
 export { checkMultiAddressType } from './checkMultiAddressType'
-export { getMnemonicAddressName } from './getMnemonicAddressName'
 export { validateDerivationPath } from './validateDerivationPath'
 
 export { prepareWallet } from './prepareWallet'

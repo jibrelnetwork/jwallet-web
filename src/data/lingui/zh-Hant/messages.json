@@ -118,16 +118,6 @@
     "SettingsLanguage.LanguagePicker.label": "語言",
     "SettingsLanguage.actions.ok": "確定",
     "SettingsLanguage.header.title": "語言",
-    "SettingsSecurityPassword.description": "您將使用此密碼來解鎖和移轉資金。保證密碼的安全！",
-    "SettingsSecurityPassword.errors.hintEqualsPassword": "密碼和提示不應該一樣",
-    "SettingsSecurityPassword.errors.hintRequired": "需要密碼提示",
-    "SettingsSecurityPassword.errors.oldPasswordRequired": "需要舊密碼",
-    "SettingsSecurityPassword.errors.passwordsNotEqual": "不相等",
-    "SettingsSecurityPassword.errors.passwordsNotMatch": "輸入的密碼不相符",
-    "SettingsSecurityPassword.hint": "密碼提示",
-    "SettingsSecurityPassword.oldPassword": "舊的付款密碼",
-    "SettingsSecurityPassword.submit": "設定密碼",
-    "SettingsSecurityPassword.title": "更新付款密碼",
     "SingularTabBlockScreen.action.reload": "重新加載頁面",
     "SingularTabBlockScreen.description.0": "Jwallet只能在一個分頁中同時打開。",
     "SingularTabBlockScreen.description.1": "請重新加載此分頁以繼續使用它。",
@@ -413,5 +403,5 @@
     "components.NewPasswordForm.label.hint": "",
     "components.NewPasswordForm.label.password": "",
     "components.NewPasswordForm.title": "",
-    "entity.Address.defaultName": ""
+    "entity.address.getAddressName.default": "地址{index}"
 }

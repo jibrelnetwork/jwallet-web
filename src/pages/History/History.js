@@ -33,8 +33,12 @@ import {
 function mapStateToProps(state: AppState) {
   const notes: Comments = selectCommentsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state)
+
+  const addressNames: AddressNames = selectAllAddressNames(
+    state,
+    true,
+  )
 
   const {
     searchQuery,

@@ -1,8 +1,12 @@
 // @flow strict
 
+import { getAddressName } from 'utils/address'
+
 import {
   getAddress,
+  getAddresses,
   getWalletById,
+  checkMultiAddressType,
 } from 'utils/wallets'
 
 import {
@@ -26,24 +30,29 @@ export function selectWalletsItems(state: AppState): Wallets {
   return walletsPersist.items
 }
 
-export function selectAddressWalletsNames(state: AppState): AddressNames {
+export function selectSingleAddressWalletsNames(state: AppState): AddressNames {
   const items: Wallets = selectWalletsItems(state)
 
-  return items.reduce((result: AddressNames, {
-    type,
-    name,
-    address,
-  }: Wallet) => {
-    const isAddressType: boolean = (type === 'address')
+  return items.reduce((
+    result: AddressNames,
+    item: Wallet,
+  ) => {
+    const {
+      name,
+      customType,
+      isSimplified,
+    }: Wallet = item
 
-    if (isAddressType && address) {
-      return {
-        ...result,
-        [address]: name,
-      }
+    if (checkMultiAddressType(customType) && !isSimplified) {
+      return result
     }
 
-    return result
+    const address: OwnerAddress = getAddress(item)
+
+    return {
+      ...result,
+      [address]: name,
+    }
   }, {})
 }
 
@@ -151,10 +160,57 @@ export function selectWalletsAddressesPersist(state: AppState): WalletsAddresses
   return walletsAddresses.persist
 }
 
-export function selectAddressNames(state: AppState): AddressNames {
-  const walletsAddressesPersist: WalletsAddressesPersist = selectWalletsAddressesPersist(state)
+export function selectAddressNames(
+  state: AppState,
+  hasWalletName?: boolean = false,
+): AddressNames {
+  const { addressNames }: WalletsAddressesPersist = selectWalletsAddressesPersist(state)
 
-  return walletsAddressesPersist.addressNames
+  if (!hasWalletName) {
+    return addressNames
+  }
+
+  const items: Wallets = selectWalletsItems(state)
+
+  return items.reduce((
+    walletsResult: AddressNames,
+    item: Wallet,
+  ): AddressNames => {
+    const {
+      name,
+      xpub,
+      customType,
+      derivationIndex,
+    }: Wallet = item
+
+    if (!(checkMultiAddressType(customType) && xpub)) {
+      return walletsResult
+    }
+
+    const addresses: Address[] = getAddresses(item, 0, derivationIndex || 0)
+
+    const addressesResult: AddressNames = addresses.reduce((
+      result: AddressNames,
+      currentAddress: Address,
+      currentIndex: number,
+    ): AddressNames => {
+      const addressName: ?string = addressNames[currentAddress]
+
+      return {
+        ...result,
+        [currentAddress]: addressName || getAddressName(
+          addressName,
+          currentIndex,
+          name,
+        ),
+      }
+    }, {})
+
+    return {
+      ...walletsResult,
+      ...addressesResult,
+    }
+  }, {})
 }
 
 export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddressState {
