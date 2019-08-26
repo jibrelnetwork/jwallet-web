@@ -1,7 +1,6 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { noop } from 'lodash-es'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
@@ -14,17 +13,14 @@ import {
 import { NewPasswordField } from 'components'
 
 import {
-  JInputField,
   Button,
+  JInputField,
 } from 'components/base'
-import { StartLayout } from 'layouts'
 
-import setPasswordViewStyle from './setPasswordView.m.scss'
+import styles from './newPasswordForm.m.scss'
 
 export type Props = {|
-  +dispatch: Function,
-  +validate: FormValidate,
-  +submit: (FormFields, Function) => Promise<void>,
+  +onSubmit: (FormFields) => Promise<?FormFields>,
   +i18n: I18nType,
 |}
 
@@ -38,11 +34,7 @@ const PASSWORD_FORM_INITIAL_VALUES = {
   passwordConfirm: '',
 }
 
-class SetPasswordViewComponent extends Component<Props, StateProps> {
-  static defaultProps = {
-    dispatch: noop,
-  }
-
+class NewPasswordForm extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -51,17 +43,48 @@ class SetPasswordViewComponent extends Component<Props, StateProps> {
     }
   }
 
-  handleScoreChange = (isStrongPassword: boolean) => {
-    this.setState({ isStrongPassword })
+  validate = ({
+    password,
+    passwordHint,
+    passwordConfirm,
+  }: FormFields): ?FormFields => {
+    const { i18n }: Props = this.props
+
+    if (password !== passwordConfirm) {
+      return {
+        passwordConfirm: i18n._(
+          'SetPassword.errors.passwordsNotMatch',
+          null,
+          { defaults: 'Password does not match confirmation' },
+        ),
+      }
+    }
+
+    if (!passwordHint) {
+      return {
+        passwordHint: i18n._(
+          'SetPassword.errors.hintRequired',
+          null,
+          { defaults: 'Password hint is required' },
+        ),
+      }
+    }
+
+    if (password === passwordHint) {
+      return {
+        passwordHint: i18n._(
+          'SetPassword.errors.hintEqualsPassword',
+          null,
+          { defaults: 'Password and hint should not be equal' },
+        ),
+      }
+    }
+
+    return null
   }
 
-  handleSubmit = async (values: FormFields): Promise<void> => {
-    const {
-      submit,
-      dispatch,
-    }: Props = this.props
-
-    await submit(values, dispatch)
+  handleScoreChange = (isStrongPassword: boolean) => {
+    this.setState({ isStrongPassword })
   }
 
   renderSetPasswordForm = ({
@@ -77,14 +100,14 @@ class SetPasswordViewComponent extends Component<Props, StateProps> {
     return (
       <form
         onSubmit={handleSubmit}
-        className={setPasswordViewStyle.form}
+        className={styles.form}
       >
         <NewPasswordField
           onChange={handleChange}
           onScoreChange={this.handleScoreChange}
           values={values}
           label={i18n._(
-            'SetPassword.securityPassword',
+            'components.NewPasswordForm.label.password',
             null,
             { defaults: 'Enter Security Password' },
           )}
@@ -95,12 +118,12 @@ class SetPasswordViewComponent extends Component<Props, StateProps> {
           component={JInputField}
           name='passwordHint'
           label={i18n._(
-            'SetPassword.hint.label',
+            'components.NewPasswordForm.label.hint',
             null,
             { defaults: 'Enter Password Hint' },
           )}
           infoMessage={i18n._(
-            'SetPassword.hint.description',
+            'components.NewPasswordForm.description',
             null,
             // eslint-disable-next-line max-len
             { defaults: 'If you forget your Security Password, some functions won’t be available. To restore access to all functions you will need to clear your data and re-import your wallets again using backup phrase.' },
@@ -112,7 +135,7 @@ class SetPasswordViewComponent extends Component<Props, StateProps> {
           isDisabled={!this.state.isStrongPassword}
         >
           {i18n._(
-            'SetPassword.submit',
+            'components.NewPasswordForm.button',
             null,
             { defaults: 'Set Security Password' },
           )}
@@ -122,30 +145,30 @@ class SetPasswordViewComponent extends Component<Props, StateProps> {
   }
 
   render() {
-    const { i18n } = this.props
+    const {
+      i18n,
+      onSubmit: handleSubmit,
+    }: Props = this.props
 
     return (
-      <StartLayout
-        className='__new-password'
-      >
-        <h1 className={setPasswordViewStyle.title}>
+      <div className={styles.core}>
+        <h1 className={styles.title}>
           {i18n._(
-            'SetPassword.title',
+            'components.NewPasswordForm.title',
             null,
             { defaults: 'Set Password to Secure Your Storage' },
           )}
         </h1>
         <Form
-          onSubmit={this.handleSubmit}
-          validate={this.props.validate}
+          onSubmit={handleSubmit}
+          validate={this.validate}
           render={this.renderSetPasswordForm}
           initialValues={PASSWORD_FORM_INITIAL_VALUES}
         />
-      </StartLayout>
+      </div>
     )
   }
 }
 
-export const SetPasswordView = withI18n()(
-  SetPasswordViewComponent,
-)
+const NewPasswordFormEnhanced = withI18n()(NewPasswordForm)
+export { NewPasswordFormEnhanced as NewPasswordForm }

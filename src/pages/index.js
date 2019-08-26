@@ -22,8 +22,7 @@ export { HistoryItemCancel } from './HistoryItemCancel/HistoryItemCancel'
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
 export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
-export { default as SettingsSecurityPassword }
-  from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
+export { SettingsPassword } from './SettingsPassword/SettingsPassword'
 
 export { AssetsItem } from './AssetsItem/AssetsItem'
 export { AssetDetails } from './AssetDetails/AssetDetails'

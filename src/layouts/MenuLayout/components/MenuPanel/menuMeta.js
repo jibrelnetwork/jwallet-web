@@ -99,7 +99,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRoute: '/settings',
   },
-  SettingsSecurityPassword: {
+  SettingsPassword: {
     isMinimized: true,
     previousRoute: '/settings',
   },

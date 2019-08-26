@@ -116,8 +116,8 @@ export const routes: Array<{|
   name: 'SettingsLanguage',
   hasMenu: true,
 }, {
-  path: '/settings/security-password',
-  name: 'SettingsSecurityPassword',
+  path: '/settings/password',
+  name: 'SettingsPassword',
   hasMenu: true,
 }, {
   path: '/support',
