@@ -1,8 +1,10 @@
 // @flow strict
 
-import { i18n } from 'i18n/lingui'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { StartLayout } from 'layouts'
+import { NewPasswordForm } from 'components'
 import { setNewPassword } from 'store/modules/password'
 
 import {
@@ -12,10 +14,14 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import {
-  SetPasswordView,
-  type Props,
-} from './SetPasswordView'
+type OwnProps = {|
+  +dispatch?: Function,
+|}
+
+type Props = {|
+  +dispatch: Function,
+  +submit: (FormFields, Function) => Promise<void>,
+|}
 
 async function submitSetPasswordForm(
   values: FormFields,
@@ -49,55 +55,30 @@ async function submitSetPasswordForm(
   }))
 }
 
-function validateSetPasswordForm({
-  password,
-  passwordHint,
-  passwordConfirm,
-}: FormFields): ?FormFields {
-  if (password !== passwordConfirm) {
-    return {
-      passwordConfirm: i18n._(
-        'SetPassword.errors.passwordsNotMatch',
-        null,
-        { defaults: 'Password does not match confirmation' },
-      ),
-    }
+class SetPassword extends Component<Props> {
+  handleSubmit = async (values: FormFields): Promise<void> => {
+    const {
+      submit,
+      dispatch,
+    }: Props = this.props
+
+    await submit(values, dispatch)
   }
 
-  if (!passwordHint) {
-    return {
-      passwordHint: i18n._(
-        'SetPassword.errors.hintRequired',
-        null,
-        { defaults: 'Password hint is required' },
-      ),
-    }
+  render() {
+    return (
+      <StartLayout className='__new-password'>
+        <NewPasswordForm onSubmit={this.handleSubmit} />
+      </StartLayout>
+    )
   }
-
-  if (password === passwordHint) {
-    return {
-      passwordHint: i18n._(
-        'SetPassword.errors.hintEqualsPassword',
-        null,
-        { defaults: 'Password and hint should not be equal' },
-      ),
-    }
-  }
-
-  return null
 }
 
 function mapStateToProps() {
   return {
     submit: submitSetPasswordForm,
-    validate: validateSetPasswordForm,
   }
 }
 
-type OwnProps = {|
-  dispatch?: Function,
-|}
-
-export const SetPassword = connect< Props, OwnProps, _, _, _, _ >(
-  mapStateToProps,
-)(SetPasswordView)
+const SetPasswordEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(SetPassword)
+export { SetPasswordEnhanced as SetPassword }
