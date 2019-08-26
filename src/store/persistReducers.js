@@ -14,7 +14,6 @@ type PersistableReducerName =
   'comments' |
   'networks' |
   'password' |
-  'settings' |
   'favorites' |
   'transactions' |
   'digitalAssets' |

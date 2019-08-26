@@ -43,8 +43,6 @@ declare type AppState = {
   +balances: BalancesState,
   // comments
   +comments: CommentsState,
-  // settings
-  +settings: SettingsState,
   // favorites
   +favorites: FavoritesState,
   // upgrade

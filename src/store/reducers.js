@@ -13,7 +13,6 @@ import balances from 'store/modules/balances'
 import comments from 'store/modules/comments'
 import networks from 'store/modules/networks'
 import transactions from 'store/modules/transactions'
-import settings from 'store/modules/settings'
 import favorites from 'store/modules/favorites'
 
 // digital assets
@@ -57,7 +56,6 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
       comments,
       networks,
       password,
-      settings,
       favorites,
       transactions,
       digitalAssets,
