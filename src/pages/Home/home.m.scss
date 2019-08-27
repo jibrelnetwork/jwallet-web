@@ -1,5 +1,4 @@
 @import 'styles/mixins';
-@import 'styles/colors';
 
 .core {
   @include box;
@@ -32,12 +31,13 @@
   margin: 0 16px;
   padding: 32px 32px 46px;
   text-align: center;
-  background: #fff;
+  background: $white;
   box-shadow: $normal-shadow;
   border-radius: 4px;
   font-weight: 600;
   font-size: 18px;
   line-height: 26px;
+  color: $main-blue;
 
   &:hover,
   &:active {
