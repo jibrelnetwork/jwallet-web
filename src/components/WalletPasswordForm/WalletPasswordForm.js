@@ -5,7 +5,6 @@ import { useI18n } from 'app/hooks'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
-import buttonStyle from 'components/base/Button/button.m.scss'
 import { PasswordInput } from 'components'
 
 import {
@@ -67,7 +66,7 @@ export function WalletPasswordForm({
         )}
       </Button>
       <JLink
-        className={`${buttonStyle.additional} ${walletPasswordFormStyle.forgot}`}
+        className={walletPasswordFormStyle.forgot}
         color='blue'
         href='/forgot-password'
       >
