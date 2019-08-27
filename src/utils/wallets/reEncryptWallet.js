@@ -1,13 +1,14 @@
 // @flow strict
 
-import { WalletInconsistentDataError } from 'errors'
-
 import {
   decryptData,
   encryptData,
 } from 'utils/encryption'
 
-import { checkReadOnlyType } from '.'
+import {
+  checkReadOnlyType,
+  checkMultiAddressType,
+} from '.'
 
 export function reEncryptWallet(
   wallet: Wallet,
@@ -15,30 +16,27 @@ export function reEncryptWallet(
   internalKeyNew: Uint8Array,
 ): Wallet {
   const {
-    customType,
     encrypted,
-    id: walletId,
+    customType,
   }: Wallet = wallet
 
   if (checkReadOnlyType(customType)) {
     return wallet
   }
 
-  if (encrypted.mnemonic && encrypted.passphrase && encrypted.xprv) {
-    const mnemonic: string = decryptData({
+  if (checkMultiAddressType(customType)) {
+    const mnemonic: ?string = encrypted.mnemonic && decryptData({
       key: internalKey,
       data: encrypted.mnemonic,
     })
 
-    const xprv: string = decryptData({
+    const xprv: ?string = encrypted.xprv && decryptData({
       key: internalKey,
-      // $FlowFixMe
       data: encrypted.xprv,
     })
 
-    const passphrase: string = decryptData({
+    const passphrase: ?string = encrypted.passphrase && decryptData({
       key: internalKey,
-      // $FlowFixMe
       data: encrypted.passphrase,
     })
 
@@ -46,22 +44,27 @@ export function reEncryptWallet(
       ...wallet,
       encrypted: {
         ...encrypted,
-        mnemonic: encryptData({
+        mnemonic: mnemonic && encryptData({
           data: mnemonic,
           key: internalKeyNew,
         }),
-        xprv: encryptData({
+        xprv: xprv && encryptData({
           data: xprv,
           key: internalKeyNew,
         }),
-        passphrase: encryptData({
+        /**
+         * passphrase could be empty string in case of 'mnemonic' type
+         * but it should be null in case of 'xprv' type
+         * so we should use strict equal comparison with null
+         */
+        passphrase: (passphrase === null) ? null : encryptData({
           data: passphrase,
           key: internalKeyNew,
         }),
       },
     }
-  } else if (encrypted.privateKey) {
-    const privateKey: string = decryptData({
+  } else {
+    const privateKey: ?string = encrypted.privateKey && decryptData({
       key: internalKey,
       data: encrypted.privateKey,
     })
@@ -70,13 +73,11 @@ export function reEncryptWallet(
       ...wallet,
       encrypted: {
         ...encrypted,
-        privateKey: encryptData({
+        privateKey: privateKey && encryptData({
           data: privateKey,
           key: internalKeyNew,
         }),
       },
     }
   }
-
-  throw new WalletInconsistentDataError({ walletId }, 'reEncryptWallet error')
 }
