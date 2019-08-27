@@ -18,6 +18,7 @@ import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
   selectTransactionById,
+  selectTransactionByHash,
   selectPendingTransactionByHash,
 } from 'store/selectors/transactions'
 
@@ -206,6 +207,10 @@ function mapStateToProps(
     asset,
     blockNumber,
   ) || selectPendingTransactionByHash(
+    state,
+    id,
+    asset,
+  ) || selectTransactionByHash(
     state,
     id,
     asset,

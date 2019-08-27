@@ -3,6 +3,11 @@
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
+import {
+  flattenTransactionsByAsset,
+  flattenTransactionsByOwner,
+} from 'utils/transactions'
+
 export function selectTransactions(state: AppState): TransactionsState {
   return state.transactions
 }
@@ -300,4 +305,29 @@ export function selectPendingTransactionByHash(
       asset,
     )
   }, null)
+}
+
+export function selectTransactionByHash(
+  state: AppState,
+  hash: Hash,
+  assetAddress?: AssetAddress,
+): ?TransactionWithPrimaryKeys {
+  if (assetAddress) {
+    const itemsByAsset: ?TransactionsByAssetAddress = selectTransactionsByAsset(
+      state,
+      assetAddress,
+    )
+
+    const items: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(
+      itemsByAsset,
+      assetAddress,
+    )
+
+    return items.find((item: TransactionWithPrimaryKeys): boolean => (item.hash === hash))
+  }
+
+  const itemsByOwner: ?TransactionsByOwner = selectTransactionsByOwner(state)
+  const items: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(itemsByOwner)
+
+  return items.find((item: TransactionWithPrimaryKeys): boolean => (item.hash === hash))
 }
