@@ -117,7 +117,7 @@ class SettingsPasswordView extends Component<Props, StateProps> {
       case STEPS.NEW: {
         await walletsPlugin.reEncryptWallets(
           internalKey,
-          values.password || '',
+          values.passwordNew || '',
           values.passwordHint || '',
         )
 

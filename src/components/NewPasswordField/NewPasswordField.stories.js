@@ -7,7 +7,7 @@ import { Form } from 'react-final-form'
 import { NewPasswordField } from './NewPasswordField'
 
 const values = {
-  password: '',
+  passwordNew: '',
   passwordConfirm: '',
 }
 

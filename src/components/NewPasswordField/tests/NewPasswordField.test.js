@@ -66,9 +66,10 @@ describe('NewPasswordField', () => {
   test('renders (indicator fetching status)', async () => {
     const handleChange = sinon.spy()
     const handleScoreChange = sinon.spy()
-    const password = 'super'
+    const passwordNew = 'super'
+
     const values = {
-      password: '',
+      passwordNew: '',
       passwordConfirm: '',
     }
 
@@ -121,8 +122,8 @@ describe('NewPasswordField', () => {
     expect(passwordConfirmInput.prop('isDisabled')).toBe(false)
 
     // $FlowFixMe
-    componentInstance.handleChange({ target: { value: password } })
-    expect(handleChange.calledWith('password', password)).toBe(true)
+    componentInstance.handleChange({ target: { value: passwordNew } })
+    expect(handleChange.calledWith('passwordNew', passwordNew)).toBe(true)
     expect(componentInstance.state.isFetching).toBe(true)
     const indicatorFetching = wrapper.update().childAt(1)
     expect(indicatorFetching.prop('status')).toBe('fetching')
