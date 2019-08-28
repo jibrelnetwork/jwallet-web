@@ -52,6 +52,7 @@ export function WalletPasswordForm({
         theme='white-icon'
         name='password'
         isDisabled={isSubmitting}
+        isAutoFocus
       />
       <Button
         className={ofssetsStyle.mt16}
