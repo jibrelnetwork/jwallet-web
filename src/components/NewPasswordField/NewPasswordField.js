@@ -167,9 +167,10 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
       this.setCheckingPasswordResult(password)
     } else {
       this.setState({ passwordResult: null })
+      this.props.onScoreChange(false)
     }
 
-    this.props.onChange('password', password)
+    this.props.onChange('passwordNew', password)
   }
 
   handleScoreChange = (newPasswordResult: PasswordResult) => {
@@ -209,7 +210,7 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
           value={values.password}
           infoMessage={infoMessage}
           errorMessage={errorMessage}
-          name='password'
+          name='passwordNew'
           theme='white-indicator'
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}

@@ -29,7 +29,7 @@ type StateProps = {|
 |}
 
 const PASSWORD_FORM_INITIAL_VALUES = {
-  password: '',
+  passwordNew: '',
   passwordHint: '',
   passwordConfirm: '',
 }
@@ -44,13 +44,13 @@ class NewPasswordForm extends Component<Props, StateProps> {
   }
 
   validate = ({
-    password,
+    passwordNew,
     passwordHint,
     passwordConfirm,
   }: FormFields): ?FormFields => {
     const { i18n }: Props = this.props
 
-    if (password !== passwordConfirm) {
+    if (passwordNew !== passwordConfirm) {
       return {
         passwordConfirm: i18n._(
           'SetPassword.errors.passwordsNotMatch',
@@ -70,7 +70,7 @@ class NewPasswordForm extends Component<Props, StateProps> {
       }
     }
 
-    if (password === passwordHint) {
+    if (passwordNew === passwordHint) {
       return {
         passwordHint: i18n._(
           'SetPassword.errors.hintEqualsPassword',
@@ -95,7 +95,15 @@ class NewPasswordForm extends Component<Props, StateProps> {
     values = {},
     submitting: isSubmitting,
   }: FormRenderProps) => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
+
+    const {
+      passwordNew,
+      passwordHint,
+      passwordConfirm,
+    }: FormFields = values
+
+    const hasAllValues: boolean = !(!passwordNew || !passwordHint || !passwordConfirm)
 
     return (
       <form
@@ -132,7 +140,7 @@ class NewPasswordForm extends Component<Props, StateProps> {
         <Button
           type='submit'
           isLoading={isSubmitting}
-          isDisabled={!this.state.isStrongPassword}
+          isDisabled={!(this.state.isStrongPassword && hasAllValues)}
         >
           {i18n._(
             'components.NewPasswordForm.button',

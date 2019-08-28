@@ -28,18 +28,18 @@ async function submitSetPasswordForm(
   dispatch: Function,
 ): Promise<void> {
   const {
-    password,
+    passwordNew,
     passwordHint,
   }: FormFields = values
 
-  if (!password) {
+  if (!passwordNew) {
     return
   }
 
   const salt: string = generateSalt()
 
   const derivedKey: Uint8Array = await deriveKeyFromPassword(
-    password,
+    passwordNew,
     salt,
   )
 
