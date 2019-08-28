@@ -20,7 +20,10 @@
 .info {
   min-width: 248px;
   padding-left: 36px;
-  border-right: 1px solid $main-black-10;
+
+  &.delimiter {
+    border-right: 1px solid $main-black-10;
+  }
 }
 
 .name {

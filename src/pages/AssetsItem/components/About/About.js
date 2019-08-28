@@ -1,6 +1,7 @@
 // @flow strict
 
 import React from 'react'
+import classNames from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
@@ -86,7 +87,7 @@ function About({
           color='blue'
           size={32}
         />
-        <div className={styles.info}>
+        <div className={classNames(styles.info, assetPage && styles.delimiter)}>
           <div className={styles.name}>{name}</div>
           <div className={styles.balance}>
             {formatAssetBalance(

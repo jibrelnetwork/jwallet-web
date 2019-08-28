@@ -57,7 +57,7 @@ class Description extends Component<Props, StateProps> {
       return null
     }
 
-    const textHeight: number = this.textRef.current && this.textRef.current.clientHeight
+    const textHeight: number = (this.textRef.current && this.textRef.current.clientHeight) || 0
     const { description }: DigitalAssetPage = assetPage
     const hasShowMore: boolean = (textHeight > SHOW_MORE_MIN_HEIGHT)
     const isHidden: boolean = hasShowMore && !this.state.isOpened
