@@ -9,6 +9,31 @@
   padding: $new-page-header-height 0;
 }
 
-.center {
+.card {
   width: 544px;
+}
+
+.header {
+  @include flex-row;
+
+  width: 100%;
+  height: 72px;
+  padding: 0 24px;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: $main-blue;
+}
+
+.action {
+  @include sprite-icon-color($white-60);
+
+  &:hover,
+  &:active,
+  &:focus {
+    @include sprite-icon-color($white);
+  }
+
+  &:not(:last-child) {
+    margin-right: 16px;
+  }
 }

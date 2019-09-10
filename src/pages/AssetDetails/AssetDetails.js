@@ -1,39 +1,48 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { type AppState } from 'redux/modules'
 
 import { PageNotFoundError } from 'errors'
 import { getAddressLink } from 'utils/transactions'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
 import { useI18n } from 'app/hooks'
+
 import {
   TitleHeader,
   FieldPreview,
 } from 'components'
 
+import {
+  JIcon,
+  JLink,
+} from 'components/base'
+
 import styles from './assetDetails.m.scss'
 
-type Props = {|
-  name: string,
-  symbol: string,
-  decimals: number,
-  address: string,
-  blockExplorerUISubdomain: string,
-  /* :: assetId: string */
-|}
-
 type OwnProps = {|
-  assetId: string,
+  +assetId: string,
 |}
 
-export function AssetDetailsView({
+type Props = {|
+  +name: string,
+  +symbol: string,
+  +address: string,
+  +blockExplorerUISubdomain: string,
+  +decimals: number,
+  +isCustom?: boolean,
+  +hasDefaultFields?: boolean,
+  /* :: +assetId: string */
+|}
+
+function AssetDetails({
   name,
   symbol,
-  decimals,
   address,
+  decimals,
+  isCustom,
+  hasDefaultFields,
   blockExplorerUISubdomain,
 }: Props) {
   const i18n = useI18n()
@@ -47,10 +56,27 @@ export function AssetDetailsView({
           { defaults: 'Asset Details' },
         )}
       />
-      <div className={styles.center}>
+      <div className={styles.card}>
+        {isCustom && (
+          <div className={styles.header}>
+            {!hasDefaultFields && (
+              <JLink
+                className={styles.action}
+                href={`/assets/${address}/edit`}
+              >
+                <JIcon name='ic_edit_24-use-fill' />
+              </JLink>
+            )}
+            <JLink
+              className={styles.action}
+              href={`/assets/${address}/delete`}
+            >
+              <JIcon name='ic_delete_24-use-fill' />
+            </JLink>
+          </div>
+        )}
         <FieldPreview
           value={address}
-          valueToShow={address}
           link={address && getAddressLink(address, blockExplorerUISubdomain)}
           label={i18n._(
             'AssetDetails.address.title',
@@ -61,7 +87,6 @@ export function AssetDetailsView({
         />
         <FieldPreview
           value={name}
-          valueToShow={name}
           label={i18n._(
             'AssetDetails.name.title',
             null,
@@ -70,7 +95,6 @@ export function AssetDetailsView({
         />
         <FieldPreview
           value={symbol}
-          valueToShow={symbol}
           label={i18n._(
             'AssetDetails.name.symbol',
             null,
@@ -79,7 +103,6 @@ export function AssetDetailsView({
         />
         <FieldPreview
           value={decimals}
-          valueToShow={decimals}
           label={i18n._(
             'AssetDetails.name.decimals',
             null,
@@ -91,10 +114,18 @@ export function AssetDetailsView({
   )
 }
 
-function mapStateToProps(state: AppState, ownProps: OwnProps) {
-  const { assetId } = ownProps
-  const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const asset = selectDigitalAsset(state, assetId)
+AssetDetails.defaultProps = {
+  isCustom: false,
+  hasDefaultFields: false,
+}
+
+function mapStateToProps(
+  state: AppState,
+  ownProps: OwnProps,
+) {
+  const { assetId }: OwnProps = ownProps
+  const { blockExplorerUISubdomain }: Network = selectCurrentNetworkOrThrow(state)
+  const asset: ?DigitalAsset = selectDigitalAsset(state, assetId)
 
   if (!asset) {
     throw new PageNotFoundError()
@@ -103,6 +134,8 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const {
     name,
     symbol,
+    isCustom,
+    hasDefaultFields,
     blockchainParams: {
       address,
       decimals,
@@ -111,13 +144,14 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   return {
     name,
-    address,
     symbol,
+    address,
     decimals,
+    isCustom,
+    hasDefaultFields,
     blockExplorerUISubdomain,
   }
 }
 
-export const AssetDetails = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-)(AssetDetailsView)
+const AssetDetailsEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(AssetDetails)
+export { AssetDetailsEnhanced as AssetDetails }
