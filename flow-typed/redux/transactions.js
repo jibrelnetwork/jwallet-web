@@ -33,8 +33,6 @@ declare type SmartContractEventName = ERC20EventName | JNTEventName
 declare type SmartContractEventProps = {|
   +options: SmartContractEventOptions,
   +rpcaddr: string,
-  +event: SmartContractEventName,
-  +contractAddress: AssetAddress,
   +rpcport: number,
   +ssl: boolean,
 |}
@@ -46,9 +44,10 @@ declare type SmartContractEventFilter = {|
 |}
 
 declare type SmartContractEventOptions = {|
-  +filter: SmartContractEventFilter,
-  +toBlock: number,
-  +fromBlock: number,
+  +topics: Array<?string>,
+  +address: Address,
+  +toBlock: string,
+  +fromBlock: string,
 |}
 
 declare type JNTEventArgs = {|

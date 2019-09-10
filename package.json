@@ -36,7 +36,7 @@
     "lang:sync": "./lang-sync.sh"
   },
   "dependencies": {
-    "@jibrelnetwork/contracts-jsapi": "1.1.0",
+    "@jibrelnetwork/contracts-jsapi": "2.0.0",
     "@lingui/react": "2.8.3",
     "abi-decoder": "2.2.0",
     "bignumber.js": "4.1.0",
@@ -44,6 +44,7 @@
     "bitcore-mnemonic": "1.7.0",
     "classnames": "2.2.6",
     "dotenv": "7.0.0",
+    "ethers": "4.0.37",
     "events": "3.0.0",
     "file-saver": "2.0.1",
     "final-form": "4.12.0",
