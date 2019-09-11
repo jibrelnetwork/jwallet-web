@@ -31,11 +31,15 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRoute: '/',
   },
+  AssetsItemAdd: {
+    isMinimized: true,
+    previousRoute: '/',
+  },
   AssetsItemEdit: {
     isMinimized: true,
     previousRoute: '/',
   },
-  AssetsItemAdd: {
+  AssetsItemDelete: {
     isMinimized: true,
     previousRoute: '/',
   },
