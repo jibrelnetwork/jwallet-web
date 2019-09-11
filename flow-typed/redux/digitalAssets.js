@@ -94,6 +94,15 @@ declare type DigitalAssetsGridState = {|
   +searchQuery: string,
 |}
 
+declare type SendTransactionProps = {|
+  +value: BigNumber,
+  +gasLimit?: BigNumber,
+  +gasPrice?: BigNumber,
+  +to: Address,
+  +privateKey: string,
+  +nonce?: number,
+|}
+
 /**
  * Add custom digital asset
  */
