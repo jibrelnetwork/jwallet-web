@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 declare type DigitalAssetsSortField = 'name' | 'balance'
 
@@ -42,17 +42,6 @@ declare type DigitalAssetBlockchainParams = {|
   +deploymentBlockNumber?: number,
 |}
 
-/*
-declare type DigitalAsset = {|
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: Decimals,
-  +isCustom?: boolean,
-  +isActive?: boolean,
-|}
-*/
-
 declare type DigitalAsset = {|
   +assetPage?: DigitalAssetPage,
   +display?: DigitalAssetDisplay,
@@ -62,19 +51,12 @@ declare type DigitalAsset = {|
   +symbol: string,
   +isCustom?: boolean,
   +isActive?: boolean,
+  +hasDefaultFields?: boolean,
 |}
 
 declare type DigitalAssetWithBalance = {|
+  ...DigitalAsset,
   +balance: ?Balance,
-  // +fiatBalance: ?string,
-  +assetPage: DigitalAssetPage,
-  +display: DigitalAssetDisplay,
-  +priceFeed: DigitalAssetPriceFeed,
-  +blockchainParams: DigitalAssetBlockchainParams,
-  +name: string,
-  +symbol: string,
-  +isCustom?: boolean,
-  +isActive?: boolean,
 |}
 
 declare type DigitalAssets = {

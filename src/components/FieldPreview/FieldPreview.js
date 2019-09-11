@@ -12,12 +12,14 @@ import {
 
 import styles from './fieldPreview.m.scss'
 
+type FieldPreviewValue = string | number
+
 type Props = {|
   +label: string,
-  +value: string,
   +link: ?string,
   +title: ?string,
-  +valueToShow: ?string,
+  +value: FieldPreviewValue,
+  +valueToShow: ?FieldPreviewValue,
   +isContact: boolean,
   +isCopyable: boolean,
 |}
