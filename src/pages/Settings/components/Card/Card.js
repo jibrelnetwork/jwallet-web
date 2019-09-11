@@ -16,6 +16,7 @@ type Props = {|
   +description: ?string,
   +iconColor: ?CardIconColor,
   +titleColor: CardTitleColor,
+  +isDisabled: boolean,
 |}
 
 export function Card({
@@ -24,9 +25,10 @@ export function Card({
   iconColor,
   titleColor,
   description,
+  isDisabled,
 }: Props) {
   return (
-    <div className={styles.core}>
+    <div className={classNames(styles.core, isDisabled && styles.disabled)}>
       <div className={classNames(styles.icon, iconColor && styles[iconColor])}>
         <JIcon name={iconName} />
       </div>
@@ -46,4 +48,5 @@ Card.defaultProps = {
   iconColor: null,
   description: null,
   titleColor: 'black',
+  isDisabled: false,
 }

@@ -18,6 +18,16 @@
   &:active {
     box-shadow: $select-shadow;
   }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+
+    &:hover,
+    &:active {
+      box-shadow: $normal-shadow;
+    }
+  }
 }
 
 .icon {
