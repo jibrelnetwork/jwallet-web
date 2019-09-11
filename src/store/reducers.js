@@ -18,7 +18,6 @@ import favorites from 'store/modules/favorites'
 // digital assets
 import digitalAssets from 'store/modules/digitalAssets'
 import digitalAssetsAdd from 'store/modules/addAsset'
-import digitalAssetsEdit from 'store/modules/editAsset'
 
 // wallets
 import wallets from 'store/modules/wallets'
@@ -47,7 +46,6 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
     walletsRenameAddress,
     // digitalAssets
     digitalAssetsAdd,
-    digitalAssetsEdit,
     ...persistReducers({
       blocks,
       ticker,
