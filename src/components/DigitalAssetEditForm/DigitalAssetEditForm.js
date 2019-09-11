@@ -1,114 +1,155 @@
-// @flow
+// @flow strict
 
-import React from 'react'
-
-import { useI18n } from 'app/hooks'
+import React, { PureComponent } from 'react'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
-  JInput,
+  Form,
+  Field,
+  type FormRenderProps,
+} from 'react-final-form'
+
+import {
   Button,
+  Header,
+  JInputField,
 } from 'components/base'
 
-type DigitalAssetEditFormProps = {|
-  +submit: () => void,
-  +setField: SetFieldFunction<EditAssetFormFields>,
-  +formFields: EditAssetFormFields,
-  +invalidFields: EditAssetFormFields,
-  +submitLabel: string,
-  +isAddressLoading: boolean,
+import styles from './digitalAssetEditForm.m.scss'
+
+type Props = {|
+  +submit: FormFields => Promise<?FormFields>,
+  +initialValues: FormFields,
+  +i18n: I18nType,
+  +isLoading: boolean,
   +isAddressEditable: boolean,
 |}
 
-const DigitalAssetEditForm = ({
-  formFields,
-  invalidFields,
-  setField,
-  submit,
-  isAddressLoading,
-  isAddressEditable,
-  submitLabel,
-}: DigitalAssetEditFormProps) => {
-  const i18n = useI18n()
-
-  const setFieldHandler = (fieldName: $Keys<EditAssetFormFields>) =>
-    (value: string) => setField(fieldName, value)
-
-  const fields: Array<{
-    key: $Keys<EditAssetFormFields>,
-    placeholder: string,
-    isDisabled: boolean,
-    isLoading: boolean,
-  }> = [{
-    key: 'address',
-    placeholder: i18n._(
-      'AssetItemEdit.addressLabel',
-      null,
-      { defaults: 'Address (ERC-20)' },
-    ),
-    isDisabled: !isAddressEditable,
-    isLoading: isAddressLoading,
-  }, {
-    key: 'name',
-    placeholder: i18n._(
-      'AssetItemEdit.nameLabel',
-      null,
-      { defaults: 'Name' },
-    ),
-    isDisabled: false,
+class DigitalAssetEditForm extends PureComponent<Props> {
+  static defaultProps = {
     isLoading: false,
-  }, {
-    key: 'symbol',
-    placeholder: i18n._(
-      'AssetItemEdit.symbolLabel',
-      null,
-      { defaults: 'Symbol' },
-    ),
-    isDisabled: false,
-    isLoading: false,
-  }, {
-    key: 'decimals',
-    placeholder: i18n._(
-      'AssetItemEdit.decimalsLabel',
-      null,
-      { defaults: 'Decimals' },
-    ),
-    isDisabled: false,
-    isLoading: false,
-  }]
+    isAddressEditable: false,
+  }
 
-  return (
-    <div className='digital-asset-edit-form'>
-      <div className='form'>
-        {fields.map(({
-          key,
-          placeholder,
-          isDisabled,
-          isLoading,
-        }) => (
-          <JInput
-            key={key}
-            onChange={setFieldHandler(key)}
-            value={formFields[key]}
-            name={`custom-asset-${key}`}
-            errorMessage={invalidFields[key]}
-            placeholder={placeholder}
-            type='text'
-            color='gray'
-            isDisabled={isDisabled}
-            isLoading={isLoading}
-          />
-        ))}
-        <div className='actions'>
-          <Button onClick={submit}>{submitLabel}</Button>
-        </div>
+  checkFormReadyToSubmit = (values: FormFields): boolean => {
+    const {
+      name,
+      symbol,
+      address,
+      decimals,
+    }: FormFields = values
+
+    return !!(
+      (name || '').trim() &&
+      (symbol || '').trim() &&
+      (address || '').trim() &&
+      !Number.isNaN(parseInt(decimals, 10))
+    )
+  }
+
+  renderForm = ({
+    values,
+    handleSubmit,
+    submitting: isSubmitting,
+  }: FormRenderProps) => {
+    const {
+      i18n,
+      isLoading,
+      isAddressEditable,
+    }: Props = this.props
+
+    const isDisabled: boolean = isSubmitting || isLoading
+
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+      >
+        <Field
+          component={JInputField}
+          label={i18n._(
+            'common.DigitalAssetEditForm.address.label',
+            null,
+            { defaults: 'Asset Address' },
+          )}
+          name='address'
+          maxLength={40}
+          isDisabled={isDisabled || !isAddressEditable}
+        />
+        <Field
+          component={JInputField}
+          label={i18n._(
+            'common.DigitalAssetEditForm.name.label',
+            null,
+            { defaults: 'Name' },
+          )}
+          name='name'
+          maxLength={32}
+          isDisabled={isDisabled}
+        />
+        <Field
+          component={JInputField}
+          label={i18n._(
+            'common.DigitalAssetEditForm.symbol.label',
+            null,
+            { defaults: 'Symbol' },
+          )}
+          name='symbol'
+          maxLength={10}
+          isDisabled={isDisabled}
+        />
+        <Field
+          component={JInputField}
+          label={i18n._(
+            'common.DigitalAssetEditForm.decimals.label',
+            null,
+            { defaults: 'Decimals' },
+          )}
+          name='decimals'
+          maxLength={3}
+          isDisabled={isDisabled}
+        />
+        <Button
+          type='submit'
+          isLoading={isDisabled}
+          isDisabled={!this.checkFormReadyToSubmit(values || {})}
+        >
+          {i18n._(
+            'common.DigitalAssetEditForm.submit',
+            null,
+            { defaults: 'Save' },
+          )}
+        </Button>
+      </form>
+    )
+  }
+
+  render() {
+    const {
+      i18n,
+      initialValues,
+      submit: handleSubmit,
+    }: Props = this.props
+
+    return (
+      <div className={styles.core}>
+        <Header
+          title={i18n._(
+            'common.DigitalAssetEditForm.title',
+            null,
+            { defaults: 'Edit Asset' },
+          )}
+        />
+        <Form
+          onSubmit={handleSubmit}
+          render={this.renderForm}
+          initialValues={initialValues}
+        />
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-DigitalAssetEditForm.defaultProps = {
-  isAddressLoading: false,
-  isAddressEditable: true,
-}
-
-export default DigitalAssetEditForm
+const DigitalAssetEditFormEnhanced = withI18n()(DigitalAssetEditForm)
+export { DigitalAssetEditFormEnhanced as DigitalAssetEditForm }

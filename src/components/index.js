@@ -5,7 +5,6 @@ import AssetBalance from './AssetBalance'
 import CloseableScreen from './CloseableScreen'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
-import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
@@ -27,6 +26,7 @@ export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { TransactionsFilter } from './TransactionsFilter/TransactionsFilter'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
+export { DigitalAssetEditForm } from './DigitalAssetEditForm/DigitalAssetEditForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
 export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
 export { AddressPicker } from './AddressPicker/AddressPicker'
@@ -40,5 +40,4 @@ export {
   CloseableScreen,
   DigitalAssetsManage,
   OverlayNotification,
-  DigitalAssetEditForm,
 }
