@@ -229,5 +229,7 @@ module.exports = async ({ config: baseConfig }, env) => {
     return loader
   })
 
+  baseConfig.externals = ['net', 'fs', 'tls']
+
   return baseConfig
 }

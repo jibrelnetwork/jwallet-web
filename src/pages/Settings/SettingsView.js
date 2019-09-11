@@ -77,10 +77,7 @@ export function SettingsView({
             iconColor='blue'
           />
         </JLink>
-        <JLink
-          className={styles.item}
-          href='/settings/development'
-        >
+        <div className={styles.item}>
           <Card
             title={i18n._('Settings.actions.devmode', null, { defaults: 'Developer Mode' })}
             description={isDeveloperMode
@@ -88,8 +85,9 @@ export function SettingsView({
               : i18n._('Settings.actions.devmode.disabled', null, { defaults: 'Disabled' })}
             iconColor='blue'
             iconName='ic_dev_mode_24-use-fill'
+            isDisabled
           />
-        </JLink>
+        </div>
         {
           /**
            * Empty divs below are necessary to align items (3 per row)
