@@ -5,11 +5,10 @@ import { useI18n } from 'app/hooks'
 
 import {
   CloseableScreen,
-  DigitalAssetEditForm,
+  DigitalAssetAddForm,
 } from 'components'
 
 export type Props = {
-  +close: Function,
   +submit: () => void,
   +openView: Function,
   +closeView: Function,
@@ -20,7 +19,6 @@ export type Props = {
 }
 
 const AddAssetView = ({
-  close,
   openView,
   closeView,
   formFields,
@@ -33,7 +31,6 @@ const AddAssetView = ({
 
   return (
     <CloseableScreen
-      close={close}
       onOpen={openView}
       onClose={closeView}
       title={i18n._(
@@ -42,7 +39,7 @@ const AddAssetView = ({
         { defaults: 'Add digital asset' },
       )}
     >
-      <DigitalAssetEditForm
+      <DigitalAssetAddForm
         submit={submit}
         setField={setField}
         formFields={formFields}

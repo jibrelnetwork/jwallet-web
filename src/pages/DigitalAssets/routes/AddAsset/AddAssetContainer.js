@@ -1,8 +1,7 @@
-// @flow
+// @flow strict
 
 import { connect } from 'react-redux'
 
-import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import { selectAddAsset } from 'store/selectors/digitalAssets'
 
 import {
@@ -29,10 +28,6 @@ function mapStateToProps(state: AppState) {
     formFields,
     invalidFields,
     isAddressLoading: isAssetLoading,
-    close: router5BackOrFallbackFunctionCreator(
-      state.router.previousRoute,
-      'Wallet',
-    ),
   }
 }
 
