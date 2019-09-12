@@ -71,7 +71,7 @@ function About({
           theme='button-additional-icon'
         >
           <JIcon
-            name='ic_info_24-use-fill'
+            name='ic_info_24_round-use-fill'
             className={buttonStyles.icon}
           />
           <span className={buttonStyles.label}>

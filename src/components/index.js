@@ -3,9 +3,9 @@
 import QRCode from './QRCode'
 import AssetBalance from './AssetBalance'
 import CloseableScreen from './CloseableScreen'
-import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 
+export { Card } from './Card/Card'
 export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
 export { HistoryList } from './HistoryList/HistoryList'
@@ -39,6 +39,5 @@ export {
   QRCode,
   AssetBalance,
   CloseableScreen,
-  DigitalAssetsManage,
   OverlayNotification,
 }

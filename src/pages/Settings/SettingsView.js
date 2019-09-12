@@ -2,6 +2,8 @@
 
 import React from 'react'
 
+import { Card } from 'components'
+
 import {
   LANGUAGES,
   CURRENCIES,
@@ -15,7 +17,6 @@ import {
 import { useLanguage } from 'app/hooks'
 
 import styles from './settings.m.scss'
-import { Card } from './components/Card/Card'
 
 export type Props = {|
   +fiatCurrency: FiatCurrency,
