@@ -1,18 +1,15 @@
 // @flow strict
 
 import React from 'react'
-import { useI18n } from 'app/hooks'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import { useI18n } from 'app/hooks'
+import { Button } from 'components/base'
 import { PasswordInput } from 'components'
 
-import {
-  JLink,
-  Button,
-} from 'components/base'
-
-import walletPasswordFormStyle from './walletPasswordForm.m.scss'
+import styles from './walletPasswordForm.m.scss'
+import { Forgot } from './components/Forgot/Forgot'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
@@ -34,7 +31,7 @@ export function WalletPasswordForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={walletPasswordFormStyle.core}
+      className={styles.core}
     >
       <Field
         component={PasswordInput}
@@ -66,17 +63,7 @@ export function WalletPasswordForm({
           { defaults: 'Continue' },
         )}
       </Button>
-      <JLink
-        className={walletPasswordFormStyle.forgot}
-        color='blue'
-        href='/forgot-password'
-      >
-        {i18n._(
-          'WalletPasswordForm.forgot',
-          null,
-          { defaults: 'Forgot?' },
-        )}
-      </JLink>
+      <Forgot />
     </form>
   )
 }
