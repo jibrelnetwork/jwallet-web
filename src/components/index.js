@@ -5,6 +5,7 @@ import AssetBalance from './AssetBalance'
 import CloseableScreen from './CloseableScreen'
 import OverlayNotification from './OverlayNotification'
 
+export { Card } from './Card/Card'
 export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
 export { HistoryList } from './HistoryList/HistoryList'
