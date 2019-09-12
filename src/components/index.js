@@ -3,7 +3,6 @@
 import QRCode from './QRCode'
 import AssetBalance from './AssetBalance'
 import CloseableScreen from './CloseableScreen'
-import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 
 export { Toast } from './Toast/Toast'
@@ -39,6 +38,5 @@ export {
   QRCode,
   AssetBalance,
   CloseableScreen,
-  DigitalAssetsManage,
   OverlayNotification,
 }
