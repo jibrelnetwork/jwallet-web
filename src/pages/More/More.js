@@ -31,6 +31,7 @@ export function More() {
         )}
       />
       <div className={styles.cards}>
+        {/*
         <div className={styles.item}>
           <Card
             title={i18n._(
@@ -55,6 +56,7 @@ export function More() {
             isDisabled
           />
         </div>
+        */}
         <JLink
           className={styles.item}
           href='https://jibrel.zendesk.com/hc/en-us/requests/new'
@@ -92,7 +94,6 @@ export function More() {
            * On screen resizing, they all should have the same width
            */
         }
-        <div className={styles.item} />
         <div className={styles.item} />
       </div>
     </div>
