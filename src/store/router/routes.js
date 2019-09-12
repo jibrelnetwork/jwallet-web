@@ -52,6 +52,10 @@ export const routes: Array<{|
   name: 'AssetsItemEdit',
   hasMenu: true,
 }, {
+  path: '/assets/:assetId/delete',
+  name: 'AssetsItemDelete',
+  hasMenu: true,
+}, {
   path: '/contacts',
   name: 'Contacts',
   hasMenu: true,
