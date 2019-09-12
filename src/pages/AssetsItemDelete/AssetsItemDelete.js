@@ -85,7 +85,7 @@ class AssetsItemDelete extends Component<Props> {
             { defaults: 'Delete Asset?' },
           )}
           text={i18n._(
-            'AssetsItemDelete.action.cancel',
+            'AssetsItemDelete.description',
             {
               name,
               symbol,
