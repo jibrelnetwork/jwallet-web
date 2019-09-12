@@ -1,6 +1,5 @@
 // @flow strict
 
-import JCard from './JCard'
 import JFlatButton from './JFlatButton'
 import JInput from './JInput'
 import JLoader from './JLoader'
@@ -26,7 +25,6 @@ export { JShimmer } from './JShimmer/JShimmer'
 export { ItemCard } from './ItemCard/ItemCard'
 
 export {
-  JCard,
   JFlatButton,
   JInput,
   JLoader,

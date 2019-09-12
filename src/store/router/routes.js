@@ -92,16 +92,16 @@ export const routes: Array<{|
   name: 'HistoryItemRestart',
   hasMenu: true,
 }, {
-  path: '/more',
-  name: 'MoreActions',
-  hasMenu: true,
-}, {
   path: '/receive',
   name: 'ReceiveAsset',
   hasMenu: true,
 }, {
   path: '/send?:asset&:to&:amount',
   name: 'Send',
+  hasMenu: true,
+}, {
+  path: '/more',
+  name: 'More',
   hasMenu: true,
 }, {
   path: '/settings',

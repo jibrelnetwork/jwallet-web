@@ -19,6 +19,8 @@ export { History } from './History/History'
 export { HistoryItem } from './HistoryItem/HistoryItem'
 export { HistoryItemCancel } from './HistoryItemCancel/HistoryItemCancel'
 
+export { More } from './More/More'
+
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
 export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
