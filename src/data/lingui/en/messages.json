@@ -123,7 +123,6 @@
     "WalletBackupForm.done": "Done",
     "WalletBackupForm.download": "Download Backup as TXT",
     "WalletBackupForm.passphrase": "Passphrase",
-    "WalletPasswordForm.forgot": "Forgot?",
     "WalletPasswordForm.hint": "Hint: {hint}",
     "WalletPasswordForm.password": "Security Password",
     "WalletPasswordForm.submit": "Continue",
@@ -403,9 +402,7 @@
     "AssetsItemEdit.error.symbol": "Valid asset symbol is required",
     "AssetsItemEdit.toast": "Asset updated",
     "More.action.about": "Information",
-    "More.action.sign": "Sign Message",
     "More.action.support": "Support",
-    "More.action.verify": "Verify Signature",
     "More.description.about": "About Jibrel Wallet",
     "More.title": "More",
     "common.DigitalAssetEditForm.address.label": "Asset Address",
@@ -413,5 +410,9 @@
     "common.DigitalAssetEditForm.name.label": "Name",
     "common.DigitalAssetEditForm.submit": "Save",
     "common.DigitalAssetEditForm.symbol.label": "Symbol",
-    "common.DigitalAssetEditForm.title": "Edit Asset"
+    "common.DigitalAssetEditForm.title": "Edit Asset",
+    "WalletPasswordForm.Forgot.action.back": "Try Again",
+    "WalletPasswordForm.Forgot.action.forgot": "Forgot?",
+    "WalletPasswordForm.Forgot.description": "Unfortunately, Security Password can’t be restored. If you would like to reset Jwallet to initial state and drop your old Security Password, please contact Support.",
+    "WalletPasswordForm.Forgot.title": "Forgot Security Password"
 }

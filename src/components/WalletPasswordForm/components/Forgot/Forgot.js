@@ -44,12 +44,12 @@ class Forgot extends PureComponent<Props, StateProps> {
             <div className={styles.info}>
               <UserActionInfo
                 title={i18n._(
-                  'Forgot.title',
+                  'WalletPasswordForm.Forgot.title',
                   null,
                   { defaults: 'Forgot Security Password' },
                 )}
                 text={i18n._(
-                  'Forgot.description',
+                  'WalletPasswordForm.Forgot.description',
                   null,
                   {
                     // eslint-disable-next-line max-len
@@ -67,7 +67,7 @@ class Forgot extends PureComponent<Props, StateProps> {
                 theme='general-confirm'
               >
                 {i18n._(
-                  'Forgot.action.back',
+                  'WalletPasswordForm.Forgot.action.back',
                   null,
                   { defaults: 'Try Again' },
                 )}
@@ -82,7 +82,7 @@ class Forgot extends PureComponent<Props, StateProps> {
           theme='additional'
         >
           {i18n._(
-            'Forgot.action.forgot',
+            'WalletPasswordForm.Forgot.action.forgot',
             null,
             { defaults: 'Forgot?' },
           )}
