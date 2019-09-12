@@ -2,6 +2,7 @@
 
 import Promise from 'bluebird'
 import { i18n } from 'i18n/lingui'
+import { actions } from 'redux-router5'
 
 import {
   all,
@@ -14,8 +15,8 @@ import {
 } from 'redux-saga/effects'
 
 import web3 from 'services/web3'
-import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import { toastsPlugin } from 'store/plugins'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
@@ -343,12 +344,13 @@ function* onAssetFormSumbit(): Saga<void> {
       digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
     )
 
-    const state = yield select()
+    yield put(actions.navigateTo('Home'))
 
-    router5BackOrFallbackFunctionCreator(
-      state.router.previousRoute,
-      'Wallet',
-    )()
+    toastsPlugin.showToast(i18n._(
+      'AssetsItemAdd.toast',
+      null,
+      { defaults: 'Asset added' },
+    ))
 
     yield put(blocks.syncRestart())
     yield put(ticker.syncRestart())

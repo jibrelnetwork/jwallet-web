@@ -105,14 +105,6 @@ declare type AddAssetState = {|
 |}
 
 /**
- * Edit custom digital asset
- */
-declare type EditAssetState = {|
-  +formFields: EditAssetFormFields,
-  +invalidFields: EditAssetFormFields,
-|}
-
-/**
  * Digital assets manage
  */
 declare type DigitalAssetsManageState = {|
