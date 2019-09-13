@@ -11,6 +11,7 @@ import compareDigitalAssetsByName from './compareDigitalAssetsByName'
 import getDigitalAssetsWithBalance from './getDigitalAssetsWithBalance'
 import compareDigitalAssetsByBalance from './compareDigitalAssetsByBalance'
 
+export { sortAssets } from './sortAssets'
 export { getFiatBalance } from './getFiatBalance'
 
 export {

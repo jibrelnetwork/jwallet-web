@@ -27,7 +27,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRoute: '/',
   },
-  AssetDetails: {
+  AssetsItemDetails: {
     isMinimized: true,
     previousRoute: '/',
   },

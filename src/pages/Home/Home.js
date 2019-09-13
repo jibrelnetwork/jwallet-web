@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { connect } from 'react-redux'
 
@@ -10,6 +10,7 @@ import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectTransactionsByOwner } from 'store/selectors/transactions'
 
 import {
+  sortAssets,
   filterAssetsBalances,
   flattenDigitalAssets,
   getDigitalAssetsWithBalance,
@@ -45,7 +46,7 @@ function mapStateToProps(state: AppState) {
   )
 
   return {
-    items: assetsWithBalance,
+    items: sortAssets(assetsWithBalance),
   }
 }
 
@@ -53,6 +54,7 @@ const mapDispatchToProps = {
   setAssetIsActive,
 }
 
-export default (
-  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
+export default connect<Props, OwnPropsEmpty, _, _, _, _>(
+  mapStateToProps,
+  mapDispatchToProps,
 )(HomeView)
