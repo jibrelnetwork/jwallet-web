@@ -19,7 +19,7 @@ import {
   JLink,
 } from 'components/base'
 
-import styles from './assetDetails.m.scss'
+import styles from './assetsItemDetails.m.scss'
 
 type OwnProps = {|
   +assetId: string,
@@ -36,7 +36,7 @@ type Props = {|
   /* :: +assetId: string */
 |}
 
-function AssetDetails({
+function AssetsItemDetails({
   name,
   symbol,
   address,
@@ -51,7 +51,7 @@ function AssetDetails({
     <div className={styles.core}>
       <TitleHeader
         title={i18n._(
-          'AssetDetails.title',
+          'AssetsItemDetails.title',
           null,
           { defaults: 'Asset Details' },
         )}
@@ -79,7 +79,7 @@ function AssetDetails({
           value={address}
           link={address && getAddressLink(address, blockExplorerUISubdomain)}
           label={i18n._(
-            'AssetDetails.address.title',
+            'AssetsItemDetails.address.title',
             null,
             { defaults: 'Asset address' },
           )}
@@ -88,7 +88,7 @@ function AssetDetails({
         <FieldPreview
           value={name}
           label={i18n._(
-            'AssetDetails.name.title',
+            'AssetsItemDetails.name.title',
             null,
             { defaults: 'Name' },
           )}
@@ -96,7 +96,7 @@ function AssetDetails({
         <FieldPreview
           value={symbol}
           label={i18n._(
-            'AssetDetails.name.symbol',
+            'AssetsItemDetails.name.symbol',
             null,
             { defaults: 'Symbol' },
           )}
@@ -104,7 +104,7 @@ function AssetDetails({
         <FieldPreview
           value={decimals}
           label={i18n._(
-            'AssetDetails.name.decimals',
+            'AssetsItemDetails.name.decimals',
             null,
             { defaults: 'Decimals' },
           )}
@@ -114,7 +114,7 @@ function AssetDetails({
   )
 }
 
-AssetDetails.defaultProps = {
+AssetsItemDetails.defaultProps = {
   isCustom: false,
   hasDefaultFields: false,
 }
@@ -153,5 +153,8 @@ function mapStateToProps(
   }
 }
 
-const AssetDetailsEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(AssetDetails)
-export { AssetDetailsEnhanced as AssetDetails }
+const AssetsItemDetailsEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(
+  AssetsItemDetails,
+)
+
+export { AssetsItemDetailsEnhanced as AssetsItemDetails }

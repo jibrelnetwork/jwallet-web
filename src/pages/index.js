@@ -27,9 +27,9 @@ export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
 export { SettingsPassword } from './SettingsPassword/SettingsPassword'
 
 export { AssetsItem } from './AssetsItem/AssetsItem'
-export { AssetDetails } from './AssetDetails/AssetDetails'
 export { AssetsItemEdit } from './AssetsItemEdit/AssetsItemEdit'
 export { AssetsItemDelete } from './AssetsItemDelete/AssetsItemDelete'
+export { AssetsItemDetails } from './AssetsItemDetails/AssetsItemDetails'
 export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
 
 export { Contacts } from './Contacts/Contacts'
