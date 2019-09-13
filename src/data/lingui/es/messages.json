@@ -123,7 +123,6 @@
     "WalletBackupForm.done": "Listo",
     "WalletBackupForm.download": "Descargar copia de seguridad como TXT",
     "WalletBackupForm.passphrase": "Frase de contraseña",
-    "WalletPasswordForm.forgot": "¿Se ha olvidado?",
     "WalletPasswordForm.hint": "Sugerencia: {hint}",
     "WalletPasswordForm.password": "Contraseña de seguridad",
     "WalletPasswordForm.submit": "Continuar",
@@ -403,9 +402,7 @@
     "AssetsItemEdit.error.symbol": "",
     "AssetsItemEdit.toast": "",
     "More.action.about": "",
-    "More.action.sign": "",
     "More.action.support": "",
-    "More.action.verify": "",
     "More.description.about": "",
     "More.title": "",
     "common.DigitalAssetEditForm.address.label": "",
@@ -413,5 +410,9 @@
     "common.DigitalAssetEditForm.name.label": "",
     "common.DigitalAssetEditForm.submit": "",
     "common.DigitalAssetEditForm.symbol.label": "",
-    "common.DigitalAssetEditForm.title": ""
+    "common.DigitalAssetEditForm.title": "",
+    "WalletPasswordForm.Forgot.action.back": "Volver a intentarlo",
+    "WalletPasswordForm.Forgot.action.forgot": "¿Se ha olvidado?",
+    "WalletPasswordForm.Forgot.description": "",
+    "WalletPasswordForm.Forgot.title": "Contraseña de seguridad olvidada"
 }

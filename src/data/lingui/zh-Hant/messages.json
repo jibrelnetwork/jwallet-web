@@ -123,7 +123,6 @@
     "WalletBackupForm.done": "完成",
     "WalletBackupForm.download": "以TXT格式下載備份",
     "WalletBackupForm.passphrase": "密碼短語",
-    "WalletPasswordForm.forgot": "忘記了密碼？",
     "WalletPasswordForm.hint": "提示： {hint}",
     "WalletPasswordForm.password": "安全密碼",
     "WalletPasswordForm.submit": "繼續",
@@ -403,9 +402,7 @@
     "AssetsItemEdit.error.symbol": "",
     "AssetsItemEdit.toast": "",
     "More.action.about": "",
-    "More.action.sign": "",
     "More.action.support": "",
-    "More.action.verify": "",
     "More.description.about": "",
     "More.title": "",
     "common.DigitalAssetEditForm.address.label": "",
@@ -413,5 +410,9 @@
     "common.DigitalAssetEditForm.name.label": "",
     "common.DigitalAssetEditForm.submit": "",
     "common.DigitalAssetEditForm.symbol.label": "",
-    "common.DigitalAssetEditForm.title": ""
+    "common.DigitalAssetEditForm.title": "",
+    "WalletPasswordForm.Forgot.action.back": "再試一次",
+    "WalletPasswordForm.Forgot.action.forgot": "忘記了密碼？",
+    "WalletPasswordForm.Forgot.description": "",
+    "WalletPasswordForm.Forgot.title": "已忘記安全密碼"
 }
