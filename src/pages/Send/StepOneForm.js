@@ -1,5 +1,7 @@
 // @flow strict
 
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import React, { PureComponent } from 'react'
 import createCaluclateDecorator from 'final-form-calculate'
 import { connect } from 'react-redux'
@@ -7,14 +9,12 @@ import { compose } from 'redux'
 import { max } from 'lodash-es'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
+
 import {
   Form,
   Field,
   type FormRenderProps,
 } from 'react-final-form'
-
-// $FlowFixMe
-import BigNumber from 'bignumber.js'
 
 import stylesOffsets from 'styles/offsets.m.scss'
 
@@ -23,9 +23,9 @@ import checkETH from 'utils/digitalAssets/checkETH'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 
 import { Button } from 'components/base'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 
 import {
@@ -490,20 +490,15 @@ const getAssetBalanceByAddress = (state: AppState) => (assetAddress: string) => 
 }
 
 function mapStateToProps(state: AppState) {
-  const network = selectCurrentNetworkOrThrow(state)
-  const ownerAddress = selectActiveWalletAddressOrThrow(state)
-
   return {
-    network,
-    ownerAddress,
     getAssetByAddress: getAssetByAddress(state),
+    network: selectCurrentNetworkOrThrow(state),
+    ownerAddress: selectActiveWalletAddress(state),
     getAssetBalanceByAddress: getAssetBalanceByAddress(state),
   }
 }
 
 export const ConnectedStepOneForm = compose(
   withI18n(),
-  connect<Props, OwnProps, _, _, _, _>(
-    mapStateToProps,
-  ),
+  connect<Props, OwnProps, _, _, _, _>(mapStateToProps),
 )(StepOneForm)

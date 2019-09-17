@@ -1,18 +1,13 @@
 // @flow strict
 
+import { StorageError } from 'errors'
 import { getAddressName } from 'utils/address'
 
 import {
   getAddress,
   getAddresses,
-  getWalletById,
   checkMultiAddressType,
 } from 'utils/wallets'
-
-import {
-  WalletNotFoundError,
-  ActiveWalletNotFoundError,
-} from 'errors'
 
 export function selectWallets(state: AppState): WalletsState {
   return state.wallets
@@ -56,88 +51,42 @@ export function selectSingleAddressWalletsNames(state: AppState): AddressNames {
   }, {})
 }
 
-export function selectActiveWalletId(state: AppState): ?WalletId {
-  const walletsPersist: WalletsPersist = selectWalletsPersist(state)
-
-  return walletsPersist.activeWalletId
-}
-
-export function selectActiveWalletIdOrThrow(state: AppState): WalletId {
-  const activeWalletId = selectActiveWalletId(state)
-
-  if (!activeWalletId) {
-    throw new ActiveWalletNotFoundError()
-  }
-
-  return activeWalletId
-}
-
-export function selectWallet(state: AppState, walletId: WalletId): ?Wallet {
+export function selectWallet(state: AppState, walletId: WalletId): Wallet {
   const items: Wallets = selectWalletsItems(state)
 
-  return items.find(({ id }: Wallet): boolean => (id === walletId))
-}
-
-export function selectWalletOrThrow(state: AppState, walletId: WalletId): Wallet {
-  const wallet = selectWallet(state, walletId)
-
-  if (!wallet) {
-    throw new WalletNotFoundError({ walletId })
+  if (!items.length) {
+    throw new StorageError('Wallets are absent')
   }
 
-  return wallet
+  return items.find(({ id }: Wallet): boolean => (id === walletId)) || items[0]
 }
 
-export function selectActiveWallet(state: AppState): ?Wallet {
+export function selectActiveWallet(state: AppState): WalletId {
   const {
     items,
     activeWalletId,
-  } = selectWalletsPersist(state)
+  }: WalletsPersist = selectWalletsPersist(state)
 
-  if (!activeWalletId) {
-    return null
+  if (!items.length) {
+    throw new StorageError('Wallets are absent')
   }
 
-  return items.find(({ id }: Wallet): boolean => (id === activeWalletId))
-}
-
-export function selectActiveWalletOrThrow(state: AppState): Wallet {
-  const activeWallet = selectActiveWallet(state)
-
-  if (!activeWallet) {
-    throw new ActiveWalletNotFoundError()
-  }
-
-  return activeWallet
-}
-
-export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
-  const {
-    items,
+  return selectWallet(
+    state,
     activeWalletId,
-  } = selectWalletsPersist(state)
-
-  if (!activeWalletId) {
-    return null
-  }
-
-  const wallet: ?Wallet = getWalletById(items, activeWalletId)
-
-  if (!wallet) {
-    return null
-  }
-
-  return getAddress(wallet)
+  )
 }
 
-export function selectActiveWalletAddressOrThrow(state: AppState): OwnerAddress {
-  const address = selectActiveWalletAddress(state)
+export function selectActiveWalletId(state: AppState): WalletId {
+  const activeWallet: Wallet = selectActiveWallet(state)
 
-  if (!address) {
-    throw new ActiveWalletNotFoundError()
-  }
+  return activeWallet.id
+}
 
-  return address
+export function selectActiveWalletAddress(state: AppState): OwnerAddress {
+  const activeWallet: Wallet = selectActiveWallet(state)
+
+  return getAddress(activeWallet)
 }
 
 export function selectWalletsCreate(state: AppState): WalletsCreateState {
@@ -211,8 +160,4 @@ export function selectAddressNames(
       ...addressesResult,
     }
   }, {})
-}
-
-export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddressState {
-  return state.walletsRenameAddress
 }

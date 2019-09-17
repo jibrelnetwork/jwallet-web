@@ -34,12 +34,7 @@ export function selectBalancesByOwner(
   state: AppState,
   ownerOptional?: OwnerAddress,
 ): ?BalancesByOwner {
-  const owner: ?OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
-
-  if (!owner) {
-    return null
-  }
-
+  const owner: OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
   const itemsByNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(state)
 
   if (!itemsByNetworkId) {

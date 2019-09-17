@@ -20,8 +20,8 @@ import {
 } from 'components'
 
 import {
+  selectWallet,
   selectAddressNames,
-  selectWalletOrThrow,
 } from 'store/selectors/wallets'
 
 import styles from './walletCard.m.scss'
@@ -250,7 +250,7 @@ function mapStateToProps(state: AppState, {
   id,
   isActive,
 }: OwnProps) {
-  const wallet: Wallet = selectWalletOrThrow(state, id)
+  const wallet: Wallet = selectWallet(state, id)
   const address: Address = walletsPlugin.getAddress(id)
   const addressNames: AddressNames = selectAddressNames(state)
 

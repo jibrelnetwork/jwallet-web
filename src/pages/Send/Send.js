@@ -1,25 +1,23 @@
 // @flow strict
 
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { actions } from 'redux-router5'
+import { type I18n as I18nType } from '@lingui/core'
+
 import {
   withI18n,
   Trans,
 } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
-
-import { actions } from 'redux-router5'
 
 import web3 from 'services/web3'
-
-import { TitleHeader } from 'components'
-import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
-import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
-import { checkETH } from 'utils/digitalAssets'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
-
-import * as transaction from 'store/modules/transactions'
+import { TitleHeader } from 'components'
+import { checkETH } from 'utils/digitalAssets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 
 import {
   toBigNumber,
@@ -27,16 +25,18 @@ import {
   // isValidNumeric,
 } from 'utils/numbers'
 
+import * as transaction from 'store/modules/transactions'
+
+import styles from './send.m.scss'
+
+import { SendError } from './SendError'
+import { ValidationFailed } from './ValidationFailed'
+import { ConnectedPasswordStepForm } from './PasswordStepForm'
+
 import {
   ConnectedStepOneForm,
   type SendFormValues,
 } from './StepOneForm'
-import { ConnectedPasswordStepForm } from './PasswordStepForm'
-import { ValidationFailed } from './ValidationFailed'
-import { SendError } from './SendError'
-
-import styles from './send.m.scss'
-import { compose } from '../../../node_modules/redux'
 
 const {
   sendTransaction,
@@ -201,15 +201,11 @@ class SendAsset extends Component<Props, ComponentState> {
         nonce,
       }
 
-      console.log('sendTransactionPayload', sendTransactionPayload)
-
       const txHash = await sendTransaction(
         network,
         assetAddress,
         sendTransactionPayload,
       )
-
-      console.log('txHash', txHash)
 
       addPendingTransaction(
         networkId,
@@ -242,7 +238,6 @@ class SendAsset extends Component<Props, ComponentState> {
 
       openTransaction(txHash)
     } catch (err) {
-      console.error(err)
       this.setState({ currentStep: STEPS.ERROR })
     }
   }
@@ -324,13 +319,10 @@ const getAssetDecimals = (state: AppState) => (assetAddress: string): number => 
 }
 
 function mapStateToProps(state: AppState) {
-  const network = selectCurrentNetworkOrThrow(state)
-  const ownerAddress = selectActiveWalletAddressOrThrow(state)
-
   return {
-    network,
-    ownerAddress,
     getAssetDecimals: getAssetDecimals(state),
+    network: selectCurrentNetworkOrThrow(state),
+    ownerAddress: selectActiveWalletAddress(state),
   }
 }
 

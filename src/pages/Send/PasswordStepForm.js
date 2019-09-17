@@ -12,23 +12,23 @@ import {
 } from 'react-final-form'
 
 import { walletsPlugin } from 'store/plugins/walletsPlugin'
-import { selectActiveWalletIdOrThrow } from 'store/selectors/wallets'
-import { selectPasswordPersist } from 'store/selectors/password'
+import { selectPasswordHint } from 'store/selectors/password'
+import { selectActiveWalletId } from 'store/selectors/wallets'
 import { WalletPasswordForm } from 'components'
 
 type PasswordFormValues= {|
   password: string,
 |}
 
-type Props = {|
-  hint: string,
-  activeWalletId: WalletId,
-  onDecryptPrivateKey: (privateKey: string) => Promise<*>,
-  i18n: I18nType,
+type OwnProps = {|
+  +onDecryptPrivateKey: (privateKey: string) => Promise<*>,
 |}
 
-type OwnProps = {|
-  onDecryptPrivateKey: (privateKey: string) => Promise<*>,
+type Props = {|
+  ...OwnProps,
+  +i18n: I18nType,
+  +hint: string,
+  +activeWalletId: WalletId,
 |}
 
 class PasswordStepForm extends PureComponent<Props> {
@@ -91,21 +91,13 @@ class PasswordStepForm extends PureComponent<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const activeWalletId = selectActiveWalletIdOrThrow(state)
-
-  const {
-    hint,
-  } = selectPasswordPersist(state)
-
   return {
-    hint,
-    activeWalletId,
+    hint: selectPasswordHint(state),
+    activeWalletId: selectActiveWalletId(state),
   }
 }
 
 export const ConnectedPasswordStepForm = compose(
   withI18n(),
-  connect<Props, OwnProps, _, _, _, _>(
-    mapStateToProps,
-  ),
+  connect<Props, OwnProps, _, _, _, _>(mapStateToProps),
 )(PasswordStepForm)

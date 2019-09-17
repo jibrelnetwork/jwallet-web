@@ -2,9 +2,9 @@
 
 import { connect } from 'react-redux'
 
+import { selectActiveWallet } from 'store/selectors/wallets'
 import { setAssetIsActive } from 'store/modules/digitalAssets'
 import { selectProcessingBlock } from 'store/selectors/blocks'
-import { selectActiveWalletOrThrow } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectTransactionsByOwner } from 'store/selectors/transactions'
@@ -22,7 +22,7 @@ import {
 } from './HomeView'
 
 function mapStateToProps(state: AppState) {
-  const wallet: Wallet = selectActiveWalletOrThrow(state)
+  const wallet: Wallet = selectActiveWallet(state)
   const assets: DigitalAssets = selectDigitalAssetsItems(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state)
   const txs: ?TransactionsByOwner = selectTransactionsByOwner(state)

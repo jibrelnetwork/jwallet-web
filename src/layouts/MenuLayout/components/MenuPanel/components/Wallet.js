@@ -18,8 +18,8 @@ import {
 
 import {
   selectAddressNames,
-  selectActiveWalletOrThrow,
-  selectActiveWalletAddressOrThrow,
+  selectActiveWallet,
+  selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
 import {
@@ -88,13 +88,13 @@ function getTotalFiatBalance(
 }
 
 function mapStateToProps(state: AppState) {
-  const wallet = selectActiveWalletOrThrow(state)
+  const wallet = selectActiveWallet(state)
   const fiatCourses: FiatCourses = selectTickerItems(state)
   const addressNames: AddressNames = selectAddressNames(state)
   const balances: ?Balances = selectBalancesByBlockNumber(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
   const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
-  const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
     assets,
@@ -124,6 +124,4 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const Wallet = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-)(WalletView)
+export const Wallet = connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps)(WalletView)

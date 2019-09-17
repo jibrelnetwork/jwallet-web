@@ -41,9 +41,8 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWalletOrThrow,
+  selectActiveWallet,
   selectActiveWalletAddress,
-  selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
 import {
@@ -248,8 +247,7 @@ function* checkTransactionsFetched(activeAssets: DigitalAsset[]): Saga<boolean> 
 }
 
 function* getWalletCreatedBlockNumber(): Saga<void> {
-  const wallet: ExtractReturn<typeof selectActiveWalletOrThrow>
-    = yield select(selectActiveWalletOrThrow)
+  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
 
   /**
    * @TODO
@@ -285,16 +283,13 @@ function* syncProcessingBlockStatus(): Saga<void> {
       const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
         yield select(selectCurrentNetworkId)
 
-      const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-        yield select(selectActiveWalletAddress)
-
       const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
         yield select(selectProcessingBlock, networkId)
 
       const assets: ExtractReturn<typeof selectActiveDigitalAssets> =
         yield select(selectActiveDigitalAssets)
 
-      if (!(networkId && ownerAddress)) {
+      if (!networkId) {
         return
       }
 
@@ -813,8 +808,8 @@ function* checkPendingTransaction(transactionId: TransactionId): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
 
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
-    yield select(selectActiveWalletAddressOrThrow)
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
 
   yield put(transactions.removePendingTransaction(
     networkId,
@@ -1106,10 +1101,6 @@ function* removeItemsByAsset(
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
-
-  if (!ownerAddress) {
-    return
-  }
 
   yield put(transactions.initItemsByAsset(networkId, ownerAddress, assetAddress, true))
   yield put(blocks.syncRestart())

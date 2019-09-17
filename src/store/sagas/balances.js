@@ -23,7 +23,6 @@ import web3 from 'services/web3'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
@@ -160,16 +159,13 @@ function* syncProcessingBlockStatus(): Saga<void> {
       const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
         yield select(selectCurrentNetworkId)
 
-      const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-        yield select(selectActiveWalletAddress)
-
       const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
         yield select(selectProcessingBlock, networkId)
 
       const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
         yield select(selectActiveDigitalAssets)
 
-      if (!(networkId && ownerAddress)) {
+      if (!networkId) {
         return
       }
 

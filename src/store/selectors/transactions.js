@@ -44,12 +44,7 @@ export function selectTransactionsByOwner(
   state: AppState,
   ownerOptional?: ?OwnerAddress,
 ): ?TransactionsByOwner {
-  const owner: ?OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
-
-  if (!owner) {
-    return null
-  }
-
+  const owner: OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
   const byNetworkId: ?TransactionsByNetworkId = selectTransactionsByNetworkId(state)
 
   if (!byNetworkId) {
@@ -214,12 +209,7 @@ export function selectPendingTransactionsByOwner(
   state: AppState,
   ownerOptional?: ?OwnerAddress,
 ): ?PendingTransactionsByOwner {
-  const owner: ?OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
-
-  if (!owner) {
-    return null
-  }
-
+  const owner: OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
   const byNetworkId: ?PendingTransactionsByNetworkId = selectPendingTransactionsByNetworkId(state)
 
   if (!byNetworkId) {
