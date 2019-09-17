@@ -37,6 +37,10 @@ type Props = {|
 
 class MenuLayout extends Component<Props> {
   componentDidMount() {
+    /**
+     * Syncing shouldn't be started on pages connected with wallets management
+     * Also, check comment in componentDidUpdate below
+     */
     if (this.props.routeName.indexOf('Wallets') === 0) {
       return
     }
@@ -49,6 +53,10 @@ class MenuLayout extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
+    /**
+     * Defining of necessity of start/stop sync better to move in router's meta-info
+     * Current solution is ok, until someone will have problems with routes naming
+     */
     const isPrevWallets: boolean = (prevProps.routeName.indexOf('Wallets') === 0)
     const isCurrWallets: boolean = (this.props.routeName.indexOf('Wallets') === 0)
 
