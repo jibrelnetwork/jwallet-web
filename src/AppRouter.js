@@ -4,26 +4,25 @@ import React, { Component } from 'react'
 import { constants } from 'router5'
 import { connect } from 'react-redux'
 
+import { MenuLayout } from 'layouts'
+import { PageNotFoundError } from 'errors'
 import { routes } from 'store/router/routes'
-import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
-import { PageNotFoundError } from 'errors'
+import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectIsPasswordExists } from 'store/selectors/password'
+
 import {
   selectIntroductionValue,
   selectAgreementsConditions,
   selectIsAgreementsConfirmed,
 } from 'store/selectors/user'
-import { selectWalletsItems } from 'store/selectors/wallets'
-import { selectIsPasswordExists } from 'store/selectors/password'
-import { MenuLayout } from 'layouts'
 
 import * as pages from 'pages'
 
 import 'styles/core.scss'
 
-type ApplicationError = 'PageNotFoundError' |
-  'UnexpectedError'
+type ApplicationError = 'PageNotFoundError' | 'UnexpectedError'
 
 type Props = {|
   +route: Object,
@@ -33,7 +32,7 @@ type Props = {|
   +showNewWalletProcess: boolean,
 |}
 
-type ComponentState = {|
+type StateProps = {|
   +error: ?ApplicationError,
   +prevRouteName: ?string,
 |}
@@ -45,18 +44,19 @@ function checkHasMenu(name): boolean {
 }
 
 function renderWithMenuLayout(
-  Page,
-  props = {},
+  params: Object = {},
   routeName: string,
 ) {
+  const Page = pages[routeName]
+
   return (
     <MenuLayout routeName={routeName}>
-      <Page {...props} />
+      <Page {...params} />
     </MenuLayout>
   )
 }
 
-class AppRouter extends Component<Props, ComponentState> {
+class AppRouter extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -68,7 +68,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
   }
 
-  static getDerivedStateFromProps({ route }: Props, state: ComponentState) {
+  static getDerivedStateFromProps({ route }: Props, state: StateProps) {
     const nextRouteName = (!route && !route.name) ?
       constants.UNKNOWN_ROUTE :
       route.name
@@ -111,7 +111,7 @@ class AppRouter extends Component<Props, ComponentState> {
         return <pages.NotFound />
 
       case 'UnexpectedError':
-        return <ErrorUnexpected />
+        return <pages.ErrorUnexpected />
 
       default:
     }
@@ -150,7 +150,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (checkHasMenu(name)) {
-      return renderWithMenuLayout(pages[name], params, name)
+      return renderWithMenuLayout(params, name)
     }
 
     const Page = pages[name]
@@ -181,9 +181,8 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-const AppRouterContainer = connect<Props, OwnPropsEmpty, _, _, _, _>(
+const AppRouterEnhanced = connect<Props, OwnPropsEmpty, _, _, _, _>(
   mapStateToProps,
-  () => ({}),
 )(AppRouter)
 
-export { AppRouterContainer as AppRouter }
+export { AppRouterEnhanced as AppRouter }

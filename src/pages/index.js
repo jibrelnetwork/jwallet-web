@@ -39,6 +39,7 @@ export { ContactsItemEdit } from './ContactsItemEdit/ContactsItemEdit'
 export { ContactsItemDelete } from './ContactsItemDelete/ContactsItemDelete'
 
 export { NotFound } from './NotFound/NotFound'
+export { ErrorUnexpected } from './ErrorUnexpected/ErrorUnexpected'
 
 // not available to user directly
 export { SetPassword } from './SetPassword/SetPassword'
