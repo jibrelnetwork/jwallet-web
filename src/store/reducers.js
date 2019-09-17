@@ -23,7 +23,6 @@ import digitalAssetsAdd from 'store/modules/addAsset'
 import wallets from 'store/modules/wallets'
 import walletsCreate from 'store/modules/walletsCreate'
 import walletsAddresses from 'store/modules/walletsAddresses'
-import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 
 // user
 import user from 'store/modules/user'
@@ -39,12 +38,8 @@ import { persistReducers } from './persistReducers'
 export function makeRootReducer(): Reducer<AppState, AppAction> {
   const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     router,
-    // toasts
     toasts,
-    // wallets
     walletsCreate,
-    walletsRenameAddress,
-    // digitalAssets
     digitalAssetsAdd,
     ...persistReducers({
       blocks,

@@ -59,7 +59,3 @@ export function selectCustomDigitalAssets(state: AppState): DigitalAsset[] {
 export function selectAddAsset(state: AppState): AddAssetState {
   return state.digitalAssetsAdd
 }
-
-export function selectEditAsset(state: AppState): EditAssetState {
-  return state.digitalAssetsEdit
-}

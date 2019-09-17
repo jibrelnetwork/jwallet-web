@@ -104,14 +104,6 @@ declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
 |}
 
-/**
- * Wallets rename address
- */
-declare type WalletsRenameAddressState ={|
-  +name: string,
-  +invalidFields: FormFields,
-|}
-
 declare type HDPublicKey = {|
   +toString: () => string,
   +derive: (number) => HDPublicKey,

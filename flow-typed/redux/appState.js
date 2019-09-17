@@ -26,13 +26,11 @@ declare type AppState = {
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
   +walletsAddresses: WalletsAddressesState,
-  +walletsRenameAddress: WalletsRenameAddressState,
   // networks
   +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +digitalAssetsAdd: AddAssetState,
-  +digitalAssetsEdit: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
   // blocks
