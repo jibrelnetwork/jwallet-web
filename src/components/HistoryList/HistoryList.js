@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import { checkStuck } from 'utils/transactions'
 import { HistoryItemDetails } from 'components'
 import { selectCommentsItems } from 'store/selectors/comments'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
   JIcon,
@@ -242,8 +242,8 @@ class HistoryList extends Component<Props, StateProps> {
 
 function mapStateToProps(state: AppState) {
   const notes: Comments = selectCommentsItems(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
-  const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
 
   return {
     notes,

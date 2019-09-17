@@ -13,8 +13,8 @@ import { edit as editNote } from 'store/modules/comments'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 
 import {
   selectTransactionById,
@@ -243,7 +243,7 @@ function mapStateToProps(
 
   const notes: Comments = selectCommentsItems(state)
   const network: Network = selectCurrentNetworkOrThrow(state)
-  const ownerAddress: OwnerAddress = selectActiveWalletAddressOrThrow(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
 
   const digitalAsset: ?DigitalAsset = selectDigitalAsset(
     state,

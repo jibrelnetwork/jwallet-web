@@ -270,7 +270,7 @@ class WalletsPlugin {
   removeWallet = (walletId: WalletId): Wallets => {
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.removeWallet(items, walletId)
-    const activeWalletId: ?WalletId = selectActiveWalletId(this.getState())
+    const activeWalletId: WalletId = selectActiveWalletId(this.getState())
 
     if (walletId === activeWalletId) {
       const firstWallet: ?Wallet = newItems[0]

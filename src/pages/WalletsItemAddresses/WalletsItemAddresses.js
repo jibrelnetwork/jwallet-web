@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 
 import { WalletInconsistentDataError } from 'errors'
-import { selectWalletOrThrow } from 'store/selectors/wallets'
+import { selectWallet } from 'store/selectors/wallets'
 
 import {
   type Props,
@@ -22,7 +22,7 @@ function mapStateToProps(
     name,
     customType,
     derivationIndex,
-  }: Wallet = selectWalletOrThrow(state, walletId)
+  }: Wallet = selectWallet(state, walletId)
 
   if (derivationIndex === null) {
     throw new WalletInconsistentDataError('derivationIndex is null')

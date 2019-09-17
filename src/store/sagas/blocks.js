@@ -21,8 +21,8 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 import { ActiveNetworkNotFoundError } from 'errors'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
   selectLatestBlock,
@@ -238,8 +238,8 @@ function* syncStart(): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkIdOrThrow> =
     yield select(selectCurrentNetworkIdOrThrow)
 
-  const address: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
-    yield select(selectActiveWalletAddressOrThrow)
+  const address: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
   const currentSyncTask: Task<typeof currentBlockSync> = yield fork(currentBlockSync, networkId)

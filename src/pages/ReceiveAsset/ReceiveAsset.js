@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React, { PureComponent } from 'react'
 import { i18n } from 'i18n/lingui'
@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 
 import config from 'config'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { isVoid } from 'utils/type'
 
 import {
   qrCode,
@@ -30,18 +29,16 @@ import {
 
 import * as style from './receiveAsset.m.scss'
 
-const generateQRCode = (address: Address): void => {
-  if (address) {
-    qrCode.generate({
-      selector: '.qr #qrcode',
-      requisites: { to: address },
-      appearance: {},
-    })
-  }
+function generateQRCode(address: Address): void {
+  qrCode.generate({
+    selector: '.qr #qrcode',
+    requisites: { to: address },
+    appearance: {},
+  })
 }
 
 export type Props = {|
-  +address: ?Address,
+  +address: Address,
 |}
 
 type StateProps = {|
@@ -58,9 +55,7 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
   }
 
   componentDidMount() {
-    if (this.props.address) {
-      generateQRCode(this.props.address)
-    }
+    generateQRCode(this.props.address)
   }
 
   componentWillUnmount() {
@@ -78,23 +73,12 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
       this.setState({ isCopied: false })
     }, config.messageCopyTimeout)
 
-    if (this.props.address) {
-      clipboard.copyText(this.props.address)
-    }
+    clipboard.copyText(this.props.address)
   }
 
   render() {
-    const {
-      address,
-    } = this.props
-
-    const {
-      isCopied,
-    }: StateProps = this.state
-
-    if (isVoid(address)) {
-      return null
-    }
+    const { address }: Props = this.props
+    const { isCopied }: StateProps = this.state
 
     return (
       <div className={style.core}>
@@ -144,11 +128,9 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => {
-  const address = selectActiveWalletAddress(state)
-
+function mapStateToProps(state: AppState) {
   return {
-    address,
+    address: selectActiveWalletAddress(state),
   }
 }
 

@@ -3,15 +3,10 @@
 import createRouter5 from 'router5'
 
 import { walletsPlugin } from 'store/plugins'
-
-import {
-  WalletNotFoundError,
-  WalletInconsistentDataError,
-} from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   selectActiveWallet,
-  selectActiveWalletId,
   selectWalletsItems,
 } from 'store/selectors/wallets'
 
@@ -183,14 +178,6 @@ router.canActivate(
       })
     }
 
-    if (!selectActiveWalletId(state)) {
-      return done({
-        redirect: {
-          name: 'Wallets',
-        },
-      })
-    }
-
     return done()
   },
 )
@@ -252,12 +239,8 @@ router.canActivate(
     fromState,
     done,
   ) => {
-    const { walletId } = toState.params
-
     try {
-      if (!walletsPlugin.getWallet(walletId)) {
-        throw new WalletNotFoundError({ walletId })
-      }
+      walletsPlugin.getWallet(toState.params.walletId)
     } catch (error) {
       return done({
         redirect: {

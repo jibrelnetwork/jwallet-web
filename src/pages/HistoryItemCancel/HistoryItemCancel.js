@@ -33,8 +33,8 @@ import {
 } from 'components'
 
 import {
-  selectActiveWalletOrThrow,
-  selectActiveWalletAddressOrThrow,
+  selectActiveWallet,
+  selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
 import styles from './historyItemCancel.m.scss'
@@ -421,13 +421,9 @@ class HistoryItemCancel extends Component<Props, StateProps> {
 
 function mapStateToProps(state: AppState, { id }: OwnProps) {
   const hint: string = selectPasswordHint(state)
+  const wallet: Wallet = selectActiveWallet(state)
   const network: Network = selectCurrentNetworkOrThrow(state)
-  const from: OwnerAddress = selectActiveWalletAddressOrThrow(state)
-
-  const {
-    id: walletId,
-    name: walletName,
-  }: Wallet = selectActiveWalletOrThrow(state)
+  const from: OwnerAddress = selectActiveWalletAddress(state)
 
   const ethBalance: ?Balance = selectBalanceByAssetAddress(
     state,
@@ -453,8 +449,8 @@ function mapStateToProps(state: AppState, { id }: OwnProps) {
     from,
     hint,
     gasPrice,
-    walletId,
-    walletName,
+    walletId: wallet.id,
+    walletName: wallet.name,
     ethBalance: (ethBalance && !ethBalance.isError) ? ethBalance.value : null,
     nonce,
   }
