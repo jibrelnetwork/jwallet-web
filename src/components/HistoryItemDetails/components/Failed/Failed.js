@@ -10,8 +10,8 @@ import { DateTimeFormat } from 'app/components'
 
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
-import { type CardProps } from '../../HistoryItemDetails'
 import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
+import { type CardProps } from '../../HistoryItemDetailsView'
 
 function getSubtitle(
   i18n: I18nType,

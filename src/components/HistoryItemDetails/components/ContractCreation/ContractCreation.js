@@ -11,8 +11,8 @@ import styles from '../../historyItemDetails.m.scss'
 import { FeeField } from '../FeeField/FeeField'
 import { NoteField } from '../NoteField/NoteField'
 import { AmountField } from '../AmountField/AmountField'
-import { type CardProps } from '../../HistoryItemDetails'
 import { AddressField } from '../AddressField/AddressField'
+import { type CardProps } from '../../HistoryItemDetailsView'
 import { TransactionHashField } from '../TransactionHashField/TransactionHashField'
 
 export function ContractCreation({

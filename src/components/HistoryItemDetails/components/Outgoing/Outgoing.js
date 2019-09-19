@@ -14,8 +14,8 @@ import {
 
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
-import { type CardProps } from '../../HistoryItemDetails'
 import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
+import { type CardProps } from '../../HistoryItemDetailsView'
 
 function getRepeatLink({
   to,
