@@ -2,7 +2,6 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { debounce } from 'lodash-es'
 import { connect } from 'react-redux'
 
 import config from 'config'
@@ -81,6 +80,7 @@ export type CardProps = {|
 
 type StateProps = {|
   +note: ?string,
+  +timeoutId: ?number,
 |}
 
 const EDIT_NOTE_DELAY: number = 500
@@ -93,6 +93,7 @@ class HistoryItemDetails extends Component<Props, StateProps> {
 
     this.state = {
       note: this.props.note,
+      timeoutId: null,
     }
   }
 
@@ -110,14 +111,20 @@ class HistoryItemDetails extends Component<Props, StateProps> {
     }
   }
 
-  editNote = debounce(this.props.editNote, EDIT_NOTE_DELAY, {
-    leading: false,
-    trailing: true,
-  })
-
   handleEditNote = (note: string) => {
     this.setState({ note })
-    this.editNote(this.props.id, note)
+    const { timeoutId }: StateProps = this.state
+
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+
+    const newTimeoutId: number = setTimeout(() => {
+      this.props.editNote(this.props.id, note)
+      this.setState({ timeoutId: null })
+    }, EDIT_NOTE_DELAY)
+
+    this.setState({ timeoutId: newTimeoutId })
   }
 
   getCardComponent = () => {
