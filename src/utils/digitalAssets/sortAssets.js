@@ -21,13 +21,18 @@ function compareAssets(
   }: DigitalAssetWithBalance = current
 
   const nextPriority: number = next.display ? next.display.digitalAssetsListPriority : -1
+  const nextAddress: Address = next.blockchainParams ? next.blockchainParams.address : 'Ethereum'
 
   if (checkETH(address)) {
     return -1
+  } else if (checkETH(nextAddress)) {
+    return 1
   }
 
   if (isCustom && !next.isCustom) {
     return -1
+  } else if (!isCustom && next.isCustom) {
+    return 1
   }
 
   if (isActive && !next.isActive) {
