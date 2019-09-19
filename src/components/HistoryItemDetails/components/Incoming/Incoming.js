@@ -9,8 +9,8 @@ import { DateTimeFormat } from 'app/components'
 
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
-import { type CardProps } from '../../HistoryItemDetails'
 import { BaseFieldSet } from '../BaseFieldSet/BaseFieldSet'
+import { type CardProps } from '../../HistoryItemDetailsView'
 
 export function Incoming(props: CardProps) {
   const {

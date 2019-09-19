@@ -4,8 +4,8 @@ import React from 'react'
 
 import { FeeField } from '../FeeField/FeeField'
 import { AmountField } from '../AmountField/AmountField'
-import { type CardProps } from '../../HistoryItemDetails'
 import { AddressField } from '../AddressField/AddressField'
+import { type CardProps } from '../../HistoryItemDetailsView'
 import { AssetItemPreview } from '../AssetItemPreview/AssetItemPreview'
 import { TransactionHashField } from '../TransactionHashField/TransactionHashField'
 

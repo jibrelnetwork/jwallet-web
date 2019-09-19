@@ -10,7 +10,7 @@ import { DateTimeFormat } from 'app/components'
 import styles from '../../historyItemDetails.m.scss'
 import { NoteField } from '../NoteField/NoteField'
 import { AmountField } from '../AmountField/AmountField'
-import { type CardProps } from '../../HistoryItemDetails'
+import { type CardProps } from '../../HistoryItemDetailsView'
 import { AssetItemPreview } from '../AssetItemPreview/AssetItemPreview'
 import { TransactionHashField } from '../TransactionHashField/TransactionHashField'
 
