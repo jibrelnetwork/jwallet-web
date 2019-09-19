@@ -97,10 +97,30 @@ class HistoryItemDetails extends Component<Props, StateProps> {
     }
   }
 
+  shouldComponentUpdate(
+    nextProps: Props,
+    nextState: StateProps,
+  ) {
+    const {
+      id,
+      note,
+      isPending,
+    }: Props = this.props
+
+    const isIdChanged: boolean = id !== nextProps.id
+    const isMined: boolean = isPending && !nextProps.isPending
+    const isNotePropsChanged: boolean = note !== nextProps.note
+    const isNoteStateChanged: boolean = this.state.note !== nextState.note
+
+    return isIdChanged || isMined || isNotePropsChanged || isNoteStateChanged
+  }
+
   componentDidUpdate(prevProps: Props) {
     if (prevProps.id !== this.props.id) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ note: this.props.note })
+      if (this.state.note !== this.props.note) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ note: this.props.note })
+      }
 
       if (this.cardRef && this.cardRef.current) {
         this.cardRef.current.scrollIntoView({
