@@ -187,13 +187,15 @@ router.canActivate(
   (routerInstance, dependencies) => (toState, fromState, done) => {
     const { store } = dependencies
     const state = store.getState()
-
     const activeWallet = selectActiveWallet(state)
 
     if (activeWallet && activeWallet.isReadOnly) {
       return done({
         redirect: {
           name: 'WalletsItemUpgrade',
+          params: {
+            walletId: activeWallet.id,
+          },
         },
       })
     }
