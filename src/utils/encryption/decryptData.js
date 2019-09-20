@@ -32,7 +32,7 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
     ))
   }
 
-  return util.encodeUTF8(decryptedData).trim()
+  return util.encodeUTF8(decryptedData)
 }
 
 export function decryptData(payload: DecryptPayload): string {

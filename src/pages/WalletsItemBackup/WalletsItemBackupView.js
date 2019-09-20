@@ -136,7 +136,7 @@ class WalletsItemBackupViewComponent extends Component<Props, StateProps> {
       data: decryptData({
         key,
         data: mnemonic,
-      }),
+      }).trim(),
       passphrase: decryptData({
         key,
         data: passphrase,

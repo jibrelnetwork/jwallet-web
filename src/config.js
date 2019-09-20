@@ -162,6 +162,8 @@ const config: AppConfig = {
   messageCopyTimeout: 2000,
 
   cancelAddress: '0x000000000000000000000063616E63656c6c6564',
+
+  encryptedMnemonicLength: 120,
 }
 
 export default config
