@@ -51,7 +51,7 @@ export function selectSingleAddressWalletsNames(state: AppState): AddressNames {
   }, {})
 }
 
-export function selectWallet(state: AppState, walletId: WalletId): Wallet {
+export function selectWallet(state: AppState, walletId: ?WalletId): Wallet {
   const items: Wallets = selectWalletsItems(state)
 
   if (!items.length) {
@@ -61,7 +61,7 @@ export function selectWallet(state: AppState, walletId: WalletId): Wallet {
   return items.find(({ id }: Wallet): boolean => (id === walletId)) || items[0]
 }
 
-export function selectActiveWallet(state: AppState): WalletId {
+export function selectActiveWallet(state: AppState): Wallet {
   const {
     items,
     activeWalletId,
