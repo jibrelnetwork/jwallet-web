@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet은 최대 한 개의 탭에서만 열 수 있습니다.",
     "SingularTabBlockScreen.description.1": "계속 사용하려면 현재 탭을 새로고침하십시오.",
     "SingularTabBlockScreen.title": "Jwallet은 하나의 탭만 지원합니다",
-    "TransactionsList.Empty.default": "아직 아무런 트랜잭션 내역이 없습니다.",
-    "TransactionsList.Empty.filtered": "표시할 항목이 없습니다",
     "WalletBackupForm": "{name} 백업",
     "WalletBackupForm.backup.allFields": "지갑 백업 문구와 암호 문구와 파생 경로를 안전한 \n장소에 보관하거나 종이에 적어두십시오.",
     "WalletBackupForm.backup.derivationPath": "지갑 백업 문구와 파생 경로를 안전한 \n장소에 보관하거나 종이에 적어두십시오.",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "다시 시도하기",
     "WalletPasswordForm.Forgot.action.forgot": "기억나지 않습니까?",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "보안 비밀번호 잊어버림"
+    "WalletPasswordForm.Forgot.title": "보안 비밀번호 잊어버림",
+    "HistoryList.Empty.text": "아직 아무런 트랜잭션 내역이 없습니다."
 }

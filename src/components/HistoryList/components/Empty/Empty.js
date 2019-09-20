@@ -1,25 +1,33 @@
 // @flow strict
 
 import React from 'react'
+import { type I18n } from '@lingui/core'
+
+import noTransactionsImg from 'public/assets/pic_transactions_112.svg'
 import { useI18n } from 'app/hooks'
 
-import OverlayNotification from 'components/OverlayNotification'
+import styles from './empty.m.scss'
 
-type Props = {|
-  +isFiltered: boolean,
-|}
-
-export function Empty({ isFiltered }: Props) {
-  const i18n = useI18n()
+export function Empty() {
+  const i18n: I18n = useI18n()
 
   return (
-    <OverlayNotification
-      description={isFiltered
-        ? [i18n._('TransactionsList.Empty.filtered')]
-        : [i18n._('TransactionsList.Empty.default')]}
-      color='gray'
-      image='screen-reload'
-      isTransparent
-    />
+    <div className={styles.core}>
+      <figure className={styles.info}>
+        <img
+          src={noTransactionsImg}
+          className={styles.image}
+          alt=''
+          aria-disabled
+        />
+        <figcaption>
+          {i18n._(
+            'HistoryList.Empty.text',
+            null,
+            { defaults: 'Looks like you haven\'t made any transactions yet.' },
+          )}
+        </figcaption>
+      </figure>
+    </div>
   )
 }

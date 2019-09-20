@@ -1,7 +1,10 @@
 @import 'styles/mixins';
 
 .core {
+  @include flex-column;
+
   position: relative;
+  min-height: 100%;
 }
 
 .scrolled {

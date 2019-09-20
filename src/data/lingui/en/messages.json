@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet can be open only in one tab simultaneously.",
     "SingularTabBlockScreen.description.1": "Please reload this tab to continue using it.",
     "SingularTabBlockScreen.title": "Jwallet supports only single tab",
-    "TransactionsList.Empty.default": "Looks like you haven't made any transactions yet.",
-    "TransactionsList.Empty.filtered": "There are no items to display",
     "WalletBackupForm": "Back Up {name}",
     "WalletBackupForm.backup.allFields": "Save a wallet backup phrase, passphrase, and derivation path \nto a secure storage or write it down on the paper.",
     "WalletBackupForm.backup.derivationPath": "Save a wallet backup phrase and derivation path \nto a secure storage or write it down on the paper.",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "Try Again",
     "WalletPasswordForm.Forgot.action.forgot": "Forgot?",
     "WalletPasswordForm.Forgot.description": "Unfortunately, Security Password can’t be restored. If you would like to reset Jwallet to initial state and drop your old Security Password, please contact Support.",
-    "WalletPasswordForm.Forgot.title": "Forgot Security Password"
+    "WalletPasswordForm.Forgot.title": "Forgot Security Password",
+    "HistoryList.Empty.text": "Looks like you haven't made any transactions yet."
 }

@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet只能在一個分頁中同時打開。",
     "SingularTabBlockScreen.description.1": "請重新加載此分頁以繼續使用它。",
     "SingularTabBlockScreen.title": "Jwallet僅支持單個分頁",
-    "TransactionsList.Empty.default": "你似乎尚未進行任何交易。",
-    "TransactionsList.Empty.filtered": "沒有可顯示的項目",
     "WalletBackupForm": "備份{name}",
     "WalletBackupForm.backup.allFields": "將錢包備用短語、密碼短語和衍生路徑儲存於安全儲存中或寫在紙上。",
     "WalletBackupForm.backup.derivationPath": "將錢包備用短語和衍生路徑儲存於安全儲存中或寫在紙上。",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "再試一次",
     "WalletPasswordForm.Forgot.action.forgot": "忘記了密碼？",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "已忘記安全密碼"
+    "WalletPasswordForm.Forgot.title": "已忘記安全密碼",
+    "HistoryList.Empty.text": "你似乎尚未進行任何交易。"
 }

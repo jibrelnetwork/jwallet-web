@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet solo se puede abrir en una pestaña a la vez.",
     "SingularTabBlockScreen.description.1": "Recargue esta pestaña para continuar usándola.",
     "SingularTabBlockScreen.title": "Jwallet solo admite una pestaña",
-    "TransactionsList.Empty.default": "Parece que aún no ha efectuado ninguna transacción.",
-    "TransactionsList.Empty.filtered": "No hay entradas que mostrar",
     "WalletBackupForm": "Copia de seguridad {name}",
     "WalletBackupForm.backup.allFields": "Guarde la frase, la frase de contraseña y la ruta de derivación de la copia de seguridad de un monedero en un lugar seguro o anótelas en papel.",
     "WalletBackupForm.backup.derivationPath": "Guarde la frase de la copia de seguridad de un monedero y la ruta de derivación en un lugar seguro o anótelas en papel.",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "Volver a intentarlo",
     "WalletPasswordForm.Forgot.action.forgot": "¿Se ha olvidado?",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "Contraseña de seguridad olvidada"
+    "WalletPasswordForm.Forgot.title": "Contraseña de seguridad olvidada",
+    "HistoryList.Empty.text": "Parece que aún no ha efectuado ninguna transacción."
 }

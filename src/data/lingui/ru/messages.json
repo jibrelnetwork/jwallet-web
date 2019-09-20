@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet может быть открыт только в одной вкладке одновременно.",
     "SingularTabBlockScreen.description.1": "Пожалуйста, перезагрузите эту вкладку, чтобы продолжить использование.",
     "SingularTabBlockScreen.title": "Jwallet поддерживает только одну вкладку",
-    "TransactionsList.Empty.default": "Похоже, вы пока не провели никаких транзакций.",
-    "TransactionsList.Empty.filtered": "Нет элементов для отображения",
     "WalletBackupForm": "Резервное копирование {name}",
     "WalletBackupForm.backup.allFields": "Сохраните резервную фразу кошелька, фразу-пароль и путь деривации в безопасном месте или запишите на бумаге.",
     "WalletBackupForm.backup.derivationPath": "Сохраните резервную фразу кошелька и путь деривации в безопасном месте или запишите на бумаге.",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "Попробуйте снова",
     "WalletPasswordForm.Forgot.action.forgot": "Забыли?",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "Забыл платежный пароль"
+    "WalletPasswordForm.Forgot.title": "Забыл платежный пароль",
+    "HistoryList.Empty.text": "Похоже, вы пока не провели никаких транзакций."
 }

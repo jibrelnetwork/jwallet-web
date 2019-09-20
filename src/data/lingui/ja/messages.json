@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwalletは同時に1つのタブでのみ開くことができます。",
     "SingularTabBlockScreen.description.1": "使用を続行するにはこのタブを再読み込みしてください。",
     "SingularTabBlockScreen.title": "Jwalletはシングルタブのみをサポートします",
-    "TransactionsList.Empty.default": "まだ取引が作成されていないようです。",
-    "TransactionsList.Empty.filtered": "表示するアイテムがありません",
     "WalletBackupForm": "{name}をバックアップ",
     "WalletBackupForm.backup.allFields": "ウォレットのバックアップフレーズ、パスフレーズと導出パスを安全な場所に保存するか、紙に書き留めてください。",
     "WalletBackupForm.backup.derivationPath": "ウォレットのバックアップフレーズと導出パスを安全な場所に保存するか、紙に書き留めてください。",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "再試行する",
     "WalletPasswordForm.Forgot.action.forgot": "お忘れですか？",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "セキュリティパスワードを忘れた場合"
+    "WalletPasswordForm.Forgot.title": "セキュリティパスワードを忘れた場合",
+    "HistoryList.Empty.text": "まだ取引が作成されていないようです。"
 }

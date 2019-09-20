@@ -111,8 +111,6 @@
     "SingularTabBlockScreen.description.0": "Jwallet 只能在一个选项卡中同时打开。",
     "SingularTabBlockScreen.description.1": "请重新加载此选项卡以继续使用。",
     "SingularTabBlockScreen.title": "Jwallet 仅支持单个选项卡",
-    "TransactionsList.Empty.default": "看起来您尚未进行任何交易。",
-    "TransactionsList.Empty.filtered": "没有可显示的项目",
     "WalletBackupForm": "备份{name}",
     "WalletBackupForm.backup.allFields": "保存钱包备份短语、密码短语和派生路径\n到安全存储空间或将其写在纸上。",
     "WalletBackupForm.backup.derivationPath": "保存钱包备份短语和派生路径\n到安全存储空间或将其写在纸上。",
@@ -414,5 +412,6 @@
     "WalletPasswordForm.Forgot.action.back": "再试一次",
     "WalletPasswordForm.Forgot.action.forgot": "忘记了？",
     "WalletPasswordForm.Forgot.description": "",
-    "WalletPasswordForm.Forgot.title": "忘记安全密码"
+    "WalletPasswordForm.Forgot.title": "忘记安全密码",
+    "HistoryList.Empty.text": "看起来您尚未进行任何交易。"
 }

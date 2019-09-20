@@ -122,8 +122,8 @@ class HistoryList extends Component<Props, StateProps> {
 
     if (!(isLoading || items.length)) {
       return (
-        <div className={styles.list}>
-          <Empty isFiltered={false} />
+        <div className={`${styles.core} ${styles.empty}`}>
+          <Empty />
         </div>
       )
     }
@@ -203,12 +203,12 @@ class HistoryList extends Component<Props, StateProps> {
                 </li>
               )
             })}
-            {isLoading && (
-              <div className={styles.loader}>
-                <JLoader color='gray' />
-              </div>
-            )}
           </ul>
+          {isLoading && (
+            <div className={styles.loader}>
+              <JLoader color='gray' />
+            </div>
+          )}
         </div>
         {withDetailsPanel && (
           <div
