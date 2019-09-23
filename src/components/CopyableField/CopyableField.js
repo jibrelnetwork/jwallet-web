@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { type I18n } from '@lingui/core'
 
 import { useI18n } from 'app/hooks'
 import { CopyIconButton } from 'components'
@@ -17,11 +18,11 @@ export function CopyableField({
   value,
   label,
 }: Props) {
-  const labelOrNothing = label
+  const labelOrNothing: string = label
     ? ` ${label}`
     : ''
 
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
     <div
@@ -35,11 +36,11 @@ export function CopyableField({
           {label}
         </div>
         <div className={copyableFieldStyles.value}>
-          {value}
+          {value.replace(/ /g, '\u00A0')}
         </div>
       </div>
       <CopyIconButton
-        content={value}
+        content={value.replace(/ /g, '&nbsp;')}
         title={i18n._(
           'CopyableField.copy',
           { labelOrNothing },

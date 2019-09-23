@@ -1,5 +1,7 @@
 // @flow strict
 
+import config from 'config'
+import { leftPad } from 'utils/formatters'
 import { encryptData } from 'utils/encryption'
 
 import {
@@ -22,8 +24,18 @@ export function prepareMnemonicWallet(
   }: WalletNewData = walletData
 
   const mnemonic: string = data.toLowerCase()
-  const xpub: string = getXPUBFromMnemonic(mnemonic, passphrase, derivationPath)
-  const xprv: string = getXPRVFromMnemonic(mnemonic, passphrase, derivationPath)
+
+  const xpub: string = getXPUBFromMnemonic(
+    mnemonic,
+    passphrase,
+    derivationPath,
+  )
+
+  const xprv: string = getXPRVFromMnemonic(
+    mnemonic,
+    passphrase,
+    derivationPath,
+  )
 
   return {
     id,
@@ -46,7 +58,11 @@ export function prepareMnemonicWallet(
       }),
       mnemonic: encryptData({
         key: internalKey,
-        data: mnemonic,
+        data: leftPad(
+          mnemonic,
+          ' ',
+          config.encryptedMnemonicLength,
+        ),
       }),
       passphrase: encryptData({
         key: internalKey,

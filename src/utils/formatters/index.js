@@ -1,7 +1,8 @@
-// @flow
+// @flow strict
 
 import formatCurrency from './formatCurrency'
 
+export { leftPad } from './leftPad'
 export { formatETHAmount } from './formatETHAmount'
 export { formatCurrencyWithSymbol } from './formatCurrencyWithSymbol'
 export { formatAssetBalance } from './formatAssetBalance'

@@ -1,5 +1,8 @@
 // @flow strict
 
+import config from 'config'
+import { leftPad } from 'utils/formatters'
+
 import {
   decryptData,
   encryptData,
@@ -28,7 +31,7 @@ export function reEncryptWallet(
     const mnemonic: ?string = encrypted.mnemonic && decryptData({
       key: internalKey,
       data: encrypted.mnemonic,
-    })
+    }).trim()
 
     const xprv: ?string = encrypted.xprv && decryptData({
       key: internalKey,
@@ -44,11 +47,15 @@ export function reEncryptWallet(
       ...wallet,
       encrypted: {
         ...encrypted,
-        mnemonic: mnemonic && encryptData({
-          data: mnemonic,
+        mnemonic: !mnemonic ? null : encryptData({
+          data: leftPad(
+            mnemonic,
+            ' ',
+            config.encryptedMnemonicLength,
+          ),
           key: internalKeyNew,
         }),
-        xprv: xprv && encryptData({
+        xprv: !xprv ? null : encryptData({
           data: xprv,
           key: internalKeyNew,
         }),
@@ -57,7 +64,7 @@ export function reEncryptWallet(
          * but it should be null in case of 'xprv' type
          * so we should use strict equal comparison with null
          */
-        passphrase: (passphrase === null) ? null : encryptData({
+        passphrase: (passphrase === null) || (passphrase === undefined) ? null : encryptData({
           data: passphrase,
           key: internalKeyNew,
         }),
@@ -73,7 +80,7 @@ export function reEncryptWallet(
       ...wallet,
       encrypted: {
         ...encrypted,
-        privateKey: privateKey && encryptData({
+        privateKey: !privateKey ? null : encryptData({
           data: privateKey,
           key: internalKeyNew,
         }),

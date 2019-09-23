@@ -1,6 +1,8 @@
 // @flow strict
 
+import config from 'config'
 import { strip0x } from 'utils/address'
+import { leftPad } from 'utils/formatters'
 import { encryptData } from 'utils/encryption'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import { WalletInconsistentDataError } from 'errors'
@@ -36,7 +38,11 @@ function addMnemonic(
     encrypted: {
       mnemonic: encryptData({
         key: internalKey,
-        data: mnemonic.toLowerCase(),
+        data: leftPad(
+          mnemonic.toLowerCase(),
+          ' ',
+          config.encryptedMnemonicLength,
+        ),
       }),
       passphrase: encryptData({
         key: internalKey,

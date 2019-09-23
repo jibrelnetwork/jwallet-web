@@ -57,4 +57,5 @@ declare type AppConfig = {|
   +sessionIDKey: string,
   +messageCopyTimeout: number,
   +cancelAddress: string,
+  +encryptedMnemonicLength: number,
 |}
