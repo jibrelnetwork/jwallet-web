@@ -38,6 +38,7 @@ export function DigitalAssetAddForm({
   const fields: Array<{
     key: $Keys<EditAssetFormFields>,
     placeholder: string,
+    maxLength: number,
     isDisabled: boolean,
     isLoading: boolean,
   }> = [{
@@ -47,6 +48,7 @@ export function DigitalAssetAddForm({
       null,
       { defaults: 'Address (ERC-20)' },
     ),
+    maxLength: 42,
     isDisabled: !isAddressEditable,
     isLoading: isAddressLoading,
   }, {
@@ -56,6 +58,7 @@ export function DigitalAssetAddForm({
       null,
       { defaults: 'Name' },
     ),
+    maxLength: 32,
     isDisabled: false,
     isLoading: false,
   }, {
@@ -65,6 +68,7 @@ export function DigitalAssetAddForm({
       null,
       { defaults: 'Symbol' },
     ),
+    maxLength: 5,
     isDisabled: false,
     isLoading: false,
   }, {
@@ -74,6 +78,7 @@ export function DigitalAssetAddForm({
       null,
       { defaults: 'Decimals' },
     ),
+    maxLength: 3,
     isDisabled: false,
     isLoading: false,
   }]
@@ -84,6 +89,7 @@ export function DigitalAssetAddForm({
         {fields.map(({
           key,
           placeholder,
+          maxLength,
           isDisabled,
           isLoading,
         }) => (
@@ -96,6 +102,7 @@ export function DigitalAssetAddForm({
             placeholder={placeholder}
             type='text'
             color='gray'
+            maxLength={maxLength}
             isDisabled={isDisabled}
             isLoading={isLoading}
           />

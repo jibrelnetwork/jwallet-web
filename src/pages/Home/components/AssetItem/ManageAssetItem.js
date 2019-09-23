@@ -39,12 +39,8 @@ function ManageAssetItem({
   onCheck: handleCheck,
 }: Props) {
   return (
-    <div
-      className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}
-    >
-      <div
-        className={classNames(styles.item, styles.assetIcon)}
-      >
+    <div className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}>
+      <div className={classNames(styles.item, styles.assetIcon)}>
         <JAssetSymbol
           address={address}
           symbol={symbol}
@@ -52,9 +48,7 @@ function ManageAssetItem({
           size={32}
         />
       </div>
-      <div
-        className={classNames(styles.item, styles.mainBlock)}
-      >
+      <div className={classNames(styles.item, styles.mainBlock)}>
         <div className={styles.text}>
           {name}
         </div>
@@ -63,7 +57,7 @@ function ManageAssetItem({
         </div>
       </div>
       {!checkETH(address) && (
-        <div className={classNames(styles.item, styles.arrowIcon)}>
+        <div className={classNames(styles.item, styles.switch)}>
           <JSwitch
             name={`asset-${address}`}
             onChange={handleAssetCheck(address, handleCheck)}

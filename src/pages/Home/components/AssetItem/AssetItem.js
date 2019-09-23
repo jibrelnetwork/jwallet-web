@@ -70,9 +70,7 @@ function AssetItem({
       className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}
       href={`/assets/${address}`}
     >
-      <div
-        className={classNames(styles.item, styles.assetIcon)}
-      >
+      <div className={classNames(styles.item, styles.assetIcon)}>
         <JAssetSymbol
           address={address}
           symbol={symbol}
@@ -80,9 +78,7 @@ function AssetItem({
           size={32}
         />
       </div>
-      <div
-        className={classNames(styles.item, styles.mainBlock)}
-      >
+      <div className={classNames(styles.item, styles.mainBlock)}>
         <div className={styles.text}>
           {name}
         </div>
@@ -90,9 +86,7 @@ function AssetItem({
           {symbol}
         </div>
       </div>
-      <div
-        className={classNames(styles.item, styles.amountBlock)}
-      >
+      <div className={classNames(styles.item, styles.amountBlock)}>
         <div className={`${styles.assetAmount} ${styles.text}`}>
           {isLoadingBalance
             ? <JShimmer />
@@ -107,9 +101,7 @@ function AssetItem({
             : formattedFiatBalance}
         </div>
       </div>
-      <div
-        className={classNames(styles.item, styles.arrowIcon)}
-      >
+      <div className={classNames(styles.item, styles.arrowIcon)}>
         <JIcon className={styles.arrow} name='arrow-right-use-fill' />
       </div>
     </JLink>
