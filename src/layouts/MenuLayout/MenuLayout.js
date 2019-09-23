@@ -27,7 +27,6 @@ type OwnProps = {|
 type Props = {|
   ...OwnProps,
   +stopBlocksSync: MenuLayoutHandler,
-  +stopTickerSync: MenuLayoutHandler,
   +startBlocksSync: MenuLayoutHandler,
   +startTickerSync: MenuLayoutHandler,
   +initDigitalAssets: MenuLayoutHandler,
@@ -37,56 +36,50 @@ type Props = {|
 
 class MenuLayout extends Component<Props> {
   componentDidMount() {
+    const {
+      startBlocksSync,
+      startTickerSync,
+      initDigitalAssets,
+      routeName,
+    }: Props = this.props
+
+    startTickerSync()
+    initDigitalAssets()
+
     /**
-     * Syncing shouldn't be started on pages connected with wallets management
+     * Blocks syncing shouldn't be started on pages connected with wallets management
      * Also, check comment in componentDidUpdate below
      */
-    if (this.props.routeName.indexOf('Wallets') === 0) {
+    if (routeName.indexOf('Wallets') === 0) {
       return
     }
 
-    this.startSync()
+    startBlocksSync()
   }
 
   componentWillUnmount() {
-    this.stopSync()
+    this.props.stopBlocksSync()
   }
 
   componentDidUpdate(prevProps: Props) {
+    const {
+      stopBlocksSync,
+      startBlocksSync,
+      routeName,
+    }: Props = this.props
+
     /**
      * Defining of necessity of start/stop sync better to move in router's meta-info
      * Current solution is ok, until someone will have problems with routes naming
      */
     const isPrevWallets: boolean = (prevProps.routeName.indexOf('Wallets') === 0)
-    const isCurrWallets: boolean = (this.props.routeName.indexOf('Wallets') === 0)
+    const isCurrWallets: boolean = (routeName.indexOf('Wallets') === 0)
 
     if (!isPrevWallets && isCurrWallets) {
-      this.stopSync()
+      stopBlocksSync()
     } else if (isPrevWallets && !isCurrWallets) {
-      this.startSync()
+      startBlocksSync()
     }
-  }
-
-  startSync = () => {
-    const {
-      startBlocksSync,
-      startTickerSync,
-      initDigitalAssets,
-    }: Props = this.props
-
-    startBlocksSync()
-    startTickerSync()
-    initDigitalAssets()
-  }
-
-  stopSync = () => {
-    const {
-      stopBlocksSync,
-      stopTickerSync,
-    }: Props = this.props
-
-    stopBlocksSync()
-    stopTickerSync()
   }
 
   render() {
@@ -139,7 +132,6 @@ class MenuLayout extends Component<Props> {
 
 const mapDispatchToProps = {
   stopBlocksSync: blocks.syncStop,
-  stopTickerSync: ticker.syncStop,
   startBlocksSync: blocks.syncStart,
   startTickerSync: ticker.syncStart,
   initDigitalAssets: digitalAssets.init,

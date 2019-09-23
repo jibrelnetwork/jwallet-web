@@ -80,11 +80,11 @@ function getTotalFiatBalance(
   return assets.reduce((
     result: number,
     digitalAsset: DigitalAssetWithBalance,
-  ): number => result + (getFiatBalance(
+  ): number => result + getFiatBalance(
     digitalAsset,
     fiatCourses,
     fiatCurrency,
-  ) || 0), 0)
+  ), 0)
 }
 
 function mapStateToProps(state: AppState) {
