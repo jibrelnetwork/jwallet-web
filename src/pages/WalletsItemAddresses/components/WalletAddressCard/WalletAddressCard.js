@@ -9,7 +9,8 @@ import { type I18n as I18nType } from '@lingui/core'
 import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
-import { formatAssetBalance } from 'utils/formatters'
+import { formatFiatBalance } from 'utils/formatters'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectAddressNames } from 'store/selectors/wallets'
 import { setAddressName } from 'store/modules/walletsAddresses'
 
@@ -29,6 +30,7 @@ type Props = {|
   +setAddressName: (address: Address, name: string) => any,
   +address: Address,
   +addressName: string,
+  +fiatCurrency: FiatCurrencyCode,
   +i18n: I18nType,
   /* ::
   +index: number,
@@ -36,7 +38,7 @@ type Props = {|
 |}
 
 type StateProps = {|
-  +ethBalance: ?BigNumber,
+  +balance: ?BigNumber,
 |}
 
 class WalletAddressCard extends Component<Props, StateProps> {
@@ -44,19 +46,22 @@ class WalletAddressCard extends Component<Props, StateProps> {
     super(props)
 
     this.state = {
-      ethBalance: null,
+      balance: null,
     }
   }
 
   async componentDidMount() {
-    const ethBalance: BigNumber = await walletsPlugin.requestETHBalanceByAddress(this.props.address)
+    const {
+      address,
+      fiatCurrency,
+    }: Props = this.props
+
+    const balance: BigNumber = await walletsPlugin.requestFiatBalanceByAddress(address)
 
     this.setState({
-      ethBalance: formatAssetBalance(
-        'Ethereum',
-        ethBalance,
-        18,
-        'ETH',
+      balance: formatFiatBalance(
+        balance,
+        fiatCurrency,
       ),
     })
   }
@@ -72,7 +77,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
       i18n,
     }: Props = this.props
 
-    const { ethBalance }: StateProps = this.state
+    const { balance }: StateProps = this.state
 
     return (
       <div className={styles.core}>
@@ -89,9 +94,9 @@ class WalletAddressCard extends Component<Props, StateProps> {
             theme='white'
             maxLen={32}
           />
-          {ethBalance && (
+          {balance && (
             <div className={styles.balance}>
-              {ethBalance}
+              {balance}
             </div>
           )}
         </div>
@@ -128,6 +133,7 @@ function mapStateToProps(
   const addressNames: AddressNames = selectAddressNames(state)
 
   return {
+    fiatCurrency: selectFiatCurrency(state),
     addressName: getAddressName(addressNames[address], index),
   }
 }

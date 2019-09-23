@@ -5,7 +5,7 @@ import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
-import { formatAssetBalance } from 'utils/formatters'
+import { formatFiatBalance } from 'utils/formatters'
 
 import {
   toastsPlugin,
@@ -29,12 +29,13 @@ export type Props = {|
   +walletId: string,
   +name: string,
   +type: WalletCustomType,
+  +fiatCurrency: FiatCurrencyCode,
   +derivationIndex: number,
   +i18n: I18nType,
 |}
 
 type StateProps = {|
-  +ethBalance: ?BigNumber,
+  +balance: ?BigNumber,
 |}
 
 class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps> {
@@ -44,17 +45,17 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
     super(props)
 
     this.state = {
-      ethBalance: null,
+      balance: null,
     }
   }
 
   async componentDidMount() {
-    this.requestETHBalance()
+    this.requestBalance()
   }
 
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.derivationIndex !== this.props.derivationIndex) {
-      this.requestETHBalance()
+      this.requestBalance()
 
       if (this.walletRef && this.walletRef.current) {
         this.walletRef.current.scrollIntoView({
@@ -65,15 +66,18 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
     }
   }
 
-  requestETHBalance = async () => {
-    const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.walletId)
+  requestBalance = async () => {
+    const {
+      walletId,
+      fiatCurrency,
+    }: Props = this.props
+
+    const balance: BigNumber = await walletsPlugin.requestFiatBalance(walletId)
 
     this.setState({
-      ethBalance: formatAssetBalance(
-        'Ethereum',
-        ethBalance,
-        18,
-        'ETH',
+      balance: formatFiatBalance(
+        balance,
+        fiatCurrency,
       ),
     })
   }
@@ -163,7 +167,7 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
               </div>
             </div>
             <div className={`${styles.name} ${styles.balance}`}>
-              {this.state.ethBalance}
+              {this.state.balance}
             </div>
             <div className={styles.actions}>
               <WalletActions

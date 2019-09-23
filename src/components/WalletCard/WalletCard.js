@@ -11,8 +11,9 @@ import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
-import { formatAssetBalance } from 'utils/formatters'
+import { formatFiatBalance } from 'utils/formatters'
 import { setActiveWallet } from 'store/modules/wallets'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 import {
   EditableField,
@@ -42,6 +43,7 @@ type Props = {|
   +addressIndex: ?number,
   +addressName: string,
   +type: WalletCustomType,
+  +fiatCurrency: FiatCurrencyCode,
   +derivationIndex: number,
   +isSimplified: boolean,
   +isMultiAddress: boolean,
@@ -49,7 +51,7 @@ type Props = {|
 |}
 
 type StateProps = {|
-  +ethBalance: ?BigNumber,
+  +balance: ?BigNumber,
   +isNewNameUniq: boolean,
   +isRenameActive: boolean,
 |}
@@ -63,21 +65,24 @@ class WalletCard extends Component<Props, StateProps> {
     super(props)
 
     this.state = {
-      ethBalance: null,
+      balance: null,
       isNewNameUniq: true,
       isRenameActive: false,
     }
   }
 
   async componentDidMount() {
-    const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.id)
+    const {
+      id,
+      fiatCurrency,
+    }: Props = this.props
+
+    const balance: BigNumber = await walletsPlugin.requestFiatBalance(id)
 
     this.setState({
-      ethBalance: formatAssetBalance(
-        'Ethereum',
-        ethBalance,
-        18,
-        'ETH',
+      balance: formatFiatBalance(
+        balance,
+        fiatCurrency,
       ),
     })
   }
@@ -154,7 +159,7 @@ class WalletCard extends Component<Props, StateProps> {
     }: Props = this.props
 
     const {
-      ethBalance,
+      balance,
       isNewNameUniq,
       isRenameActive,
     }: StateProps = this.state
@@ -206,9 +211,9 @@ class WalletCard extends Component<Props, StateProps> {
                 )}
               </p>
             )}
-            {ethBalance && (
+            {balance && (
               <p className={styles.balance}>
-                {ethBalance}
+                {balance}
               </p>
             )}
           </div>
@@ -253,6 +258,7 @@ function mapStateToProps(state: AppState, {
   const wallet: Wallet = selectWallet(state, id)
   const address: Address = walletsPlugin.getAddress(id)
   const addressNames: AddressNames = selectAddressNames(state)
+  const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
 
   const {
     name,
@@ -272,6 +278,7 @@ function mapStateToProps(state: AppState, {
   return {
     name,
     addressName,
+    fiatCurrency,
     addressIndex,
     derivationIndex,
     type: customType,

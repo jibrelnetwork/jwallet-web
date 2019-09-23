@@ -41,7 +41,7 @@ type Props = {|
   ...$Exact<DigitalAssetWithBalance>,
   +balance: ToBigNumberValue,
   +fiatSymbol: string,
-  +fiatBalance: string,
+  +fiatBalance: number,
   +isLoadingBalance: boolean,
 |}
 
@@ -124,7 +124,7 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
     address,
   )
 
-  const fiatBalance: ?number = getFiatBalance(
+  const fiatBalance: number = getFiatBalance(
     {
       ...asset,
       balance,
