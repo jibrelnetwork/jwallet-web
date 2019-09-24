@@ -38,11 +38,6 @@ import {
   type SendFormValues,
 } from './StepOneForm'
 
-const {
-  sendTransaction,
-  getNonce,
-} = web3
-
 type OwnProps = {|
   +to?: string,
   +asset?: string,
@@ -74,13 +69,14 @@ const STEPS = {
 
 type SendAssetStep = $Keys<typeof STEPS>
 
-type ComponentState = {|
-  currentStep: SendAssetStep,
-  sendFormValues: SendFormValues,
+type StateProps = {|
+  +nodeError: ?string,
+  +currentStep: SendAssetStep,
+  +sendFormValues: SendFormValues,
 |}
 
-class SendAsset extends Component<Props, ComponentState> {
-  constructor(props) {
+class SendAsset extends Component<Props, StateProps> {
+  constructor(props: Props) {
     super(props)
 
     const {
@@ -90,6 +86,7 @@ class SendAsset extends Component<Props, ComponentState> {
     }: Props = props
 
     this.state = {
+      nodeError: null,
       currentStep: STEPS.SEND_FORM,
       sendFormValues: {
         gasPriceValue: '',
@@ -117,6 +114,7 @@ class SendAsset extends Component<Props, ComponentState> {
 
   handleSendFormSubmit = (values: SendFormValues, isValidationFailed: boolean) => {
     this.setState({
+      nodeError: null,
       sendFormValues: values,
       currentStep: isValidationFailed
         ? STEPS.VALIDATION_FAILED
@@ -126,20 +124,19 @@ class SendAsset extends Component<Props, ComponentState> {
 
   renderSendFormStep = () => {
     const {
+      nodeError,
       sendFormValues,
-    } = this.state
-    const {
-      i18n,
-    } = this.props
+    }: StateProps = this.state
 
     return (
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleClose}
-          title={i18n._('Send.title', null, { defaults: 'Send' })}
+          title={this.props.i18n._('Send.title', null, { defaults: 'Send' })}
         />
         <ConnectedStepOneForm
           onSubmit={this.handleSendFormSubmit}
+          nodeError={nodeError}
           initialValues={sendFormValues}
         />
         <Trans id='Send.fee.description' render='p' className={styles.warning}>
@@ -186,7 +183,7 @@ class SendAsset extends Component<Props, ComponentState> {
     const amount = getTransactionValue(amountValue, decimals)
 
     try {
-      const nonce = await getNonce(
+      const nonce = await web3.getNonce(
         network,
         ownerAddress,
         'pending',
@@ -201,7 +198,7 @@ class SendAsset extends Component<Props, ComponentState> {
         nonce,
       }
 
-      const txHash = await sendTransaction(
+      const txHash = await web3.sendTransaction(
         network,
         assetAddress,
         sendTransactionPayload,
@@ -237,8 +234,20 @@ class SendAsset extends Component<Props, ComponentState> {
       )
 
       openTransaction(txHash)
-    } catch (err) {
-      this.setState({ currentStep: STEPS.ERROR })
+    } catch (error) {
+      const errMsg: string = error.message
+      const isNetworkError: boolean = (errMsg === 'Invalid JSON RPC response: ""')
+
+      if (isNetworkError) {
+        this.setState({ currentStep: STEPS.ERROR })
+
+        return
+      }
+
+      this.setState({
+        nodeError: errMsg,
+        currentStep: STEPS.SEND_FORM,
+      })
     }
   }
 
@@ -258,6 +267,7 @@ class SendAsset extends Component<Props, ComponentState> {
       </div>
     )
   }
+
   handleValidationFailedNextClick = () => {
     this.setState({ currentStep: STEPS.SEND_CONFIRM })
   }
@@ -303,7 +313,7 @@ class SendAsset extends Component<Props, ComponentState> {
         return this.renderErrorStep()
 
       default:
-        return <span />
+        return null
     }
   }
 }
