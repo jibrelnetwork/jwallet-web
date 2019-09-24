@@ -10,28 +10,28 @@ export function getFiatBalance(
   courses: FiatCourses,
   currency: FiatCurrencyCode,
   timestamp?: FiatTimestamp = 'latest',
-): number {
+): ?number {
   if (!(balance)) {
-    return 0
+    return null
   }
 
   const assetId: string = checkETH(blockchainParams.address) ? 'ETH' : blockchainParams.address
   const courseById: ?FiatCourseById = courses[assetId]
 
   if (!courseById) {
-    return 0
+    return null
   }
 
   const course: ?FiatCourse = courseById[timestamp]
 
   if (!course) {
-    return 0
+    return null
   }
 
   const courseValue: ?string = course[currency]
 
   if (!courseValue) {
-    return 0
+    return null
   }
 
   return (Number(courseValue) || 0) * (Number(balance.value) || 0)

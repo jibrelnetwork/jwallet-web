@@ -131,7 +131,7 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
     },
     fiatCourses,
     fiatCurrency,
-  )
+  ) || 0
 
   return {
     ...asset,

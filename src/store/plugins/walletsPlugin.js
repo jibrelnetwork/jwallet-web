@@ -532,7 +532,7 @@ class WalletsPlugin {
       },
       fiatCourses,
       fiatCurrency,
-    )), new BigNumber(0))
+    ) || 0), new BigNumber(0))
   }
 
   requestFiatBalanceByXPUB = async (
