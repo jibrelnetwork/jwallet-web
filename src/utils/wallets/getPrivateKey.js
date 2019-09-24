@@ -16,14 +16,14 @@ export function getPrivateKey(wallet: Wallet, internalKey: Uint8Array): string {
       decryptData({
         key: internalKey,
         data: encrypted.xprv,
-      }),
+      }).trim(),
       addressIndex || 0,
     )
   } else if (encrypted.privateKey) {
     return decryptData({
       key: internalKey,
       data: encrypted.privateKey,
-    })
+    }).trim()
   } else {
     throw new WalletInconsistentDataError({ walletId: id })
   }

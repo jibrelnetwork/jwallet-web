@@ -36,7 +36,7 @@ export function reEncryptWallet(
     const xprv: ?string = encrypted.xprv && decryptData({
       key: internalKey,
       data: encrypted.xprv,
-    })
+    }).trim()
 
     const passphrase: ?string = encrypted.passphrase && decryptData({
       key: internalKey,
@@ -74,7 +74,7 @@ export function reEncryptWallet(
     const privateKey: ?string = encrypted.privateKey && decryptData({
       key: internalKey,
       data: encrypted.privateKey,
-    })
+    }).trim()
 
     return {
       ...wallet,
