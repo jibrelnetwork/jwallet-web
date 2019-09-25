@@ -118,6 +118,11 @@ class StepOneForm extends PureComponent<Props, StateProps> {
       return false
     }
 
+    // skip, if it is just amount field validation error
+    if (toBigNumber(amountValue).gt(balanceETH)) {
+      return false
+    }
+
     const feeETH: BigNumber = toBigNumber(fromWeiToGWei(gasPriceValue)).times(FALLBACK_GAS_AMOUNT)
 
     return toBigNumber(amountValue).plus(feeETH).gt(balanceETH)
