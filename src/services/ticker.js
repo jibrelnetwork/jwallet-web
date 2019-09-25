@@ -6,8 +6,9 @@ import { typeUtils } from 'utils'
 import { CURRENCIES } from 'data'
 
 type TickerAPIParams = {|
-  +base_asset: FiatId[],
-  +quote_asset: FiatCurrency[],
+  +id: FiatId[],
+  +convert: FiatCurrency[],
+  +source: 'coinmarketcap',
 |}
 
 const { tickerAPIOptions }: AppConfig = config
@@ -30,7 +31,7 @@ function callApi(
   params: TickerAPIParams,
   retryCount: number = 4,
 ): Promise<any> {
-  const requestInfo: RequestInfo = `${TICKER_API}/v1/quotes/latest`
+  const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
 
   return fetch(requestInfo, {
     ...tickerAPIOptions,
@@ -55,11 +56,11 @@ function handleFiatCoursesResponse(response: any): Object {
     return {}
   }
 
-  if (!(response.data && response.status && response.status.success)) {
+  if (response.errors) {
     return {}
   }
 
-  return response.data.quotes
+  return response
 }
 
 function prepareFiatCourses(data: Object): FiatCoursesAPI {
@@ -69,7 +70,9 @@ function prepareFiatCourses(data: Object): FiatCoursesAPI {
     reduceResult: FiatCoursesAPI,
     fiatId: string,
   ): FiatCoursesAPI => {
-    if (!fiatId) {
+    const isKeyValid: boolean = !Number.isNaN(fiatId)
+
+    if (!isKeyValid) {
       return reduceResult
     }
 
@@ -92,7 +95,7 @@ function prepareFiatCourses(data: Object): FiatCoursesAPI {
 
       return {
         ...resultCourse,
-        [fiatCode]: value[fiatCode] ? value[fiatCode].price.toString() : '0',
+        [fiatCode]: value[fiatCode].toString(),
       }
     }, {})
 
@@ -107,8 +110,9 @@ function requestLatestCourses(
   fiatIds: FiatId[],
 ): Promise<FiatCoursesAPI> {
   return callApi({
-    base_asset: fiatIds,
-    quote_asset: [fiatCurrency],
+    id: fiatIds,
+    convert: [fiatCurrency],
+    source: 'coinmarketcap',
   })
     .then(handleFiatCoursesResponse)
     .then(prepareFiatCourses)

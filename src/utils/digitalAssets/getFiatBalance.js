@@ -1,21 +1,19 @@
 // @flow strict
 
-import { checkETH } from '.'
-
 export function getFiatBalance(
   {
     balance,
-    blockchainParams,
+    priceFeed,
   }: DigitalAssetWithBalance,
   courses: FiatCourses,
   currency: FiatCurrencyCode,
   timestamp?: FiatTimestamp = 'latest',
 ): ?number {
-  if (!(balance)) {
+  if (!(balance && priceFeed)) {
     return null
   }
 
-  const assetId: string = checkETH(blockchainParams.address) ? 'ETH' : blockchainParams.address
+  const assetId: string = priceFeed.currencyID.toString()
   const courseById: ?FiatCourseById = courses[assetId]
 
   if (!courseById) {
