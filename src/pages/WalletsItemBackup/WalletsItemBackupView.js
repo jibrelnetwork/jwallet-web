@@ -115,7 +115,7 @@ class WalletsItemBackupViewComponent extends Component<Props, StateProps> {
     const decryptedData: string = decryptData({
       key,
       data,
-    })
+    }).trim()
 
     this.setState({
       data: isPrivateKey ? add0x(decryptedData) : decryptedData,

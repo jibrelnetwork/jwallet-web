@@ -23,6 +23,7 @@ import checkETH from 'utils/digitalAssets/checkETH'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 
 import { Button } from 'components/base'
+import { GlobalFormError } from 'components'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
@@ -43,29 +44,24 @@ import { PriorityField } from './components/PriorityField/PriorityField'
 
 import styles from './send.m.scss'
 
-const {
-  getGasPrice,
-  estimateETHGas,
-  estimateContractGas,
-} = web3
-
-export type SendFormValues = {|
-  recipientAddress: string,
-  assetAddress: string,
-  amountValue: string,
-  isPriorityOpen?: boolean,
-  gasPriceValue?: string,
-  gasLimitValue?: string,
-|}
+export type SendFormValues = {
+  +recipientAddress: string,
+  +assetAddress: string,
+  +amountValue: string,
+  +isPriorityOpen?: boolean,
+  +gasPriceValue?: string,
+  +gasLimitValue?: string,
+}
 
 type Props = {|
-  +network: Network,
-  +ownerAddress: OwnerAddress,
-  +initialValues: SendFormValues,
-  +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +getAssetByAddress: (assetAddress: string) => DigitalAsset,
   +getAssetBalanceByAddress: (assetAddress: string) => ?string,
+  +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +i18n: I18nType,
+  +network: Network,
+  +initialValues: SendFormValues,
+  +ownerAddress: OwnerAddress,
+  +nodeError: ?string,
 |}
 
 type OwnProps = {|
@@ -73,16 +69,16 @@ type OwnProps = {|
   +initialValues: SendFormValues,
 |}
 
-type ComponentState = {|
-  isGasPriceLoading: boolean,
-  isGasLimitLoading: boolean,
-  isValidationFailed: boolean,
-  estimatedGasLimit: ?string,
+type StateProps = {|
+  +isGasPriceLoading: boolean,
+  +isGasLimitLoading: boolean,
+  +isValidationFailed: boolean,
+  +estimatedGasLimit: ?string,
 |}
 
-const FALLBACK_GAS_AMOUNT = 21000
+const FALLBACK_GAS_AMOUNT: number = 21000
 
-class StepOneForm extends PureComponent<Props, ComponentState> {
+class StepOneForm extends PureComponent<Props, StateProps> {
   static defaultProps = {
     initialValues: {
       assetAddress: 'Ethereum',
@@ -90,7 +86,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       amountValue: '',
       isPriorityOpen: false,
       gasPriceValue: '',
-      gasLimitValue: '21000',
+      gasLimitValue: FALLBACK_GAS_AMOUNT.toString(),
     },
   }
 
@@ -105,28 +101,48 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     this.props.onSubmit(values, this.state.isValidationFailed)
   }
 
-  validate = async (values: SendFormValues) => {
+  checkInsufficientFunds(
+    values: ?SendFormValues,
+    address: Address,
+  ): boolean {
+    const { getAssetBalanceByAddress }: Props = this.props
+    const balanceWei: ?string = getAssetBalanceByAddress(address)
+    const balanceETH: BigNumber = divDecimals(balanceWei)
+
     const {
       amountValue,
-      assetAddress,
       gasPriceValue,
-      gasLimitValue,
-      recipientAddress,
-    } = values
+    }: SendFormValues = values || {}
 
+    if (!(gasPriceValue && amountValue)) {
+      return false
+    }
+
+    const feeETH: BigNumber = toBigNumber(fromWeiToGWei(gasPriceValue)).times(FALLBACK_GAS_AMOUNT)
+
+    return toBigNumber(amountValue).plus(feeETH).gt(balanceETH)
+  }
+
+  validate = async ({
+    amountValue,
+    assetAddress,
+    gasPriceValue,
+    gasLimitValue,
+    recipientAddress,
+  }: SendFormValues) => {
     const {
       getAssetByAddress,
       getAssetBalanceByAddress,
       i18n,
-    } = this.props
+    }: Props = this.props
 
     const {
       blockchainParams: {
         decimals,
       },
-    } = getAssetByAddress(assetAddress)
+    }: DigitalAsset = getAssetByAddress(assetAddress)
 
-    const selectedAssetBalance = getAssetBalanceByAddress(assetAddress)
+    const selectedAssetBalance: ?string = getAssetBalanceByAddress(assetAddress)
 
     const amountFormatError = !isValidNumeric(amountValue)
       ? {
@@ -175,7 +191,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const gasLimitError = !gasLimitValue ||
       !isValidNumeric(gasLimitValue) ||
-      parseInt(gasLimitValue, 10) < 21000
+      parseInt(gasLimitValue, 10) < FALLBACK_GAS_AMOUNT
       ? {
         gasLimitValue: i18n._(
           'Send.StepOneForm.input.gasLimitValue.error.invalid',
@@ -201,7 +217,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     })
 
     try {
-      const gasPrice = await getGasPrice(network)
+      const gasPrice = await web3.getGasPrice(network)
 
       this.setState({
         isGasPriceLoading: false,
@@ -249,7 +265,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       })
 
       if (checkETH(assetAddress)) {
-        const requestedGasLimit = await estimateETHGas(
+        const requestedGasLimit = await web3.estimateETHGas(
           network,
           recipientAddress,
           amount,
@@ -264,7 +280,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
         return gasLimit
       } else {
-        const requestedGasLimit = await estimateContractGas(
+        const requestedGasLimit = await web3.estimateContractGas(
           network,
           assetAddress,
           ownerAddress,
@@ -294,23 +310,70 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     }
   }
 
-  renderSendStepForm = (props: FormRenderProps) => {
+  renderInsufficientFundsError = (hasInsufficientFunds: boolean) => {
     const {
-      handleSubmit,
-      submitting: isSubmitting,
-      valid: isValid,
-      values,
-    } = props
+      i18n,
+      nodeError,
+    }: Props = this.props
+
+    if (nodeError || !hasInsufficientFunds) {
+      return null
+    }
+
+    return (
+      <GlobalFormError
+        text={i18n._(
+          'Send.StepOneForm.global.error.text',
+          null,
+          {
+            // eslint-disable-next-line max-len
+            defaults: 'Entered amount + fee exceeds balance. Please correct amount or gas price value.',
+          },
+        )}
+        title={i18n._(
+          'Send.StepOneForm.global.error.title',
+          null,
+          { defaults: 'Insufficient funds' },
+        )}
+      />
+    )
+  }
+
+  renderNodeError = () => {
+    const {
+      i18n,
+      nodeError,
+    }: Props = this.props
+
+    if (!nodeError) {
+      return null
+    }
+
+    return (
+      <GlobalFormError
+        text={nodeError}
+        title={i18n._(
+          'Send.StepOneForm.node.error.title',
+          null,
+          { defaults: 'Blockchain error' },
+        )}
+      />
+    )
+  }
+
+  renderSendStepForm = ({
+    handleSubmit,
+    submitting: isSubmitting,
+    valid: isValid,
+    values,
+  }: FormRenderProps) => {
+    const { i18n }: Props = this.props
 
     const {
       isGasPriceLoading,
       isGasLimitLoading,
       estimatedGasLimit,
-    } = this.state
-
-    const {
-      i18n,
-    } = this.props
+    }: StateProps = this.state
 
     const {
       recipientAddress,
@@ -319,25 +382,23 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       gasPriceValue,
       gasLimitValue,
       isPriorityOpen,
-    } = values || {}
+    }: SendFormValues = values || {}
 
-    const isAmountValid = isValidNumeric(amountValue) &&
-      toBigNumber(amountValue).gt(0)
+    const isETH: boolean = checkETH(assetAddress)
+    const hasInsufficientFunds: boolean = isETH && this.checkInsufficientFunds(values, assetAddress)
+    const isAmountValid: boolean = isValidNumeric(amountValue) && toBigNumber(amountValue).gt(0)
+    const isPriorityPickerDisabled: boolean = !recipientAddress || !assetAddress || !isAmountValid
 
-    const isPriorityPickerDisabled = !recipientAddress ||
-      !assetAddress ||
-      !isAmountValid
-
-    const isFormDisabled = !recipientAddress ||
+    const isFormDisabled: boolean =
+      !recipientAddress ||
       !assetAddress ||
       !isAmountValid ||
       isGasLimitLoading ||
       isGasPriceLoading ||
-      !isValid
+      !isValid ||
+      hasInsufficientFunds
 
-    const isEthereumAsset = checkETH(assetAddress)
-
-    const blockchainFee = gasPriceValue &&
+    const blockchainFee: ?string = gasPriceValue &&
       gasLimitValue &&
       isValidNumeric(gasPriceValue) &&
       isValidNumeric(gasLimitValue)
@@ -353,6 +414,8 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         onSubmit={handleSubmit}
         className={styles.form}
       >
+        {this.renderNodeError()}
+        {this.renderInsufficientFundsError(hasInsufficientFunds)}
         <Field
           className={stylesOffsets.mb16}
           component={ConnectedAssetPicker}
@@ -389,7 +452,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         />
         <Field
           isLoading={isGasPriceLoading}
-          isEth={isEthereumAsset}
+          isEth={isETH}
           isDisabled={isPriorityPickerDisabled}
           className={stylesOffsets.mb32}
           component={PriorityField}
@@ -460,14 +523,12 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
   })
 
   render() {
-    const { initialValues } = this.props
-
     return (
       <Form
         onSubmit={this.handleSendFormSubmit}
         validate={this.validate}
         render={this.renderSendStepForm}
-        initialValues={initialValues}
+        initialValues={this.props.initialValues}
         decorators={[this.calculate]}
       />
     )
