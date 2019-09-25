@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "轉帳驗證失敗。如果您決定繼續，您的轉帳可能會失敗，仍然會有區塊鏈費用產生。是否確定繼續？",
     "Send.ValidationFailed.title": "驗證失敗",
     "Send.fee.description": "此應用程式完全免費，<0/>但進行新交易需要區塊鏈費用。",
-    "Send.title": "傳送",
     "SetPassword.errors.hintEqualsPassword": "密碼和提示不應該一樣",
     "SetPassword.errors.hintRequired": "需要密碼提示",
     "SetPassword.errors.passwordsNotMatch": "輸入的密碼不相符",
@@ -413,5 +412,10 @@
     "WalletPasswordForm.Forgot.action.forgot": "忘記了密碼？",
     "WalletPasswordForm.Forgot.description": "",
     "WalletPasswordForm.Forgot.title": "已忘記安全密碼",
-    "HistoryList.Empty.text": "你似乎尚未進行任何交易。"
+    "HistoryList.Empty.text": "你似乎尚未進行任何交易。",
+    "Send.StepOneForm.global.error.text": "",
+    "Send.StepOneForm.global.error.title": "",
+    "Send.StepOneForm.node.error.title": "",
+    "HistoryItemCancel.agreement.header": "",
+    "Send.title": "傳送"
 }

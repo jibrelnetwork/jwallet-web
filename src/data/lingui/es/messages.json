@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "No se ha podido efectuar la validación de la transferencia. Si decide continuar, lo más probable es que no se realice la transferencia, pero la tarifa de blockchain se le cobrará igualmente. ¿Seguro que desea continuar?",
     "Send.ValidationFailed.title": "Error de validación",
     "Send.fee.description": "La aplicación no cobra comisiones de ningún tipo.<0/>No obstante, tendrá que pagar la tarifa de blockchain para crear una transacción nueva.",
-    "Send.title": "Enviar",
     "SetPassword.errors.hintEqualsPassword": "La contraseña y la pista de contraseña no deben ser idénticas",
     "SetPassword.errors.hintRequired": "Se requiere pista de contraseña",
     "SetPassword.errors.passwordsNotMatch": "La contraseña no coincide con la confirmación",
@@ -413,5 +412,10 @@
     "WalletPasswordForm.Forgot.action.forgot": "¿Se ha olvidado?",
     "WalletPasswordForm.Forgot.description": "",
     "WalletPasswordForm.Forgot.title": "Contraseña de seguridad olvidada",
-    "HistoryList.Empty.text": "Parece que aún no ha efectuado ninguna transacción."
+    "HistoryList.Empty.text": "Parece que aún no ha efectuado ninguna transacción.",
+    "Send.StepOneForm.global.error.text": "",
+    "Send.StepOneForm.global.error.title": "",
+    "Send.StepOneForm.node.error.title": "",
+    "HistoryItemCancel.agreement.header": "",
+    "Send.title": "Enviar"
 }

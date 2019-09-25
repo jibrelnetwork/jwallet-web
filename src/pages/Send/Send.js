@@ -128,11 +128,13 @@ class SendAsset extends Component<Props, StateProps> {
       sendFormValues,
     }: StateProps = this.state
 
+    const { i18n }: Props = this.props
+
     return (
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleClose}
-          title={this.props.i18n._('Send.title', null, { defaults: 'Send' })}
+          title={i18n._('Send.title', null, { defaults: 'Send' })}
         />
         <ConnectedStepOneForm
           onSubmit={this.handleSendFormSubmit}
