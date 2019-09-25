@@ -1,11 +1,7 @@
 // @flow strict
 
 import { CURRENCIES } from 'data'
-
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
+import { formatBalance } from 'utils/numbers'
 
 export function formatFiatBalance(
   fiatBalance: BigNumber,
@@ -14,5 +10,5 @@ export function formatFiatBalance(
   const currency: ?FiatCurrency = CURRENCIES[fiatCurrency]
   const currencySymbol: string = currency ? currency.symbol || '$' : '$'
 
-  return `${currencySymbol}\u202F${formatBalance(divDecimals(fiatBalance))}`
+  return `${currencySymbol}\u202F${formatBalance(fiatBalance)}`
 }

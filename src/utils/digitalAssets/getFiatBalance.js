@@ -1,14 +1,20 @@
 // @flow strict
 
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
+
+import { divDecimals } from 'utils/numbers'
+
 export function getFiatBalance(
   {
     balance,
     priceFeed,
+    blockchainParams,
   }: DigitalAssetWithBalance,
   courses: FiatCourses,
   currency: FiatCurrencyCode,
   timestamp?: FiatTimestamp = 'latest',
-): ?number {
+): ?BigNumber {
   if (!(balance && priceFeed)) {
     return null
   }
@@ -32,5 +38,7 @@ export function getFiatBalance(
     return null
   }
 
-  return (Number(courseValue) || 0) * (Number(balance.value) || 0)
+  const balanceValue: BigNumber = divDecimals(balance.value || 0, blockchainParams.decimals)
+
+  return balanceValue.times(courseValue || 0)
 }

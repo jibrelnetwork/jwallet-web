@@ -489,17 +489,13 @@ class WalletsPlugin {
   requestAssetBalance = async (
     ownerAddress: Address,
     assetAddress: Address,
-  ): Promise<BigNumber> => {
-    const network: Network = this.getNetwork()
-
+  ): Promise<string> => {
     try {
-      const balance: string = await web3.getAssetBalance(
-        network,
+      return web3.getAssetBalance(
+        this.getNetwork(),
         ownerAddress,
         assetAddress,
       )
-
-      return new BigNumber(balance)
     } catch (error) {
       return Promise.delay(MINUTE).then(() => this.requestAssetBalance(
         ownerAddress,
@@ -513,9 +509,9 @@ class WalletsPlugin {
     const activeAssets: DigitalAsset[] = this.getActiveAssets()
     const fiatCurrency: FiatCurrencyCode = this.getFiatCurrency()
 
-    const balances: BigNumber[] = await Promise.map(
+    const balances: string[] = await Promise.map(
       activeAssets,
-      ({ blockchainParams }: DigitalAsset): BigNumber => this.requestAssetBalance(
+      ({ blockchainParams }: DigitalAsset): string => this.requestAssetBalance(
         address,
         blockchainParams.address,
       ),
@@ -529,7 +525,7 @@ class WalletsPlugin {
       {
         ...asset,
         balance: {
-          value: balances[index].toString(),
+          value: balances[index],
         },
       },
       fiatCourses,
