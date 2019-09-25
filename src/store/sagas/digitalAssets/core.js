@@ -166,8 +166,6 @@ function* deleteCustomAsset(
   }
 
   yield put(digitalAssets.deleteAssetRequest(assetAddress))
-  yield put(blocks.syncRestart())
-  yield put(ticker.syncRestart())
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {

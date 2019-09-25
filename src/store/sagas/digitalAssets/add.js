@@ -30,7 +30,6 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'store/modules/blocks'
-import * as ticker from 'store/modules/ticker'
 
 import {
   OPEN_VIEW,
@@ -353,7 +352,6 @@ function* onAssetFormSumbit(): Saga<void> {
     ))
 
     yield put(blocks.syncRestart())
-    yield put(ticker.syncRestart())
   }
 }
 
