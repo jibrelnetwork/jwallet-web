@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectAddressNames } from 'store/selectors/wallets'
 
 import {
@@ -20,6 +21,7 @@ type OwnProps = {|
 function mapStateToProps(state: AppState) {
   return {
     addressNames: selectAddressNames(state),
+    fiatCurrency: selectFiatCurrency(state),
   }
 }
 

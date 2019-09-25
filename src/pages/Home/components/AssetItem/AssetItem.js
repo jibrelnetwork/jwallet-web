@@ -2,11 +2,12 @@
 
 import React from 'react'
 import classNames from 'classnames'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
 
 import offsetsStyle from 'styles/offsets.m.scss'
 import { CURRENCIES } from 'data'
-import { formatAssetBalance } from 'utils/formatters'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
@@ -14,14 +15,14 @@ import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
-
-import {
   getFiatBalance,
   checkBalanceLoading,
 } from 'utils/digitalAssets'
+
+import {
+  formatFiatBalance,
+  formatAssetBalance,
+} from 'utils/formatters'
 
 import {
   JAssetSymbol,
@@ -41,7 +42,7 @@ type Props = {|
   ...$Exact<DigitalAssetWithBalance>,
   +balance: ToBigNumberValue,
   +fiatSymbol: string,
-  +fiatBalance: string,
+  +fiatBalance: ?BigNumber,
   +isLoadingBalance: boolean,
 |}
 
@@ -55,16 +56,6 @@ function AssetItem({
   blockchainParams,
   isLoadingBalance,
 }: Props) {
-  // FIXME: move formatters to external file
-  const formattedBalance = formatAssetBalance(
-    address,
-    balance,
-    blockchainParams.decimals,
-    symbol,
-  )
-
-  const formattedFiatBalance = `${fiatSymbol}\u202F${formatBalance(divDecimals(fiatBalance))}`
-
   return (
     <JLink
       className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}
@@ -88,17 +79,21 @@ function AssetItem({
       </div>
       <div className={classNames(styles.item, styles.amountBlock)}>
         <div className={`${styles.assetAmount} ${styles.text}`}>
-          {isLoadingBalance
-            ? <JShimmer />
-            : formattedBalance}
+          {isLoadingBalance ? <JShimmer /> : formatAssetBalance(
+            address,
+            balance,
+            blockchainParams.decimals,
+            symbol,
+          )}
         </div>
         <div
           className={`${styles.assetAmount} ${styles.subtext}`}
           style={{ minWidth: '80px' }}
         >
-          {isLoadingBalance
-            ? <JShimmer />
-            : formattedFiatBalance}
+          {isLoadingBalance ? <JShimmer /> : formatFiatBalance(
+            fiatBalance,
+            fiatSymbol,
+          )}
         </div>
       </div>
       <div className={classNames(styles.item, styles.arrowIcon)}>
@@ -124,7 +119,7 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
     address,
   )
 
-  const fiatBalance: ?number = getFiatBalance(
+  const fiatBalance: ?BigNumber = getFiatBalance(
     {
       ...asset,
       balance,
@@ -142,8 +137,5 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
   }
 }
 
-const AssetItemEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-)(AssetItem)
-
+const AssetItemEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(AssetItem)
 export { AssetItemEnhanced as AssetItem }

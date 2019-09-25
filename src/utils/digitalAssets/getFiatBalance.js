@@ -1,34 +1,44 @@
 // @flow strict
 
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
+
+import { divDecimals } from 'utils/numbers'
+
 export function getFiatBalance(
   {
     balance,
     priceFeed,
+    blockchainParams,
   }: DigitalAssetWithBalance,
   courses: FiatCourses,
   currency: FiatCurrencyCode,
-): ?number {
+  timestamp?: FiatTimestamp = 'latest',
+): ?BigNumber {
   if (!(balance && priceFeed)) {
     return null
   }
 
-  const courseById = courses[priceFeed.currencyID.toString()]
+  const assetId: string = priceFeed.currencyID.toString()
+  const courseById: ?FiatCourseById = courses[assetId]
 
   if (!courseById) {
     return null
   }
 
-  const course = courseById.latest
+  const course: ?FiatCourse = courseById[timestamp]
 
   if (!course) {
     return null
   }
 
-  const courseValue = course[currency]
+  const courseValue: ?string = course[currency]
 
   if (!courseValue) {
     return null
   }
 
-  return (Number(courseValue) || 0) * (Number(balance.value) || 0)
+  const balanceValue: BigNumber = divDecimals(balance.value || 0, blockchainParams.decimals)
+
+  return balanceValue.times(courseValue || 0)
 }

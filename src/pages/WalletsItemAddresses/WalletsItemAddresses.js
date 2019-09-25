@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { WalletInconsistentDataError } from 'errors'
 import { selectWallet } from 'store/selectors/wallets'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 import {
   type Props,
@@ -32,6 +33,7 @@ function mapStateToProps(
     name,
     derivationIndex,
     type: customType,
+    fiatCurrency: selectFiatCurrency(state),
   }
 }
 

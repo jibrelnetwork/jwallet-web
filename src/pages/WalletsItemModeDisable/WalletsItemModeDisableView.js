@@ -12,7 +12,7 @@ import {
 
 import { Button } from 'components/base'
 import { getAddressName } from 'utils/address'
-import { formatAssetBalance } from 'utils/formatters'
+import { formatFiatBalance } from 'utils/formatters'
 import { type AddressPickerItem } from 'components/AddressPicker/AddressPicker'
 
 import {
@@ -31,6 +31,7 @@ export type Props = {|
   +addressNames: AddressNames,
   +i18n: I18nType,
   +walletId: string,
+  +fiatCurrency: FiatCurrencyCode,
 |}
 
 type StateProps = {|
@@ -54,21 +55,20 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
     const {
       addressNames,
       walletId,
+      fiatCurrency,
     }: Props = this.props
 
     const { derivationIndex }: Wallet = walletsPlugin.getWallet(walletId)
     const items: Address[] = walletsPlugin.getAddresses(walletId, 0, derivationIndex || 0)
-    const balances: string[] = await Promise.map(items, walletsPlugin.requestETHBalanceByAddress)
+    const balances: string[] = await Promise.map(items, walletsPlugin.requestFiatBalanceByAddress)
 
     this.setState({
       addresses: items.map((address, index) => ({
         address,
         name: getAddressName(addressNames[address], index),
-        fiatBalance: formatAssetBalance(
-          'Ethereum',
+        fiatBalance: formatFiatBalance(
           balances[index],
-          18,
-          'ETH',
+          fiatCurrency,
         ),
       })),
     })

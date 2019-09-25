@@ -24,20 +24,15 @@ import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddre
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
-
-import {
-  selectDigitalAssetOrThrow,
-  selectActiveDigitalAssets,
-} from 'store/selectors/digitalAssets'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import * as blocks from '../modules/blocks'
-import * as ticker from '../modules/ticker'
 import * as balances from '../modules/balances'
 
 const {
   syncBalancesTimeout,
   processingBlockWaitTimeout,
-} = config
+}: AppConfig = config
 
 function getRequestBalanceByAssetTask(
   assetAddress: AssetAddress,
@@ -277,28 +272,6 @@ export function* requestBalance(
   ))
 }
 
-function* fetchByAssetSuccess(
-  action: ExtractReturn<typeof balances.fetchByAssetSuccess>,
-): Saga<void> {
-  const { assetAddress } = action.payload
-
-  // check conditions - network, balance, etc
-
-  const digitalAsset: ExtractReturn<typeof selectDigitalAssetOrThrow> =
-    yield select(selectDigitalAssetOrThrow, assetAddress)
-
-  const { priceFeed }: DigitalAsset = digitalAsset
-
-  if (!priceFeed) {
-    return
-  }
-
-  const { currencyID }: DigitalAssetPriceFeed = priceFeed
-
-  yield put(ticker.fiatCoursesRequest([currencyID.toString()]))
-}
-
 export function* balancesRootSaga(): Saga<void> {
   yield takeEvery(balances.FETCH_BY_OWNER_REQUEST, fetchByOwnerRequest)
-  yield takeEvery(balances.FETCH_BY_ASSET_SUCCESS, fetchByAssetSuccess)
 }

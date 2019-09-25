@@ -10,8 +10,11 @@ import { type Store } from 'redux'
 import { web3 } from 'services'
 import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { selectTickerItems } from 'store/selectors/ticker'
 import { selectPasswordPersist } from 'store/selectors/password'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import {
   getNonce,
@@ -20,6 +23,11 @@ import {
   decryptInternalKey,
   deriveKeyFromPassword,
 } from 'utils/encryption'
+
+import {
+  checkETH,
+  getFiatBalance,
+} from 'utils/digitalAssets'
 
 import {
   setActiveWallet,
@@ -86,7 +94,10 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+  getFiatCourses = (): FiatCourses => selectTickerItems(this.getState())
   getNetwork = (): Network => selectCurrentNetworkOrThrow(this.getState())
+  getFiatCurrency = (): FiatCurrencyCode => selectFiatCurrency(this.getState())
+  getActiveAssets = (): DigitalAsset[] => selectActiveDigitalAssets(this.getState())
 
   getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
     const state: AppState = this.getState()
@@ -468,33 +479,75 @@ class WalletsPlugin {
     )
   }
 
-  requestETHBalanceByAddress = async (address: Address): Promise<string> => {
-    const network: Network = this.getNetwork()
+  getActiveAssetsIds = (): string[] => {
+    const activeAssets: DigitalAsset[] = this.getActiveAssets()
 
+    return activeAssets.map(({ blockchainParams }: DigitalAsset): string =>
+      checkETH(blockchainParams.address) ? 'ETH' : blockchainParams.address)
+  }
+
+  requestAssetBalance = async (
+    ownerAddress: Address,
+    assetAddress: Address,
+  ): Promise<string> => {
     try {
-      const ethBalance: string = await web3.getAssetBalance(network, address, 'Ethereum')
-
-      return new BigNumber(ethBalance)
+      return web3.getAssetBalance(
+        this.getNetwork(),
+        ownerAddress,
+        assetAddress,
+      )
     } catch (error) {
-      return Promise.delay(MINUTE).then(() => this.requestETHBalanceByAddress(address))
+      return Promise.delay(MINUTE).then(() => this.requestAssetBalance(
+        ownerAddress,
+        assetAddress,
+      ))
     }
   }
 
-  requestETHBalanceByXPUB = async (
+  requestFiatBalanceByAddress = async (address: Address): Promise<BigNumber> => {
+    const fiatCourses: FiatCourses = this.getFiatCourses()
+    const activeAssets: DigitalAsset[] = this.getActiveAssets()
+    const fiatCurrency: FiatCurrencyCode = this.getFiatCurrency()
+
+    const balances: string[] = await Promise.map(
+      activeAssets,
+      ({ blockchainParams }: DigitalAsset): string => this.requestAssetBalance(
+        address,
+        blockchainParams.address,
+      ),
+    )
+
+    return activeAssets.reduce((
+      result: BigNumber,
+      asset: DigitalAsset,
+      index: number,
+    ): BigNumber => result.plus(getFiatBalance(
+      {
+        ...asset,
+        balance: {
+          value: balances[index],
+        },
+      },
+      fiatCourses,
+      fiatCurrency,
+    ) || 0), new BigNumber(0))
+  }
+
+  requestFiatBalanceByXPUB = async (
     walletId: WalletId,
     derivationIndex: number,
   ): Promise<BigNumber> => {
     const addresses: Address[] = this.getAddresses(walletId, 0, derivationIndex)
 
     return Promise
-      .map(addresses, this.requestETHBalanceByAddress)
-      .then((ethBalances: BigNumber[]) => ethBalances.reduce((
+      .map(addresses, this.requestFiatBalanceByAddress)
+      .then((balances: BigNumber[]): BigNumber => balances.reduce((
         result: BigNumber,
-        ethBalance: BigNumber,
-      ) => result.plus(ethBalance), new BigNumber(0)))
+        balance: BigNumber,
+      ) => result.plus(balance), new BigNumber(0)))
   }
 
-  requestETHBalance = async (walletId: WalletId): Promise<BigNumber> => {
+  requestFiatBalance = async (walletId: WalletId): Promise<BigNumber> => {
     const {
       id,
       xpub,
@@ -503,10 +556,10 @@ class WalletsPlugin {
     }: Wallet = this.getWallet(walletId)
 
     if (xpub && !isSimplified) {
-      return this.requestETHBalanceByXPUB(id, derivationIndex || 0)
+      return this.requestFiatBalanceByXPUB(id, derivationIndex || 0)
     }
 
-    return this.requestETHBalanceByAddress(this.getAddress(id))
+    return this.requestFiatBalanceByAddress(this.getAddress(id))
   }
 }
 

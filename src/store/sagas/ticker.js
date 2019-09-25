@@ -78,7 +78,7 @@ function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequ
 
   try {
     const fiatCoursesAPI: FiatCoursesAPI = yield call(
-      tickerService.requestCourses,
+      tickerService.requestLatestCourses,
       currentFiatCurrency,
       fiatIds,
     )

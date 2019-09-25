@@ -11,30 +11,43 @@ type TickerAPIParams = {|
   +source: 'coinmarketcap',
 |}
 
-const { tickerAPIOptions } = config
-
+const { tickerAPIOptions }: AppConfig = config
+const AVAILABLE_CURRENCIES: string[] = Object.keys(CURRENCIES)
 const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
 
-function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> {
-  const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
-
-  const handleRequestError = () => {
-    if (retryCount > 0) {
-      return callApi(params, (retryCount - 1))
-    }
-
-    throw new Error('Ticker Request Error')
+function handleRequestError(
+  params: TickerAPIParams,
+  retryCount: number,
+) {
+  if (retryCount > 0) {
+    // eslint-disable-next-line no-use-before-define
+    return callApi(params, (retryCount - 1))
   }
+
+  throw new Error('Ticker Request Error')
+}
+
+function callApi(
+  params: TickerAPIParams,
+  retryCount: number = 4,
+): Promise<any> {
+  const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
 
   return fetch(requestInfo, {
     ...tickerAPIOptions,
     body: JSON.stringify(params),
-  }).catch(handleRequestError).then((response: Response): Promise<any> => {
+  }).catch(() => handleRequestError(
+    params,
+    retryCount,
+  )).then((response: Response): Promise<any> => {
     if (response.ok) {
       return response.json()
     }
 
-    return handleRequestError()
+    return handleRequestError(
+      params,
+      retryCount,
+    )
   })
 }
 
@@ -53,27 +66,30 @@ function handleFiatCoursesResponse(response: any): Object {
 function prepareFiatCourses(data: Object): FiatCoursesAPI {
   const responseKeys: string[] = Object.keys(data)
 
-  return responseKeys.reduce((result: FiatCoursesAPI, fiatId: string): FiatCoursesAPI => {
+  return responseKeys.reduce((
+    reduceResult: FiatCoursesAPI,
+    fiatId: string,
+  ): FiatCoursesAPI => {
     const isKeyValid: boolean = !Number.isNaN(fiatId)
 
     if (!isKeyValid) {
-      return result
+      return reduceResult
     }
 
     const value: any = data[fiatId]
 
     if (typeUtils.isVoid(value) || !typeUtils.isObject(value)) {
-      return result
+      return reduceResult
     }
 
-    const fiatCodes: any[] = Object.keys(value)
+    const fiatCodes: string[] = Object.keys(value)
 
     const fiatCourse: FiatCourse = fiatCodes.reduce((
       resultCourse: FiatCourse,
       fiatCode: any,
     ): FiatCourse => {
       // filter invalid currency codes
-      if (!Object.keys(CURRENCIES).includes(fiatCode)) {
+      if (!AVAILABLE_CURRENCIES.includes(fiatCode)) {
         return resultCourse
       }
 
@@ -83,14 +99,16 @@ function prepareFiatCourses(data: Object): FiatCoursesAPI {
       }
     }, {})
 
-    return {
-      ...result,
-      [fiatId]: fiatCourse,
-    }
+    reduceResult[fiatId] = fiatCourse
+
+    return reduceResult
   }, {})
 }
 
-function requestCourses(fiatCurrency: FiatCurrency, fiatIds: FiatId[]): Promise<FiatCoursesAPI> {
+function requestLatestCourses(
+  fiatCurrency: FiatCurrency,
+  fiatIds: FiatId[],
+): Promise<FiatCoursesAPI> {
   return callApi({
     id: fiatIds,
     convert: [fiatCurrency],
@@ -101,5 +119,5 @@ function requestCourses(fiatCurrency: FiatCurrency, fiatIds: FiatId[]): Promise<
 }
 
 export default {
-  requestCourses,
+  requestLatestCourses,
 }

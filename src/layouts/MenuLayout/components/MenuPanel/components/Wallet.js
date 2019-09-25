@@ -1,10 +1,12 @@
 // @flow strict
 
 import React from 'react'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
 
-import { CURRENCIES } from 'data'
 import { getAddressName } from 'utils/address'
+import { formatFiatBalance } from 'utils/formatters'
 import { checkMultiAddressType } from 'utils/wallets'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
@@ -23,11 +25,6 @@ import {
 } from 'store/selectors/wallets'
 
 import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
-
-import {
   JIcon,
   JLink,
 } from 'components/base'
@@ -38,7 +35,7 @@ type Props = {|
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
-  +fiatBalance: number,
+  +fiatBalance: BigNumber,
 |}
 
 export function WalletView({
@@ -61,7 +58,10 @@ export function WalletView({
         </div>
       )}
       <div className={styles.balance}>
-        {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
+        {formatFiatBalance(
+          fiatBalance,
+          fiatCurrency,
+        )}
       </div>
       <JIcon
         className={styles.chevron}
@@ -76,15 +76,15 @@ function getTotalFiatBalance(
   assets: DigitalAssetWithBalance[],
   fiatCourses: FiatCourses,
   fiatCurrency: FiatCurrencyCode,
-): number {
+): BigNumber {
   return assets.reduce((
-    result: number,
+    result: BigNumber,
     digitalAsset: DigitalAssetWithBalance,
-  ): number => result + (getFiatBalance(
+  ): BigNumber => result.plus(getFiatBalance(
     digitalAsset,
     fiatCourses,
     fiatCurrency,
-  ) || 0), 0)
+  ) || 0), new BigNumber(0))
 }
 
 function mapStateToProps(state: AppState) {
@@ -113,9 +113,9 @@ function mapStateToProps(state: AppState) {
     : ''
 
   return {
-    walletName: name,
+    fiatCurrency,
     mnemonicAddressName,
-    fiatCurrency: CURRENCIES[fiatCurrency].symbol,
+    walletName: name,
     fiatBalance: getTotalFiatBalance(
       assetsWithBalance,
       fiatCourses,

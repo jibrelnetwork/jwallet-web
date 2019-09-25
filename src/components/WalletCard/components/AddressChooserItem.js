@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 
 import { JIcon } from 'components/base'
 import { walletsPlugin } from 'store/plugins'
-import { formatAssetBalance } from 'utils/formatters'
+import { formatFiatBalance } from 'utils/formatters'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectAddressNames } from 'store/selectors/wallets'
 
 import {
@@ -26,10 +27,11 @@ type OwnProps = {|
 type Props = {|
   ...OwnProps,
   +addressName: string,
+  +fiatCurrency: FiatCurrencyCode,
 |}
 
 type StateProps = {|
-  +ethBalance: ?BigNumber,
+  +balance: ?BigNumber,
 |}
 
 class AddressChooserItem extends Component<Props, StateProps> {
@@ -41,19 +43,22 @@ class AddressChooserItem extends Component<Props, StateProps> {
     super(props)
 
     this.state = {
-      ethBalance: null,
+      balance: null,
     }
   }
 
   async componentDidMount() {
-    const ethBalance: BigNumber = await walletsPlugin.requestETHBalanceByAddress(this.props.address)
+    const {
+      address,
+      fiatCurrency,
+    }: Props = this.props
+
+    const balance: BigNumber = await walletsPlugin.requestFiatBalanceByAddress(address)
 
     this.setState({
-      ethBalance: formatAssetBalance(
-        'Ethereum',
-        ethBalance,
-        18,
-        'ETH',
+      balance: formatFiatBalance(
+        balance,
+        fiatCurrency,
       ),
     })
   }
@@ -74,7 +79,7 @@ class AddressChooserItem extends Component<Props, StateProps> {
       isActive,
     }: Props = this.props
 
-    const { ethBalance }: StateProps = this.state
+    const { balance }: StateProps = this.state
 
     return (
       <div
@@ -93,9 +98,9 @@ class AddressChooserItem extends Component<Props, StateProps> {
             {getShortenedAddress(address)}
           </div>
         </div>
-        {ethBalance && (
+        {balance && (
           <span className={styles.balance}>
-            {ethBalance}
+            {balance}
           </span>
         )}
       </div>
@@ -113,6 +118,7 @@ function mapStateToProps(
   const addressNames: AddressNames = selectAddressNames(state)
 
   return {
+    fiatCurrency: selectFiatCurrency(state),
     addressName: getAddressName(addressNames[address], index),
   }
 }
