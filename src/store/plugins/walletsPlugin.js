@@ -528,7 +528,9 @@ class WalletsPlugin {
     ): BigNumber => result.plus(getFiatBalance(
       {
         ...asset,
-        balance: balances[index],
+        balance: {
+          value: balances[index].toString(),
+        },
       },
       fiatCourses,
       fiatCurrency,
