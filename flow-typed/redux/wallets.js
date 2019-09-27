@@ -25,7 +25,7 @@ declare type ScryptParams = {|
 
 declare type WalletCreatedBlockNumber = { [NetworkName]: ?number }
 
-declare type Wallet = {|
+declare type WalletV1 = {|
   +encrypted: WalletEncryptedData,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
   +id: string,
@@ -41,6 +41,8 @@ declare type Wallet = {|
   +isReadOnly: boolean,
   +isSimplified: ?boolean,
 |}
+
+declare type Wallet = WalletV1
 
 declare type WalletUpdatedData = {|
   +encrypted?: WalletEncryptedData,
@@ -74,10 +76,13 @@ declare type PasswordResult = {|
   |},
 |}
 
-declare type WalletsPersist = {|
-  +items: Wallets,
+declare type WalletsPersistV1 = {|
+  +items: WalletV1[],
   +activeWalletId: ?WalletId,
+  +version: 1,
 |}
+
+declare type WalletsPersist = WalletsPersistV1
 
 declare type WalletsState = {|
   +persist: WalletsPersist,
