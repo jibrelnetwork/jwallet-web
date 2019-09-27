@@ -43,6 +43,7 @@ const initialState: WalletsState = {
   persist: {
     items: [],
     activeWalletId: null,
+    version: 1,
   },
 }
 
