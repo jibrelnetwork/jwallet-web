@@ -8,7 +8,7 @@
   "author": "Jibrel Network",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "dev": "./node_modules/.bin/env-cmd env/development npx webpack-dev-server --config ./webpack.config.js",
+    "dev": "./node_modules/.bin/env-cmd env/development npx webpack-dev-server --config ./webpack.config.js", 
     "build": "./node_modules/.bin/env-cmd env/production npx webpack-cli --config ./webpack.config.js",
     "build:clean": "npm run clean:build && npm run clean:report:size && npm run lang:compile && npm run build",
     "build:stats": "./node_modules/.bin/env-cmd env/production npx webpack --env production --config ./webpack.config.js --json > reports/stats.json",
