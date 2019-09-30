@@ -1,13 +1,13 @@
 @import 'styles/mixins';
 
 .core {
-  @include flex-column-center;
+  @include flex-column;
   @include property-transition(box-shadow);
 
   height: 152px;
   max-width: 352px;
   margin: 8px 16px;
-  padding: 0 16px;
+  padding: 32px 24px 24px 24px;
   background: $white;
   border-radius: 4px;
   box-shadow: $normal-shadow;
