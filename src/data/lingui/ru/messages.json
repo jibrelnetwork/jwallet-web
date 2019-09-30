@@ -417,5 +417,6 @@
     "Send.StepOneForm.global.error.title": "",
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
-    "Send.title": "Отправить"
+    "Send.title": "Отправить",
+    "Send.StepOneForm.toast.network": ""
 }

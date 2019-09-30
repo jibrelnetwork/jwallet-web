@@ -417,5 +417,6 @@
     "Send.StepOneForm.global.error.title": "",
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
-    "Send.title": "보내기"
+    "Send.title": "보내기",
+    "Send.StepOneForm.toast.network": ""
 }

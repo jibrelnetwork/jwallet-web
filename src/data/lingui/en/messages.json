@@ -417,5 +417,6 @@
     "Send.StepOneForm.global.error.title": "Insufficient funds",
     "Send.StepOneForm.node.error.title": "Blockchain error",
     "HistoryItemCancel.agreement.header": "Enter Security Password",
-    "Send.title": "Send"
+    "Send.title": "Send",
+    "Send.StepOneForm.toast.network": "Network error, can't request gasPrice"
 }

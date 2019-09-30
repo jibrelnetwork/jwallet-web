@@ -230,7 +230,13 @@ class StepOneForm extends PureComponent<Props, StateProps> {
         .toFormat(2, BigNumber.ROUND_FLOOR)
         .toString()
     } catch (error) {
-      toastsPlugin.showToast('Network error, can\'t request gasPrice')
+      const { i18n }: Props = this.props
+
+      toastsPlugin.showToast(i18n._(
+        'Send.StepOneForm.toast.network',
+        null,
+        { defaults: 'Network error, can\'t request gasPrice' },
+      ))
 
       return '0'
     }
