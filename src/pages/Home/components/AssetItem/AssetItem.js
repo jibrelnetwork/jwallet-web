@@ -7,7 +7,6 @@ import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
 
 import offsetsStyle from 'styles/offsets.m.scss'
-import { CURRENCIES } from 'data'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
@@ -41,8 +40,8 @@ type Props = {|
   ...$Exact<OwnProps>,
   ...$Exact<DigitalAssetWithBalance>,
   +balance: ToBigNumberValue,
-  +fiatSymbol: string,
   +fiatBalance: ?BigNumber,
+  +fiatCurrency: FiatCurrencyCode,
   +isLoadingBalance: boolean,
 |}
 
@@ -51,8 +50,8 @@ function AssetItem({
   address,
   balance,
   name,
-  fiatSymbol,
   fiatBalance,
+  fiatCurrency,
   blockchainParams,
   isLoadingBalance,
 }: Props) {
@@ -92,7 +91,7 @@ function AssetItem({
         >
           {isLoadingBalance ? <JShimmer /> : formatFiatBalance(
             fiatBalance,
-            fiatSymbol,
+            fiatCurrency,
           )}
         </div>
       </div>
@@ -131,8 +130,8 @@ function mapStateToProps(state: AppState, { address }: OwnProps) {
   return {
     ...asset,
     fiatBalance,
+    fiatCurrency,
     balance: balance ? balance.value : 0,
-    fiatSymbol: CURRENCIES[fiatCurrency].symbol,
     isLoadingBalance: checkBalanceLoading(balance),
   }
 }
