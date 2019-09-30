@@ -5,6 +5,27 @@ import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import * as type from 'utils/type'
 import * as encryption from 'utils/encryption'
 
+export function checkWalletsMigrationV1Needed(state: Object): boolean {
+  const walletsData: Object = state.wallets
+
+  if (type.isVoid(walletsData) || !type.isObject(walletsData)) {
+    return false
+  }
+
+  const walletsPersist: Object = walletsData.persist
+
+  if (type.isVoid(walletsPersist) || !type.isObject(walletsPersist)) {
+    return false
+  }
+
+  const {
+    items,
+    version,
+  }: Object = walletsPersist
+
+  return (!version || (version < 1)) && items && items.length
+}
+
 async function getEmptyLatest(): Promise<WalletsPersist> {
   return {
     items: [],

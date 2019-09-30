@@ -3,7 +3,11 @@
 import assert from 'assert'
 
 import { WALLETS } from './data'
-import { migratePassword } from '../password'
+
+import {
+  migratePassword,
+  checkPasswordMigrationV1Needed,
+} from '../password'
 
 const RESULT = {
   version: 1,
@@ -20,6 +24,17 @@ const RESULT_EMPTY = {
 }
 
 describe('store/migrations/password', () => {
+  test('should check if migration to v1 is needed', async () => {
+    const versionUndefined = checkPasswordMigrationV1Needed({ password: { persist: {} } })
+    assert.equal(versionUndefined, true)
+
+    const versionNull = checkPasswordMigrationV1Needed({ password: { persist: { version: 0 } } })
+    assert.equal(versionNull, true)
+
+    const versionCorrect = checkPasswordMigrationV1Needed({ password: { persist: { version: 1 } } })
+    assert.equal(versionCorrect, false)
+  })
+
   test('should migrate to v1', async () => {
     const resultWalletsPersistVersionEmpty = await migratePassword({
       wallets: { persist: WALLETS.v0 },

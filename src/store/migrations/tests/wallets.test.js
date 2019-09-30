@@ -2,7 +2,10 @@
 
 import assert from 'assert'
 
-import { migrateWallets } from '../wallets'
+import {
+  migrateWallets,
+  checkWalletsMigrationV1Needed,
+} from '../wallets'
 
 import {
   WALLETS,
@@ -35,6 +38,17 @@ const RESULT_EMPTY = {
 }
 
 describe('store/migrations/wallets', () => {
+  test('should check if migration to v1 is needed', async () => {
+    const versionUndefined = checkWalletsMigrationV1Needed({ wallets: { persist: {} } })
+    assert.equal(versionUndefined, true)
+
+    const versionNull = checkWalletsMigrationV1Needed({ wallets: { persist: { version: 0 } } })
+    assert.equal(versionNull, true)
+
+    const versionCorrect = checkWalletsMigrationV1Needed({ wallets: { persist: { version: 1 } } })
+    assert.equal(versionCorrect, false)
+  })
+
   test('should migrate to v1', async () => {
     const resultWalletsPersistVersionEmpty = await migrateWallets({
       wallets: { persist: WALLETS.v0 },

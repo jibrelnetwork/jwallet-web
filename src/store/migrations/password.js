@@ -2,6 +2,29 @@
 
 import * as type from 'utils/type'
 
+export function checkPasswordV0(state: Object): boolean {
+  return (state.wallets && state.wallets.persist && !!state.wallets.persist.internalKey)
+}
+
+export function checkPasswordMigrationV1Needed(state: Object): boolean {
+  const isOldPasswordExist: boolean = checkPasswordV0(state)
+  const passwordData: Object = state.password
+
+  if (type.isVoid(passwordData) || !type.isObject(passwordData)) {
+    return isOldPasswordExist
+  }
+
+  const passwordPersist: Object = passwordData.persist
+
+  if (type.isVoid(passwordPersist) || !type.isObject(passwordPersist)) {
+    return isOldPasswordExist
+  }
+
+  const { version }: Object = passwordPersist
+
+  return (!version || (version < 1)) && isOldPasswordExist
+}
+
 async function getEmptyLatest(): Promise<PasswordPersist> {
   return {
     internalKey: null,
