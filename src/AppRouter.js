@@ -11,6 +11,8 @@ import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
+import { checkWalletsMigrationV1Needed } from 'store/migrations/wallets'
+import { checkPasswordMigrationV1Needed } from 'store/migrations/password'
 
 import {
   selectIntroductionValue,
@@ -27,9 +29,10 @@ type ApplicationError = 'PageNotFoundError' | 'UnexpectedError'
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
+  +isMigrationNeeded: boolean,
+  +showNewWalletProcess: boolean,
   +isAllAgreementsChecked: boolean,
   +isAllFeaturesIntroduced: boolean,
-  +showNewWalletProcess: boolean,
 |}
 
 type StateProps = {|
@@ -119,9 +122,10 @@ class AppRouter extends Component<Props, StateProps> {
     const {
       route,
       hasPassword,
+      isMigrationNeeded,
+      showNewWalletProcess,
       isAllAgreementsChecked,
       isAllFeaturesIntroduced,
-      showNewWalletProcess,
     } = this.props
 
     const {
@@ -139,6 +143,10 @@ class AppRouter extends Component<Props, StateProps> {
 
     if (!isAllAgreementsChecked) {
       return <pages.AgreementsView />
+    }
+
+    if (isMigrationNeeded) {
+      return <pages.WalletsMigration />
     }
 
     if (!hasPassword) {
@@ -165,10 +173,12 @@ function mapStateToProps(state: AppState) {
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
   const agreements = selectAgreementsConditions(state)
-  const isAgreementsConfirmed = selectIsAgreementsConfirmed(state)
-  const isAllAgreementsChecked = checkAgreements(CONDITIONS_LIST, agreements)
+  const isAgreementsConfirmed: boolean = selectIsAgreementsConfirmed(state)
+  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST, agreements)
     && isAgreementsConfirmed
-  const isAllFeaturesIntroduced = selectIntroductionValue(state)
+  const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
+  const isWalletsMigrationNeeded: boolean = checkWalletsMigrationV1Needed(state)
+  const isPasswordMigrationNeeded: boolean = checkPasswordMigrationV1Needed(state)
 
   return {
     route,
@@ -178,11 +188,9 @@ function mapStateToProps(state: AppState) {
     showNewWalletProcess: !hasWallets &&
       (route.name !== 'WalletsCreate') &&
       (route.name !== 'WalletsImport'),
+    isMigrationNeeded: isPasswordMigrationNeeded || isWalletsMigrationNeeded,
   }
 }
 
-const AppRouterEnhanced = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-)(AppRouter)
-
+const AppRouterEnhanced = connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps)(AppRouter)
 export { AppRouterEnhanced as AppRouter }
