@@ -88,7 +88,7 @@ function ContactItemDetailsComponent({
             onChange: (e: SyntheticInputEvent<HTMLInputElement>) =>
               setNoteText(address, e.target.value),
           }}
-          maxlength={256}
+          maxLength={256}
         />
       </div>
     </div>

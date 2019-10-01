@@ -122,7 +122,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
               )}
               name='name'
               isDisabled={submitting}
-              maxlength={32}
+              maxLength={32}
             />
             <Field
               component={JInputField}
@@ -149,7 +149,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 { defaults: 'This note is only visible to you.' },
               )}
               isDisabled={submitting}
-              maxlength={256}
+              maxLength={256}
             />
             <Button
               type='submit'
