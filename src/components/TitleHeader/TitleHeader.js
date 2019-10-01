@@ -7,12 +7,19 @@ import { JIcon } from 'components/base'
 
 import styles from './titleHeader.m.scss'
 
-type TitleHeaderHandler = () => any
+type TitleHeaderBack = () => any
+type TitleHeaderScroll = (isScrolled: boolean) => any
 
 type Props = {|
-  +onBack: ?TitleHeaderHandler,
+  +onBack: ?TitleHeaderBack,
+  +onScroll: ?TitleHeaderScroll,
   +children: React$Node,
-  +title: string,
+  +title: ?string,
+  +className: ?string,
+  +offsetTop: number,
+  +withMenu: boolean,
+  +isCentred: boolean,
+  +isScrolled: ?boolean,
 |}
 
 type StateProps = {|
@@ -21,14 +28,27 @@ type StateProps = {|
 
 const MIN_SCROLL_TOP_PIXELS: number = 20
 
-function checkScrolled(rootElement: ?HTMLElement): boolean {
-  return !!rootElement && (rootElement.scrollTop > MIN_SCROLL_TOP_PIXELS)
+function checkScrolled(
+  isScrolled: ?boolean,
+  rootElement: ?HTMLElement,
+  offsetTop: number,
+): boolean {
+  return (isScrolled !== null) && (isScrolled !== undefined)
+    ? isScrolled
+    : !!rootElement && (rootElement.scrollTop > (MIN_SCROLL_TOP_PIXELS + offsetTop))
 }
 
 export class TitleHeader extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: undefined,
+    onScroll: undefined,
     children: null,
+    title: null,
+    className: null,
+    offsetTop: 0,
+    withMenu: false,
+    isCentred: false,
+    isScrolled: null,
   }
 
   rootElement: ?HTMLElement
@@ -38,8 +58,17 @@ export class TitleHeader extends Component<Props, StateProps> {
 
     this.rootElement = this.rootElement || document.getElementById('root')
 
+    const {
+      offsetTop,
+      isScrolled,
+    }: Props = props
+
     this.state = {
-      isScrolled: checkScrolled(this.rootElement),
+      isScrolled: checkScrolled(
+        isScrolled,
+        this.rootElement,
+        offsetTop,
+      ),
     }
   }
 
@@ -55,14 +84,39 @@ export class TitleHeader extends Component<Props, StateProps> {
     }
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.isScrolled !== this.props.isScrolled) {
+      this.handleScroll()
+    }
+  }
+
   handleScroll = () => {
     const wasScrolled: boolean = this.state.isScrolled
-    const isScrolled: boolean = checkScrolled(this.rootElement)
 
-    if (!wasScrolled && isScrolled) {
+    const {
+      onScroll,
+      offsetTop,
+      isScrolled,
+    }: Props = this.props
+
+    const isNowScrolled: boolean = checkScrolled(
+      isScrolled,
+      this.rootElement,
+      offsetTop,
+    )
+
+    if (!wasScrolled && isNowScrolled) {
       this.setState({ isScrolled: true })
-    } else if (wasScrolled && !isScrolled) {
+
+      if (onScroll) {
+        onScroll(true)
+      }
+    } else if (wasScrolled && !isNowScrolled) {
       this.setState({ isScrolled: false })
+
+      if (onScroll) {
+        onScroll(false)
+      }
     }
   }
 
@@ -71,27 +125,44 @@ export class TitleHeader extends Component<Props, StateProps> {
       onBack: handleClick,
       children,
       title,
+      className,
+      offsetTop,
+      withMenu,
+      isCentred,
     }: Props = this.props
+
+    const { isScrolled }: StateProps = this.state
+    const isAbsolute: boolean = (!offsetTop || isScrolled)
 
     return (
       <div
-        className={classNames(styles.core, this.state.isScrolled && styles.scrolled)}
         onScroll={this.handleScroll}
+        className={classNames(
+          styles.core,
+          className,
+          !isAbsolute && styles.static,
+          isScrolled && styles.scrolled,
+          isAbsolute && withMenu && styles.menu,
+          isAbsolute && isCentred && styles.centred,
+        )}
+        style={{ top: isScrolled ? 0 : offsetTop }}
       >
-        {handleClick && (
-          <div
-            onClick={handleClick}
-            className={styles.back}
-          >
-            <JIcon name='arrow-back-use-fill' size='medium' color='blue' />
-          </div>
-        )}
-        <h1 className={styles.title}>{title}</h1>
-        {children && (
-          <aside className={styles.aside}>
-            {children}
-          </aside>
-        )}
+        <div className={styles.content}>
+          {handleClick && (
+            <div
+              onClick={handleClick}
+              className={styles.back}
+            >
+              <JIcon name='arrow-back-use-fill' size='medium' color='blue' />
+            </div>
+          )}
+          {title && <h1 className={styles.title}>{title}</h1>}
+          {children && (
+            <aside className={styles.aside}>
+              {children}
+            </aside>
+          )}
+        </div>
       </div>
     )
   }

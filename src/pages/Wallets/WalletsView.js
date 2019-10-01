@@ -56,7 +56,7 @@ class WalletsViewComponent extends PureComponent<Props, StateProps> {
 
     return (
       <div className={styles.core}>
-        <TitleHeader title='My Wallets'>
+        <TitleHeader title={i18n._('Wallets.title', null, { defaults: 'My Wallets' })}>
           <JLink
             className={classNames(buttonStyles.additionalIcon, titleHeaderStyles.action)}
             href='/wallets/create'

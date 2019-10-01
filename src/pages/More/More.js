@@ -3,13 +3,13 @@
 import React from 'react'
 import { type I18n } from '@lingui/core'
 
-import { Card } from 'components'
 import { useI18n } from 'app/hooks'
+import { JLink } from 'components/base'
 
 import {
-  JLink,
-  Header,
-} from 'components/base'
+  Card,
+  TitleHeader,
+} from 'components'
 
 import styles from './more.m.scss'
 
@@ -23,12 +23,14 @@ export function More() {
 
   return (
     <div className={styles.core}>
-      <Header
+      <TitleHeader
         title={i18n._(
           'More.title',
           null,
           { defaults: 'More' },
         )}
+        withMenu
+        isCentred
       />
       <div className={styles.cards}>
         {/*

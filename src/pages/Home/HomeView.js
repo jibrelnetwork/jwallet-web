@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React, { Component } from 'react'
 import classNames from 'classnames'
@@ -12,13 +12,16 @@ import {
 
 import noResultImg from 'public/assets/pic_assets_112.svg'
 import buttonStyles from 'components/base/Button/button.m.scss'
-import { SearchInput } from 'components'
 import { searchAssets } from 'utils/search'
+
+import {
+  SearchInput,
+  TitleHeader,
+} from 'components'
 
 import {
   JIcon,
   JLink,
-  Header,
   Button,
 } from 'components/base'
 
@@ -27,9 +30,9 @@ import { ManageAssetItem } from './components/AssetItem/ManageAssetItem'
 
 import styles from './home.m.scss'
 
+const HEADER_OFFSET_TOP_DEFAULT: number = 264
 // eslint-disable-next-line max-len
-const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
-const ASSETS_HEADER_BOTTOM_EDGE = 376
+const JCASH_UTM_URL: string = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
 
 export type Props = {|
   +setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
@@ -39,11 +42,11 @@ export type Props = {|
 
 type StateProps = {|
   +searchQuery: string,
-  +isInManageMode: boolean,
   +assetsState: {
     [assetAddress: string]: boolean,
   },
-  +isSticky: boolean,
+  +isInManageMode: boolean,
+  +isAssetsHeaderScrolled: boolean,
 |}
 
 type AssetState = {|
@@ -56,19 +59,17 @@ function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAss
 }
 
 class HomeViewComponent extends Component<Props, StateProps> {
+  headerRef = React.createRef<HTMLDivElement>()
+
   constructor(props: Props) {
     super(props)
 
     this.state = {
+      assetsState: {},
       searchQuery: '',
       isInManageMode: false,
-      assetsState: {},
-      isSticky: false,
+      isAssetsHeaderScrolled: false,
     }
-  }
-
-  componentDidMount() {
-    this.rootWrapper.addEventListener('scroll', this.handleScroll)
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: StateProps) {
@@ -90,30 +91,10 @@ class HomeViewComponent extends Component<Props, StateProps> {
     return !isEqual(this.state, nextState)
   }
 
-  componentWillUnmount() {
-    this.rootWrapper.removeEventListener('scroll', this.handleScroll)
-  }
-
-  rootWrapper = window.root || document.getElementById('root')
-
   handleSearchQueryInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     e.preventDefault()
 
     this.setState({ searchQuery: e.target.value })
-  }
-
-  handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const { isSticky } = this.state
-    const { scrollTop } = this.rootWrapper
-
-    if (!isSticky && scrollTop >= ASSETS_HEADER_BOTTOM_EDGE) {
-      this.setState({ isSticky: true })
-    }
-
-    if (isSticky && scrollTop < ASSETS_HEADER_BOTTOM_EDGE) {
-      this.setState({ isSticky: false })
-    }
   }
 
   handleEnterManageMode = () => {
@@ -166,6 +147,18 @@ class HomeViewComponent extends Component<Props, StateProps> {
         [address]: isChecked,
       },
     })
+  }
+
+  handleAssetsHeaderScroll = (isScrolled: boolean) => {
+    this.setState({ isAssetsHeaderScrolled: isScrolled })
+  }
+
+  getHeaderOffsetTop = (): number => {
+    if (!(this.headerRef && this.headerRef.current)) {
+      return HEADER_OFFSET_TOP_DEFAULT
+    }
+
+    return this.headerRef.current.offsetTop
   }
 
   renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => {
@@ -231,7 +224,7 @@ class HomeViewComponent extends Component<Props, StateProps> {
     const {
       searchQuery,
       isInManageMode,
-      isSticky,
+      isAssetsHeaderScrolled,
     }: StateProps = this.state
 
     const filteredItems: DigitalAssetWithBalance[] = searchAssets(
@@ -244,11 +237,15 @@ class HomeViewComponent extends Component<Props, StateProps> {
     return (
       <div className={styles.core}>
         <section className={styles.linksSection}>
-          <Header title={i18n._(
-            'Home.transfer.title',
-            null,
-            { defaults: 'Transfer' },
-          )}
+          <TitleHeader
+            title={i18n._(
+              'Home.transfer.title',
+              null,
+              { defaults: 'Transfer' },
+            )}
+            isScrolled={isAssetsHeaderScrolled ? false : null}
+            withMenu
+            isCentred
           />
           <nav className={styles.links}>
             <JLink
@@ -303,17 +300,16 @@ class HomeViewComponent extends Component<Props, StateProps> {
         </section>
         <section
           className={classNames(
-            styles.assetsSection,
+            styles.assets,
             isEmptyAssetsList && styles.empty,
           )}
         >
           <div
-            className={classNames(
-              styles.assetsHeaderWrapper,
-              isSticky && styles.sticky,
-            )}
+            ref={this.headerRef}
+            className={styles.header}
           >
-            <Header
+            <TitleHeader
+              onScroll={this.handleAssetsHeaderScroll}
               title={isInManageMode ? i18n._(
                 'Home.assets.title.manage',
                 null,
@@ -323,7 +319,9 @@ class HomeViewComponent extends Component<Props, StateProps> {
                 null,
                 { defaults: 'Assets' },
               )}
-              className={styles.assetsHeader}
+              offsetTop={this.getHeaderOffsetTop()}
+              withMenu
+              isCentred
             >
               <div className={styles.search}>
                 <SearchInput
@@ -381,7 +379,7 @@ class HomeViewComponent extends Component<Props, StateProps> {
                   </span>
                 </Button>
               )}
-            </Header>
+            </TitleHeader>
           </div>
           <div className={styles.content}>
             {isEmptyAssetsList

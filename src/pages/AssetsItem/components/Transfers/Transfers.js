@@ -4,9 +4,8 @@ import React, { PureComponent } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
-import { Header } from 'components/base'
 import { changeSearchInput } from 'store/modules/transactions'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
@@ -31,10 +30,12 @@ import {
 import {
   HistoryList,
   SearchInput,
+  TitleHeader,
   TransactionsFilter,
 } from 'components'
 
 type OwnProps = {|
+  +onHeaderScroll: (isScrolled: boolean) => void,
   +assetId: string,
 |}
 
@@ -42,7 +43,7 @@ type Props = {|
   ...OwnProps,
   +changeSearchInput: (value: string) => any,
   +items: TransactionWithNoteAndNames[],
-  +i18n: I18nType,
+  +i18n: I18n,
   +searchQuery: string,
   +currentBlock: number,
   +isLoading: boolean,
@@ -53,7 +54,11 @@ type StateProps = {|
   +isAsideScrolled: boolean,
 |}
 
+const HEADER_OFFSET_TOP_DEFAULT: number = 336
+
 class Transfers extends PureComponent<Props, StateProps> {
+  containerRef = React.createRef<HTMLDivElement>()
+
   static defaultProps = {
     currentBlock: 0,
     isLoading: false,
@@ -63,6 +68,14 @@ class Transfers extends PureComponent<Props, StateProps> {
     this.props.changeSearchInput(e.target.value)
   }
 
+  getOffsetTop = (): number => {
+    if (!(this.containerRef && this.containerRef.current)) {
+      return HEADER_OFFSET_TOP_DEFAULT
+    }
+
+    return this.containerRef.current.offsetTop
+  }
+
   render() {
     const {
       i18n,
@@ -70,16 +83,20 @@ class Transfers extends PureComponent<Props, StateProps> {
       searchQuery,
       currentBlock,
       isLoading,
+      onHeaderScroll: handleHeaderScroll,
     }: Props = this.props
 
     return (
-      <>
-        <Header
+      <div ref={this.containerRef}>
+        <TitleHeader
+          onScroll={handleHeaderScroll}
           title={i18n._(
             'AssetsItem.Transfers.title',
             null,
             { defaults: 'Transfers' },
           )}
+          offsetTop={this.getOffsetTop()}
+          isCentred
         >
           <SearchInput
             onChange={this.handleChangeSearchInput}
@@ -87,13 +104,13 @@ class Transfers extends PureComponent<Props, StateProps> {
           >
             <TransactionsFilter />
           </SearchInput>
-        </Header>
+        </TitleHeader>
         <HistoryList
           items={items}
           currentBlock={currentBlock}
           isLoading={isLoading}
         />
-      </>
+      </div>
     )
   }
 }
