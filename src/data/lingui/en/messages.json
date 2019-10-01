@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "Transfer validation failed. Chances are that if you proceed, transfer won't be wired, \nbut the blockchain fee will be charged. Are you sure you want to proceed?",
     "Send.ValidationFailed.title": "Validation failed",
     "Send.fee.description": "The app doesn’t charge you any fees.<0/>But you have to pay the blokchain fee to create a new transaction.",
-    "Send.title": "Send",
     "SetPassword.errors.hintEqualsPassword": "Password and hint should not be equal",
     "SetPassword.errors.hintRequired": "Password hint is required",
     "SetPassword.errors.passwordsNotMatch": "Password does not match confirmation",
@@ -413,5 +412,11 @@
     "WalletPasswordForm.Forgot.action.forgot": "Forgot?",
     "WalletPasswordForm.Forgot.description": "Unfortunately, Security Password can’t be restored. If you would like to reset Jwallet to initial state and drop your old Security Password, please contact Support.",
     "WalletPasswordForm.Forgot.title": "Forgot Security Password",
-    "HistoryList.Empty.text": "Looks like you haven't made any transactions yet."
+    "HistoryList.Empty.text": "Looks like you haven't made any transactions yet.",
+    "Send.StepOneForm.global.error.text": "Entered amount + fee exceeds balance. Please correct amount or gas price value.",
+    "Send.StepOneForm.global.error.title": "Insufficient funds",
+    "Send.StepOneForm.node.error.title": "Blockchain error",
+    "HistoryItemCancel.agreement.header": "Enter Security Password",
+    "Send.title": "Send",
+    "Send.StepOneForm.toast.network": "Network error, can't request gasPrice"
 }

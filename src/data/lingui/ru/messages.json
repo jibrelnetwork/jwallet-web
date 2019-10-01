@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "Проверка перевода не удалась. Скорее всего, если вы продолжите, перевод не пройдет, \nно вы заплатите комиссию за блокчейн. Вы уверены, что хотите продолжить?",
     "Send.ValidationFailed.title": "Не удалось подтвердить",
     "Send.fee.description": "Приложение не взимает с вас никакой платы.<0/>Но для создания новой транзакции вам придется заплатить комиссию за блокчейн.",
-    "Send.title": "Отправить",
     "SetPassword.errors.hintEqualsPassword": "Подсказка не может быть вашим паролем",
     "SetPassword.errors.hintRequired": "Требуется подсказка пароля",
     "SetPassword.errors.passwordsNotMatch": "Введенные пароли не совпадают",
@@ -413,5 +412,11 @@
     "WalletPasswordForm.Forgot.action.forgot": "Забыли?",
     "WalletPasswordForm.Forgot.description": "",
     "WalletPasswordForm.Forgot.title": "Забыл платежный пароль",
-    "HistoryList.Empty.text": "Похоже, вы пока не провели никаких транзакций."
+    "HistoryList.Empty.text": "Похоже, вы пока не провели никаких транзакций.",
+    "Send.StepOneForm.global.error.text": "",
+    "Send.StepOneForm.global.error.title": "",
+    "Send.StepOneForm.node.error.title": "",
+    "HistoryItemCancel.agreement.header": "",
+    "Send.title": "Отправить",
+    "Send.StepOneForm.toast.network": ""
 }

@@ -293,23 +293,27 @@ class HistoryItemCancel extends Component<Props, StateProps> {
     )
   }
 
-  renderPasswordStep = () => (
-    <div className={styles.core}>
-      <TitleHeader
-        onBack={this.handleBackFromPassword}
-        title={this.props.i18n._(
-          'HistoryItemCancel.agreement.header',
-          null,
-          { defaults: 'Enter Security Password' },
-        )}
-      />
-      <Form
-        onSubmit={this.handleSubmit}
-        render={this.renderPasswordForm}
-        initialValues={INITIAL_VALUES}
-      />
-    </div>
-  )
+  renderPasswordStep = () => {
+    const { i18n }: Props = this.props
+
+    return (
+      <div className={styles.core}>
+        <TitleHeader
+          onBack={this.handleBackFromPassword}
+          title={i18n._(
+            'HistoryItemCancel.agreement.header',
+            null,
+            { defaults: 'Enter Security Password' },
+          )}
+        />
+        <Form
+          onSubmit={this.handleSubmit}
+          render={this.renderPasswordForm}
+          initialValues={INITIAL_VALUES}
+        />
+      </div>
+    )
+  }
 
   renderErrorConnectionStep = () => {
     const { i18n }: Props = this.props
