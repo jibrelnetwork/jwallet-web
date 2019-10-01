@@ -338,7 +338,7 @@ function getErrorXPRVMessage(data: string): ?string {
     return i18n._(
       'WalletsImport.errors.xprvTooLong',
       { length: XKEY_LENGTH },
-      'BIP32 XPRV shouldn\'t be longer than { length } characters',
+      { defaults: 'BIP32 XPRV shouldn\'t be longer than { length } characters' },
     )
   } else if (!checkXkeyValid(data, 'prv')) {
     return i18n._(
@@ -370,7 +370,7 @@ function getErrorXPUBMessage(data: string): ?string {
     return i18n._(
       'WalletsImport.errors.xpubTooLong',
       { length: XKEY_LENGTH },
-      'BIP32 XPUB shouldn\'t be longer than { length } characters',
+      { defaults: 'BIP32 XPUB shouldn\'t be longer than { length } characters' },
     )
   } else if (!checkXkeyValid(data, 'pub')) {
     return i18n._(
@@ -410,7 +410,7 @@ function getErrorPrivateKeyMessage(data: string): ?string {
     return i18n._(
       'WalletsImport.errors.privateKeyTooLong',
       null,
-      'Ethereum private key shouldn\'t be longer than 64 characters',
+      { defaults: 'Ethereum private key shouldn\'t be longer than 64 characters' },
     )
   }
 
