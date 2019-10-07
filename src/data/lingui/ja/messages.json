@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "BIP39ニーモニックは英語である必要があります",
     "WalletsImport.errors.passwordInvalid": "無効なパスワードです",
     "WalletsImport.errors.privateKeyInvalid": "イーサリアム秘密鍵が正しくありません",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "あなたの入力を認識できません",
     "WalletsImport.errors.walletIsNotUnique": "{propertyName}を持つウォレットは既に存在します",
     "WalletsImport.errors.xprvInvalid": "BIP32 XPRVが正しくありません",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "BIP32 XPUBが正しくありません",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "Ethereumアドレスを入力しました",
     "WalletsImport.finalGuess.mnemonic": "{wordsLen}文字のBIP39ニーモニックを入力しました",
     "WalletsImport.finalGuess.privateKey": "Ethereum秘密鍵を入力しました",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "{type}情報",
     "AssetsItem.About.Links.label.site": "トークンウェブサイト",
     "AssetsItem.About.link.details": "詳細",
-    "AssetsItem.About.title": "概要",
     "AssetsItem.Transfers.title": "送金",
     "HistoryList.Item.title.cancel": "送金のキャンセル",
     "AssetsItem.About.Description.less": "詳細を隠す",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
     "Send.title": "送金",
-    "Send.StepOneForm.toast.network": ""
+    "Send.StepOneForm.toast.network": "",
+    "Wallets.title": "",
+    "WalletsImport.errors.privateKeyTooLong": "",
+    "WalletsImport.errors.xprvTooLong": "",
+    "WalletsImport.errors.xpubTooLong": ""
 }

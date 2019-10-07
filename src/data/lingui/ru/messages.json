@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "BIP39 мнемоника должна быть на английском языке",
     "WalletsImport.errors.passwordInvalid": "Неверный пароль",
     "WalletsImport.errors.privateKeyInvalid": "Неверный личный ключ Ethereum",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "Невозможно распознать ваш ввод",
     "WalletsImport.errors.walletIsNotUnique": "Кошелек с таким {propertyName} уже существует",
     "WalletsImport.errors.xprvInvalid": "Неверный BIP32 XPRV",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "Неверный BIP32 XPUB",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "Вы ввели адрес Ethereum",
     "WalletsImport.finalGuess.mnemonic": "Вы ввели мнемонику BIP39 из {wordsLen} слов",
     "WalletsImport.finalGuess.privateKey": "Вы ввели личный ключ Ethereum",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "",
     "AssetsItem.About.Links.label.site": "",
     "AssetsItem.About.link.details": "",
-    "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
     "Send.title": "Отправить",
-    "Send.StepOneForm.toast.network": ""
+    "Send.StepOneForm.toast.network": "",
+    "Wallets.title": "",
+    "WalletsImport.errors.privateKeyTooLong": "",
+    "WalletsImport.errors.xprvTooLong": "",
+    "WalletsImport.errors.xpubTooLong": ""
 }

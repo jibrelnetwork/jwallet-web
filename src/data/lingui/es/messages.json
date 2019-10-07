@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "La mnemotécnica BIP39 debe estar en inglés",
     "WalletsImport.errors.passwordInvalid": "Contraseña no válida",
     "WalletsImport.errors.privateKeyInvalid": "Clave privada Ethereum incorrecta",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "No se puede reconocer su entrada",
     "WalletsImport.errors.walletIsNotUnique": "Ya existe un monedero con el nombre {propertyName}",
     "WalletsImport.errors.xprvInvalid": "BIP32 XPRV incorrecto",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "BIP32 XPUB incorrecto",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "Ha introducido la dirección de Ethereum",
     "WalletsImport.finalGuess.mnemonic": "Ha introducido la mnemotécnica BIP39 de {wordsLen} palabras",
     "WalletsImport.finalGuess.privateKey": "Ha introducido la clave privada de Ethereum",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "",
     "AssetsItem.About.Links.label.site": "",
     "AssetsItem.About.link.details": "",
-    "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
     "Send.title": "Enviar",
-    "Send.StepOneForm.toast.network": ""
+    "Send.StepOneForm.toast.network": "",
+    "Wallets.title": "",
+    "WalletsImport.errors.privateKeyTooLong": "",
+    "WalletsImport.errors.xprvTooLong": "",
+    "WalletsImport.errors.xpubTooLong": ""
 }
