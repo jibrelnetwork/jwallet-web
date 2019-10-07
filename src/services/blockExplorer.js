@@ -8,6 +8,8 @@ import { isZero } from 'utils/numbers'
 import { getAddressChecksum } from 'utils/address'
 import * as type from 'utils/type'
 
+import { callAPI } from './callAPI'
+
 type BlockExplorerAPIParams = {|
   +action: 'txlist',
   +sort: SortDirection,
@@ -37,8 +39,6 @@ const ERC20_TRANSFER_ABI = [{
 
 abiDecoder.addABI(ERC20_TRANSFER_ABI)
 
-const { blockExplorerAPIOptions }: AppConfig = config
-
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
   '1': 'mainnet',
   '3': 'ropsten',
@@ -46,33 +46,7 @@ const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } =
   '4': 'rinkeby',
 }
 
-const BLOCKEXPLORER_API: string =
-  getENVVar('__BLOCKEXPLORER_API__') || __DEFAULT_BLOCKEXPLORER_API__
-
-function callApi(
-  params: BlockExplorerAPIParams,
-  networkId: NetworkId,
-  address: OwnerAddress,
-): Promise<any> {
-  const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
-
-  if (!apiSubdomain) {
-    throw new Error('Block Explorer Private Network Error')
-  }
-
-  const apiEnpoint: string = `${BLOCKEXPLORER_API}/v1/${apiSubdomain}/${address}/transactions`
-
-  const queryParams: string = Object
-    .keys(params)
-    .map(key => (key && (params[key] != null)) ? `${key}=${params[key]}` : '')
-    .join('&')
-    .replace(/&$/, '')
-
-  const requestInfo: RequestInfo = `${apiEnpoint}?${queryParams}`
-
-  return fetch(requestInfo, blockExplorerAPIOptions)
-    .then((response: Response): Promise<any> => response.json())
-}
+const EXPLORER_API: string = getENVVar('__BLOCKEXPLORER_API__') || __DEFAULT_BLOCKEXPLORER_API__
 
 function handleTransactionsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isObject(response)) {
@@ -265,12 +239,31 @@ function getETHTransactions(
   startblock: number,
   endblock: number,
 ): Promise<any> {
-  return callApi({
+  const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
+
+  if (!apiSubdomain) {
+    throw new Error('Block Explorer Private Network Error')
+  }
+
+  const apiEnpoint: string = `${EXPLORER_API}/v1/${apiSubdomain}/${owner}/transactions`
+
+  const params: BlockExplorerAPIParams = {
     endblock,
     startblock,
     sort: 'desc',
     action: 'txlist',
-  }, networkId, owner)
+  }
+
+  const queryParams: string = Object
+    .keys(params)
+    .map(key => (key && (params[key] != null)) ? `${key}=${params[key]}` : '')
+    .join('&')
+    .replace(/&$/, '')
+
+  return callAPI(
+    `${apiEnpoint}?${queryParams}`,
+    config.blockExplorerAPIOptions,
+  )
     .then(handleTransactionsResponse)
     .then(filterETHTransactions)
     .then(prepareETHTransactions)
