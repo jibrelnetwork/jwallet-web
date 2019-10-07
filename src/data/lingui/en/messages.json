@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "BIP39 mnemonic should be in English",
     "WalletsImport.errors.passwordInvalid": "Invalid password",
     "WalletsImport.errors.privateKeyInvalid": "Incorrect Ethereum private key",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "Unable to recognize your input",
     "WalletsImport.errors.walletIsNotUnique": "Wallet with such {propertyName} already exists",
     "WalletsImport.errors.xprvInvalid": "Incorrect BIP32 XPRV",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "Incorrect BIP32 XPUB",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "You have entered Ethereum address",
     "WalletsImport.finalGuess.mnemonic": "You have entered {wordsLen}-words BIP39 mnemonic",
     "WalletsImport.finalGuess.privateKey": "You have entered Ethereum private key",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "{type} Info",
     "AssetsItem.About.Links.label.site": "Token Website",
     "AssetsItem.About.link.details": "Details",
-    "AssetsItem.About.title": "About",
     "AssetsItem.Transfers.title": "Transfers",
     "HistoryList.Item.title.cancel": "Cancel transfer",
     "AssetsItem.About.Description.less": "Show less",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "Blockchain error",
     "HistoryItemCancel.agreement.header": "Enter Security Password",
     "Send.title": "Send",
-    "Send.StepOneForm.toast.network": "Network error, can't request gasPrice"
+    "Send.StepOneForm.toast.network": "Network error, can't request gasPrice",
+    "Wallets.title": "My Wallets",
+    "WalletsImport.errors.privateKeyTooLong": "Ethereum private key shouldn't be longer than 64 characters",
+    "WalletsImport.errors.xprvTooLong": "BIP32 XPRV shouldn't be longer than { length } characters",
+    "WalletsImport.errors.xpubTooLong": "BIP32 XPUB shouldn't be longer than { length } characters"
 }
