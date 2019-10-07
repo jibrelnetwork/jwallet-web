@@ -3,11 +3,10 @@
 .core {
   @include flex-column;
 
-  position: relative;
   min-height: 100%;
+  padding-top: $page-header-height;
 }
 
 .scrolled {
-  // Need to fix MenuLayout styles firstly
-  // box-shadow: $select-shadow;
+  box-shadow: $select-shadow;
 }

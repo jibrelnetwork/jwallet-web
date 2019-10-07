@@ -37,12 +37,12 @@ function generateQRCode(address: Address): void {
   })
 }
 
-export type Props = {|
+type Props = {|
   +address: Address,
 |}
 
 type StateProps = {|
-  isCopied: boolean,
+  +isCopied: boolean,
 |}
 
 class ReceiveAssetView extends PureComponent<Props, StateProps> {
@@ -82,9 +82,7 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
 
     return (
       <div className={style.core}>
-        <TitleHeader
-          title={i18n._('Receive.title', null, { defaults: 'Receive' })}
-        />
+        <TitleHeader title={i18n._('Receive.title', null, { defaults: 'Receive' })} />
         <div className={style.container}>
           <div className={style.qrbox}>
             <QRCode

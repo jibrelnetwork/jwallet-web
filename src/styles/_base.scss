@@ -23,8 +23,13 @@ $font: 'Open Sans', Arial, sans-serif;
 /**
  * Page Header
  */
-$page-header-height: 130px;
-$new-page-header-height: 112px; // FIXME: Rename it when $page-header-height property stay useless
+$page-header-height: 112px;
+
+/**
+ * Centred content
+ */
+$centred-content-width: 1120px;
+$centred-content-width-paddings: 1200px;
 
 /**
  * Menu Panel

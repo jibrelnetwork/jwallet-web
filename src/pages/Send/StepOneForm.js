@@ -21,8 +21,8 @@ import stylesOffsets from 'styles/offsets.m.scss'
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
-
 import { Button } from 'components/base'
+import { toastsPlugin } from 'store/plugins'
 import { GlobalFormError } from 'components'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -118,6 +118,11 @@ class StepOneForm extends PureComponent<Props, StateProps> {
       return false
     }
 
+    // skip, if it is just amount field validation error
+    if (toBigNumber(amountValue).gt(balanceETH)) {
+      return false
+    }
+
     const feeETH: BigNumber = toBigNumber(fromWeiToGWei(gasPriceValue)).times(FALLBACK_GAS_AMOUNT)
 
     return toBigNumber(amountValue).plus(feeETH).gt(balanceETH)
@@ -209,15 +214,13 @@ class StepOneForm extends PureComponent<Props, StateProps> {
     }
   }
 
-  requestGasPrice = async () => {
-    const { network } = this.props
-
+  requestGasPrice = async (): Promise<string> => {
     this.setState({
       isGasPriceLoading: true,
     })
 
     try {
-      const gasPrice = await web3.getGasPrice(network)
+      const gasPrice: BigNumber = await web3.getGasPrice(this.props.network)
 
       this.setState({
         isGasPriceLoading: false,
@@ -226,10 +229,16 @@ class StepOneForm extends PureComponent<Props, StateProps> {
       return toBigNumber(fromWeiToGWei(gasPrice))
         .toFormat(2, BigNumber.ROUND_FLOOR)
         .toString()
-    } catch (err) {
-      alert('#TODO: Fixme / Network error, can\'t request gasPrice')
+    } catch (error) {
+      const { i18n }: Props = this.props
 
-      return ''
+      toastsPlugin.showToast(i18n._(
+        'Send.StepOneForm.toast.network',
+        null,
+        { defaults: 'Network error, can\'t request gasPrice' },
+      ))
+
+      return '0'
     }
   }
 

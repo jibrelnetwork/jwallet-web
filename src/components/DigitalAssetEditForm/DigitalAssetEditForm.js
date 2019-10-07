@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -10,9 +10,10 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import { TitleHeader } from 'components'
+
 import {
   Button,
-  Header,
   JInputField,
 } from 'components/base'
 
@@ -21,7 +22,7 @@ import styles from './digitalAssetEditForm.m.scss'
 type Props = {|
   +submit: FormFields => Promise<?FormFields>,
   +initialValues: FormFields,
-  +i18n: I18nType,
+  +i18n: I18n,
   +isLoading: boolean,
   +isAddressEditable: boolean,
 |}
@@ -134,7 +135,7 @@ class DigitalAssetEditForm extends PureComponent<Props> {
 
     return (
       <div className={styles.core}>
-        <Header
+        <TitleHeader
           title={i18n._(
             'common.DigitalAssetEditForm.title',
             null,
