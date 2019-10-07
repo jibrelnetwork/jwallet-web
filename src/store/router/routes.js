@@ -63,11 +63,11 @@ export const routes: Array<{|
   name: 'ContactsItemAdd',
   hasMenu: true,
 }, {
-  path: '/contacts/edit/:contactId',
+  path: '/contacts/:contactId/edit',
   name: 'ContactsItemEdit',
   hasMenu: true,
 }, {
-  path: '/contacts/delete/:contactId',
+  path: '/contacts/:contactId/delete',
   name: 'ContactsItemDelete',
   hasMenu: false,
 }, {
