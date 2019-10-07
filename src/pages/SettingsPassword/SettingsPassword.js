@@ -11,15 +11,12 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import { JLink } from 'components/base'
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
 
 import {
-  JLink,
-  Header,
-} from 'components/base'
-
-import {
+  TitleHeader,
   UserActionInfo,
   NewPasswordForm,
   WalletPasswordForm,
@@ -218,7 +215,7 @@ class SettingsPasswordView extends Component<Props, StateProps> {
   render() {
     return (
       <div className={styles.core}>
-        <Header title={this.getTitle()} />
+        <TitleHeader title={this.getTitle()} />
         {this.renderCurrentStep()}
       </div>
     )

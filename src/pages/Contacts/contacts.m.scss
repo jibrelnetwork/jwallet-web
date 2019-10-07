@@ -1,9 +1,9 @@
 @import 'styles/mixins';
 
 .core {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
+
+  padding: $page-header-height 0;
 
   &.empty {
     height: 100%;
