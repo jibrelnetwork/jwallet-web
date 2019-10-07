@@ -3,8 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { useI18n } from 'app/hooks'
+import { type I18n } from '@lingui/core'
 
-import { SearchInput } from 'components'
 import { searchContacts } from 'utils/search'
 import { splitContactName } from 'utils/formatters'
 import { useInputValue } from 'utils/hooks/useInputValue'
@@ -14,14 +14,18 @@ import noResultImg from 'public/assets/pic_assets_112.svg'
 
 import offset from 'styles/offsets.m.scss'
 import buttonStyles from 'components/base/Button/button.m.scss'
+
+import {
+  SearchInput,
+  TitleHeader,
+} from 'components'
+
 import {
   JIcon,
   JLink,
-  Header,
 } from 'components/base'
 
-import style from './contacts.m.scss'
-
+import styles from './contacts.m.scss'
 import { ContactItem } from './components/ContactItem/ContactItem'
 
 export type Props = {|
@@ -52,11 +56,11 @@ function extractAlphabet(list: Favorite[]): { [string]: Favorite[] } {
 }
 
 function EmptyContacts() {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
-    <div className={style.center}>
-      <figure className={style.emptyContacts}>
+    <div className={styles.center}>
+      <figure className={styles.emptyContacts}>
         <img
           src={noContactsImg}
           className={offset.mb24}
@@ -76,11 +80,11 @@ function EmptyContacts() {
 }
 
 function NotFoundContacts() {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
-    <div className={style.center}>
-      <figure className={style.emptyContacts}>
+    <div className={styles.center}>
+      <figure className={styles.emptyContacts}>
         <img
           src={noResultImg}
           className={offset.mb24}
@@ -117,7 +121,7 @@ function ContactList({ alphabetList }: ContactListProps) {
     <ul className='__contacts-list'>
       {letters.map(k => (
         <li key={k}>
-          <div className={style.contactGroupTitle}>{k}</div>
+          <div className={styles.contactGroupTitle}>{k}</div>
           <ul>
             {alphabetList[k].map(item => (
               <li key={item.address}>
@@ -131,10 +135,8 @@ function ContactList({ alphabetList }: ContactListProps) {
   )
 }
 
-export function ContactsView({
-  list,
-}: Props) {
-  const i18n = useI18n()
+export function ContactsView({ list }: Props) {
+  const i18n: I18n = useI18n()
   const [searchQuery, { onChange: handleSearchChange }] = useInputValue()
 
   const contacts: Favorite[] = searchContacts(
@@ -154,9 +156,13 @@ export function ContactsView({
       : <ContactList alphabetList={alphabetList} />
 
   return (
-    <div className={classNames(style.core, (isEmpty || notFound) && style.empty)}>
-      <Header title={i18n._('Contacts.title', null, { defaults: 'Contacts' })}>
-        <div className={`${style.search} ${offset.mr24}`}>
+    <div className={classNames(styles.core, (isEmpty || notFound) && styles.empty)}>
+      <TitleHeader
+        title={i18n._('Contacts.title', null, { defaults: 'Contacts' })}
+        withMenu
+        isCentred
+      >
+        <div className={`${styles.search} ${offset.mr24}`}>
           {!isEmpty &&
             <SearchInput
               onChange={handleSearchChange}
@@ -167,7 +173,7 @@ export function ContactsView({
         <JLink
           href='/contacts/add'
           theme='button-additional-icon'
-          className={style.addContact}
+          className={styles.addContact}
         >
           <JIcon
             name='add-contact-use-fill'
@@ -177,7 +183,7 @@ export function ContactsView({
             {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
           </span>
         </JLink>
-      </Header>
+      </TitleHeader>
       {Component}
     </div>
   )

@@ -2,10 +2,12 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { type I18n } from '@lingui/core'
 import { actions as routerActions } from 'redux-router5'
-import { useI18n } from 'app/hooks'
 
+import { useI18n } from 'app/hooks'
 import { TitleHeader } from 'components'
+
 import {
   selectFavorite,
   selectFavoritesItems,
@@ -18,11 +20,11 @@ import {
   type FormValues,
 } from './components/ContactAddForm/ContactAddForm'
 
-import style from './contactsItemAdd.m.scss'
+import styles from './contactsItemAdd.m.scss'
 
 type OwnProps = {|
-  +address?: OwnerAddress,
   +name?: string,
+  +address?: OwnerAddress,
 |}
 
 type Props = {|
@@ -41,7 +43,7 @@ function ContactsItemAddView({
   checkContactExistsByAddress,
   checkContactExistsByName,
 }: Props) {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   const initialValues = {
     name,
@@ -49,7 +51,7 @@ function ContactsItemAddView({
   }
 
   return (
-    <div className={style.core}>
+    <div className={styles.core}>
       <TitleHeader
         title={i18n._(
           'ContactsItemAdd.title',

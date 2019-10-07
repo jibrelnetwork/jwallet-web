@@ -2,7 +2,6 @@
 
 import QRCode from './QRCode'
 import AssetBalance from './AssetBalance'
-import CloseableScreen from './CloseableScreen'
 import OverlayNotification from './OverlayNotification'
 
 export { Card } from './Card/Card'
@@ -18,6 +17,7 @@ export { PasswordInput } from './PasswordInput/PasswordInput'
 export { WalletActions } from './WalletActions/WalletActions'
 export { CopyIconButton } from './CopyIconButton/CopyIconButton'
 export { UserActionInfo } from './UserActionInfo/UserActionInfo'
+export { CloseableScreen } from './CloseableScreen/CloseableScreen'
 export { GlobalFormError } from './GlobalFormError/GlobalFormError'
 export { MnemonicOptions } from './MnemonicOptions/MnemonicOptions'
 export { NewPasswordForm } from './NewPasswordForm/NewPasswordForm'
@@ -27,6 +27,7 @@ export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { TransactionsFilter } from './TransactionsFilter/TransactionsFilter'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
+export { ContactsItemDetails } from './ContactsItemDetails/ContactsItemDetails'
 export { DigitalAssetAddForm } from './DigitalAssetAddForm/DigitalAssetAddForm'
 export { DigitalAssetEditForm } from './DigitalAssetEditForm/DigitalAssetEditForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
@@ -39,6 +40,5 @@ export { default as PopupButton } from './PopupButton'
 export {
   QRCode,
   AssetBalance,
-  CloseableScreen,
   OverlayNotification,
 }

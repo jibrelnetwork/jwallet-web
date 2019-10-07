@@ -1,6 +1,7 @@
-// @flow
+// @flow strict
 
 import { connect } from 'react-redux'
+
 import {
   values,
   sortBy,
@@ -14,15 +15,11 @@ import {
 } from './ContactsView'
 
 function mapStateToProps(state: AppState) {
-  const favorites = selectFavoritesItems(state)
-
-  const contactsList = sortBy(values(favorites), ['name', 'address'])
+  const contacts: Favorites = selectFavoritesItems(state)
 
   return {
-    list: contactsList,
+    list: sortBy(values(contacts), ['name', 'address']),
   }
 }
 
-export const Contacts = connect< Props, OwnPropsEmpty, _, _, _, _ >(
-  mapStateToProps,
-)(ContactsView)
+export const Contacts = connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps)(ContactsView)
