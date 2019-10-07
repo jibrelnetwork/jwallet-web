@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "BIP39 助记符应为英文",
     "WalletsImport.errors.passwordInvalid": "无效的密码",
     "WalletsImport.errors.privateKeyInvalid": "以太坊私钥不正确",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "无法识别您的输入",
     "WalletsImport.errors.walletIsNotUnique": "此类{propertyName}钱包已存在",
     "WalletsImport.errors.xprvInvalid": "BIP32 XPRV 不正确",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "BIP32 XPUB 不正确",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "您已输入以太坊地址",
     "WalletsImport.finalGuess.mnemonic": "您已输入{wordsLen} 字 BIP39 助记符",
     "WalletsImport.finalGuess.privateKey": "您已输入以太坊私钥",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "",
     "AssetsItem.About.Links.label.site": "",
     "AssetsItem.About.link.details": "",
-    "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
     "Send.title": "发送",
-    "Send.StepOneForm.toast.network": ""
+    "Send.StepOneForm.toast.network": "",
+    "Wallets.title": "",
+    "WalletsImport.errors.privateKeyTooLong": "",
+    "WalletsImport.errors.xprvTooLong": "",
+    "WalletsImport.errors.xpubTooLong": ""
 }
