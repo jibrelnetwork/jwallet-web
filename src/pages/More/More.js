@@ -61,7 +61,7 @@ export function More() {
         */}
         <JLink
           className={styles.item}
-          href='https://jibrel.zendesk.com/hc/en-us/requests/new'
+          href='https://jibrel.zendesk.com/hc/en-us/categories/360001530773-Jwallet-Web'
         >
           <Card
             title={i18n._(
