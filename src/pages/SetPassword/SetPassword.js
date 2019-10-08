@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import { StartLayout } from 'layouts'
 import { NewPasswordForm } from 'components'
+import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
 
 import {
@@ -63,6 +64,7 @@ class SetPassword extends Component<Props> {
     }: Props = this.props
 
     await submit(values, dispatch)
+    gaSendEvent('CreateAccount', 'SecurityPasswordSet')
   }
 
   render() {

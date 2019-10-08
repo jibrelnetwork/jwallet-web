@@ -4,10 +4,12 @@ import React, {
   Fragment,
   Component,
 } from 'react'
+
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import { StartLayout } from 'layouts'
+import { gaSendEvent } from 'utils/analytics'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
@@ -16,18 +18,18 @@ import {
   type WalletAction,
 } from 'pages/WalletsStart/constants'
 
-import walletsStartStyle from './walletsStart.m.scss'
+import styles from './walletsStart.m.scss'
 import { NewWalletButtons } from './components/NewWalletButtons/NewWalletButtons'
 
 type Props = {|
-  +i18n: I18nType,
+  +i18n: I18n,
 |}
 
 type StateProps = {|
   +action: ?WalletAction,
 |}
 
-class WalletsStartComponent extends Component<Props, StateProps> {
+class WalletsStartView extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -38,11 +40,20 @@ class WalletsStartComponent extends Component<Props, StateProps> {
 
   handleClick = (action?: ?WalletAction = null) => {
     this.setState({ action })
+
+    if (!action) {
+      return
+    }
+
+    gaSendEvent(
+      'NewWallet',
+      (action === ACTIONS.CREATE) ? 'CreateStarted' : 'ImportStarted',
+    )
   }
 
   render() {
-    const { action } = this.state
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
+    const { action }: StateProps = this.state
 
     /* eslint-disable react/no-danger */
     return (
@@ -53,7 +64,7 @@ class WalletsStartComponent extends Component<Props, StateProps> {
         {!action && (
           <Fragment>
             <h1
-              className={walletsStartStyle.title}
+              className={styles.title}
               dangerouslySetInnerHTML={{
                 __html: i18n._(
                   'WalletsStart.SelectScenario.title',
@@ -73,6 +84,4 @@ class WalletsStartComponent extends Component<Props, StateProps> {
   }
 }
 
-export const WalletsStart = withI18n()(
-  WalletsStartComponent,
-)
+export const WalletsStart = withI18n()(WalletsStartView)

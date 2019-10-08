@@ -5,6 +5,7 @@ import { i18n } from 'i18n/lingui'
 import { connect } from 'react-redux'
 
 import config from 'config'
+import { gaSendEvent } from 'utils/analytics'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
@@ -74,6 +75,7 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
     }, config.messageCopyTimeout)
 
     clipboard.copyText(this.props.address)
+    gaSendEvent('ReceiveAsset', 'AddressCopied')
   }
 
   render() {

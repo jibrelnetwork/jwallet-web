@@ -1,38 +1,34 @@
 // @flow strict
 
-import React, { PureComponent } from 'react'
 import ViewSlider from 'react-view-slider'
+import React, { PureComponent } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
-import { compose } from 'redux'
+import { type I18n } from '@lingui/core'
 
 import { StartLayout } from 'layouts'
+import { Button } from 'components/base'
+import { gaSendEvent } from 'utils/analytics'
 import { setIntroductionIsPassed } from 'store/modules/user'
-import {
-  Button,
-} from 'components/base'
 
+import slides from './data'
+import styles from './introduction.m.scss'
 import { Slide } from './components/Slide'
 import { SliderButton } from './components/SliderButton'
-import slides from './data'
 
-import IntroductionStyle from './introduction.m.scss'
-
-export type Props = {|
-  setIntroductionIsPassed: () => any,
-  +i18n: I18nType,
+type Props = {|
+  +i18n: I18n,
+  +setIntroductionIsPassed: () => any,
 |}
 
-type ComponentState = {|
+type StateProps = {|
   +activeId: number,
 |}
 
-const renderView = ({
-  index,
-}) => (
-  <div className={IntroductionStyle.slider}>
-    <div className={IntroductionStyle.slide}>
+const renderView = ({ index }) => (
+  <div className={styles.slider}>
+    <div className={styles.slide}>
       <Slide
         title={slides[index].title}
         descr={slides[index].descr}
@@ -43,7 +39,7 @@ const renderView = ({
   </div>
 )
 
-class IntroductionScreen extends PureComponent<Props, ComponentState> {
+class IntroductionScreen extends PureComponent<Props, StateProps> {
   state = {
     activeId: 0,
   }
@@ -54,27 +50,23 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
 
   handleGetStartedClick = () => {
     this.props.setIntroductionIsPassed()
+    gaSendEvent('CreateAccount', 'IntroductionPassed')
   }
 
   render() {
-    const {
-      activeId,
-    } = this.state
-
-    const {
-      i18n,
-    } = this.props
+    const { i18n }: Props = this.props
+    const { activeId }: StateProps = this.state
 
     return (
       <StartLayout className='__introduction'>
-        <div className={IntroductionStyle.wrapper}>
+        <div className={styles.wrapper}>
           <ViewSlider
             renderView={renderView}
             numViews={slides.length}
             activeView={activeId}
           />
         </div>
-        <div className={IntroductionStyle.paginations}>
+        <div className={styles.paginations}>
           {slides.map((slide, index) => (
             <SliderButton
               slideId={index}
@@ -85,7 +77,7 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
           ))}
         </div>
         <Button
-          className={`__get-started ${IntroductionStyle.button}`}
+          className={`__get-started ${styles.button}`}
           theme='general'
           onClick={this.handleGetStartedClick}
         >
@@ -106,7 +98,7 @@ const mapDispatchToProps = {
 
 export const Introduction = compose(
   withI18n(),
-  connect(
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
     null,
     mapDispatchToProps,
   ),
