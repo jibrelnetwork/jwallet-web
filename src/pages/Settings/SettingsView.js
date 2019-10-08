@@ -2,19 +2,18 @@
 
 import React from 'react'
 
-import { Card } from 'components'
+import { JLink } from 'components/base'
+import { useLanguage } from 'app/hooks'
+
+import {
+  Card,
+  TitleHeader,
+} from 'components'
 
 import {
   LANGUAGES,
   CURRENCIES,
 } from 'data'
-
-import {
-  JLink,
-  Header,
-} from 'components/base'
-
-import { useLanguage } from 'app/hooks'
 
 import styles from './settings.m.scss'
 
@@ -37,7 +36,11 @@ export function SettingsView({
 
   return (
     <div className={styles.core}>
-      <Header title={i18n._('Settings.title', null, { defaults: 'Settings' })} />
+      <TitleHeader
+        title={i18n._('Settings.title', null, { defaults: 'Settings' })}
+        withMenu
+        isCentred
+      />
       <div className={styles.cards}>
         <JLink
           className={styles.item}

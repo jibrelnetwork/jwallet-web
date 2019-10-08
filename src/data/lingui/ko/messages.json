@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "이체 유효성 검사가 실패했습니다. 계속 진행하면 블록체인 수수료가 부과되며, 이체는 실패할 가능성이 있습니다. 정말로 계속 진행하시겠습니까?",
     "Send.ValidationFailed.title": "유효성 검사 실패",
     "Send.fee.description": "앱의 사용은 무료입니다.<0/>하지만 새로운 트랜잭션을 생성하려면 블록체인 수수료를 지불해야 합니다.",
-    "Send.title": "보내기",
     "SetPassword.errors.hintEqualsPassword": "비밀번호와 힌트가 동일해서는 안 됩니다.",
     "SetPassword.errors.hintRequired": "비밀번호 힌트 필요",
     "SetPassword.errors.passwordsNotMatch": "재입력된 비밀번호가 일치하지 않습니다",
@@ -413,5 +412,11 @@
     "WalletPasswordForm.Forgot.action.forgot": "기억나지 않습니까?",
     "WalletPasswordForm.Forgot.description": "",
     "WalletPasswordForm.Forgot.title": "보안 비밀번호 잊어버림",
-    "HistoryList.Empty.text": "아직 아무런 트랜잭션 내역이 없습니다."
+    "HistoryList.Empty.text": "아직 아무런 트랜잭션 내역이 없습니다.",
+    "Send.StepOneForm.global.error.text": "",
+    "Send.StepOneForm.global.error.title": "",
+    "Send.StepOneForm.node.error.title": "",
+    "HistoryItemCancel.agreement.header": "",
+    "Send.title": "보내기",
+    "Send.StepOneForm.toast.network": ""
 }

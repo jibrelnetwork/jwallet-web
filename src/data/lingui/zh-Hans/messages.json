@@ -90,7 +90,6 @@
     "Send.ValidationFailed.description": "转账验证失败。如果继续，转账可能不会发送，\n但是仍可能被收取区块链费用。确定要继续吗？",
     "Send.ValidationFailed.title": "验证失败",
     "Send.fee.description": "应用程序不收取任何费用。<0/>但是您必须支付区块链费用来创建一个新的交易。",
-    "Send.title": "发送",
     "SetPassword.errors.hintEqualsPassword": "密码和提示不应相同",
     "SetPassword.errors.hintRequired": "密码提示是必需的",
     "SetPassword.errors.passwordsNotMatch": "密码与确认的输入不匹配",
@@ -413,5 +412,11 @@
     "WalletPasswordForm.Forgot.action.forgot": "忘记了？",
     "WalletPasswordForm.Forgot.description": "",
     "WalletPasswordForm.Forgot.title": "忘记安全密码",
-    "HistoryList.Empty.text": "看起来您尚未进行任何交易。"
+    "HistoryList.Empty.text": "看起来您尚未进行任何交易。",
+    "Send.StepOneForm.global.error.text": "",
+    "Send.StepOneForm.global.error.title": "",
+    "Send.StepOneForm.node.error.title": "",
+    "HistoryItemCancel.agreement.header": "",
+    "Send.title": "发送",
+    "Send.StepOneForm.toast.network": ""
 }

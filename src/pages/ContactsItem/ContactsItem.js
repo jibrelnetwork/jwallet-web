@@ -1,25 +1,39 @@
 // @flow strict
 
-import { connect } from 'react-redux'
+import React from 'react'
+import { type I18n } from '@lingui/core'
+
+import offset from 'styles/offsets.m.scss'
+import { useI18n } from 'app/hooks'
+import { JLink } from 'components/base'
 
 import {
-  type Props,
-  ContactsItemView,
-} from 'pages/ContactsItem/ContactsItemView'
+  TitleHeader,
+  ContactsItemDetails,
+} from 'components'
 
-type OwnProps = {|
-  +contactId: ContactId,
+import styles from './contactsItem.m.scss'
+
+type Props = {|
+  +contactId: Address,
 |}
 
-function mapStateToProps(state: AppState, { contactId }: OwnProps) {
-  // const hasTransaction = transactionsIndex(state)[itemId] !== undefined
+export function ContactsItem({ contactId }: Props) {
+  const i18n: I18n = useI18n()
 
-  // if (!hasTransaction) {
-  //   throw new PageNotFoundError()
-  // }
-
-  return { contactId }
+  return (
+    <div className={styles.core}>
+      <TitleHeader title='Contact' />
+      <ContactsItemDetails
+        contactId={contactId}
+        className={offset.mb16}
+      />
+      <JLink
+        href={`/send?to=${contactId}`}
+        theme='button-general'
+      >
+        {i18n._('ContactsItem.actions.send', null, { defaults: 'Send to Address' })}
+      </JLink>
+    </div>
+  )
 }
-
-export const ContactsItem =
-  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps)(ContactsItemView)

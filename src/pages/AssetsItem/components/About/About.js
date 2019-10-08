@@ -5,9 +5,10 @@ import classNames from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
+import { TitleHeader } from 'components'
 import { PageNotFoundError } from 'errors'
 import { formatAssetBalance } from 'utils/formatters'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
@@ -16,7 +17,6 @@ import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import {
   JIcon,
   JLink,
-  Header,
   JAssetSymbol,
 } from 'components/base'
 
@@ -26,11 +26,12 @@ import { Description } from './components/Description/Description'
 
 type OwnProps = {|
   +assetId: string,
+  +isHeaderScrolled: ?boolean,
 |}
 
 type Props = {|
   ...OwnProps,
-  +i18n: I18nType,
+  +i18n: I18n,
   +data: DigitalAsset,
   +assetBalance: ?string,
 |}
@@ -40,6 +41,7 @@ function About({
   data,
   assetId,
   assetBalance,
+  isHeaderScrolled,
 }: Props) {
   const {
     name,
@@ -59,12 +61,14 @@ function About({
 
   return (
     <div className={styles.core}>
-      <Header
+      <TitleHeader
         title={i18n._(
-          'AssetsItem.About.title',
+          'AssetsItemDetails.title',
           null,
-          { defaults: 'About' },
+          { defaults: 'Asset Details' },
         )}
+        isScrolled={isHeaderScrolled}
+        isCentred
       >
         <JLink
           href={`/assets/${assetId}/details`}
@@ -78,7 +82,7 @@ function About({
             {i18n._('AssetsItem.About.link.details', null, { defaults: 'Details' })}
           </span>
         </JLink>
-      </Header>
+      </TitleHeader>
       <div className={styles.card}>
         <JAssetSymbol
           symbol={symbol}

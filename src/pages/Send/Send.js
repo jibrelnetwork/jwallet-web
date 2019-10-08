@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   withI18n,
@@ -22,7 +22,6 @@ import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import {
   toBigNumber,
   fromGweiToWei,
-  // isValidNumeric,
 } from 'utils/numbers'
 
 import * as transaction from 'store/modules/transactions'
@@ -46,18 +45,18 @@ type OwnProps = {|
 
 type Props = {|
   ...OwnProps,
-  +network: Network,
-  +ownerAddress: OwnerAddress,
   +goHome: () => any,
   +openTransaction: (txHash: Hash) => any,
   +getAssetDecimals: (assetAddress: string) => number,
-  +i18n: I18nType,
   +addPendingTransaction: (
     networkId: string,
     ownerAddress: string,
     assetAddress: string,
     data: Transaction,
   ) => any,
+  +i18n: I18n,
+  +network: Network,
+  +ownerAddress: OwnerAddress,
 |}
 
 const STEPS = {
@@ -128,11 +127,13 @@ class SendAsset extends Component<Props, StateProps> {
       sendFormValues,
     }: StateProps = this.state
 
+    const { i18n }: Props = this.props
+
     return (
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleClose}
-          title={this.props.i18n._('Send.title', null, { defaults: 'Send' })}
+          title={i18n._('Send.title', null, { defaults: 'Send' })}
         />
         <ConnectedStepOneForm
           onSubmit={this.handleSendFormSubmit}
@@ -252,18 +253,19 @@ class SendAsset extends Component<Props, StateProps> {
   }
 
   renderPasswordStep = () => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     return (
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBackToSendForm}
-          title={i18n._('Send.PasswordStepForm.title', null,
-                        { defaults: 'Enter Security Password' })}
+          title={i18n._(
+            'Send.PasswordStepForm.title',
+            null,
+            { defaults: 'Enter Security Password' },
+          )}
         />
-        <ConnectedPasswordStepForm
-          onDecryptPrivateKey={this.handleDecryptPrivateKey}
-        />
+        <ConnectedPasswordStepForm onDecryptPrivateKey={this.handleDecryptPrivateKey} />
       </div>
     )
   }
@@ -274,10 +276,7 @@ class SendAsset extends Component<Props, StateProps> {
 
   renderValidationFailedStep = () => (
     <div className={styles.core}>
-      <TitleHeader
-        onBack={this.handleBackToSendForm}
-        title=''
-      />
+      <TitleHeader onBack={this.handleBackToSendForm} />
       <ValidationFailed
         onGoBackClick={this.handleBackToSendForm}
         onGoNextClick={this.handleValidationFailedNextClick}

@@ -1,6 +1,8 @@
-// @flow
+// @flow strict
 
 import React from 'react'
+import { type I18n } from '@lingui/core'
+
 import { useI18n } from 'app/hooks'
 
 import {
@@ -18,7 +20,7 @@ export type Props = {
   +isAddressLoading: boolean,
 }
 
-const AddAssetView = ({
+export const AddAssetView = ({
   openView,
   closeView,
   formFields,
@@ -27,7 +29,7 @@ const AddAssetView = ({
   submit,
   isAddressLoading,
 }: Props) => {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
     <CloseableScreen
@@ -55,5 +57,3 @@ const AddAssetView = ({
     </CloseableScreen>
   )
 }
-
-export default AddAssetView
