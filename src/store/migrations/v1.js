@@ -5,36 +5,37 @@ import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import * as type from 'utils/type'
 import * as encryption from 'utils/encryption'
 
-export function checkWalletsMigrationV1Needed(state: Object): boolean {
-  const walletsData: Object = state.wallets
+import {
+  getStoreData,
+  setStoreData,
+  initTransaction,
+  getStoreVersion,
+  setStoreVersion,
+  deleteStoreData,
+} from './db'
 
-  if (type.isVoid(walletsData) || !type.isObject(walletsData)) {
+const STORAGE_VERSION: number = 1
+const WALLETS_STORE_KEY: string = 'persist:jwallet-web-wallets'
+const PASSWORD_STORE_KEY: string = 'persist:jwallet-web-password'
+const TRANSACTIONS_STORE_KEY: string = 'persist:jwallet-web-transactions'
+
+export async function checkMigrationV1Needed(): Promise<boolean> {
+  try {
+    const currentVersion: number = await getStoreVersion()
+    const walletsStored: Object = await getStoreData(WALLETS_STORE_KEY)
+
+    const {
+      items,
+      internalKey,
+    }: Object = walletsStored
+
+    return (STORAGE_VERSION > currentVersion) && !!(internalKey || (items && items.length))
+  } catch (error) {
     return false
   }
-
-  const walletsPersist: Object = walletsData.persist
-
-  if (type.isVoid(walletsPersist) || !type.isObject(walletsPersist)) {
-    return false
-  }
-
-  const {
-    items,
-    version,
-  }: Object = walletsPersist
-
-  return (!version || (version < 1)) && items && items.length
 }
 
-async function getEmptyLatest(): Promise<WalletsPersist> {
-  return {
-    items: [],
-    activeWalletId: null,
-    version: 1,
-  }
-}
-
-function migrateWalletToV1WithPasswordV1(
+function migrateWalletToV1(
   item: any,
   internalKey: Uint8Array,
 ): ?WalletV1 {
@@ -141,27 +142,54 @@ function migrateWalletToV1WithPasswordV1(
   }
 }
 
-async function migrateWalletsToV1WithPasswordV1(
-  walletsPersist: Object,
-  passwordPersist: Object,
-  password: string,
-): Promise<WalletsPersistV1> {
+export async function migratePasswordToV1(walletsStored: Object): Promise<PasswordPersistV1> {
   const {
-    items,
-    activeWalletId,
-  }: Object = walletsPersist
-
-  const {
-    salt,
     internalKey,
-  }: Object = passwordPersist
+    passwordOptions,
+  }: Object = walletsStored
 
   if (
     type.isVoid(internalKey) ||
     !type.isObject(internalKey) ||
-    !type.isString(salt)
+    type.isVoid(passwordOptions) ||
+    !type.isObject(passwordOptions)
   ) {
-    return getEmptyLatest()
+    throw new TypeError('Inconsistent password data')
+  }
+
+  const {
+    salt,
+    passwordHint,
+  }: Object = passwordOptions
+
+  if (!type.isString(salt) || !type.isString(passwordHint)) {
+    throw new TypeError('Inconsistent password data')
+  }
+
+  return {
+    salt,
+    internalKey,
+    hint: passwordHint,
+  }
+}
+
+export async function migrateWalletsToV1(
+  password: string,
+  walletsStored: Object,
+  passwordPersist: PasswordPersistV1,
+): Promise<WalletsPersistV1> {
+  const {
+    items,
+    activeWalletId,
+  }: Object = walletsStored
+
+  const {
+    salt,
+    internalKey,
+  }: PasswordPersistV1 = passwordPersist
+
+  if (!internalKey) {
+    throw new Error('Inconsistent password data')
   }
 
   const derivedKey: Uint8Array = await encryption.deriveKeyFromPassword(
@@ -174,81 +202,31 @@ async function migrateWalletsToV1WithPasswordV1(
     derivedKey,
   )
 
-  const itemsNew: WalletV1[] = items.map((item: any): ?WalletV1 => migrateWalletToV1WithPasswordV1(
+  const itemsNew: WalletV1[] = items.map((item: any): ?WalletV1 => migrateWalletToV1(
     item,
     internalKeyDec,
   )).filter((item: ?WalletV1): boolean => !!item)
 
   return {
-    version: 1,
     items: itemsNew,
     activeWalletId: activeWalletId || itemsNew.length ? itemsNew[0].id : null,
   }
 }
 
-function migrateWalletsToV1(
-  walletsPersist: Object,
-  passwordPersist: Object,
-  password: string,
-): Promise<WalletsPersistV1> {
-  if (!passwordPersist.version) {
-    return getEmptyLatest()
-  }
+export async function migrateToV1(password: string): Promise<void> {
+  const walletsStored: Object = await getStoreData(WALLETS_STORE_KEY)
+  const passwordPersist: PasswordPersistV1 = await migratePasswordToV1(walletsStored)
 
-  switch (passwordPersist.version) {
-    case 1:
-      return migrateWalletsToV1WithPasswordV1(
-        walletsPersist,
-        passwordPersist,
-        password,
-      )
+  const walletsPersist: WalletsPersistV1 = await migrateWalletsToV1(
+    password,
+    walletsStored,
+    passwordPersist,
+  )
 
-    default:
-      return getEmptyLatest()
-  }
-}
+  const transaction: IDBTransaction = await initTransaction()
 
-export async function migrateWallets(
-  state: Object,
-  password: string,
-): Promise<WalletsPersist> {
-  const walletsData: Object = state.wallets
-
-  if (type.isVoid(walletsData) || !type.isObject(walletsData)) {
-    return getEmptyLatest()
-  }
-
-  const walletsPersist: Object = walletsData.persist
-
-  if (type.isVoid(walletsPersist) || !type.isObject(walletsPersist)) {
-    return getEmptyLatest()
-  }
-
-  const passwordData: Object = state.password
-
-  if (type.isVoid(passwordData) || !type.isObject(passwordData)) {
-    return getEmptyLatest()
-  }
-
-  const passwordPersist: Object = passwordData.persist
-
-  if (type.isVoid(passwordPersist) || !type.isObject(passwordPersist)) {
-    return getEmptyLatest()
-  }
-
-  if (!walletsPersist.version) {
-    return migrateWalletsToV1(
-      walletsPersist,
-      passwordPersist,
-      password,
-    )
-  }
-
-  switch (walletsPersist.version) {
-    case 1:
-      return walletsPersist
-
-    default:
-      return getEmptyLatest()
-  }
+  await deleteStoreData(TRANSACTIONS_STORE_KEY, transaction)
+  await setStoreData(walletsPersist, WALLETS_STORE_KEY, transaction)
+  await setStoreData(passwordPersist, PASSWORD_STORE_KEY, transaction)
+  await setStoreVersion(STORAGE_VERSION, transaction)
 }

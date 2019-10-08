@@ -29,7 +29,7 @@ const SCRYPT_PARAMS: ScryptParams = {
    * 2 ** 18 - complexity like geth
    * 2 ** 14 - recommended Scrypt complexity
    */
-  N: __DEV__ ? 2 ** 14 : 2 ** 18,
+  N: 2 ** 18,
   r: 8,
   p: 1,
 }

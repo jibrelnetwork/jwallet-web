@@ -99,7 +99,6 @@ const PASSWORD_SALT = '2e8twhOaJ8JU2rVaYwY4uq608gsvVLa7tp+HqihBzeI='
 
 export const PASSWORD = {
   v1: {
-    version: 1,
     hint: PASSWORD_HINT,
     salt: PASSWORD_SALT,
     internalKey: INTERNAL_KEY,
@@ -125,7 +124,6 @@ export const WALLETS = {
     items: WALLETS_BEFORE,
   },
   v1: {
-    version: 1,
     activeWalletId: WALLETS_BEFORE[0].id,
     items: [{
       ...WALLETS_BEFORE[0],

@@ -12,22 +12,13 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
-import { toastsPlugin } from 'store/plugins'
+import { migrate } from 'store/migrations'
 import { gaSendEvent } from 'utils/analytics'
 import { WalletPasswordForm } from 'components'
-import { migrateWallets } from 'store/migrations/wallets'
-import { migratePassword } from 'store/migrations/password'
-import { applyWalletsMigration } from 'store/modules/wallets'
-import { applyPasswordMigration } from 'store/modules/password'
 
 import styles from './walletsMigration.m.scss'
 
 type Props = {|
-  +dispatch: Function,
-  +migrateData: (
-    password: string,
-    dispatch: Function,
-  ) => Promise<?FormFields>,
   +i18n: I18n,
   +hint: string,
 |}
@@ -38,10 +29,7 @@ const INITIAL_VALUES: FormFields = {
 
 class WalletsMigration extends Component<Props> {
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
-    const {
-      dispatch,
-      i18n,
-    }: Props = this.props
+    const { i18n }: Props = this.props
 
     gaSendEvent(
       'MigrateWallets',
@@ -49,24 +37,19 @@ class WalletsMigration extends Component<Props> {
     )
 
     try {
-      const result = await this.props.migrateData(
-        values.password || '',
-        dispatch,
-      )
+      await migrate(values.password || '')
 
       gaSendEvent(
         'MigrateWallets',
         'WalletsMigrationSuccess',
       )
 
-      toastsPlugin.showToast(i18n._(
-        'WalletsMigration.toast',
-        null,
-        { defaults: 'Wallets data successfully updated' },
-      ))
+      window.location.reload()
 
-      return result
+      return null
     } catch (error) {
+      console.error(error)
+
       gaSendEvent(
         'MigrateWallets',
         'WalletsMigrationError',
@@ -118,35 +101,13 @@ class WalletsMigration extends Component<Props> {
   }
 }
 
-function migrateData(state: AppState) {
-  return async (
-    password: string,
-    dispatch: Function,
-  ): Promise<?FormFields> => {
-    const passwordData: PasswordPersist = await migratePassword(state)
-    dispatch(applyPasswordMigration(passwordData))
-
-    const walletsData: WalletsPersist = await migrateWallets(
-      {
-        ...state,
-        password: {
-          persist: passwordData,
-        },
-      },
-      password,
-    )
-
-    dispatch(applyWalletsMigration(walletsData))
-  }
-}
-
 function mapStateToProps(state: AppState) {
   const passwordVersion: number = state.password && state.password.persist
+    // $FlowFixMe
     ? state.password.persist.version
     : 0
 
   return {
-    migrateData: migrateData(state),
     hint: passwordVersion
       ? state.password.persist.hint
       // $FlowFixMe

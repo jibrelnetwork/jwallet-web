@@ -9,10 +9,9 @@ import { PageNotFoundError } from 'errors'
 import { routes } from 'store/router/routes'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import { checkMigrationV1Needed } from 'store/migrations/v1'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
-import { checkWalletsMigrationV1Needed } from 'store/migrations/wallets'
-import { checkPasswordMigrationV1Needed } from 'store/migrations/password'
 
 import {
   selectIntroductionValue,
@@ -29,7 +28,6 @@ type ApplicationError = 'PageNotFoundError' | 'UnexpectedError'
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
-  +isMigrationNeeded: boolean,
   +showNewWalletProcess: boolean,
   +isAllAgreementsChecked: boolean,
   +isAllFeaturesIntroduced: boolean,
@@ -38,6 +36,7 @@ type Props = {|
 type StateProps = {|
   +error: ?ApplicationError,
   +prevRouteName: ?string,
+  +isMigrationNeeded: ?boolean,
 |}
 
 function checkHasMenu(name): boolean {
@@ -68,13 +67,12 @@ class AppRouter extends Component<Props, StateProps> {
       // is used in state from props derivation logic
       // eslint-disable-next-line react/no-unused-state
       prevRouteName: null,
+      isMigrationNeeded: null,
     }
   }
 
   static getDerivedStateFromProps({ route }: Props, state: StateProps) {
-    const nextRouteName = (!route && !route.name) ?
-      constants.UNKNOWN_ROUTE :
-      route.name
+    const nextRouteName = (!route && !route.name) ? constants.UNKNOWN_ROUTE : route.name
 
     if (!state.prevRouteName) {
       return {
@@ -108,8 +106,19 @@ class AppRouter extends Component<Props, StateProps> {
     }
   }
 
+  async componentDidMount() {
+    this.setState({
+      isMigrationNeeded: await checkMigrationV1Needed(),
+    })
+  }
+
   render() {
-    switch (this.state.error) {
+    const {
+      error,
+      isMigrationNeeded,
+    }: StateProps = this.state
+
+    switch (error) {
       case 'PageNotFoundError':
         return <pages.NotFound />
 
@@ -122,11 +131,10 @@ class AppRouter extends Component<Props, StateProps> {
     const {
       route,
       hasPassword,
-      isMigrationNeeded,
       showNewWalletProcess,
       isAllAgreementsChecked,
       isAllFeaturesIntroduced,
-    } = this.props
+    }: Props = this.props
 
     const {
       name,
@@ -143,6 +151,10 @@ class AppRouter extends Component<Props, StateProps> {
 
     if (!isAllAgreementsChecked) {
       return <pages.AgreementsView />
+    }
+
+    if (isMigrationNeeded == null) {
+      return null
     }
 
     if (isMigrationNeeded) {
@@ -177,8 +189,6 @@ function mapStateToProps(state: AppState) {
   const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST, agreements)
     && isAgreementsConfirmed
   const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
-  const isWalletsMigrationNeeded: boolean = checkWalletsMigrationV1Needed(state)
-  const isPasswordMigrationNeeded: boolean = checkPasswordMigrationV1Needed(state)
 
   return {
     route,
@@ -188,7 +198,6 @@ function mapStateToProps(state: AppState) {
     showNewWalletProcess: !hasWallets &&
       (route.name !== 'WalletsCreate') &&
       (route.name !== 'WalletsImport'),
-    isMigrationNeeded: isPasswordMigrationNeeded || isWalletsMigrationNeeded,
   }
 }
 

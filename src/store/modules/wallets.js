@@ -3,7 +3,6 @@
 export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
 export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
 export const CHANGE_ACTIVE_ADDRESS = '@@wallets/CHANGE_ACTIVE_ADDRESS'
-export const APPLY_WALLETS_MIGRATION = '@@password/APPLY_WALLETS_MIGRATION'
 
 export function setWalletsItems(
   items: Wallets,
@@ -35,13 +34,6 @@ export function changeActiveAddress() {
   }
 }
 
-export function applyWalletsMigration(payload: WalletsPersist) {
-  return {
-    type: APPLY_WALLETS_MIGRATION,
-    payload,
-  }
-}
-
 export type WalletsAction =
   ExtractReturn<typeof setWalletsItems> |
   ExtractReturn<typeof setActiveWallet> |
@@ -51,7 +43,6 @@ const initialState: WalletsState = {
   persist: {
     items: [],
     activeWalletId: null,
-    version: 1,
   },
 }
 
@@ -76,12 +67,6 @@ function wallets(
           ...state.persist,
           activeWalletId: action.payload.activeWalletId,
         },
-      }
-
-    case APPLY_WALLETS_MIGRATION:
-      return {
-        ...state,
-        persist: action.payload,
       }
 
     default:

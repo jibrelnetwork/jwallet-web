@@ -79,7 +79,6 @@ declare type PasswordResult = {|
 declare type WalletsPersistV1 = {|
   +items: WalletV1[],
   +activeWalletId: ?WalletId,
-  +version: 1,
 |}
 
 declare type WalletsPersist = WalletsPersistV1
