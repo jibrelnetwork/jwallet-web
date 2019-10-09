@@ -2,23 +2,25 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import offset from 'styles/offsets.m.scss'
+import { ConfirmationBody } from 'components'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   Button,
   JLink,
 } from 'components/base'
-import { ConfirmationBody } from 'components'
 
-import offset from 'styles/offsets.m.scss'
-import style from './contactsItemDelete.m.scss'
+import styles from './contactsItemDelete.m.scss'
 
 export type Props = {|
+  goBack: () => any,
+  onDeleteContact: (address: OwnerAddress) => any,
+  i18n: I18n,
   name: string,
   address: OwnerAddress,
-  i18n: I18nType,
-  onDeleteContact: (address: OwnerAddress) => any,
-  goBack: () => any,
   /* :: +contactId: OwnerAddress, */
 |}
 
@@ -26,11 +28,17 @@ class ContactsItemDeleteViewComponent extends PureComponent<Props> {
   handleDeleteContactClick = () => {
     const {
       address,
-      onDeleteContact,
       goBack,
-    } = this.props
+      onDeleteContact,
+    }: Props = this.props
 
     onDeleteContact(address)
+
+    gaSendEvent(
+      'ManageContacts',
+      'ContactDeleted',
+    )
+
     goBack()
   }
 
@@ -39,11 +47,10 @@ class ContactsItemDeleteViewComponent extends PureComponent<Props> {
       i18n,
       name,
       address,
-
-    } = this.props
+    }: Props = this.props
 
     return (
-      <div className={style.core}>
+      <div className={styles.core}>
         <ConfirmationBody
           iconName='ic_delete_48-use-fill'
           iconColor='gray'
@@ -56,7 +63,7 @@ class ContactsItemDeleteViewComponent extends PureComponent<Props> {
           <span>{name}</span><br />
           <span>{address}</span>
         </ConfirmationBody>
-        <div className={style.actions}>
+        <div className={styles.actions}>
           <Button
             className={offset.mr32}
             theme='secondary-confirm'

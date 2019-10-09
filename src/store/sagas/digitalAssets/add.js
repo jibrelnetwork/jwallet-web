@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import Promise from 'bluebird'
 import { i18n } from 'i18n/lingui'
@@ -17,6 +17,7 @@ import {
 import web3 from 'services/web3'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
@@ -350,6 +351,11 @@ function* onAssetFormSumbit(): Saga<void> {
       null,
       { defaults: 'Asset added' },
     ))
+
+    gaSendEvent(
+      'ManageAssets',
+      'AssetAdded',
+    )
 
     yield put(blocks.syncRestart())
   }

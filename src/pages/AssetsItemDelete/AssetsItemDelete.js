@@ -5,9 +5,10 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 import { deleteCustomAsset } from 'store/modules/digitalAssets'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
 
@@ -26,7 +27,7 @@ type Props = {|
   ...OwnProps,
   +goHome: void => any,
   +handleRemove: (Address) => any,
-  +i18n: I18nType,
+  +i18n: I18n,
   +name: string,
   +symbol: string,
   +isFound: boolean,
@@ -64,6 +65,11 @@ class AssetsItemDelete extends Component<Props> {
       null,
       { defaults: 'Asset removed' },
     ))
+
+    gaSendEvent(
+      'ManageAssets',
+      'AssetDeleted',
+    )
 
     return null
   }

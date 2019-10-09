@@ -49,7 +49,11 @@ class AgreementsView extends PureComponent<Props> {
 
   handleAgreementsConfirmClick = () => {
     this.props.setAllAgreementsAreConfirmed(true)
-    gaSendEvent('CreateAccount', 'AgreementsConfirmed')
+
+    gaSendEvent(
+      'CreateAccount',
+      'AgreementsConfirmed',
+    )
   }
 
   componentDidMount = () => {

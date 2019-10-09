@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -31,7 +31,7 @@ import {
   WalletPasswordForm,
 } from 'components'
 
-import walletsImportStyle from './walletsImport.m.scss'
+import styles from './walletsImport.m.scss'
 
 import {
   getInfoDataMessage,
@@ -52,8 +52,8 @@ export type WalletsImportSubmitPayload = {|
 export type Props = {|
   onBack?: ?WalletsImportBackHandler,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
+  +i18n: I18n,
   +hint: string,
-  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -81,7 +81,7 @@ function getInitialValues(): FormFields {
   }
 }
 
-class WalletsImportViewComponent extends Component<Props, StateProps> {
+class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
   }
@@ -98,12 +98,15 @@ class WalletsImportViewComponent extends Component<Props, StateProps> {
     this.setState({ currentStep })
 
     if (currentStep === STEPS.PASSWORD) {
-      gaSendEvent('ImportWallet', 'DataEntered')
+      gaSendEvent(
+        'ImportWallet',
+        'DataEntered',
+      )
     }
   }
 
   getTitle = (): string => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     switch (this.state.currentStep) {
       case STEPS.DATA:
@@ -192,7 +195,8 @@ class WalletsImportViewComponent extends Component<Props, StateProps> {
     } = {},
     submitting: isSubmitting,
   }: FormRenderProps) => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
+
     const infoDataMessage: ?string = getInfoDataMessage(
       data,
       passphrase,
@@ -219,7 +223,7 @@ class WalletsImportViewComponent extends Component<Props, StateProps> {
     return (
       <form
         onSubmit={handleSubmit}
-        className={walletsImportStyle.form}
+        className={styles.form}
       >
         <Field
           component={JInputField}
@@ -295,7 +299,7 @@ class WalletsImportViewComponent extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={walletsImportStyle.core}>
+      <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
@@ -310,6 +314,5 @@ class WalletsImportViewComponent extends Component<Props, StateProps> {
   }
 }
 
-export const WalletsImportView = withI18n()(
-  WalletsImportViewComponent,
-)
+const WalletsImportViewEnhanced = withI18n()(WalletsImportView)
+export { WalletsImportViewEnhanced as WalletsImportView }

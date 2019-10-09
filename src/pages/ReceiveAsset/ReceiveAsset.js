@@ -75,7 +75,11 @@ class ReceiveAssetView extends PureComponent<Props, StateProps> {
     }, config.messageCopyTimeout)
 
     clipboard.copyText(this.props.address)
-    gaSendEvent('ReceiveAsset', 'AddressCopied')
+
+    gaSendEvent(
+      'ReceiveAsset',
+      'AddressCopied',
+    )
   }
 
   render() {

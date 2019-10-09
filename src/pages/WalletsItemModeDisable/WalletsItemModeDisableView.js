@@ -3,7 +3,7 @@
 import Promise from 'bluebird'
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -11,6 +11,7 @@ import {
 } from 'react-final-form'
 
 import { Button } from 'components/base'
+import { gaSendEvent } from 'utils/analytics'
 import { getAddressName } from 'utils/address'
 import { formatFiatBalance } from 'utils/formatters'
 import { type AddressPickerItem } from 'components/AddressPicker/AddressPicker'
@@ -29,7 +30,7 @@ import styles from './walletsItemModeDisable.m.scss'
 
 export type Props = {|
   +addressNames: AddressNames,
-  +i18n: I18nType,
+  +i18n: I18n,
   +walletId: string,
   +fiatCurrency: FiatCurrencyCode,
 |}
@@ -87,6 +88,11 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
       null,
       { defaults: 'Multi-address Mode disabled.' },
     ))
+
+    gaSendEvent(
+      'ManageWallet',
+      'MultiAddressModeDisabled',
+    )
   }
 
   handleClick = (address: string, addressIndex: number) => {

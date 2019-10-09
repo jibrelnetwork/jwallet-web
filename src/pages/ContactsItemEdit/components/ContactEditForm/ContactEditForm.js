@@ -2,7 +2,10 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import offset from 'styles/offsets.m.scss'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   Form,
@@ -15,8 +18,7 @@ import {
   JInputField,
 } from 'components/base'
 
-import offset from 'styles/offsets.m.scss'
-import style from './contactEditForm.m.scss'
+import styles from './contactEditForm.m.scss'
 
 export type FormValues = {|
   address: string,
@@ -25,20 +27,20 @@ export type FormValues = {|
 |}
 
 export type Props = {|
-  +initialValues: FormValues,
-  +i18n: I18nType,
   +onEditFinish: (contact: FormValues) => any,
   +onDelete: (address: OwnerAddress) => any,
   +checkContactExistsByName: (name: string, address: OwnerAddress) => boolean,
   +goBack: () => any,
+  +i18n: I18n,
+  +initialValues: FormValues,
 |}
 
 class ContactEditFormComponent extends PureComponent<Props> {
   validate = (values: FormValues) => {
     const {
-      checkContactExistsByName,
       i18n,
-    } = this.props
+      checkContactExistsByName,
+    }: Props = this.props
 
     const {
       name,
@@ -60,6 +62,12 @@ class ContactEditFormComponent extends PureComponent<Props> {
 
   handleSubmit = (values: FormValues) => {
     this.props.onEditFinish(values)
+
+    gaSendEvent(
+      'ManageContacts',
+      'ContactUpdated',
+    )
+
     this.props.goBack()
   }
 
@@ -71,7 +79,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
     const {
       i18n,
       initialValues,
-    } = this.props
+    }: Props = this.props
 
     return (
       <Form
@@ -82,7 +90,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
-            className={`${style.form} ${offset.mb16}`}
+            className={`${styles.form} ${offset.mb16}`}
           >
             <Field
               component={JInputField}

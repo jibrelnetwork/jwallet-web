@@ -2,7 +2,11 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import offset from 'styles/offsets.m.scss'
+import { gaSendEvent } from 'utils/analytics'
+
 import {
   checkAddressValid,
   getAddressChecksum,
@@ -19,8 +23,7 @@ import {
   JInputField,
 } from 'components/base'
 
-import offset from 'styles/offsets.m.scss'
-import style from './contactAddForm.m.scss'
+import styles from './contactAddForm.m.scss'
 
 export type FormValues = {|
   address: string,
@@ -29,12 +32,12 @@ export type FormValues = {|
 |}
 
 export type Props = {|
-  +initialValues: FormValues,
-  +i18n: I18nType,
   +checkContactExistsByAddress: (address: OwnerAddress) => boolean,
   +checkContactExistsByName: (name: string, contcactId: string) => boolean,
   +addContact: (contact: FormValues) => any,
   +goBack: () => any,
+  +i18n: I18n,
+  +initialValues: FormValues,
 |}
 
 class ContactAddFormComponent extends PureComponent<Props> {
@@ -43,12 +46,12 @@ class ContactAddFormComponent extends PureComponent<Props> {
       i18n,
       checkContactExistsByAddress,
       checkContactExistsByName,
-    } = this.props
+    }: Props = this.props
 
     const {
       name,
       address,
-    } = values
+    }: FormValues = values
 
     if (!checkAddressValid(address)) {
       return {
@@ -91,6 +94,11 @@ class ContactAddFormComponent extends PureComponent<Props> {
       address: addressWithChecksum,
     })
 
+    gaSendEvent(
+      'ManageContacts',
+      'ContactAdded',
+    )
+
     this.props.goBack()
   }
 
@@ -98,7 +106,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
     const {
       i18n,
       initialValues,
-    } = this.props
+    }: Props = this.props
 
     const { address } = initialValues
 
@@ -111,7 +119,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
-            className={`${style.form} ${offset.mb16}`}
+            className={`${styles.form} ${offset.mb16}`}
           >
             <Field
               component={JInputField}

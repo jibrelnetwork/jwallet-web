@@ -2,12 +2,13 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import { sanitizeName } from 'utils/wallets'
+import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
@@ -30,15 +31,16 @@ import { AddressChooser } from './components/AddressChooser'
 
 type OwnProps = {|
   +onActiveAddressChooser: (id: ?WalletId) => any,
+  +i18n: I18n,
   +id: WalletId,
   +activeAddressChooserId: ?WalletId,
   +isActive: boolean,
-  +i18n: I18nType,
 |}
 
 type Props = {|
   ...OwnProps,
   +setActiveWallet: (WalletId) => void,
+  +i18n: I18n,
   +name: string,
   +addressIndex: ?number,
   +addressName: string,
@@ -47,7 +49,6 @@ type Props = {|
   +derivationIndex: number,
   +isSimplified: boolean,
   +isMultiAddress: boolean,
-  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -105,6 +106,11 @@ class WalletCard extends Component<Props, StateProps> {
 
   handleActivateRename = () => {
     this.setState({ isRenameActive: true })
+
+    gaSendEvent(
+      'ManageWallet',
+      'RenameStarted',
+    )
   }
 
   handleRenameFocus = () => {
@@ -136,6 +142,11 @@ class WalletCard extends Component<Props, StateProps> {
     walletsPlugin.updateWallet(this.props.id, {
       name: newName,
     })
+
+    gaSendEvent(
+      'ManageWallet',
+      'RenameFinished',
+    )
   }
 
   handleCloseAddressChooser = (e: Event) => {
@@ -148,6 +159,7 @@ class WalletCard extends Component<Props, StateProps> {
       id,
       name,
       type,
+      i18n,
       addressName,
       addressIndex,
       derivationIndex,
@@ -155,7 +167,6 @@ class WalletCard extends Component<Props, StateProps> {
       isActive,
       isSimplified,
       isMultiAddress,
-      i18n,
     }: Props = this.props
 
     const {

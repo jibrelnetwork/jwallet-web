@@ -121,7 +121,10 @@ class SendAsset extends Component<Props, StateProps> {
         : STEPS.SEND_CONFIRM,
     })
 
-    gaSendEvent('SendAsset', isValidationFailed ? 'ValidationFailed' : 'FormCompleted')
+    gaSendEvent(
+      'SendAsset',
+      isValidationFailed ? 'ValidationFailed' : 'FormCompleted',
+    )
   }
 
   renderSendFormStep = () => {
@@ -208,7 +211,10 @@ class SendAsset extends Component<Props, StateProps> {
         sendTransactionPayload,
       )
 
-      gaSendEvent('SendAsset', 'TransactionSent')
+      gaSendEvent(
+        'SendAsset',
+        'TransactionSent',
+      )
 
       addPendingTransaction(
         networkId,
@@ -246,7 +252,11 @@ class SendAsset extends Component<Props, StateProps> {
 
       if (isNetworkError) {
         this.setState({ currentStep: STEPS.ERROR })
-        gaSendEvent('SendAsset', 'NetworkError')
+
+        gaSendEvent(
+          'SendAsset',
+          'NetworkError',
+        )
 
         return
       }
@@ -256,7 +266,10 @@ class SendAsset extends Component<Props, StateProps> {
         currentStep: STEPS.SEND_FORM,
       })
 
-      gaSendEvent('SendAsset', 'BlockchainError')
+      gaSendEvent(
+        'SendAsset',
+        'BlockchainError',
+      )
     }
   }
 

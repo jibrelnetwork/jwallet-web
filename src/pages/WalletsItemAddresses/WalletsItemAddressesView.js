@@ -2,9 +2,10 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
+import { gaSendEvent } from 'utils/analytics'
 import { formatFiatBalance } from 'utils/formatters'
 
 import {
@@ -26,12 +27,12 @@ import styles from './walletsItemAddresses.m.scss'
 import { WalletAddressCard } from './components/WalletAddressCard/WalletAddressCard'
 
 export type Props = {|
-  +walletId: string,
+  +i18n: I18n,
   +name: string,
+  +walletId: string,
   +type: WalletCustomType,
   +fiatCurrency: FiatCurrencyCode,
   +derivationIndex: number,
-  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -108,6 +109,11 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
       null,
       { defaults: 'Address Added.' },
     ))
+
+    gaSendEvent(
+      'ManageWallet',
+      'AddressAdded',
+    )
   }
 
   render() {

@@ -63,8 +63,15 @@ class SetPassword extends Component<Props> {
       dispatch,
     }: Props = this.props
 
-    await submit(values, dispatch)
-    gaSendEvent('CreateAccount', 'SecurityPasswordSet')
+    await submit(
+      values,
+      dispatch,
+    )
+
+    gaSendEvent(
+      'CreateAccount',
+      'SecurityPasswordSet',
+    )
   }
 
   render() {

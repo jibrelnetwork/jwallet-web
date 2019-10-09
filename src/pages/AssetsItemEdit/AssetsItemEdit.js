@@ -5,10 +5,11 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import { PageNotFoundError } from 'errors'
 import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 import { DigitalAssetEditForm } from 'components'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
 
@@ -27,7 +28,7 @@ type Props = {|
     string,
     number,
   ) => any,
-  +i18n: I18nType,
+  +i18n: I18n,
   +initialValues: FormFields,
 |}
 
@@ -91,6 +92,11 @@ class AssetsItemEdit extends PureComponent<Props> {
       null,
       { defaults: 'Asset updated' },
     ))
+
+    gaSendEvent(
+      'ManageAssets',
+      'AssetUpdated',
+    )
 
     goHome()
 

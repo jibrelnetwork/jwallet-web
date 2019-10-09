@@ -50,7 +50,11 @@ class IntroductionScreen extends PureComponent<Props, StateProps> {
 
   handleGetStartedClick = () => {
     this.props.setIntroductionIsPassed()
-    gaSendEvent('CreateAccount', 'IntroductionPassed')
+
+    gaSendEvent(
+      'CreateAccount',
+      'IntroductionPassed',
+    )
   }
 
   render() {
