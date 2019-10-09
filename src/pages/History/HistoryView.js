@@ -79,7 +79,6 @@ export class HistoryView extends PureComponent<Props, StateProps> {
           )}
           isScrolled={isListScrolled || isAsideScrolled}
           withMenu
-          isCentred
         >
           <SearchInput
             onChange={this.handleChangeSearchInput}

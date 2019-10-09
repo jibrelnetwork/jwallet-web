@@ -160,7 +160,6 @@ export function ContactsView({ list }: Props) {
       <TitleHeader
         title={i18n._('Contacts.title', null, { defaults: 'Contacts' })}
         withMenu
-        isCentred
       >
         <div className={`${styles.search} ${offset.mr24}`}>
           {!isEmpty &&

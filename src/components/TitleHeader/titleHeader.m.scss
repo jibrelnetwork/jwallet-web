@@ -4,9 +4,11 @@
 .content {
   @include flex-row;
 
+  max-width: $centred-content-width-paddings + 152px * 2;
+  padding: 48px 202px 30px 192px;
+  margin: 0 auto;
   flex-grow: 1;
   align-items: center;
-  padding: 42px 202px 30px 192px;
 }
 
 .back {
@@ -69,13 +71,18 @@
 
   &.menu {
     padding-left: 304px;
+
+    .content {
+      margin: 0 auto;
+      padding: 48px 40px 30px 40px;
+    }
   }
 
   &.static {
     position: static;
 
     .content {
-      padding: 42px 0 30px 0;
+      padding: 48px 0 30px 0;
     }
   }
 
@@ -84,37 +91,13 @@
     box-shadow: $select-shadow;
     background-color: $pale-grey;
   }
-
-  &.centred .content {
-    max-width: $centred-content-width-paddings;
-    margin: 0 auto;
-    padding: 42px 40px 30px 40px;
-
-    .title {
-      max-width: initial;
-    }
-  }
 }
 
-@media (max-width: 1024px) {
-  .aside {
-    margin: 0 42px 0 auto;
-  }
-}
-
-@media (max-width: 850px) {
-  .title {
-    max-width: 500px;
-    margin-left: 72px;
-  }
-
-  .aside {
-    margin: 0 16px 0 auto;
-  }
-
-  .action {
-    &:not(:last-child) {
-      margin-right: 11px;
+@media (min-width: 1500px) {
+  .core.menu {
+    .content {
+      max-width: 1120px;
+      padding: 48px 0 30px 0;
     }
   }
 }

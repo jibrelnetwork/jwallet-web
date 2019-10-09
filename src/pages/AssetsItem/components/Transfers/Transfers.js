@@ -96,7 +96,6 @@ class Transfers extends PureComponent<Props, StateProps> {
             { defaults: 'Transfers' },
           )}
           offsetTop={this.getOffsetTop()}
-          isCentred
         >
           <SearchInput
             onChange={this.handleChangeSearchInput}
