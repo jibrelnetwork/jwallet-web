@@ -282,7 +282,6 @@ class HomeView extends Component<Props, StateProps> {
             )}
             isScrolled={isAssetsHeaderScrolled ? false : null}
             withMenu
-            isCentred
           />
           <nav className={styles.links}>
             <JLink
@@ -361,7 +360,6 @@ class HomeView extends Component<Props, StateProps> {
               )}
               offsetTop={this.getHeaderOffsetTop()}
               withMenu
-              isCentred
             >
               <div className={styles.search}>
                 <SearchInput

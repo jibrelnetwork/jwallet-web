@@ -39,7 +39,6 @@ export function SettingsView({
       <TitleHeader
         title={i18n._('Settings.title', null, { defaults: 'Settings' })}
         withMenu
-        isCentred
       />
       <div className={styles.cards}>
         <JLink
