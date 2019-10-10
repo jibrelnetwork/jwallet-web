@@ -353,8 +353,9 @@ function* onAssetFormSumbit(): Saga<void> {
     ))
 
     gaSendEvent(
-      'ManageAssets',
-      'AssetAdded',
+      'AssetManager',
+      'AddedCustomAsset',
+      checksumAddres,
     )
 
     yield put(blocks.syncRestart())

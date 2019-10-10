@@ -95,8 +95,8 @@ class ContactAddFormComponent extends PureComponent<Props> {
     })
 
     gaSendEvent(
-      'ManageContacts',
-      'ContactAdded',
+      'ContactManager',
+      'AddedNewContact',
     )
 
     this.props.goBack()

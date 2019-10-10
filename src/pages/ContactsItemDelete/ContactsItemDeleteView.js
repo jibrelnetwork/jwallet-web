@@ -35,7 +35,7 @@ class ContactsItemDeleteViewComponent extends PureComponent<Props> {
     onDeleteContact(address)
 
     gaSendEvent(
-      'ManageContacts',
+      'ContactManager',
       'ContactDeleted',
     )
 

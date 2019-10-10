@@ -67,7 +67,7 @@ class AssetsItemDelete extends Component<Props> {
     ))
 
     gaSendEvent(
-      'ManageAssets',
+      'AssetManager',
       'AssetDeleted',
     )
 

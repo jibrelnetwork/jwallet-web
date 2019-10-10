@@ -94,7 +94,7 @@ class AssetsItemEdit extends PureComponent<Props> {
     ))
 
     gaSendEvent(
-      'ManageAssets',
+      'AssetManager',
       'AssetUpdated',
     )
 

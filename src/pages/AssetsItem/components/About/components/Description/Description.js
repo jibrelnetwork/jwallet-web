@@ -54,7 +54,7 @@ class Description extends Component<Props, StateProps> {
 
     if (!isOpened) {
       gaSendEvent(
-        'ManageAssets',
+        'AssetManager',
         'AssetDescriptionDisplayed',
       )
     }

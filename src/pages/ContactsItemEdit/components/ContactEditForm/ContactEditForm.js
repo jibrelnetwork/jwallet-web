@@ -64,7 +64,7 @@ class ContactEditFormComponent extends PureComponent<Props> {
     this.props.onEditFinish(values)
 
     gaSendEvent(
-      'ManageContacts',
+      'ContactManager',
       'ContactUpdated',
     )
 

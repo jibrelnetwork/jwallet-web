@@ -110,7 +110,7 @@ class HomeView extends Component<Props, StateProps> {
     })
 
     gaSendEvent(
-      'ManageAssets',
+      'AssetManager',
       'ManageModeEnabled',
     )
   }
@@ -145,7 +145,7 @@ class HomeView extends Component<Props, StateProps> {
     })
 
     gaSendEvent(
-      'ManageAssets',
+      'AssetManager',
       'ManageModeDisabled',
     )
   }
@@ -157,10 +157,37 @@ class HomeView extends Component<Props, StateProps> {
         [address]: isChecked,
       },
     })
+
+    gaSendEvent(
+      'AssetManager',
+      isChecked ? 'TurnOnAsset' : 'TurnOffAsset',
+      address,
+    )
   }
 
   handleAssetsHeaderScroll = (isScrolled: boolean) => {
     this.setState({ isAssetsHeaderScrolled: isScrolled })
+  }
+
+  handleSendClick = () => {
+    gaSendEvent(
+      'SendAssets',
+      'StartedSend',
+    )
+  }
+
+  handleReceiveClick = () => {
+    gaSendEvent(
+      'ReceiveAssets',
+      'StartedReceive',
+    )
+  }
+
+  handleExchangeClick = () => {
+    gaSendEvent(
+      'ExchangeAssets',
+      'StartedExchange',
+    )
   }
 
   getHeaderOffsetTop = (): number => {
@@ -259,6 +286,7 @@ class HomeView extends Component<Props, StateProps> {
           />
           <nav className={styles.links}>
             <JLink
+              onClick={this.handleSendClick}
               className={styles.link}
               href='/send'
             >
@@ -275,6 +303,7 @@ class HomeView extends Component<Props, StateProps> {
               )}
             </JLink>
             <JLink
+              onClick={this.handleReceiveClick}
               className={styles.link}
               href='/receive'
             >
@@ -291,6 +320,7 @@ class HomeView extends Component<Props, StateProps> {
               )}
             </JLink>
             <JLink
+              onClick={this.handleExchangeClick}
               className={styles.link}
               href={JCASH_UTM_URL}
             >
