@@ -30,7 +30,6 @@ export function More() {
           { defaults: 'More' },
         )}
         withMenu
-        isCentred
       />
       <div className={styles.cards}>
         {/*

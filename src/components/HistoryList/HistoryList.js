@@ -27,6 +27,7 @@ type OwnProps = {|
   +items: TransactionWithNoteAndNames[],
   +currentBlock: number,
   +isLoading: boolean,
+  +withFixedHeight?: boolean,
   +withDetailsPanel?: boolean,
 |}
 
@@ -46,6 +47,7 @@ class HistoryList extends Component<Props, StateProps> {
     onListScroll: undefined,
     onAsideScroll: undefined,
     isLoading: false,
+    withFixedHeight: false,
     withDetailsPanel: false,
   }
 
@@ -63,13 +65,15 @@ class HistoryList extends Component<Props, StateProps> {
       notes,
       currentBlock,
       isLoading,
+      withDetailsPanel,
     }: Props = this.props
 
     if (
       notes !== nextProps.notes ||
       isLoading !== nextProps.isLoading ||
       items.length !== nextProps.items.length ||
-      currentBlock !== nextProps.currentBlock
+      currentBlock !== nextProps.currentBlock ||
+      withDetailsPanel !== nextProps.withDetailsPanel
     ) {
       return true
     }
@@ -117,6 +121,7 @@ class HistoryList extends Component<Props, StateProps> {
       digitalAssets,
       ownerAddress,
       isLoading,
+      withFixedHeight,
       withDetailsPanel,
     }: Props = this.props
 
@@ -135,7 +140,7 @@ class HistoryList extends Component<Props, StateProps> {
         className={classNames(
           styles.core,
           activeItemKeys && styles.active,
-          withDetailsPanel && styles.details,
+          withFixedHeight && styles.height,
         )}
       >
         <div

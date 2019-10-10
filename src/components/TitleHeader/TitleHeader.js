@@ -18,7 +18,6 @@ type Props = {|
   +className: ?string,
   +offsetTop: number,
   +withMenu: boolean,
-  +isCentred: boolean,
   +isScrolled: ?boolean,
 |}
 
@@ -47,7 +46,6 @@ export class TitleHeader extends Component<Props, StateProps> {
     className: null,
     offsetTop: 0,
     withMenu: false,
-    isCentred: false,
     isScrolled: null,
   }
 
@@ -128,7 +126,6 @@ export class TitleHeader extends Component<Props, StateProps> {
       className,
       offsetTop,
       withMenu,
-      isCentred,
     }: Props = this.props
 
     const { isScrolled }: StateProps = this.state
@@ -143,7 +140,6 @@ export class TitleHeader extends Component<Props, StateProps> {
           !isAbsolute && styles.static,
           isScrolled && styles.scrolled,
           isAbsolute && withMenu && styles.menu,
-          isAbsolute && isCentred && styles.centred,
         )}
         style={{ top: isScrolled ? 0 : offsetTop }}
       >
