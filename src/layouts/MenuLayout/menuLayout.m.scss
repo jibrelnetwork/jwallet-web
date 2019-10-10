@@ -9,20 +9,24 @@
   padding: 0 0 0 $menu-panel-width;
   transition: padding-left 0.15s ease-in-out;
 
+  /*
   @include vertical-tablet {
     padding: 0;
     margin-top: 80px;
     transition: margin-top 0.15s ease-in-out;
   }
+  */
 }
 
 .minimized {
   padding: 0 152px;
 
+  /*
   @include vertical-tablet {
     padding: 0 16px;
     margin-top: 24px;
   }
+  */
 }
 
 .content {
@@ -32,9 +36,11 @@
   height: 100%;
   margin: 0 auto;
 
+  /*
   @include vertical-tablet {
     padding: 0 16px;
   }
+  */
 }
 
 .overlay {
