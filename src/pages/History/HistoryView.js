@@ -24,7 +24,14 @@ export type Props = {|
 type StateProps = {|
   +isListScrolled: boolean,
   +isAsideScrolled: boolean,
+  +withDetailsPanel: boolean,
 |}
+
+const MIN_WINDOW_WIDTH: number = 1440
+
+function checkDetailsAllowed(): boolean {
+  return (window.innerWidth >= MIN_WINDOW_WIDTH)
+}
 
 export class HistoryView extends PureComponent<Props, StateProps> {
   static defaultProps = {
@@ -38,6 +45,26 @@ export class HistoryView extends PureComponent<Props, StateProps> {
     this.state = {
       isListScrolled: false,
       isAsideScrolled: false,
+      withDetailsPanel: checkDetailsAllowed(),
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.setWithDetailsPanel)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setWithDetailsPanel)
+  }
+
+  setWithDetailsPanel = () => {
+    const { withDetailsPanel }: StateProps = this.state
+    const isDetailsAllowed: boolean = checkDetailsAllowed()
+
+    if (!withDetailsPanel && isDetailsAllowed) {
+      this.setState({ withDetailsPanel: true })
+    } else if (withDetailsPanel && !isDetailsAllowed) {
+      this.setState({ withDetailsPanel: false })
     }
   }
 
@@ -67,6 +94,7 @@ export class HistoryView extends PureComponent<Props, StateProps> {
     const {
       isListScrolled,
       isAsideScrolled,
+      withDetailsPanel,
     }: StateProps = this.state
 
     return (
@@ -93,7 +121,8 @@ export class HistoryView extends PureComponent<Props, StateProps> {
           items={items}
           currentBlock={currentBlock}
           isLoading={isLoading}
-          withDetailsPanel
+          withDetailsPanel={withDetailsPanel}
+          withFixedHeight
         />
       </div>
     )
