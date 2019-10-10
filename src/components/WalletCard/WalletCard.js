@@ -108,7 +108,7 @@ class WalletCard extends Component<Props, StateProps> {
     this.setState({ isRenameActive: true })
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'RenameStarted',
     )
   }
@@ -144,7 +144,7 @@ class WalletCard extends Component<Props, StateProps> {
     })
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'RenameFinished',
     )
   }

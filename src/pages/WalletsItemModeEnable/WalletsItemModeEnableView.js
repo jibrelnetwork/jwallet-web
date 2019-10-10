@@ -40,7 +40,7 @@ class WalletsItemModeEnableView extends PureComponent<Props> {
     ))
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'MultiAddressModeEnabled',
     )
   }

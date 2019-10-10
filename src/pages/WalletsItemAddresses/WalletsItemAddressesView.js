@@ -111,7 +111,7 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
     ))
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'AddressAdded',
     )
   }

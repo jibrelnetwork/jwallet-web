@@ -66,7 +66,7 @@ class WalletCardActions extends PureComponent<Props, StateProps> {
     event.stopPropagation()
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'CurrentAddressCopied',
     )
   }
@@ -77,7 +77,7 @@ class WalletCardActions extends PureComponent<Props, StateProps> {
     event.stopPropagation()
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'RenameStarted',
     )
   }

@@ -90,7 +90,7 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
     ))
 
     gaSendEvent(
-      'ManageWallet',
+      'WalletManager',
       'MultiAddressModeDisabled',
     )
   }
