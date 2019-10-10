@@ -54,6 +54,7 @@ export type Props = {|
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
   +i18n: I18n,
   +hint: string,
+  +hasWallets: boolean,
 |}
 
 type StateProps = {|
@@ -84,6 +85,7 @@ function getInitialValues(): FormFields {
 class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
+    hasWallets: false,
   }
 
   constructor(props: Props) {
@@ -92,6 +94,14 @@ class WalletsImportView extends Component<Props, StateProps> {
     this.state = {
       currentStep: STEPS.DATA,
     }
+  }
+
+  componentDidMount() {
+    gaSendEvent(
+      'ImportWallet',
+      'StartedImport',
+      this.props.hasWallets ? 'additional' : 'new',
+    )
   }
 
   setCurrentStep = (currentStep: WalletsImportStep) => {
@@ -167,6 +177,13 @@ class WalletsImportView extends Component<Props, StateProps> {
     change('walletType', walletType)
   }
 
+  handleFocus = () => {
+    gaSendEvent(
+      'ImportWallet',
+      'NameStartedInput',
+    )
+  }
+
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
       goToPasswordStep,
@@ -226,6 +243,7 @@ class WalletsImportView extends Component<Props, StateProps> {
         className={styles.form}
       >
         <Field
+          onFocus={this.handleFocus}
           component={JInputField}
           label={i18n._(
             'WalletsImport.name',

@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
+import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectPasswordHint } from 'store/selectors/password'
 
 import {
@@ -152,6 +153,7 @@ function mapStateToProps(state: AppState) {
   return {
     hint: selectPasswordHint(state),
     submit: submitWalletsImportForm,
+    hasWallets: !!selectWalletsItems(state).length,
   }
 }
 

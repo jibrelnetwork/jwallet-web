@@ -50,6 +50,7 @@ export type Props = {|
   +i18n: I18n,
   +hint: string,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
+  +hasWallets: boolean,
 |}
 
 type StateProps = {|
@@ -88,6 +89,7 @@ function getInitialValues(): FormFields {
 class WalletsCreateView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
+    hasWallets: false,
   }
 
   constructor(props: Props) {
@@ -99,7 +101,18 @@ class WalletsCreateView extends Component<Props, StateProps> {
   }
 
   componentDidMount() {
-    this.props.requestBlockNumbers()
+    const {
+      requestBlockNumbers,
+      hasWallets,
+    }: Props = this.props
+
+    requestBlockNumbers()
+
+    gaSendEvent(
+      'CreateWallet',
+      'StartedCreate',
+      hasWallets ? 'additional' : 'new',
+    )
   }
 
   setCurrentStep = (currentStep: WalletsCreateStep) => () => {
@@ -201,6 +214,13 @@ class WalletsCreateView extends Component<Props, StateProps> {
     onChange(name, isChecked ? 'true' : null)
   }
 
+  handleFocus = () => {
+    gaSendEvent(
+      'CreateWallet',
+      'NameStartedInput',
+    )
+  }
+
   renderNameStep = ({
     handleSubmit,
     submitting: isSubmitting,
@@ -216,6 +236,7 @@ class WalletsCreateView extends Component<Props, StateProps> {
         className={styles.form}
       >
         <Field
+          onFocus={this.handleFocus}
           component={JInputField}
           label={i18n._(
             'WalletsCreate.Create.name',

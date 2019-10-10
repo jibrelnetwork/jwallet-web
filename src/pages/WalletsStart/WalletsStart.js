@@ -9,7 +9,6 @@ import { withI18n } from '@lingui/react'
 import { type I18n } from '@lingui/core'
 
 import { StartLayout } from 'layouts'
-import { gaSendEvent } from 'utils/analytics'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
@@ -40,15 +39,6 @@ class WalletsStartView extends Component<Props, StateProps> {
 
   handleClick = (action?: ?WalletAction = null) => {
     this.setState({ action })
-
-    if (!action) {
-      return
-    }
-
-    gaSendEvent(
-      'NewWallet',
-      (action === ACTIONS.CREATE) ? 'CreateStarted' : 'ImportStarted',
-    )
   }
 
   render() {

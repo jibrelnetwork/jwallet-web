@@ -164,11 +164,13 @@ class WalletsPlugin {
       }
 
       this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
+      const eventLabel: string = isFirst ? 'new' : 'additional'
 
       if (createdBlockNumber) {
         gaSendEvent(
           'CreateWallet',
           'WalletCreated',
+          eventLabel,
         )
 
         toastsPlugin.showToast(i18n._(
@@ -180,6 +182,7 @@ class WalletsPlugin {
         gaSendEvent(
           'ImportWallet',
           'WalletCreated',
+          eventLabel,
         )
 
         toastsPlugin.showToast(i18n._(
