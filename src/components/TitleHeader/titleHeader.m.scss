@@ -20,6 +20,7 @@
 }
 
 .title {
+  min-width: 200px;
   max-width: 736px;
   margin-right: auto;
   line-height: 40px;
@@ -29,12 +30,15 @@
 }
 
 .aside {
-  @include flex-row-center;
+  @include flex-row;
+
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .icon {
   @include property-transition(fill, stroke);
-  @include sprite-icon-color($main-black-20);
+  @include sprite-icon-color($main-black-30);
 }
 
 .label {
