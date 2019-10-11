@@ -141,7 +141,7 @@ class AgreementsView extends PureComponent<Props> {
                 {i18n._(
                   'Agreements.action.submit',
                   null,
-                  { defaults: 'Confirm and continue' },
+                  { defaults: 'Continue' },
                 )}
               </Button>
             </JLink>
