@@ -3,7 +3,7 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import config from 'config'
 import { formatAssetBalance } from 'utils/formatters'
@@ -31,7 +31,7 @@ export type OwnProps = {|
 
 type Props = {|
   ...OwnProps,
-  +i18n: I18nType,
+  +i18n: I18n,
   +to: ?Address,
   +note: ?string,
   +from: ?Address,
@@ -301,7 +301,6 @@ class Item extends PureComponent<Props> {
               symbol={assetSymbol}
               address={assetAddress}
               className={styles.symbol}
-              color='gray'
               size={24}
             />
           </>
