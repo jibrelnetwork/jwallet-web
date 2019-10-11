@@ -27,6 +27,8 @@ import { ContactIcon } from './ContactIcon/ContactIcon'
 import { WalletList } from './WalletList/WalletList'
 import { QuickSendItem } from './QuickSendItem/QuickSendItem'
 
+import styles from './recipientPicker.m.scss'
+
 import {
   Tabs,
   type Tab,
@@ -173,7 +175,10 @@ class RecipientPicker extends Component<Props, StateProps> {
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
         iconComponent={(
-          <JIcon name='contact-2-use-fill' color={(isOpen || input.value) ? 'blue' : 'gray'} />
+          <JIcon
+            name='contact-2-use-fill'
+            className={(isOpen || input.value) ? styles.blue : styles.gray}
+          />
         )}
       />
     )

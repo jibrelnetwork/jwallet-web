@@ -121,7 +121,7 @@
 
   .icon {
     @include property-transition(fill, stroke);
-    @include sprite-icon-color($main-black-20);
+    @include sprite-icon-color($main-black-30);
   }
 
   .label {
