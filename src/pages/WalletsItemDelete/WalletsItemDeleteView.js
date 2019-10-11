@@ -2,7 +2,9 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   UserActionInfo,
@@ -14,17 +16,26 @@ import {
   walletsPlugin,
 } from 'store/plugins'
 
-import walletsItemDeleteStyle from './walletsItemDelete.m.scss'
+import styles from './walletsItemDelete.m.scss'
 
 export type Props = {|
   +goBackToWallets: () => any,
+  +i18n: I18n,
   +walletId: string,
-  +i18n: I18nType,
 |}
 
 const DELETE_CONFIRM_TIMEOUT: number = 15
 
-class WalletsItemDeleteViewComponent extends PureComponent<Props> {
+class WalletsItemDeleteView extends PureComponent<Props> {
+  handleBack = () => {
+    this.props.goBackToWallets()
+
+    gaSendEvent(
+      'DeleteWallet',
+      'WalletKept',
+    )
+  }
+
   handleRemove = () => {
     const {
       i18n,
@@ -38,11 +49,15 @@ class WalletsItemDeleteViewComponent extends PureComponent<Props> {
       null,
       { defaults: 'Wallet deleted.' },
     ))
+
+    gaSendEvent(
+      'DeleteWallet',
+      'WalletDeleted',
+    )
   }
 
   render() {
-    const { i18n } = this.props
-    const handleBack = this.props.goBackToWallets
+    const { i18n }: Props = this.props
 
     const DELETE_TEXT = i18n._(
       'WalletsItemDelete.description',
@@ -52,16 +67,16 @@ class WalletsItemDeleteViewComponent extends PureComponent<Props> {
     )
 
     return (
-      <div className={walletsItemDeleteStyle.core}>
+      <div className={styles.core}>
         <UserActionInfo
           text={DELETE_TEXT}
           title={i18n._('WalletsItemDelete.title', null, { defaults: 'Delete Wallet' })}
-          iconClassName={walletsItemDeleteStyle.icon}
+          iconClassName={styles.icon}
           iconName='ic_delete_48-use-fill'
         />
-        <div className={walletsItemDeleteStyle.buttons}>
+        <div className={styles.buttons}>
           <ButtonWithConfirm
-            onCancel={handleBack}
+            onCancel={this.handleBack}
             onConfirm={this.handleRemove}
             labelConfirm={i18n._('WalletsItemDelete.actions.submit', null, { defaults: 'Delete' })}
             labelCancel={i18n._(
@@ -78,6 +93,5 @@ class WalletsItemDeleteViewComponent extends PureComponent<Props> {
   }
 }
 
-export const WalletsItemDeleteView = withI18n()(
-  WalletsItemDeleteViewComponent,
-)
+const WalletsItemDeleteViewEnhanced = withI18n()(WalletsItemDeleteView)
+export { WalletsItemDeleteViewEnhanced as WalletsItemDeleteView }

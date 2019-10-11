@@ -2,7 +2,9 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   toastsPlugin,
@@ -14,15 +16,15 @@ import {
   ButtonWithConfirm,
 } from 'components'
 
-import walletsItemModeEnableStyle from './walletsItemModeEnable.m.scss'
+import styles from './walletsItemModeEnable.m.scss'
 
 export type Props = {|
   +goBackToWallets: () => any,
+  +i18n: I18n,
   +walletId: string,
-  +i18n: I18nType,
 |}
 
-class WalletsItemModeEnableViewComponent extends PureComponent<Props> {
+class WalletsItemModeEnableView extends PureComponent<Props> {
   handleEnable = () => {
     const {
       i18n,
@@ -36,16 +38,21 @@ class WalletsItemModeEnableViewComponent extends PureComponent<Props> {
       null,
       { defaults: 'Multi-address Mode enabled.' },
     ))
+
+    gaSendEvent(
+      'WalletManager',
+      'MultiAddressModeEnabled',
+    )
   }
 
   render() {
     const {
       i18n,
       goBackToWallets: handleBack,
-    } = this.props
+    }: Props = this.props
 
     return (
-      <div className={walletsItemModeEnableStyle.core}>
+      <div className={styles.core}>
         <UserActionInfo
           text={i18n._(
             'WalletsItemModeEnable.description',
@@ -58,10 +65,10 @@ class WalletsItemModeEnableViewComponent extends PureComponent<Props> {
             null,
             { defaults: 'Enable Multi-Address Mode' },
           )}
-          iconClassName={walletsItemModeEnableStyle.icon}
+          iconClassName={styles.icon}
           iconName='ic_attention_48-use-fill'
         />
-        <div className={walletsItemModeEnableStyle.buttons}>
+        <div className={styles.buttons}>
           <ButtonWithConfirm
             onCancel={handleBack}
             onConfirm={this.handleEnable}
@@ -82,6 +89,5 @@ class WalletsItemModeEnableViewComponent extends PureComponent<Props> {
   }
 }
 
-export const WalletsItemModeEnableView = withI18n()(
-  WalletsItemModeEnableViewComponent,
-)
+const WalletsItemModeEnableViewEnhanced = withI18n()(WalletsItemModeEnableView)
+export { WalletsItemModeEnableViewEnhanced as WalletsItemModeEnableView }

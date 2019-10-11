@@ -2,36 +2,40 @@
 
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import { fileSaver } from 'services'
 import { Button } from 'components/base'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   CopyableField,
   UserActionInfo,
 } from 'components'
 
-import walletBackupFormStyle from './walletBackupForm.m.scss'
+import styles from './walletBackupForm.m.scss'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?FormFields>,
+  +i18n: I18n,
   +data: string,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
   +isMnemonic: boolean,
-  +i18n: I18nType,
 |}
 
-class WalletBackupFormComponent extends PureComponent<Props> {
+class WalletBackupForm extends PureComponent<Props> {
   static defaultProps = {
     passphrase: null,
     derivationPath: null,
   }
 
-  getBackupText = (passphrase: ?string, derivationPath: ?string) => {
-    const { i18n } = this.props
+  getBackupText = (
+    passphrase: ?string,
+    derivationPath: ?string,
+  ) => {
+    const { i18n }: Props = this.props
 
     const BACKUP_TEXT = {
       SINGLE_DATA: i18n._(
@@ -76,27 +80,32 @@ class WalletBackupFormComponent extends PureComponent<Props> {
       data,
       passphrase,
       derivationPath,
-    } = this.props
+    }: Props = this.props
 
     fileSaver.saveTXT(
       `${data || ''}\n${passphrase || ''}\n${derivationPath || ''}`,
       'jwallet-backup',
+    )
+
+    gaSendEvent(
+      'BackupWallet',
+      'BackupDownloaded',
     )
   }
 
   render() {
     const {
       handleSubmit,
+      i18n,
       name,
       data,
       passphrase,
       derivationPath,
       isMnemonic,
-      i18n,
     }: Props = this.props
 
     return (
-      <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
+      <div className={`__wallet-backup-form ${styles.core}`}>
         <UserActionInfo
           text={this.getBackupText(
             passphrase,
@@ -107,14 +116,14 @@ class WalletBackupFormComponent extends PureComponent<Props> {
             { name },
             { defaults: 'Back Up {name}' },
           )}
-          iconClassName={walletBackupFormStyle.icon}
+          iconClassName={styles.icon}
           iconName='ic_backup_48-use-fill'
         />
         <form
           onSubmit={handleSubmit}
-          className={walletBackupFormStyle.form}
+          className={styles.form}
         >
-          <div className={walletBackupFormStyle.fields}>
+          <div className={styles.fields}>
             <CopyableField
               value={data}
               label={i18n._(
@@ -147,7 +156,7 @@ class WalletBackupFormComponent extends PureComponent<Props> {
           <Button
             type='button'
             theme='secondary'
-            className={walletBackupFormStyle.button}
+            className={styles.button}
             onClick={this.handleDownload}
           >
             {i18n._(
@@ -172,4 +181,5 @@ class WalletBackupFormComponent extends PureComponent<Props> {
   }
 }
 
-export const WalletBackupForm = withI18n()(WalletBackupFormComponent)
+const WalletBackupFormEnhanced = withI18n()(WalletBackupForm)
+export { WalletBackupFormEnhanced as WalletBackupForm }

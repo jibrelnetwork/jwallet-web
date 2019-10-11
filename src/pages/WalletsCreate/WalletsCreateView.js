@@ -1,9 +1,8 @@
 // @flow strict
 
 import React, { Component } from 'react'
-
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { type FormApi } from 'final-form'
@@ -31,7 +30,7 @@ import {
   WalletPasswordForm,
 } from 'components'
 
-import walletsCreateStyle from './walletsCreate.m.scss'
+import styles from './walletsCreate.m.scss'
 
 export type WalletsCreateBackHandler = () => void
 export type WalletsCreateStep = 'NAME' | 'BACKUP_TICKS' | 'BACKUP_FORM' | 'PASSWORD'
@@ -48,9 +47,10 @@ export type Props = {|
   +requestBlockNumbers: () => void,
   onBack?: ?WalletsCreateBackHandler,
   +submit: WalletsCreateSubmitPayload => Promise<?FormFields>,
+  +i18n: I18n,
   +hint: string,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
-  +i18n: I18nType,
+  +hasWallets: boolean,
 |}
 
 type StateProps = {|
@@ -86,9 +86,10 @@ function getInitialValues(): FormFields {
   }
 }
 
-class WalletsCreateViewComponent extends Component<Props, StateProps> {
+class WalletsCreateView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
+    hasWallets: false,
   }
 
   constructor(props: Props) {
@@ -100,7 +101,18 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
   }
 
   componentDidMount() {
-    this.props.requestBlockNumbers()
+    const {
+      requestBlockNumbers,
+      hasWallets,
+    }: Props = this.props
+
+    requestBlockNumbers()
+
+    gaSendEvent(
+      'CreateWallet',
+      'StartedCreate',
+      hasWallets ? 'additional' : 'new',
+    )
   }
 
   setCurrentStep = (currentStep: WalletsCreateStep) => () => {
@@ -108,7 +120,10 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
     const event: ?string = EVENTS[currentStep]
 
     if (event) {
-      gaSendEvent('CreateWallet', event)
+      gaSendEvent(
+        'CreateWallet',
+        event,
+      )
     }
   }
 
@@ -199,6 +214,13 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
     onChange(name, isChecked ? 'true' : null)
   }
 
+  handleFocus = () => {
+    gaSendEvent(
+      'CreateWallet',
+      'NameStartedInput',
+    )
+  }
+
   renderNameStep = ({
     handleSubmit,
     submitting: isSubmitting,
@@ -206,14 +228,15 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
       name = '',
     } = {},
   }: FormRenderProps) => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     return (
       <form
         onSubmit={handleSubmit}
-        className={walletsCreateStyle.form}
+        className={styles.form}
       >
         <Field
+          onFocus={this.handleFocus}
           component={JInputField}
           label={i18n._(
             'WalletsCreate.Create.name',
@@ -248,7 +271,7 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
       compromise,
     } = {},
   }: FormRenderProps) => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     const BACKUP_TEXT: string = i18n._(
       'WalletsCreate.Backup.description',
@@ -258,7 +281,7 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
     )
 
     return (
-      <div className={walletsCreateStyle.form}>
+      <div className={styles.form}>
         <UserActionInfo
           text={BACKUP_TEXT}
           title={i18n._(
@@ -266,12 +289,12 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
             null,
             { defaults: 'Back Up Wallet' },
           )}
-          iconClassName={walletsCreateStyle.icon}
+          iconClassName={styles.icon}
           iconName='ic_backup_48-use-fill'
         />
         <form
           onSubmit={handleSubmit}
-          className={walletsCreateStyle.ticks}
+          className={styles.ticks}
         >
           <JCheckbox
             name='loseAccess'
@@ -295,7 +318,7 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
               { defaults: 'I understand that all my assets might be lost if my wallet backup phrase is \ncompromised.' },
             )}
           </JCheckbox>
-          <p className={walletsCreateStyle.note}>
+          <p className={styles.note}>
             {i18n._(
               'WalletsCreate.Backup.beCareful',
               null,
@@ -367,7 +390,7 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={walletsCreateStyle.core}>
+      <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
@@ -382,6 +405,5 @@ class WalletsCreateViewComponent extends Component<Props, StateProps> {
   }
 }
 
-export const WalletsCreateView = withI18n()(
-  WalletsCreateViewComponent,
-)
+const WalletsCreateViewEnhanced = withI18n()(WalletsCreateView)
+export { WalletsCreateViewEnhanced as WalletsCreateView }
