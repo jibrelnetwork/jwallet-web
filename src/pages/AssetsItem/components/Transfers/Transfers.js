@@ -34,6 +34,8 @@ import {
   TransactionsFilter,
 } from 'components'
 
+import styles from './transfers.m.scss'
+
 type OwnProps = {|
   +onHeaderScroll: (isScrolled: boolean) => void,
   +assetId: string,
@@ -87,7 +89,10 @@ class Transfers extends PureComponent<Props, StateProps> {
     }: Props = this.props
 
     return (
-      <div ref={this.containerRef}>
+      <div
+        ref={this.containerRef}
+        className={styles.core}
+      >
         <TitleHeader
           onScroll={handleHeaderScroll}
           title={i18n._(
