@@ -1,9 +1,11 @@
 // @flow strict
 
-import React, { Component } from 'react'
 import classNames from 'classnames'
+import React, { Component } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
+
+import { gaSendEvent } from 'utils/analytics'
 
 import styles from './description.m.scss'
 
@@ -13,7 +15,7 @@ type OwnProps = {|
 
 type Props = {|
   ...OwnProps,
-  +i18n: I18nType,
+  +i18n: I18n,
 |}
 
 type StateProps = {|
@@ -43,9 +45,20 @@ class Description extends Component<Props, StateProps> {
     })
   }
 
-  handleToggleDescription = () => this.setState({
-    isOpened: !this.state.isOpened,
-  })
+  handleToggleDescription = () => {
+    const { isOpened }: StateProps = this.state
+
+    this.setState({
+      isOpened: !isOpened,
+    })
+
+    if (!isOpened) {
+      gaSendEvent(
+        'AssetManager',
+        'AssetDescriptionDisplayed',
+      )
+    }
+  }
 
   render() {
     const {
@@ -113,5 +126,4 @@ class Description extends Component<Props, StateProps> {
 }
 
 const DescriptionEnhanced = withI18n()(Description)
-
 export { DescriptionEnhanced as Description }

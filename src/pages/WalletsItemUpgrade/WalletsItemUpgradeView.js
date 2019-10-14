@@ -2,9 +2,9 @@
 
 import Promise from 'bluebird'
 import React, { Component } from 'react'
-import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
 import { isEmpty } from 'lodash-es'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -34,7 +34,7 @@ import {
   WalletPasswordForm,
 } from 'components'
 
-import walletsItemUpgradeStyle from './walletsItemUpgrade.m.scss'
+import styles from './walletsItemUpgrade.m.scss'
 import { getErrorDataMessage } from './WalletsItemUpgrade'
 
 export type WalletsItemUpgradeStep = 'DATA' | 'PASSWORD' | 'FINISH'
@@ -46,11 +46,11 @@ type StateProps = {|
 
 export type Props = {|
   +goTo: (string) => any,
+  +i18n: I18n,
   +hint: string,
   +walletId: WalletId,
   +publicData: string,
   +type: WalletCustomType,
-  +i18n: I18nType,
 |}
 
 export const STEPS: WalletsItemUpgradeSteps = {
@@ -66,7 +66,7 @@ const INITIAL_VALUES: FormFields = {
   derivationPath: 'm/44\'/60\'/0\'/0',
 }
 
-class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
+class WalletsItemUpgradeView extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -107,13 +107,21 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
   }
 
   goToPasswordStep = () => {
-    gaSendEvent('UnlockFeatures', 'DataEntered')
     this.setState({ currentStep: STEPS.PASSWORD })
+
+    gaSendEvent(
+      'UnlockFeatures',
+      'DataEntered',
+    )
   }
 
   goToFinishStep = () => {
-    gaSendEvent('UnlockFeatures', 'WalletUpgraded')
     this.setState({ currentStep: STEPS.FINISH })
+
+    gaSendEvent(
+      'UnlockFeatures',
+      'WalletUpgraded',
+    )
   }
 
   handleBack = () => {
@@ -204,9 +212,9 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
     submitting: isSubmitting,
   }: FormRenderProps) => {
     const {
+      i18n,
       type,
       publicData,
-      i18n,
     }: Props = this.props
 
     const data: string = (values.data || '').trim()
@@ -234,7 +242,7 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
     return (
       <form
         onSubmit={handleSubmit}
-        className={walletsItemUpgradeStyle.form}
+        className={styles.form}
       >
         <UserActionInfo
           title={i18n._(
@@ -242,7 +250,7 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
             null,
             { defaults: 'Your Wallet Is in Read-Only Mode' },
           )}
-          iconClassName={walletsItemUpgradeStyle.icon}
+          iconClassName={styles.icon}
           text={i18n._(
             'WalletsItemUpgrade.data.description',
             null,
@@ -303,18 +311,18 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
   }
 
   renderFinishStep = () => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
     const handleGoHome = this.goToHome
 
     return (
-      <div className={walletsItemUpgradeStyle.finish}>
+      <div className={styles.finish}>
         <UserActionInfo
           title={i18n._(
             'WalletsItemUpgrade.finish.title',
             null,
             { defaults: 'Features Unlocked' },
           )}
-          iconClassName={walletsItemUpgradeStyle.icon}
+          iconClassName={styles.icon}
           text={i18n._(
             'WalletsItemUpgrade.finish.description',
             null,
@@ -323,7 +331,7 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
           )}
           iconName='ic_success_48-use-fill'
         />
-        <div className={walletsItemUpgradeStyle.buttons}>
+        <div className={styles.buttons}>
           <Button
             onClick={handleGoHome}
             theme='general'
@@ -357,7 +365,7 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={walletsItemUpgradeStyle.core}>
+      <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
@@ -372,6 +380,5 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
   }
 }
 
-export const WalletsItemUpgradeView = withI18n()(
-  WalletsItemUpgradeViewComponent,
-)
+const WalletsItemUpgradeViewEnhanced = withI18n()(WalletsItemUpgradeView)
+export { WalletsItemUpgradeViewEnhanced as WalletsItemUpgradeView }

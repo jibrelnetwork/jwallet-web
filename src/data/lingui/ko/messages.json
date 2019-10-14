@@ -150,13 +150,10 @@
     "WalletsImport.errors.mnemonicLanguage": "BIP39 니모닉은 영문으로 입력하십시오",
     "WalletsImport.errors.passwordInvalid": "잘못된 비밀번호",
     "WalletsImport.errors.privateKeyInvalid": "잘못된 이더리움 프라이빗 키",
-    "WalletsImport.errors.privateKeyTooLong": "WalletsImport.errors.privateKeyTooLong",
     "WalletsImport.errors.unrecognizable": "입력 내용을 인식할 수 없습니다.",
     "WalletsImport.errors.walletIsNotUnique": "동일한 {propertyName}의 지갑이 이미 있습니다.",
     "WalletsImport.errors.xprvInvalid": "잘못된 BIP32 XPRV",
-    "WalletsImport.errors.xprvTooLong": "WalletsImport.errors.xprvTooLong",
     "WalletsImport.errors.xpubInvalid": "잘못된 BIP32 XPUB",
-    "WalletsImport.errors.xpubTooLong": "WalletsImport.errors.xpubTooLong",
     "WalletsImport.finalGuess.address": "이더리움 주소를 입력했습니다.",
     "WalletsImport.finalGuess.mnemonic": "{wordsLen}단어 BIP39 니모닉을 입력했습니다.",
     "WalletsImport.finalGuess.privateKey": "이더리움 프라이빗 키를 입력했습니다.",
@@ -367,7 +364,6 @@
     "AssetsItem.About.Links.label.info": "",
     "AssetsItem.About.Links.label.site": "",
     "AssetsItem.About.link.details": "",
-    "AssetsItem.About.title": "",
     "AssetsItem.Transfers.title": "",
     "HistoryList.Item.title.cancel": "",
     "AssetsItem.About.Description.less": "",
@@ -418,5 +414,9 @@
     "Send.StepOneForm.node.error.title": "",
     "HistoryItemCancel.agreement.header": "",
     "Send.title": "보내기",
-    "Send.StepOneForm.toast.network": ""
+    "Send.StepOneForm.toast.network": "",
+    "Wallets.title": "",
+    "WalletsImport.errors.privateKeyTooLong": "",
+    "WalletsImport.errors.xprvTooLong": "",
+    "WalletsImport.errors.xpubTooLong": ""
 }

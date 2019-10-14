@@ -1,15 +1,19 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import {
-  withI18n,
-  Trans,
-} from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
-import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { type I18n } from '@lingui/core'
+
+import {
+  Trans,
+  withI18n,
+} from '@lingui/react'
 
 import { StartLayout } from 'layouts'
+import { gaSendEvent } from 'utils/analytics'
+import { CONDITIONS_LIST } from 'data/agreements'
+import { selectAgreementsConditions } from 'store/selectors/user'
 
 import {
   JLink,
@@ -19,38 +23,37 @@ import {
 } from 'components/base'
 
 import {
-  selectAgreementsConditions,
-} from 'store/selectors/user'
-
-import {
   setAgreementIsConfirmed,
   setAllAgreementsAreConfirmed,
 } from 'store/modules/user'
 
-import { CONDITIONS_LIST } from 'data/agreements'
-
-import agreementsViewStyle from './agreementsView.m.scss'
-
-export type Props = {|
-  setAgreementIsConfirmed: Function,
-  setAllAgreementsAreConfirmed: Function,
-  agreements: {
-    [agreement: string]: boolean,
-  },
-  i18n: I18nType,
-|}
+import styles from './agreements.m.scss'
 
 type OwnProps = {|
-  i18n: I18nType,
+  +i18n: I18n,
 |}
 
-class AgreementsScreen extends PureComponent<Props> {
+type Props = {|
+  ...OwnProps,
+  +setAgreementIsConfirmed: Function,
+  +setAllAgreementsAreConfirmed: Function,
+  +agreements: {
+    [agreement: string]: boolean,
+  },
+|}
+
+class AgreementsView extends PureComponent<Props> {
   onChange = (key: string) => (isChecked: boolean) => {
     this.props.setAgreementIsConfirmed(key, isChecked)
   }
 
   handleAgreementsConfirmClick = () => {
     this.props.setAllAgreementsAreConfirmed(true)
+
+    gaSendEvent(
+      'CreateAccount',
+      'AgreementsConfirmed',
+    )
   }
 
   componentDidMount = () => {
@@ -87,13 +90,13 @@ class AgreementsScreen extends PureComponent<Props> {
 
     return (
       <StartLayout className='__agreements-view'>
-        <div className={agreementsViewStyle.content}>
+        <div className={styles.content}>
           <JIcon
             name='terms-and-conditions-use-fill'
-            className={agreementsViewStyle.icon}
+            className={styles.icon}
             color='blue'
           />
-          <h1 className={agreementsViewStyle.title}>
+          <h1 className={styles.title}>
             {i18n._(
               'Agreements.title',
               null,
@@ -102,24 +105,20 @@ class AgreementsScreen extends PureComponent<Props> {
           </h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
-              <div className={agreementsViewStyle.item} key={key}>
+              <div className={styles.item} key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
                     onChange={this.onChange(key)}
-                    label={conditions[key]}
                     name={key}
                     isChecked={agreements[key]}
-                    isRegular
                   >
                     {conditions[key]}
                   </JCheckbox>
                 ) : (
                   <JCheckbox
                     onChange={this.onChange(key)}
-                    color='black'
                     name={key}
                     isChecked={agreements[key]}
-                    isRegular
                   >
                     {/* eslint-disable max-len */}
                     <Trans id='Agreements.acceptTermsAndConditions'>
@@ -131,10 +130,10 @@ class AgreementsScreen extends PureComponent<Props> {
               </div>
             ))}
           </div>
-          <div className={agreementsViewStyle.action}>
+          <div className={styles.action}>
             <JLink href='/wallets'>
               <Button
-                className={agreementsViewStyle.button}
+                className={styles.button}
                 theme='general'
                 isDisabled={!isAllAgreementsChecked}
                 onClick={this.handleAgreementsConfirmClick}
@@ -142,7 +141,7 @@ class AgreementsScreen extends PureComponent<Props> {
                 {i18n._(
                   'Agreements.action.submit',
                   null,
-                  { defaults: 'Confirm and continue' },
+                  { defaults: 'Continue' },
                 )}
               </Button>
             </JLink>
@@ -154,10 +153,8 @@ class AgreementsScreen extends PureComponent<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const agreements = selectAgreementsConditions(state)
-
   return {
-    agreements,
+    agreements: selectAgreementsConditions(state),
   }
 }
 
@@ -166,10 +163,10 @@ const mapDispatchToProps = {
   setAllAgreementsAreConfirmed,
 }
 
-export const AgreementsView = compose(
+export const Agreements = compose(
   withI18n(),
   connect<Props, OwnProps, _, _, _, _>(
     mapStateToProps,
     mapDispatchToProps,
   ),
-)(AgreementsScreen)
+)(AgreementsView)

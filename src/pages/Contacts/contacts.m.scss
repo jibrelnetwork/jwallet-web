@@ -11,8 +11,10 @@
 }
 
 .search {
-  width: 100%;
-  max-width: 414px;
+  @include flex-row;
+
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .contact-group-title {

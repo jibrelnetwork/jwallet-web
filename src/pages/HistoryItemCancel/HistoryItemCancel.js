@@ -4,7 +4,8 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
-import { type I18n as I18nType } from '@lingui/core'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -14,10 +15,10 @@ import {
 import config from 'config'
 import { web3 } from 'services'
 import { JLink } from 'components/base'
-import { withI18n } from '@lingui/react'
 import { PageNotFoundError } from 'errors'
 import { toBigNumber } from 'utils/numbers'
 import { getTxFee } from 'utils/transactions'
+import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
 import { addPendingTransaction } from 'store/modules/transactions'
@@ -55,7 +56,7 @@ type Props = {|
     assetAddress: string,
     data: Transaction,
   ) => any,
-  +i18n: I18nType,
+  +i18n: I18n,
   +network: Network,
   +hint: string,
   +gasPrice: string,
@@ -124,14 +125,29 @@ class HistoryItemCancel extends Component<Props, StateProps> {
 
   handleBackFromPassword = () => {
     this.setState({ currentStep: STEPS.AGREEMENT })
+
+    gaSendEvent(
+      'TransactionCancel',
+      'BackFromPassword',
+    )
   }
 
   handleCancelAgreement = () => {
     this.props.goToHistory()
+
+    gaSendEvent(
+      'TransactionCancel',
+      'BackFromAgreement',
+    )
   }
 
   handleConfirmAgreement = () => {
     this.setState({ currentStep: STEPS.PASSWORD })
+
+    gaSendEvent(
+      'TransactionCancel',
+      'AgreementConfirmed',
+    )
   }
 
   sendCancelTransaction = async (privateKey: string) => {
@@ -160,6 +176,11 @@ class HistoryItemCancel extends Component<Props, StateProps> {
         network,
         ETH_ASSET_ADDRESS,
         sendTransactionPayload,
+      )
+
+      gaSendEvent(
+        'TransactionCancel',
+        'TransactionSent',
       )
 
       console.log('txHash', txHash)
@@ -194,9 +215,14 @@ class HistoryItemCancel extends Component<Props, StateProps> {
       )
 
       goToHistoryItem(txHash)
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
       this.setState({ currentStep: STEPS.ERROR_CONNECTION })
+
+      gaSendEvent(
+        'TransactionCancel',
+        'ConnectionFailed',
+      )
     }
   }
 
@@ -360,6 +386,11 @@ class HistoryItemCancel extends Component<Props, StateProps> {
       i18n,
       walletName,
     }: Props = this.props
+
+    gaSendEvent(
+      'TransactionCancel',
+      'BalanceError',
+    )
 
     return (
       <div className={styles.core}>

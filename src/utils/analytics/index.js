@@ -1,7 +1,8 @@
 export {
   ga,
-  gaSendPageView,
   gaSendEvent,
+  gaSendPageView,
+  gaSendException,
   gaSetUserDimension,
   gaSetUserMetric,
   METRICS,

@@ -20,7 +20,7 @@ import {
   checkContactExistsByName as checkContactExistsByNameFn,
 } from '../ContactsItemAdd/ContactsItemAdd'
 
-import style from './contactsItemEdit.m.scss'
+import styles from './contactsItemEdit.m.scss'
 
 type OwnProps = {|
   +contactId: OwnerAddress,
@@ -55,7 +55,7 @@ function ContactsItemEditView({
   }
 
   return (
-    <div className={style.core}>
+    <div className={styles.core}>
       <TitleHeader
         title={i18n._(
           'ContactsItemEdit.title',

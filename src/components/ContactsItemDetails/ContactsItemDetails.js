@@ -50,7 +50,7 @@ function ContactItemDetailsComponent({
     <div className={classNames(style.core, className)}>
       <div className={classNames(style.card, offset.mb16)}>
         <div className={style.header}>
-          <JLink href={`/contacts/edit/${address}`} className={style.action}>
+          <JLink href={`/contacts/${address}/edit`} className={style.action}>
             <JIcon name='ic_edit_24-use-fill' />
           </JLink>
         </div>

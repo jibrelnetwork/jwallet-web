@@ -1,12 +1,12 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { actions } from 'redux-router5'
 import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
 import { t } from '@lingui/macro'
+import { connect } from 'react-redux'
+import { actions } from 'redux-router5'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -18,6 +18,7 @@ import stylesOffsets from 'styles/offsets.m.scss'
 import { Button } from 'components/base'
 import { TitleHeader } from 'components'
 import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 import { type LanguageCode } from 'data/languages'
 
 import {
@@ -34,12 +35,12 @@ type FormValues = {|
 
 type Props = {|
   goBack: Function,
-  i18n: I18nType,
+  i18n: I18n,
   ...WithLanguageChangeProps,
 |}
 
 type OwnProps = {|
-  i18n: I18nType,
+  i18n: I18n,
   ...WithLanguageChangeProps,
 |}
 
@@ -57,6 +58,11 @@ class SettingsLanguagePage extends Component<Props> {
       null,
       { defaults: 'Language changed.' },
     ))
+
+    gaSendEvent(
+      'Settings',
+      'LanguageChanged',
+    )
   }
 
   handleBackClick = () => {
@@ -65,15 +71,11 @@ class SettingsLanguagePage extends Component<Props> {
     }
   }
 
-  renderForm = (props: FormRenderProps) => {
-    const {
-      handleSubmit,
-      submitting: isSubmitting,
-    } = props
-
-    const {
-      i18n,
-    } = this.props
+  renderForm = ({
+    handleSubmit,
+    submitting: isSubmitting,
+  }: FormRenderProps) => {
+    const { i18n }: Props = this.props
 
     return (
       <form
@@ -101,7 +103,7 @@ class SettingsLanguagePage extends Component<Props> {
     const {
       i18n,
       language,
-    } = this.props
+    }: Props = this.props
 
     const initialValues = {
       language,

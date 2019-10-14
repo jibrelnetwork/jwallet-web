@@ -5,6 +5,8 @@
   @include flex-row-center;
   @include property-transition(border-color);
 
+  flex-grow: 1;
+  max-width: 414px;
   border: 1px solid $main-black-20;
   border-radius: 4px;
 

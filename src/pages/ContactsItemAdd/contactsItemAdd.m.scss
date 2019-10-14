@@ -3,6 +3,7 @@
 .core {
   @include flex-column-center;
 
+  width: 100%;
   min-height: 100%;
   max-width: 544px;
   margin: 0 auto;

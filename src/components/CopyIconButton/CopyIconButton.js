@@ -7,6 +7,7 @@ import { type I18n as I18nType } from '@lingui/core'
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
 import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 
 import copyIconButtonStyle from './copyIconButton.m.scss'
 
@@ -23,14 +24,24 @@ class CopyIconButton extends PureComponent<Props> {
     toastMessage: null,
   }
 
-  handleCopy = (address: Address) => () => {
-    clipboard.copyText(address)
+  handleCopy = () => {
+    const {
+      title,
+      content,
+      toastMessage,
+    }: Props = this.props
 
-    const { toastMessage }: Props = this.props
+    clipboard.copyText(content)
 
     if (toastMessage) {
       toastsPlugin.showToast(toastMessage)
     }
+
+    gaSendEvent(
+      'ClipboardCopy',
+      'ContentCopied',
+      title,
+    )
   }
 
   render() {
@@ -42,7 +53,7 @@ class CopyIconButton extends PureComponent<Props> {
 
     return (
       <button
-        onClick={this.handleCopy(this.props.content)}
+        onClick={this.handleCopy}
         title={title || i18n._(
           'common.CopyIconButton.title',
           { content },

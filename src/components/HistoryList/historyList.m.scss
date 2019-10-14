@@ -63,8 +63,8 @@
   @include flex-row;
 
   position: relative;
-  width: 1120px + (2 * 16px); // 2 * 16px for paddings
-  margin-top: 16px;
+  width: calc(100% + (2 * 16px)); // 2 * 16px for paddings
+  padding-top: 16px;
   margin-left: -16px;
   overflow: hidden;
 
@@ -75,16 +75,17 @@
 
     .right {
       right: 0;
+      width: 400px;
       max-width: 400px;
       padding: 0 16px;
       opacity: 1;
     }
   }
 
-  &.details {
+  &.height {
     .main,
     .right {
-      height: calc(100vh - 112px);
+      height: calc(100vh - #{$page-header-height} - 16px); // 16px is for padding-top
     }
   }
 

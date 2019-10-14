@@ -150,7 +150,7 @@ class AppRouter extends Component<Props, StateProps> {
     }
 
     if (!isAllAgreementsChecked) {
-      return <pages.AgreementsView />
+      return <pages.Agreements />
     }
 
     if (isMigrationNeeded == null) {

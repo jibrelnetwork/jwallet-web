@@ -42,9 +42,9 @@ export { NotFound } from './NotFound/NotFound'
 export { ErrorUnexpected } from './ErrorUnexpected/ErrorUnexpected'
 
 // not available to user directly
+export { Agreements } from './Agreements/Agreements'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
-export { AgreementsView } from './Agreements/AgreementsView'
 export { Introduction } from './Introduction/Introduction'
 
 export { WalletsMigration } from './WalletsMigration/WalletsMigration'

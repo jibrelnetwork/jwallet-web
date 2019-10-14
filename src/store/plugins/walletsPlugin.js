@@ -57,8 +57,6 @@ export type ImportWalletPayload = {|
   +derivationPath: ?string,
 |}
 
-const MINUTE: number = 60 * 1000
-
 function max(
   a: number,
   b: number,
@@ -164,9 +162,14 @@ class WalletsPlugin {
       }
 
       this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
+      const eventLabel: string = isFirst ? 'new' : 'additional'
 
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreated')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreated',
+          eventLabel,
+        )
 
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.create',
@@ -174,7 +177,11 @@ class WalletsPlugin {
           { defaults: 'Wallet created.' },
         ))
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreated')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreated',
+          eventLabel,
+        )
 
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.import',
@@ -184,9 +191,15 @@ class WalletsPlugin {
       }
     } catch (err) {
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreationError')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreationError',
+        )
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreationError')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreationError',
+        )
       }
 
       return {
@@ -382,7 +395,10 @@ class WalletsPlugin {
         }),
       )
     } catch (error) {
-      gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
+      gaSendEvent(
+        'UnlockFeatures',
+        'WalletUpgradeError',
+      )
 
       return {
         password: i18n._(
@@ -489,18 +505,24 @@ class WalletsPlugin {
   requestAssetBalance = async (
     ownerAddress: Address,
     assetAddress: Address,
+    retryCount?: number = 0,
   ): Promise<string> => {
     try {
-      return web3.getAssetBalance(
+      const balance: string = await web3.getAssetBalance(
         this.getNetwork(),
         ownerAddress,
         assetAddress,
       )
+
+      return balance
     } catch (error) {
-      return Promise.delay(MINUTE).then(() => this.requestAssetBalance(
-        ownerAddress,
-        assetAddress,
-      ))
+      return Promise
+        .delay((2 ** ((retryCount > 6) ? 6 : retryCount)) * 1000)
+        .then(() => this.requestAssetBalance(
+          ownerAddress,
+          assetAddress,
+          retryCount + 1,
+        ))
     }
   }
 
