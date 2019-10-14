@@ -8,7 +8,11 @@ import { useI18n } from 'app/hooks'
 
 import styles from './empty.m.scss'
 
-export function Empty() {
+type Props = {|
+  +isFiltered: boolean,
+|}
+
+export function Empty({ isFiltered }: Props) {
   const i18n: I18n = useI18n()
 
   return (
@@ -21,7 +25,11 @@ export function Empty() {
           aria-disabled
         />
         <figcaption>
-          {i18n._(
+          {isFiltered ? i18n._(
+            'HistoryList.Empty.text.filtered',
+            null,
+            { defaults: 'No Search Results.' },
+          ) : i18n._(
             'HistoryList.Empty.text',
             null,
             { defaults: 'Looks like you haven\'t made any transactions yet.' },
@@ -30,4 +38,8 @@ export function Empty() {
       </figure>
     </div>
   )
+}
+
+Empty.defaultProps = {
+  isFiltered: false,
 }

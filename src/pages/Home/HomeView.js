@@ -1,9 +1,9 @@
 // @flow strict
 
-import React, { Component } from 'react'
 import classNames from 'classnames'
+import React, { Component } from 'react'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   get,
@@ -13,6 +13,7 @@ import {
 import noResultImg from 'public/assets/pic_assets_112.svg'
 import buttonStyles from 'components/base/Button/button.m.scss'
 import { searchAssets } from 'utils/search'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   SearchInput,
@@ -25,10 +26,9 @@ import {
   Button,
 } from 'components/base'
 
+import styles from './home.m.scss'
 import { AssetItem } from './components/AssetItem/AssetItem'
 import { ManageAssetItem } from './components/AssetItem/ManageAssetItem'
-
-import styles from './home.m.scss'
 
 const HEADER_OFFSET_TOP_DEFAULT: number = 264
 // eslint-disable-next-line max-len
@@ -37,7 +37,7 @@ const JCASH_UTM_URL: string = 'https://jcash.network?utm_source=jwallet&utm_medi
 export type Props = {|
   +setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
   +items: DigitalAssetWithBalance[],
-  +i18n: I18nType,
+  +i18n: I18n,
 |}
 
 type StateProps = {|
@@ -58,7 +58,7 @@ function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAss
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
 }
 
-class HomeViewComponent extends Component<Props, StateProps> {
+class HomeView extends Component<Props, StateProps> {
   headerRef = React.createRef<HTMLDivElement>()
 
   constructor(props: Props) {
@@ -108,6 +108,11 @@ class HomeViewComponent extends Component<Props, StateProps> {
       assetsState,
       isInManageMode: true,
     })
+
+    gaSendEvent(
+      'AssetManager',
+      'ManageModeEnabled',
+    )
   }
 
   handleLeaveManageMode = () => {
@@ -138,6 +143,11 @@ class HomeViewComponent extends Component<Props, StateProps> {
       searchQuery: '',
       isInManageMode: false,
     })
+
+    gaSendEvent(
+      'AssetManager',
+      'ManageModeDisabled',
+    )
   }
 
   handleManageAssetCheck = (address: string, isChecked: boolean) => {
@@ -147,10 +157,37 @@ class HomeViewComponent extends Component<Props, StateProps> {
         [address]: isChecked,
       },
     })
+
+    gaSendEvent(
+      'AssetManager',
+      isChecked ? 'TurnOnAsset' : 'TurnOffAsset',
+      address,
+    )
   }
 
   handleAssetsHeaderScroll = (isScrolled: boolean) => {
     this.setState({ isAssetsHeaderScrolled: isScrolled })
+  }
+
+  handleSendClick = () => {
+    gaSendEvent(
+      'SendAssets',
+      'StartedSend',
+    )
+  }
+
+  handleReceiveClick = () => {
+    gaSendEvent(
+      'ReceiveAssets',
+      'StartedReceive',
+    )
+  }
+
+  handleExchangeClick = () => {
+    gaSendEvent(
+      'ExchangeAssets',
+      'StartedExchange',
+    )
   }
 
   getHeaderOffsetTop = (): number => {
@@ -245,10 +282,10 @@ class HomeViewComponent extends Component<Props, StateProps> {
             )}
             isScrolled={isAssetsHeaderScrolled ? false : null}
             withMenu
-            isCentred
           />
           <nav className={styles.links}>
             <JLink
+              onClick={this.handleSendClick}
               className={styles.link}
               href='/send'
             >
@@ -265,6 +302,7 @@ class HomeViewComponent extends Component<Props, StateProps> {
               )}
             </JLink>
             <JLink
+              onClick={this.handleReceiveClick}
               className={styles.link}
               href='/receive'
             >
@@ -281,6 +319,7 @@ class HomeViewComponent extends Component<Props, StateProps> {
               )}
             </JLink>
             <JLink
+              onClick={this.handleExchangeClick}
               className={styles.link}
               href={JCASH_UTM_URL}
             >
@@ -321,7 +360,6 @@ class HomeViewComponent extends Component<Props, StateProps> {
               )}
               offsetTop={this.getHeaderOffsetTop()}
               withMenu
-              isCentred
             >
               <div className={styles.search}>
                 <SearchInput
@@ -393,6 +431,5 @@ class HomeViewComponent extends Component<Props, StateProps> {
   }
 }
 
-export const HomeView = withI18n()(
-  HomeViewComponent,
-)
+const HomeViewEnhanced = withI18n()(HomeView)
+export { HomeViewEnhanced as HomeView }

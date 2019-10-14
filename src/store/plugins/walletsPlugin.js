@@ -162,9 +162,14 @@ class WalletsPlugin {
       }
 
       this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
+      const eventLabel: string = isFirst ? 'new' : 'additional'
 
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreated')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreated',
+          eventLabel,
+        )
 
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.create',
@@ -172,7 +177,11 @@ class WalletsPlugin {
           { defaults: 'Wallet created.' },
         ))
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreated')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreated',
+          eventLabel,
+        )
 
         toastsPlugin.showToast(i18n._(
           'walletsPlugin.toast.import',
@@ -182,9 +191,15 @@ class WalletsPlugin {
       }
     } catch (err) {
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreationError')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreationError',
+        )
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreationError')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreationError',
+        )
       }
 
       return {
@@ -380,7 +395,10 @@ class WalletsPlugin {
         }),
       )
     } catch (error) {
-      gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
+      gaSendEvent(
+        'UnlockFeatures',
+        'WalletUpgradeError',
+      )
 
       return {
         password: i18n._(

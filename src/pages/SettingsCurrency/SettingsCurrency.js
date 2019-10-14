@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { actions } from 'redux-router5'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -17,6 +17,7 @@ import { TitleHeader } from 'components'
 import { Button } from 'components/base'
 import { toastsPlugin } from 'store/plugins'
 import { type FiatCurrencyCode } from 'data'
+import { gaSendEvent } from 'utils/analytics'
 import { setFiatCurrency } from 'store/modules/user'
 import { selectFiatCurrency } from 'store/selectors/user'
 
@@ -33,8 +34,8 @@ type FormValues = {|
 type Props = {|
   +goBack: () => any,
   +setFiatCurrency: (code: FiatCurrencyCode) => any,
+  +i18n: I18n,
   +selectedCurrencyCode: FiatCurrencyCode,
-  +i18n: I18nType,
 |}
 
 class SettingsCurrencyPage extends Component<Props> {
@@ -51,6 +52,11 @@ class SettingsCurrencyPage extends Component<Props> {
       null,
       { defaults: 'Currency changed.' },
     ))
+
+    gaSendEvent(
+      'Settings',
+      'CurrencyChanged',
+    )
   }
 
   handleBackClick = () => {
@@ -59,15 +65,11 @@ class SettingsCurrencyPage extends Component<Props> {
     }
   }
 
-  renderForm = (props: FormRenderProps) => {
-    const {
-      handleSubmit,
-      submitting: isSubmitting,
-    } = props
-
-    const {
-      i18n,
-    } = this.props
+  renderForm = ({
+    handleSubmit,
+    submitting: isSubmitting,
+  }: FormRenderProps) => {
+    const { i18n }: Props = this.props
 
     return (
       <form
@@ -94,7 +96,7 @@ class SettingsCurrencyPage extends Component<Props> {
     const {
       selectedCurrencyCode,
       i18n,
-    } = this.props
+    }: Props = this.props
 
     const initialValues = {
       currencyCode: selectedCurrencyCode,
@@ -117,16 +119,14 @@ class SettingsCurrencyPage extends Component<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const selectedCurrencyCode = selectFiatCurrency(state)
-
   return {
-    selectedCurrencyCode,
+    selectedCurrencyCode: selectFiatCurrency(state),
   }
 }
 
 const mapDispatchToProps = {
-  goBack: () => actions.navigateTo('Settings'),
   setFiatCurrency,
+  goBack: () => actions.navigateTo('Settings'),
 }
 
 export const SettingsCurrency = compose(

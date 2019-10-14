@@ -68,7 +68,6 @@ function About({
           { defaults: 'Asset Details' },
         )}
         isScrolled={isHeaderScrolled}
-        isCentred
       >
         <JLink
           href={`/assets/${assetId}/details`}

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -12,6 +12,7 @@ import {
 } from 'react-final-form'
 
 import { JLink } from 'components/base'
+import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
 
@@ -24,10 +25,10 @@ import {
 
 import styles from './settingsPassword.m.scss'
 
-export type SettingsPasswordStep = 'OLD' | 'NEW' | 'SUCCESS'
+type SettingsPasswordStep = 'OLD' | 'NEW' | 'SUCCESS'
 
-export type Props = {|
-  +i18n: I18nType,
+type Props = {|
+  +i18n: I18n,
   +hint: string,
 |}
 
@@ -102,6 +103,11 @@ class SettingsPasswordView extends Component<Props, StateProps> {
             internalKey: internalKeyDec,
             currentStep: STEPS.NEW,
           })
+
+          gaSendEvent(
+            'Settings',
+            'OldPasswordEntered',
+          )
         } catch (error) {
           return {
             password: error.message,
@@ -119,6 +125,11 @@ class SettingsPasswordView extends Component<Props, StateProps> {
         )
 
         this.setState({ currentStep: STEPS.SUCCESS })
+
+        gaSendEvent(
+          'Settings',
+          'PasswordChanged',
+        )
 
         return null
       }

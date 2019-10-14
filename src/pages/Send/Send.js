@@ -14,6 +14,7 @@ import {
 import web3 from 'services/web3'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { TitleHeader } from 'components'
+import { gaSendEvent } from 'utils/analytics'
 import { checkETH } from 'utils/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -119,6 +120,11 @@ class SendAsset extends Component<Props, StateProps> {
         ? STEPS.VALIDATION_FAILED
         : STEPS.SEND_CONFIRM,
     })
+
+    gaSendEvent(
+      'SendAsset',
+      isValidationFailed ? 'ValidationFailed' : 'FormCompleted',
+    )
   }
 
   renderSendFormStep = () => {
@@ -205,6 +211,11 @@ class SendAsset extends Component<Props, StateProps> {
         sendTransactionPayload,
       )
 
+      gaSendEvent(
+        'SendAsset',
+        'TransactionSent',
+      )
+
       addPendingTransaction(
         networkId,
         ownerAddress,
@@ -242,6 +253,11 @@ class SendAsset extends Component<Props, StateProps> {
       if (isNetworkError) {
         this.setState({ currentStep: STEPS.ERROR })
 
+        gaSendEvent(
+          'SendAsset',
+          'NetworkError',
+        )
+
         return
       }
 
@@ -249,6 +265,11 @@ class SendAsset extends Component<Props, StateProps> {
         nodeError: errMsg,
         currentStep: STEPS.SEND_FORM,
       })
+
+      gaSendEvent(
+        'SendAsset',
+        'BlockchainError',
+      )
     }
   }
 

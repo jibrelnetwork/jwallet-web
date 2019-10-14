@@ -14,6 +14,7 @@ import noResultImg from 'public/assets/pic_assets_112.svg'
 
 import offset from 'styles/offsets.m.scss'
 import buttonStyles from 'components/base/Button/button.m.scss'
+import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
 
 import {
   SearchInput,
@@ -160,7 +161,6 @@ export function ContactsView({ list }: Props) {
       <TitleHeader
         title={i18n._('Contacts.title', null, { defaults: 'Contacts' })}
         withMenu
-        isCentred
       >
         <div className={`${styles.search} ${offset.mr24}`}>
           {!isEmpty &&
@@ -171,15 +171,14 @@ export function ContactsView({ list }: Props) {
           }
         </div>
         <JLink
+          className={classNames(buttonStyles.additionalIcon, titleHeaderStyles.action)}
           href='/contacts/add'
-          theme='button-additional-icon'
-          className={styles.addContact}
         >
           <JIcon
             name='add-contact-use-fill'
-            className={buttonStyles.icon}
+            className={titleHeaderStyles.icon}
           />
-          <span className={buttonStyles.label}>
+          <span className={titleHeaderStyles.label}>
             {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
           </span>
         </JLink>
