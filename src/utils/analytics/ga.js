@@ -1,4 +1,11 @@
+// @flow strict
+
 // import { getAgreementValue } from 'utils/agreements'
+
+type GAException = {|
+  +exDescription?: string,
+  +exFatal?: boolean,
+|}
 
 const REPORTED_ONCE = {}
 
@@ -49,6 +56,10 @@ export const gaSendPageView = (location) => {
 // eslint-disable-next-line fp/no-rest-parameters
 export const gaSendEvent = (...args) => {
   ga('send', 'event', ...args)
+}
+
+export const gaSendException = (gaException: GAException) => {
+  ga('send', 'exception', gaException)
 }
 
 export const gaSetUserMetric = (metric, value) => {

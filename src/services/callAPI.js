@@ -2,6 +2,8 @@
 
 import Promise from 'bluebird'
 
+import { gaSendException } from 'utils/analytics'
+
 function handleRequestError(
   requestInfo: RequestInfo,
   options: RequestOptions,
@@ -37,6 +39,11 @@ export function callAPI(
     if (response.ok) {
       return response.json()
     }
+
+    gaSendException({
+      exDescription: 'Response from API is not ok',
+      exFatal: false,
+    })
 
     return handleRequestError(
       requestInfo,
