@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { checkStuck } from 'utils/transactions'
 import { HistoryItemDetails } from 'components'
 import { selectCommentsItems } from 'store/selectors/comments'
+import { selectTransactions } from 'store/selectors/transactions'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
@@ -27,6 +28,7 @@ type OwnProps = {|
   +items: TransactionWithNoteAndNames[],
   +currentBlock: number,
   +isLoading: boolean,
+  +isFiltered: boolean,
   +withFixedHeight?: boolean,
   +withDetailsPanel?: boolean,
 |}
@@ -47,6 +49,7 @@ class HistoryList extends Component<Props, StateProps> {
     onListScroll: undefined,
     onAsideScroll: undefined,
     isLoading: false,
+    isFiltered: false,
     withFixedHeight: false,
     withDetailsPanel: false,
   }
@@ -121,6 +124,7 @@ class HistoryList extends Component<Props, StateProps> {
       digitalAssets,
       ownerAddress,
       isLoading,
+      isFiltered,
       withFixedHeight,
       withDetailsPanel,
     }: Props = this.props
@@ -128,7 +132,7 @@ class HistoryList extends Component<Props, StateProps> {
     if (!(isLoading || items.length)) {
       return (
         <div className={`${styles.core} ${styles.empty}`}>
-          <Empty />
+          <Empty isFiltered={isFiltered} />
         </div>
       )
     }
@@ -250,10 +254,17 @@ function mapStateToProps(state: AppState) {
   const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
 
+  const {
+    searchQuery,
+    isErrorFiltered,
+    isPendingFiltered,
+  }: TransactionsState = selectTransactions(state)
+
   return {
     notes,
     digitalAssets,
     ownerAddress,
+    isFiltered: !!searchQuery || isErrorFiltered || isPendingFiltered,
   }
 }
 
