@@ -61,6 +61,7 @@ import * as transactions from '../modules/transactions'
 
 const {
   syncTransactionsTimeout,
+  mediumRangeRequestTimeout,
   resyncTransactionsTimeout,
   processingBlockWaitTimeout,
   maxBlocksPerTransactionsRequest,
@@ -1082,9 +1083,13 @@ export function* requestTransactions(
         assetAddress,
         toBlockStr,
       ))
+
+      return
     }
 
     const mediumBlock: number = Math.round(toBlock / 2)
+
+    yield delay(mediumRangeRequestTimeout)
 
     yield* requestTransactionsByRange(requestQueue, task, fromBlock, mediumBlock, minBlock)
     yield* requestTransactionsByRange(requestQueue, task, mediumBlock, toBlock, minBlock)

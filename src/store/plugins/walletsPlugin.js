@@ -57,8 +57,6 @@ export type ImportWalletPayload = {|
   +derivationPath: ?string,
 |}
 
-const MINUTE: number = 60 * 1000
-
 function max(
   a: number,
   b: number,
@@ -507,18 +505,24 @@ class WalletsPlugin {
   requestAssetBalance = async (
     ownerAddress: Address,
     assetAddress: Address,
+    retryCount?: number = 0,
   ): Promise<string> => {
     try {
-      return web3.getAssetBalance(
+      const balance: string = await web3.getAssetBalance(
         this.getNetwork(),
         ownerAddress,
         assetAddress,
       )
+
+      return balance
     } catch (error) {
-      return Promise.delay(MINUTE).then(() => this.requestAssetBalance(
-        ownerAddress,
-        assetAddress,
-      ))
+      return Promise
+        .delay((2 ** ((retryCount > 6) ? 6 : retryCount)) * 1000)
+        .then(() => this.requestAssetBalance(
+          ownerAddress,
+          assetAddress,
+          retryCount + 1,
+        ))
     }
   }
 

@@ -49,6 +49,7 @@ declare type AppConfig = {|
   +blockExplorerMaxResponseSize: number,
   +requestQueueWorkersCount: number,
   +resyncTransactionsTimeout: number,
+  +mediumRangeRequestTimeout: number,
   +syncBalancesTimeout: number,
   +miningDelay: number,
   +addressWalletType: 'address',

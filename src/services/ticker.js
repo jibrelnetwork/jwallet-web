@@ -5,51 +5,16 @@ import getENVVar from 'utils/config/getENVVar'
 import { typeUtils } from 'utils'
 import { CURRENCIES } from 'data'
 
+import { callAPI } from './callAPI'
+
 type TickerAPIParams = {|
   +id: FiatId[],
   +convert: FiatCurrency[],
   +source: 'coinmarketcap',
 |}
 
-const { tickerAPIOptions }: AppConfig = config
 const AVAILABLE_CURRENCIES: string[] = Object.keys(CURRENCIES)
 const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
-
-function handleRequestError(
-  params: TickerAPIParams,
-  retryCount: number,
-) {
-  if (retryCount > 0) {
-    // eslint-disable-next-line no-use-before-define
-    return callApi(params, (retryCount - 1))
-  }
-
-  throw new Error('Ticker Request Error')
-}
-
-function callApi(
-  params: TickerAPIParams,
-  retryCount: number = 4,
-): Promise<any> {
-  const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
-
-  return fetch(requestInfo, {
-    ...tickerAPIOptions,
-    body: JSON.stringify(params),
-  }).catch(() => handleRequestError(
-    params,
-    retryCount,
-  )).then((response: Response): Promise<any> => {
-    if (response.ok) {
-      return response.json()
-    }
-
-    return handleRequestError(
-      params,
-      retryCount,
-    )
-  })
-}
 
 function handleFiatCoursesResponse(response: any): Object {
   if (typeUtils.isVoid(response) || !typeUtils.isObject(response)) {
@@ -109,11 +74,17 @@ function requestLatestCourses(
   fiatCurrency: FiatCurrency,
   fiatIds: FiatId[],
 ): Promise<FiatCoursesAPI> {
-  return callApi({
+  const params: TickerAPIParams = {
     id: fiatIds,
     convert: [fiatCurrency],
     source: 'coinmarketcap',
-  })
+  }
+
+  return callAPI(
+    `${TICKER_API}/v2/quotes`,
+    config.tickerAPIOptions,
+    params,
+  )
     .then(handleFiatCoursesResponse)
     .then(prepareFiatCourses)
 }
