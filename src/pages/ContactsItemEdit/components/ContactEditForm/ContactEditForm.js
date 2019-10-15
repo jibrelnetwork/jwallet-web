@@ -60,8 +60,16 @@ class ContactEditFormComponent extends PureComponent<Props> {
     return null
   }
 
-  handleSubmit = (values: FormValues) => {
-    this.props.onEditFinish(values)
+  handleSubmit = ({
+    name,
+    address,
+    description,
+  }: FormValues) => {
+    this.props.onEditFinish({
+      address,
+      name: (name || '').trim(),
+      description: (description || '').trim(),
+    })
 
     gaSendEvent(
       'ContactManager',
