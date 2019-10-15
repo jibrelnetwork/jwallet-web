@@ -33,9 +33,11 @@ export type Props = {|
   list: Favorite[],
 |}
 
+type AlphabetList = { [string]: Favorite[] }
+
 const NAMELESS_SYMBOL = '#'
 
-function extractAlphabet(list: Favorite[]): { [string]: Favorite[] } {
+function extractAlphabet(list: Favorite[]): AlphabetList {
   const resultList = {}
 
   list.forEach((item) => {
@@ -51,9 +53,24 @@ function extractAlphabet(list: Favorite[]): { [string]: Favorite[] } {
     }
   })
 
-  // resultList.sort((a, b) => (a > b) ? -1 : 1)
-
   return resultList
+}
+
+function compareAlphabet(
+  a: string,
+  b: string,
+): -1 | 0 | 1 {
+  if (a === NAMELESS_SYMBOL) {
+    return 1
+  } else if (b === NAMELESS_SYMBOL) {
+    return -1
+  } else if (a > b) {
+    return 1
+  } else if (a < b) {
+    return -1
+  }
+
+  return 0
 }
 
 function EmptyContacts() {
@@ -108,19 +125,21 @@ function NotFoundContacts() {
   )
 }
 
-type ContactListProps = {
-  alphabetList: {
-    [string]: Favorite[],
-  },
-}
-
-function ContactList({ alphabetList }: ContactListProps) {
+function ContactList({ alphabetList }: {|
+  +alphabetList: AlphabetList,
+|}) {
   // eslint-disable-next-line fp/no-mutating-methods
-  const letters = Object.keys(alphabetList).sort()
+  const letters: string[] = Object.keys(alphabetList).sort((
+    a: string,
+    b: string,
+  ) => compareAlphabet(
+    a,
+    b,
+  ))
 
   return (
     <ul className='__contacts-list'>
-      {letters.map(k => (
+      {letters.map((k: string) => (
         <li key={k}>
           <div className={styles.contactGroupTitle}>{k}</div>
           <ul>
