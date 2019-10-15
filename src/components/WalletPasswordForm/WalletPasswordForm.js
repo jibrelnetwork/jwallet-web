@@ -15,6 +15,7 @@ type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   +values: FormFields,
   +hint: string,
+  +description: ?string,
   +isSubmitting: boolean,
 |}
 
@@ -24,6 +25,7 @@ export function WalletPasswordForm({
     password,
   } = {},
   hint,
+  description,
   isSubmitting,
 }: Props) {
   const i18n = useI18n()
@@ -33,6 +35,11 @@ export function WalletPasswordForm({
       onSubmit={handleSubmit}
       className={styles.core}
     >
+      {description && (
+        <div className={styles.description}>
+          {description}
+        </div>
+      )}
       <Field
         component={PasswordInput}
         value={password}
@@ -69,5 +76,6 @@ export function WalletPasswordForm({
 }
 
 WalletPasswordForm.defaultProps = {
+  description: null,
   isSubmitting: false,
 }

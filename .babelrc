@@ -6,7 +6,7 @@
     "macros"
   ],
   "presets": [
-    ["@babel/env", { "modules": false }],
+    "@babel/preset-env",
     "@babel/preset-react",
     "@babel/flow",
     "@lingui/react"

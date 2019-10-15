@@ -446,11 +446,11 @@ class WalletsPlugin {
       newInternalKey,
     ))
 
-    this.dispatch(setNewPassword({
-      salt: newSalt,
-      internalKey: internalKeyEnc,
-      hint: passwordHint || '',
-    }))
+    this.dispatch(setNewPassword(
+      internalKeyEnc,
+      newSalt,
+      passwordHint || '',
+    ))
 
     this.dispatch(setWalletsItems(newItems))
 

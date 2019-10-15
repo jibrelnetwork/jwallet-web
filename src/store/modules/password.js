@@ -2,11 +2,11 @@
 
 export const SET_NEW_PASSWORD = '@@password/SET_NEW_PASSWORD'
 
-export function setNewPassword({
-  hint,
-  salt,
-  internalKey,
-}: PasswordPersist) {
+export function setNewPassword(
+  internalKey: EncryptedData,
+  salt: string,
+  hint: string,
+) {
   return {
     type: SET_NEW_PASSWORD,
     payload: {

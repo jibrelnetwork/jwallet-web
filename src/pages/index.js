@@ -46,3 +46,5 @@ export { Agreements } from './Agreements/Agreements'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { Introduction } from './Introduction/Introduction'
+
+export { WalletsMigration } from './WalletsMigration/WalletsMigration'

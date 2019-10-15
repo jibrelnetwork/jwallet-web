@@ -49,11 +49,11 @@ async function submitSetPasswordForm(
     derivedKey,
   )
 
-  dispatch(setNewPassword({
+  dispatch(setNewPassword(
+    internalKeyEnc,
     salt,
-    internalKey: internalKeyEnc,
-    hint: passwordHint || '',
-  }))
+    passwordHint || '',
+  ))
 }
 
 class SetPassword extends Component<Props> {
