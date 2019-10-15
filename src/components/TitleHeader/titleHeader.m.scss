@@ -9,6 +9,7 @@
   margin: 0 auto;
   flex-grow: 1;
   align-items: center;
+  overflow: hidden;
 }
 
 .back {
@@ -20,6 +21,8 @@
 }
 
 .title {
+  @include ellipsis;
+
   min-width: 200px;
   max-width: 736px;
   margin-right: auto;
@@ -71,6 +74,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  min-width: 1024px;
   background-color: transparent;
 
   &.menu {
@@ -84,6 +88,7 @@
 
   &.static {
     position: static;
+    min-width: initial;
 
     .content {
       padding: 48px 0 30px 0;
