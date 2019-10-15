@@ -1,5 +1,6 @@
 // @flow strict
 
+import { gaSendException } from 'utils/analytics'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 
 import * as type from 'utils/type'
@@ -223,10 +224,19 @@ export async function migrateToV1(password: string): Promise<void> {
     passwordPersist,
   )
 
-  const transaction: IDBTransaction = await initTransaction()
+  try {
+    const transaction: IDBTransaction = await initTransaction()
 
-  await deleteStoreData(TRANSACTIONS_STORE_KEY, transaction)
-  await setStoreData(walletsPersist, WALLETS_STORE_KEY, transaction)
-  await setStoreData(passwordPersist, PASSWORD_STORE_KEY, transaction)
-  await setStoreVersion(STORAGE_VERSION, transaction)
+    await deleteStoreData(TRANSACTIONS_STORE_KEY, transaction)
+    await setStoreData(walletsPersist, WALLETS_STORE_KEY, transaction)
+    await setStoreData(passwordPersist, PASSWORD_STORE_KEY, transaction)
+    await setStoreVersion(STORAGE_VERSION, transaction)
+  } catch (error) {
+    console.error(error)
+
+    gaSendException({
+      exDescription: `StorageTransactionError: ${error.message}`,
+      exFatal: true,
+    })
+  }
 }

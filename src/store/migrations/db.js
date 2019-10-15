@@ -27,7 +27,8 @@ export function initTransaction(): Promise<IDBTransaction> {
 
     /* eslint-disable fp/no-mutation */
     transaction.onerror = function transactionError() {
-      throw new Error('Transaction failed')
+      console.error(transaction.error)
+      throw new Error('Migration: Database transaction failed')
     }
 
     transaction.oncomplete = function transactionComplete() {

@@ -13,8 +13,12 @@ import {
 } from 'react-final-form'
 
 import { migrate } from 'store/migrations'
-import { gaSendEvent } from 'utils/analytics'
 import { WalletPasswordForm } from 'components'
+
+import {
+  gaSendEvent,
+  gaSendException,
+} from 'utils/analytics'
 
 import styles from './walletsMigration.m.scss'
 
@@ -50,10 +54,10 @@ class WalletsMigration extends Component<Props> {
     } catch (error) {
       console.error(error)
 
-      gaSendEvent(
-        'MigrateWallets',
-        'WalletsMigrationError',
-      )
+      gaSendException({
+        exDescription: 'Wallets migration error',
+        exFatal: true,
+      })
 
       return {
         password: i18n._(
@@ -102,18 +106,18 @@ class WalletsMigration extends Component<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const passwordVersion: number = state.password && state.password.persist
-    // $FlowFixMe
-    ? state.password.persist.version
-    : 0
+  // $FlowFixMe
+  if (state.password && state.password.persist && state.password.persist.version) {
+    return {
+      hint: state.password.persist.hint,
+    }
+  }
 
   return {
-    hint: passwordVersion
-      ? state.password.persist.hint
-      // $FlowFixMe
-      : (state.wallets && state.wallets.persist && state.wallets.persist.passwordOptions)
-        ? state.wallets.persist.passwordOptions.passwordHint
-        : '',
+    // $FlowFixMe
+    hint: (state.wallets && state.wallets.persist && state.wallets.persist.passwordOptions)
+      ? state.wallets.persist.passwordOptions.passwordHint
+      : '',
   }
 }
 
