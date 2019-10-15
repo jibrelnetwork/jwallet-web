@@ -212,6 +212,7 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
           errorMessage={errorMessage}
           name='passwordNew'
           theme='white-indicator'
+          maxLength={100}
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
@@ -226,6 +227,7 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
           )}
           theme='white-icon'
           name='passwordConfirm'
+          maxLength={100}
           isDisabled={isDisabled}
         />
       </div>

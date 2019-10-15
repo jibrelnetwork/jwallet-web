@@ -141,6 +141,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
               )}
               name='address'
               isDisabled={submitting || address}
+              maxLength={40}
             />
             <Field
               className={offset.mb32}
