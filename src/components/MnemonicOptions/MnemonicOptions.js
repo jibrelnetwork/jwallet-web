@@ -63,6 +63,7 @@ class MnemonicOptionsComponent extends Component<Props, StateProps> {
             { defaults: 'Mnemonic Passphrase (Optional)' },
           )}
           name='passphrase'
+          maxLength={1000}
           isDisabled={isFormDisabled}
         />
         <Field
@@ -75,6 +76,7 @@ class MnemonicOptionsComponent extends Component<Props, StateProps> {
           infoMessage={DERIVATION_PATH_MESSAGE}
           errorMessage={validateDerivationPath(derivationPath)}
           name='derivationPath'
+          maxLength={100}
           isDisabled={isFormDisabled}
         />
       </Fragment>

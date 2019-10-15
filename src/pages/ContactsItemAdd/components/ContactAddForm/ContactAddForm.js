@@ -86,12 +86,15 @@ class ContactAddFormComponent extends PureComponent<Props> {
     return null
   }
 
-  handleSubmit = (values: FormValues) => {
-    const addressWithChecksum = getAddressChecksum(values.address)
-
+  handleSubmit = ({
+    name,
+    address,
+    description,
+  }: FormValues) => {
     this.props.addContact({
-      ...values,
-      address: addressWithChecksum,
+      name: (name || '').trim(),
+      address: getAddressChecksum(address),
+      description: (description || '').trim(),
     })
 
     gaSendEvent(
@@ -141,6 +144,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
               )}
               name='address'
               isDisabled={submitting || address}
+              maxLength={42}
             />
             <Field
               className={offset.mb32}

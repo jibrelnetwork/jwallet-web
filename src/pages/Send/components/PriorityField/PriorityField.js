@@ -133,6 +133,7 @@ class PriorityField extends Component<Props> {
                   name={gasLimitFieldName}
                   label={gasLimitLabel}
                   isDisabled={isDisabled}
+                  maxLength={32}
                 />
               }
               <Field
@@ -146,6 +147,7 @@ class PriorityField extends Component<Props> {
                   { defaults: 'Gas price' },
                 )}
                 unit='GWei'
+                maxLength={32}
               />
             </div>
             <div className={fieldStyle.bottom}>
