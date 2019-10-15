@@ -245,6 +245,7 @@ class WalletsCreateView extends Component<Props, StateProps> {
           )}
           infoMessage={checkNameExists(name)}
           name='name'
+          maxLength={32}
           isDisabled={isSubmitting}
         />
         <Button

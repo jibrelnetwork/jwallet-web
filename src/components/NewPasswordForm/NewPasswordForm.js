@@ -136,6 +136,7 @@ class NewPasswordForm extends Component<Props, StateProps> {
             // eslint-disable-next-line max-len
             { defaults: 'If you forget your Security Password, some functions won’t be available. To restore access to all functions you will need to clear your data and re-import your wallets again using backup phrase.' },
           )}
+          maxLength={256}
         />
         <Button
           type='submit'

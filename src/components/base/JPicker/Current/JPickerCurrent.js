@@ -52,6 +52,7 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
         disabled={!isEditable}
         onChange={onInputChange}
         autoComplete='off'
+        maxLength={256}
       />
       <span className={pickerCurrentStyle.label}>
         {label}
