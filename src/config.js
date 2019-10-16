@@ -166,6 +166,8 @@ const config: AppConfig = {
   cancelAddress: '0x000000000000000000000063616E63656c6c6564',
 
   encryptedMnemonicLength: 120,
+
+  storageVersion: 1,
 }
 
 export default config
