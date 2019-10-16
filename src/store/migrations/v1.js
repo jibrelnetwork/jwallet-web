@@ -3,6 +3,7 @@
 import { gaSendException } from 'utils/analytics'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 
+import config from 'config'
 import * as type from 'utils/type'
 import * as encryption from 'utils/encryption'
 
@@ -15,7 +16,7 @@ import {
   deleteStoreData,
 } from './db'
 
-const STORAGE_VERSION: number = 1
+const STORAGE_VERSION: number = config.storageVersion
 const WALLETS_STORE_KEY: string = 'persist:jwallet-web-wallets'
 const PASSWORD_STORE_KEY: string = 'persist:jwallet-web-password'
 const TRANSACTIONS_STORE_KEY: string = 'persist:jwallet-web-transactions'
