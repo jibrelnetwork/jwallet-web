@@ -1,0 +1,95 @@
+@import 'styles/mixins';
+
+.main,
+.right {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.main {
+  @include flex-column;
+  @include property-transition(max-width);
+
+  padding: 0 16px;
+}
+
+.right {
+  @include property-transition(right, opacity);
+
+  position: relative;
+  right: -400px;
+  max-width: 0;
+  opacity: 0;
+}
+
+.list {
+  @include flex-column;
+}
+
+.loader {
+  @include flex-row-center;
+
+  flex-grow: 1;
+  margin: 32px 0;
+}
+
+.sidebar {
+  padding-bottom: 16px;
+}
+
+.details {
+  position: relative;
+}
+
+.close {
+  @include sprite-icon-color($white-60);
+
+  z-index: 1;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: block;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    @include sprite-icon-color($white);
+  }
+}
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  width: calc(100% + (2 * 16px)); // 2 * 16px for paddings
+  padding-top: 16px;
+  margin-left: -16px;
+  overflow: hidden;
+
+  &.active {
+    .main {
+      max-width: 752px;
+    }
+
+    .right {
+      right: 0;
+      width: 400px;
+      max-width: 400px;
+      padding: 0 16px;
+      opacity: 1;
+    }
+  }
+
+  &.height {
+    .main,
+    .right {
+      height: calc(100vh - #{$page-header-height} - 16px); // 16px is for padding-top
+    }
+  }
+
+  &.empty {
+    flex-grow: 1;
+  }
+}

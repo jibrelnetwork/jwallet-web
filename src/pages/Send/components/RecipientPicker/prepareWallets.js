@@ -1,75 +1,76 @@
 // @flow strict
 
-import { t } from 'ttag'
-
-import {
-  generateAddresses,
-} from 'utils/mnemonic'
-
-import { type RecipientPickerWallet } from './RecipientPicker'
+import { getAddressName } from 'utils/address'
+import { generateAddresses } from 'utils/mnemonic'
 
 export function prepareWallets(
-  wallets: Wallet[],
+  items: Wallet[],
   walletBalances: Object = {},
-  walletNames: Object = {},
+  addressNames: AddressNames = {},
 ): RecipientPickerWallet[] {
-  return wallets.map((wallet) => {
+  return items.map((item: Wallet): ?RecipientPickerWallet => {
     const {
-      bip32XPublicKey,
+      id,
+      name,
+      xpub,
+      address,
       isSimplified,
-      isReadOnly,
-      addressIndex, // TODO: fix this when will be finished
-    } = wallet
+      addressIndex,
+      derivationIndex,
+    } = item
 
-    if (bip32XPublicKey) {
+    if (xpub) {
       if (isSimplified) {
-        const walletAddresses = generateAddresses(
-          bip32XPublicKey,
-          0,
-          1,
+        const firstAddress = generateAddresses(
+          xpub,
+          addressIndex,
+          addressIndex + 1,
         )
-        const address = walletAddresses[0]
 
         return {
+          id,
+          name,
           type: 'address',
           addresses: [{
-            address,
-            name: walletNames[address] || '',
             fiatBalance: undefined,
+            address: firstAddress[0],
+            name: addressNames[firstAddress[0]] || '',
           }],
-          id: wallet.id,
-          name: wallet.name,
         }
       } else {
         const walletAddresses = generateAddresses(
-          bip32XPublicKey,
+          xpub,
           0,
-          addressIndex,
-        ).map((address, index) => ({
-          address,
-          name: walletNames[address] || t`Address ${index + 1}`,
-          fiatBalance: walletBalances[address],
+          derivationIndex,
+        ).map((
+          addr: Address,
+          index: number,
+        ): RecipientPickerWalletAddress => ({
+          address: addr,
+          fiatBalance: walletBalances[addr],
+          name: getAddressName(
+            addressNames[addr],
+            index,
+          ),
         }))
 
         return {
+          id,
+          name,
           type: 'mnemonic',
-          id: wallet.id,
           addresses: walletAddresses,
-          name: wallet.name,
         }
       }
-    } else if (isReadOnly && wallet.address) {
-      const { address } = wallet
-
+    } else if (address) {
       return {
+        id,
+        name,
         type: 'read-only',
         addresses: [{
           address,
-          name: walletNames[address] || '',
           fiatBalance: undefined,
+          name: addressNames[address] || '',
         }],
-        id: wallet.id,
-        name: wallet.name,
       }
     } else {
       return null

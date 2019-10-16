@@ -1,7 +1,8 @@
-// @flow
+// @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
+import { actions } from 'redux-router5'
 
 import {
   all,
@@ -14,8 +15,9 @@ import {
 } from 'redux-saga/effects'
 
 import web3 from 'services/web3'
-import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import { toastsPlugin } from 'store/plugins'
+import { gaSendEvent } from 'utils/analytics'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
@@ -29,7 +31,6 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'store/modules/blocks'
-import * as ticker from 'store/modules/ticker'
 
 import {
   OPEN_VIEW,
@@ -150,7 +151,14 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
 
     if (foundAsset) {
-      throw new InvalidFieldError('address', t`This asset alreasy exists`)
+      throw new InvalidFieldError(
+        'address',
+        i18n._(
+          'AssetsItemAdd.errors.exists',
+          null,
+          { defaults: 'This asset already exists' },
+        ),
+      )
     }
 
     // set loading, shows loader on address input, update requestedAddress
@@ -182,7 +190,14 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
       yield put(setField('symbol', symbol || ''))
       yield put(setField('decimals', typeof decimals === 'number' ? decimals.toString() : ''))
     } else if (result) {
-      throw new InvalidFieldError('address', t`This asset is not ERC20 compatible`)
+      throw new InvalidFieldError(
+        'address',
+        i18n._(
+          'AssetsItemAdd.errors.assetNotCompatible',
+          null,
+          { defaults: 'This asset is not ERC20 compatible' },
+        ),
+      )
     }
   } catch (err) {
     yield put(setIsAssetValid(false))
@@ -190,7 +205,14 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     if (err instanceof InvalidFieldError) {
       yield put(setFieldError(err.fieldName, err.message))
     } else {
-      yield put(setFieldError('address', t`Network connection error`))
+      yield put(setFieldError(
+        'address',
+        i18n._(
+          'AssetsItemAdd.errors.noConnection',
+          null,
+          { defaults: 'Network connection error' },
+        ),
+      ))
     }
   }
 }
@@ -221,13 +243,27 @@ function* onAssetFormSumbit(): Saga<void> {
 
   // check contract address
   if (!checkAddressValid(contractAddress)) {
-    yield put(setFieldError('address', t`Invalid ERC-20 contract address`))
+    yield put(setFieldError(
+      'address',
+      i18n._(
+        'AssetsItemAdd.errors.invalidAddress',
+        null,
+        { defaults: 'Invalid ERC-20 contract address' },
+      ),
+    ))
 
     return
   }
 
   if (!isAssetLoaded) {
-    yield put(setFieldError('address', t`Please wait for asset validity check`))
+    yield put(setFieldError(
+      'address',
+      i18n._(
+        'AssetsItemAdd.errors.waitForValidation',
+        null,
+        { defaults: 'Please wait for asset validity check' },
+      ),
+    ))
 
     return
   }
@@ -236,17 +272,38 @@ function* onAssetFormSumbit(): Saga<void> {
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
 
   if (foundAsset) {
-    yield put(setFieldError('address', t`This asset alreasy exists`))
+    yield put(setFieldError(
+      'address',
+      i18n._(
+        'AssetsItemAdd.errors.exists',
+        null,
+        { defaults: 'This asset already exists' },
+      ),
+    ))
 
     return
   }
 
   if (contractName.length === 0) {
-    yield put(setFieldError('name', t`Valid digital asset name is required`))
+    yield put(setFieldError(
+      'name',
+      i18n._(
+        'AssetsItemAdd.errors.emptyName',
+        null,
+        { defaults: 'Valid digital asset name is required' },
+      ),
+    ))
   }
 
   if (contractSymbol.length === 0 || contractSymbol.length > 10) {
-    yield put(setFieldError('symbol', t`Valid digital asset symbol is required`))
+    yield put(setFieldError(
+      'symbol',
+      i18n._(
+        'AssetsItemAdd.errors.symbolLength',
+        null,
+        { defaults: 'Valid digital asset symbol is required' },
+      ),
+    ))
   }
 
   if (
@@ -255,7 +312,14 @@ function* onAssetFormSumbit(): Saga<void> {
     contractDecimals > 127
   ) {
     yield put(
-      setFieldError('decimals', t`Digital asset decimals should be a number between 0...127`),
+      setFieldError(
+        'decimals',
+        i18n._(
+          'AssetsItemAdd.errors.decimals',
+          null,
+          { defaults: 'Digital asset decimals should be a number between 0...127' },
+        ),
+      ),
     )
   }
 
@@ -280,15 +344,21 @@ function* onAssetFormSumbit(): Saga<void> {
       digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
     )
 
-    const state = yield select()
+    yield put(actions.navigateTo('Home'))
 
-    router5BackOrFallbackFunctionCreator(
-      state.router.previousRoute,
-      'Wallet',
-    )()
+    toastsPlugin.showToast(i18n._(
+      'AssetsItemAdd.toast',
+      null,
+      { defaults: 'Asset added' },
+    ))
+
+    gaSendEvent(
+      'AssetManager',
+      'AddedCustomAsset',
+      checksumAddres,
+    )
 
     yield put(blocks.syncRestart())
-    yield put(ticker.syncRestart())
   }
 }
 

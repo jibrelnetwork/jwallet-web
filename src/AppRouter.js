@@ -4,34 +4,39 @@ import React, { Component } from 'react'
 import { constants } from 'router5'
 import { connect } from 'react-redux'
 
+import { MenuLayout } from 'layouts'
+import { PageNotFoundError } from 'errors'
 import { routes } from 'store/router/routes'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import { checkMigrationV1Needed } from 'store/migrations/v1'
 import { selectWalletsItems } from 'store/selectors/wallets'
-import { selectIntroductionValue } from 'store/selectors/user'
 import { selectIsPasswordExists } from 'store/selectors/password'
-import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 import {
-  MenuLayout,
-  WalletsLayout,
-} from 'layouts'
+  selectIntroductionValue,
+  selectAgreementsConditions,
+  selectIsAgreementsConfirmed,
+} from 'store/selectors/user'
 
 import * as pages from 'pages'
 
 import 'styles/core.scss'
 
+type ApplicationError = 'PageNotFoundError' | 'UnexpectedError'
+
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
+  +showNewWalletProcess: boolean,
   +isAllAgreementsChecked: boolean,
   +isAllFeaturesIntroduced: boolean,
-  +showNewWalletProcess: boolean,
 |}
 
-type ComponentState = {|
-  +hasError: boolean,
+type StateProps = {|
+  +error: ?ApplicationError,
   +prevRouteName: ?string,
+  +isMigrationNeeded: ?boolean,
 |}
 
 function checkHasMenu(name): boolean {
@@ -40,46 +45,34 @@ function checkHasMenu(name): boolean {
   return !!foundRoute && foundRoute.hasMenu
 }
 
-// FIXME: discuss with the team and update accordingly
-function renderWithWalletsLayout(
-  Page,
-  props = {},
-) {
-  return (
-    <WalletsLayout>
-      <Page {...props} />
-    </WalletsLayout>
-  )
-}
-
 function renderWithMenuLayout(
-  Page,
-  props = {},
+  params: Object = {},
   routeName: string,
 ) {
+  const Page = pages[routeName]
+
   return (
     <MenuLayout routeName={routeName}>
-      <Page {...props} />
+      <Page {...params} />
     </MenuLayout>
   )
 }
 
-class AppRouter extends Component<Props, ComponentState> {
+class AppRouter extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      hasError: false,
+      error: null,
       // is used in state from props derivation logic
       // eslint-disable-next-line react/no-unused-state
       prevRouteName: null,
+      isMigrationNeeded: null,
     }
   }
 
-  static getDerivedStateFromProps({ route }: Props, state: ComponentState) {
-    const nextRouteName = (!route && !route.name) ?
-      constants.UNKNOWN_ROUTE :
-      route.name
+  static getDerivedStateFromProps({ route }: Props, state: StateProps) {
+    const nextRouteName = (!route && !route.name) ? constants.UNKNOWN_ROUTE : route.name
 
     if (!state.prevRouteName) {
       return {
@@ -90,37 +83,58 @@ class AppRouter extends Component<Props, ComponentState> {
     if (state.prevRouteName !== route.name) {
       return {
         prevRouteName: route.name,
-        hasError: false,
+        error: null,
       }
     }
 
     return {}
   }
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(err: Error) {
     // FIXME: add error reporting to remote
     /* eslint-disable no-console */
     console.error('Unhandled error')
-    console.error(error)
+    console.error(err)
     /* eslint-enable no-console */
 
+    const error = err instanceof PageNotFoundError
+      ? 'PageNotFoundError'
+      : 'UnexpectedError'
+
     return {
-      hasError: true,
+      error,
     }
   }
 
+  async componentDidMount() {
+    this.setState({
+      isMigrationNeeded: await checkMigrationV1Needed(),
+    })
+  }
+
   render() {
-    if (this.state.hasError) {
-      return <ErrorUnexpected />
+    const {
+      error,
+      isMigrationNeeded,
+    }: StateProps = this.state
+
+    switch (error) {
+      case 'PageNotFoundError':
+        return <pages.NotFound />
+
+      case 'UnexpectedError':
+        return <pages.ErrorUnexpected />
+
+      default:
     }
 
     const {
       route,
       hasPassword,
+      showNewWalletProcess,
       isAllAgreementsChecked,
       isAllFeaturesIntroduced,
-      showNewWalletProcess,
-    } = this.props
+    }: Props = this.props
 
     const {
       name,
@@ -128,7 +142,7 @@ class AppRouter extends Component<Props, ComponentState> {
     } = route
 
     if (!route || (name === constants.UNKNOWN_ROUTE)) {
-      return renderWithWalletsLayout(pages.NotFound)
+      return <pages.NotFound />
     }
 
     if (!isAllFeaturesIntroduced) {
@@ -136,7 +150,15 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!isAllAgreementsChecked) {
-      return <pages.AgreementsView />
+      return <pages.Agreements />
+    }
+
+    if (isMigrationNeeded == null) {
+      return null
+    }
+
+    if (isMigrationNeeded) {
+      return <pages.WalletsMigration />
     }
 
     if (!hasPassword) {
@@ -148,7 +170,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (checkHasMenu(name)) {
-      return renderWithMenuLayout(pages[name], params, name)
+      return renderWithMenuLayout(params, name)
     }
 
     const Page = pages[name]
@@ -162,7 +184,10 @@ function mapStateToProps(state: AppState) {
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
-  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
+  const agreements = selectAgreementsConditions(state)
+  const isAgreementsConfirmed: boolean = selectIsAgreementsConfirmed(state)
+  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST, agreements)
+    && isAgreementsConfirmed
   const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
 
   return {
@@ -176,9 +201,5 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-const AppRouterContainer = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  () => ({}),
-)(AppRouter)
-
-export { AppRouterContainer as AppRouter }
+const AppRouterEnhanced = connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps)(AppRouter)
+export { AppRouterEnhanced as AppRouter }

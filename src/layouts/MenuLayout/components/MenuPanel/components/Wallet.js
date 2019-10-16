@@ -1,72 +1,70 @@
 // @flow strict
 
 import React from 'react'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
 
+import { getAddressName } from 'utils/address'
+import { formatFiatBalance } from 'utils/formatters'
+import { checkMultiAddressType } from 'utils/wallets'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { selectTickerItems } from 'store/selectors/ticker'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+
 import {
+  getFiatBalance,
+  getDigitalAssetsWithBalance,
+} from 'utils/digitalAssets'
+
+import {
+  selectAddressNames,
   selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
-
-import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
-import { selectCurrentBlock } from 'store/selectors/blocks'
-import { getFiatBalance } from 'store/utils/getFiatBalances'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectAllAddressNames } from 'store/selectors/favorites'
-import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
-import { selectBalancesByBlockNumber } from 'store/selectors/balances'
-
-import {
-  checkMultiAddressType,
-  getMnemonicAddressName,
-} from 'utils/wallets'
-
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
 
 import {
   JIcon,
   JLink,
 } from 'components/base'
 
-import menuPanelStyle from '../menuPanel.m.scss'
+import styles from '../menuPanel.m.scss'
 
 type Props = {|
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
-  +fiatBalance: number,
-  +isMnemonic: boolean,
+  +fiatBalance: BigNumber,
 |}
 
 export function WalletView({
   walletName,
   fiatCurrency,
   mnemonicAddressName,
-  isMnemonic,
   fiatBalance,
 }: Props) {
   return (
     <JLink
       href='/wallets'
-      className={`__wallet ${menuPanelStyle.wallet}`}
+      className={`__wallet ${styles.wallet}`}
     >
-      <div className={menuPanelStyle.walletName}>
+      <div className={styles.walletName}>
         {walletName}
       </div>
-      {isMnemonic && mnemonicAddressName && (
-        <div className={menuPanelStyle.addressName}>
+      {mnemonicAddressName && (
+        <div className={styles.addressName}>
           {mnemonicAddressName}
         </div>
       )}
-      <div className={menuPanelStyle.balance}>
-        {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
+      <div className={styles.balance}>
+        {formatFiatBalance(
+          fiatBalance,
+          fiatCurrency,
+        )}
       </div>
       <JIcon
-        className={menuPanelStyle.chevron}
+        className={styles.chevron}
         name='arrow-right-use-fill'
         color='white'
       />
@@ -74,48 +72,56 @@ export function WalletView({
   )
 }
 
-function getTotalFiatBalance(state: AppState, assets: DigitalAssetWithBalance[]): number {
-  return assets.reduce((result: number, digitalAsset: DigitalAssetWithBalance): number =>
-    result + (getFiatBalance(state, digitalAsset) || 0), 0)
+function getTotalFiatBalance(
+  assets: DigitalAssetWithBalance[],
+  fiatCourses: FiatCourses,
+  fiatCurrency: FiatCurrencyCode,
+): BigNumber {
+  return assets.reduce((
+    result: BigNumber,
+    digitalAsset: DigitalAssetWithBalance,
+  ): BigNumber => result.plus(getFiatBalance(
+    digitalAsset,
+    fiatCourses,
+    fiatCurrency,
+  ) || 0), new BigNumber(0))
 }
 
 function mapStateToProps(state: AppState) {
   const wallet = selectActiveWallet(state)
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const addressNames: AddressNames = selectAllAddressNames(state)
+  const fiatCourses: FiatCourses = selectTickerItems(state)
+  const addressNames: AddressNames = selectAddressNames(state)
+  const balances: ?Balances = selectBalancesByBlockNumber(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const fiatCurrency: FiatCurrencyData = selectSettingsFiatCurrencyData(state)
-
-  const balances: ?Balances = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    currentBlock ? currentBlock.number.toString() : null,
-  )
+  const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
     assets,
     balances,
   )
 
-  const walletName: string = wallet ? wallet.name : ''
-  const isMnemonic: boolean = wallet ? checkMultiAddressType(wallet.customType) : false
+  const {
+    name,
+    customType,
+    addressIndex,
+    isSimplified,
+  } = wallet
 
-  const mnemonicAddressName: string = (wallet && ownerAddress && isMnemonic)
-    ? getMnemonicAddressName(wallet, addressNames[ownerAddress])
+  const mnemonicAddressName: string = checkMultiAddressType(customType) && !isSimplified
+    ? getAddressName(addressNames[ownerAddress], addressIndex || 0)
     : ''
 
   return {
-    walletName,
-    fiatCurrency: fiatCurrency.symbol,
+    fiatCurrency,
     mnemonicAddressName,
-    fiatBalance: getTotalFiatBalance(state, assetsWithBalance),
-    isMnemonic,
+    walletName: name,
+    fiatBalance: getTotalFiatBalance(
+      assetsWithBalance,
+      fiatCourses,
+      fiatCurrency,
+    ),
   }
 }
 
-export const Wallet = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-)(WalletView)
+export const Wallet = connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps)(WalletView)

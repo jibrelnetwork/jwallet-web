@@ -2,12 +2,11 @@
 
 import createRouter5 from 'router5'
 
-import { WalletNotFoundError } from 'errors'
 import { walletsPlugin } from 'store/plugins'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   selectActiveWallet,
-  selectActiveWalletId,
   selectWalletsItems,
 } from 'store/selectors/wallets'
 
@@ -40,48 +39,64 @@ export const routes: Array<{|
   name: 'AssetsItem',
   hasMenu: true,
 }, {
+  path: '/assets/:assetId/details',
+  name: 'AssetsItemDetails',
+  hasMenu: true,
+}, {
   path: '/assets/:assetId/edit',
   name: 'AssetsItemEdit',
+  hasMenu: true,
+}, {
+  path: '/assets/:assetId/delete',
+  name: 'AssetsItemDelete',
   hasMenu: true,
 }, {
   path: '/contacts',
   name: 'Contacts',
   hasMenu: true,
 }, {
-  path: '/contacts/add?:address&:name&:note',
+  path: '/contacts/:contactId',
+  name: 'ContactsItem',
+  hasMenu: true,
+}, {
+  path: '/contacts/add?:address&:name',
   name: 'ContactsItemAdd',
   hasMenu: true,
 }, {
-  path: '/contacts/:contactId',
+  path: '/contacts/:contactId/edit',
   name: 'ContactsItemEdit',
   hasMenu: true,
+}, {
+  path: '/contacts/:contactId/delete',
+  name: 'ContactsItemDelete',
+  hasMenu: false,
 }, {
   path: '/history',
   name: 'History',
   hasMenu: true,
 }, {
-  path: '/history/:itemId',
+  path: '/history/:id',
   name: 'HistoryItem',
   hasMenu: true,
 }, {
-  path: '/history/:itemId/cancel',
+  path: '/history/:id/cancel',
   name: 'HistoryItemCancel',
   hasMenu: true,
 }, {
-  path: '/history/:itemId/restart',
+  path: '/history/:id/restart',
   name: 'HistoryItemRestart',
   hasMenu: true,
 }, {
-  path: '/more',
-  name: 'MoreActions',
-  hasMenu: true,
-}, {
   path: '/receive',
-  name: 'Receive',
+  name: 'ReceiveAsset',
   hasMenu: true,
 }, {
   path: '/send?:asset&:to&:amount',
   name: 'Send',
+  hasMenu: true,
+}, {
+  path: '/more',
+  name: 'More',
   hasMenu: true,
 }, {
   path: '/settings',
@@ -100,8 +115,8 @@ export const routes: Array<{|
   name: 'SettingsLanguage',
   hasMenu: true,
 }, {
-  path: '/settings/security-password',
-  name: 'SettingsSecurityPassword',
+  path: '/settings/password',
+  name: 'SettingsPassword',
   hasMenu: true,
 }, {
   path: '/support',
@@ -120,10 +135,6 @@ export const routes: Array<{|
   name: 'WalletsImport',
   hasMenu: true,
 }, {
-  path: '/wallets/:walletId',
-  name: 'WalletsItem',
-  hasMenu: true,
-}, {
   path: '/wallets/:walletId/backup',
   name: 'WalletsItemBackup',
   hasMenu: true,
@@ -136,9 +147,13 @@ export const routes: Array<{|
   name: 'WalletsItemDelete',
   hasMenu: false,
 }, {
-  path: '/wallets/:walletId/mode',
-  name: 'WalletsItemMode',
+  path: '/wallets/:walletId/mode-enable',
+  name: 'WalletsItemModeEnable',
   hasMenu: false,
+}, {
+  path: '/wallets/:walletId/mode-disable',
+  name: 'WalletsItemModeDisable',
+  hasMenu: true,
 }, {
   path: '/wallets/:walletId/upgrade',
   name: 'WalletsItemUpgrade',
@@ -163,14 +178,6 @@ router.canActivate(
       })
     }
 
-    if (!selectActiveWalletId(state)) {
-      return done({
-        redirect: {
-          name: 'Wallets',
-        },
-      })
-    }
-
     return done()
   },
 )
@@ -181,12 +188,26 @@ router.canActivate(
     const { store } = dependencies
     const state = store.getState()
 
-    const activeWallet = selectActiveWallet(state)
+    try {
+      const {
+        id,
+        isReadOnly,
+      }: Wallet = selectActiveWallet(state)
 
-    if (activeWallet && activeWallet.isReadOnly) {
+      if (isReadOnly) {
+        return done({
+          redirect: {
+            name: 'WalletsItemUpgrade',
+            params: {
+              walletId: id,
+            },
+          },
+        })
+      }
+    } catch (error) {
       return done({
         redirect: {
-          name: 'WalletsItemUpgrade',
+          name: 'Wallets',
         },
       })
     }
@@ -232,11 +253,135 @@ router.canActivate(
     fromState,
     done,
   ) => {
+    try {
+      walletsPlugin.getWallet(toState.params.walletId)
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemUpgrade',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    try {
+      if (!walletsPlugin.checkWalletReadOnly(toState.params.walletId)) {
+        throw new WalletInconsistentDataError('Wallet is not read only')
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemAddresses',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
     const { walletId } = toState.params
 
     try {
-      if (!walletsPlugin.getWallet(walletId)) {
-        throw new WalletNotFoundError({ walletId })
+      const {
+        xpub,
+        isSimplified,
+      }: Wallet = walletsPlugin.getWallet(walletId)
+
+      if (!xpub || isSimplified) {
+        throw new WalletInconsistentDataError('Wallet is not multi-address')
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemModeEnable',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { params } = toState
+
+    try {
+      const {
+        xpub,
+        isSimplified,
+      }: Wallet = walletsPlugin.getWallet(params.walletId)
+
+      if (!xpub) {
+        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      }
+
+      if (!isSimplified) {
+        return done({
+          redirect: {
+            params,
+            name: 'WalletsItemModeDisable',
+          },
+        })
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemModeDisable',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { params } = toState
+
+    try {
+      const wallet: Wallet = walletsPlugin.getWallet(params.walletId)
+
+      if (!wallet.xpub) {
+        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      }
+
+      if (wallet.isSimplified) {
+        return done({
+          redirect: {
+            params,
+            name: 'WalletsItemModeEnable',
+          },
+        })
       }
     } catch (error) {
       return done({

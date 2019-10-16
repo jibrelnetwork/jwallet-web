@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 import {
   delay,
   channel,
@@ -23,8 +21,8 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 import { ActiveNetworkNotFoundError } from 'errors'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
   selectLatestBlock,
@@ -49,6 +47,8 @@ import {
 
 import * as blocks from '../modules/blocks'
 
+const MAX_FAULTY_DEEP: number = 3
+
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
   try {
     while (true) {
@@ -62,18 +62,28 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
       }
 
       try {
-        const block: BlockData = yield call(web3.getBlock, network, 'latest')
+        const block: BlockData = yield call(
+          web3.getBlock,
+          network,
+          'latest',
+        )
+
+        const nextAvailableBlock: BlockData = yield call(
+          web3.getBlock,
+          network,
+          block.number - MAX_FAULTY_DEEP,
+        )
 
         if (!latestBlock) {
-          yield put(blocks.setLatestBlock(networkId, block))
+          yield put(blocks.setLatestBlock(networkId, nextAvailableBlock))
         } else {
-          const isForked: boolean = (block.number < latestBlock.number)
-          const isBlockMined: boolean = (block.number > latestBlock.number)
+          const isForked: boolean = (nextAvailableBlock.number < latestBlock.number)
+          const isBlockMined: boolean = (nextAvailableBlock.number > latestBlock.number)
 
           if (isBlockMined) {
-            yield put(blocks.setLatestBlock(networkId, block))
+            yield put(blocks.setLatestBlock(networkId, nextAvailableBlock))
           } else if (isForked) {
-            yield put(blocks.nodeForked(networkId, latestBlock, block))
+            yield put(blocks.nodeForked(networkId, latestBlock, nextAvailableBlock))
           }
         }
 
@@ -155,7 +165,7 @@ export function* processQueue(
       } else if (request.module === 'transaction') {
         yield* requestTransaction(request, network, ownerAddress)
       } else {
-        throw new Error(t`Task handler for module ${request.module} is not defined`)
+        throw new Error(`Task handler for module ${request.module} is not defined`)
       }
     } catch (err) {
       if (request.retryCount && request.retryCount > 0) {
@@ -173,7 +183,6 @@ export function* processQueue(
 function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<void> {
   try {
     while (true) {
-      const currentBlock: ?BlockData = yield select(selectCurrentBlock, networkId)
       const processingBlock: ?BlockData = yield select(selectProcessingBlock, networkId)
 
       if (!processingBlock) {
@@ -206,15 +215,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
         requestQueue,
         networkId,
         ownerAddress,
-        currentBlock ? currentBlock.number : 0,
         processingBlock.number,
       ))
 
       yield put(transactions.resyncTransactionsStart(
         requestQueue,
-        networkId,
-        ownerAddress,
-        currentBlock ? currentBlock.number : 0,
+        processingBlock.number,
       ))
 
       yield take(blocks.SET_PROCESSING_BLOCK)
@@ -232,8 +238,8 @@ function* syncStart(): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkIdOrThrow> =
     yield select(selectCurrentNetworkIdOrThrow)
 
-  const address: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
-    yield select(selectActiveWalletAddressOrThrow)
+  const address: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
   const currentSyncTask: Task<typeof currentBlockSync> = yield fork(currentBlockSync, networkId)

@@ -1,0 +1,29 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  position: relative;
+  width: 544px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.icon {
+  @include sprite-icon-color($main-black-60);
+}
+
+.form {
+  width: 100%;
+
+  &.empty {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+.button {
+  width: 100%;
+  margin-top: 32px;
+}

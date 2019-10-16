@@ -9,7 +9,7 @@ import jPickerListStyle from './jPickerList.m.scss'
 
 type Props = {|
   +activeItemKey: ?string,
-  +onItemClick: (itemKey: string) => any,
+  +onItemClick: (itemKey: string, index: number) => any,
   +children: React$Node,
 |}
 
@@ -30,9 +30,9 @@ class JPickerList extends React.Component<Props, ComponentState> {
     this.setState({ focusedItemKey: null })
   }
 
-  handleItemClick = (itemKey: string) => () => {
+  handleItemClick = (itemKey: string, index: number) => () => {
     if (this.props.onItemClick) {
-      this.props.onItemClick(itemKey)
+      this.props.onItemClick(itemKey, index)
     }
   }
 
@@ -55,7 +55,7 @@ class JPickerList extends React.Component<Props, ComponentState> {
           jPickerListStyle[`count-${count}`],
         )}
       >
-        {React.Children.map(children, (child) => {
+        {React.Children.map(children, (child, index) => {
           const {
             key,
           } = child
@@ -71,7 +71,7 @@ class JPickerList extends React.Component<Props, ComponentState> {
               key={`root-${key}`}
               isSelected={!!activeItemKey && activeItemKey === key}
               isFocused={!!focusedItemKey && focusedItemKey === key}
-              onClick={this.handleItemClick(key)}
+              onClick={this.handleItemClick(key, index)}
               onFocus={this.handleItemFocus(key)}
               onBlur={this.handleItemBlur}
             >

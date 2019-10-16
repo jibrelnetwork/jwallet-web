@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 
@@ -20,11 +20,12 @@ import { JAssetSymbol } from 'components/base'
 import { AssetBalance } from './AssetBalance/AssetBalance'
 import { AssetItem } from './Item/AssetItem'
 
-type Props = {|
+export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +digitalAssets: DigitalAssetWithBalance[],
   +fiatCurrency: FiatCurrency,
+  +className: string,
 |}
 
 export function AssetPicker({
@@ -32,7 +33,10 @@ export function AssetPicker({
   input,
   digitalAssets,
   fiatCurrency,
+  className,
 }: Props) {
+  const i18n = useI18n()
+
   const activeAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress(digitalAssets, input.value)
 
@@ -63,6 +67,7 @@ export function AssetPicker({
 
   return (
     <JPickerBody
+      className={className}
       isOpen={meta.active || false}
       // eslint-disable-next-line react/jsx-handler-names
       onOpen={input.onFocus}
@@ -71,9 +76,13 @@ export function AssetPicker({
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
-          label={t`Asset`}
+          label={i18n._(
+            'Send.AssetPicker.label',
+            null,
+            { defaults: 'Asset' },
+          )}
           value={activeAssetName}
-          iconRenderer={() => (
+          iconComponent={(
             <JAssetSymbol
               address={activeAssetAddress}
               color='blue'
@@ -81,7 +90,7 @@ export function AssetPicker({
               size={24}
             />
           )}
-          balancesRenderer={() => (
+          balancesComponent={(
             <AssetBalance
               assetBalance={activeAssetBalance}
               fiatBalance={activeAssetFiatBalance}
@@ -140,4 +149,5 @@ export function AssetPicker({
 
 AssetPicker.defaultProps = {
   fiatCurrency: 'USD',
+  className: '',
 }

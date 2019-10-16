@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import { JFieldMessage } from 'components/base'
 import { getErrorMessage } from 'utils/form'
+import { trimLeadingZeroes } from 'utils/numbers'
 
 import inputStyles from './inputWithUnit.m.scss'
 
@@ -19,7 +20,11 @@ type Props = {|
 
 // Allow to use only digits and dot and remove leading zeroes
 function filterNumericValue(value: string) {
-  return value.replace(/[^\d.]/g, '').replace(/^00+/g, '0')
+  return trimLeadingZeroes(
+    value.replace(/[^\d.]/g, '')
+      .replace(/^00+/g, '0')
+      .replace('..', '.'),
+  )
 }
 
 class InputWithUnit extends PureComponent<Props> {
@@ -35,7 +40,7 @@ class InputWithUnit extends PureComponent<Props> {
       },
     } = this.props
 
-    onChange(filterNumericValue(e.target.value))
+    onChange(filterNumericValue(e.target.value) || '')
   }
 
   render() {
@@ -67,7 +72,7 @@ class InputWithUnit extends PureComponent<Props> {
           <span className={inputStyles.title}>{label}</span>
           {unit &&
             <span className={inputStyles.mask}>
-              <span className={inputStyles.maskedValue}>{value}</span>
+              <span className={inputStyles.maskedValue}>{value || '0'}</span>
               <span className={inputStyles.maskedUnit}>{unit}</span>
             </span>
           }
@@ -77,6 +82,7 @@ class InputWithUnit extends PureComponent<Props> {
             autoComplete='off'
             name={name}
             value={value}
+            placeholder='0'
             className={inputStyles.input}
             onChange={this.handleChange}
             onFocus={onFocus}

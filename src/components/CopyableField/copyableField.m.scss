@@ -31,25 +31,10 @@
 
 .value {
   position: relative;
+  margin-right: 27px;
   overflow-wrap: break-word;
   color: $main-black;
   font-weight: 600;
   font-size: 14px;
   line-height: 22px;
-}
-
-.button {
-  @include flex-row-center;
-  @include property-transition(fill, stroke);
-  @include sprite-icon-color($main-black-30);
-
-  margin-left: 27px;
-  appearance: none;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  &:hover {
-    @include sprite-icon-color($main-blue);
-  }
 }

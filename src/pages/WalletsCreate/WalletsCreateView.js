@@ -1,13 +1,15 @@
 // @flow strict
 
-import { t } from 'ttag'
 import React, { Component } from 'react'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { type FormApi } from 'final-form'
 import { gaSendEvent } from 'utils/analytics'
 import { checkNameExists } from 'utils/wallets'
 import { generateMnemonic } from 'utils/mnemonic'
+import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   Form,
@@ -16,7 +18,6 @@ import {
 } from 'react-final-form'
 
 import {
-  JIcon,
   Button,
   JCheckbox,
   JInputField,
@@ -24,11 +25,12 @@ import {
 
 import {
   TitleHeader,
+  UserActionInfo,
   WalletBackupForm,
   WalletPasswordForm,
 } from 'components'
 
-import walletsCreateStyle from './walletsCreate.m.scss'
+import styles from './walletsCreate.m.scss'
 
 export type WalletsCreateBackHandler = () => void
 export type WalletsCreateStep = 'NAME' | 'BACKUP_TICKS' | 'BACKUP_FORM' | 'PASSWORD'
@@ -45,8 +47,10 @@ export type Props = {|
   +requestBlockNumbers: () => void,
   onBack?: ?WalletsCreateBackHandler,
   +submit: WalletsCreateSubmitPayload => Promise<?FormFields>,
+  +i18n: I18n,
   +hint: string,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
+  +hasWallets: boolean,
 |}
 
 type StateProps = {|
@@ -67,7 +71,7 @@ const EVENTS = {
   PASSWORD: 'BackupCompleted',
 }
 
-const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
+const INITIAL_VALUES: FormFields = {
   name: '',
   data: '',
   password: '',
@@ -75,13 +79,17 @@ const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
   compromise: '',
 }
 
-const BACKUP_TEXT: string = t`Jwallet never sends your wallets anywhere.
-Therefore, in case of device loss or failure, the only way to restore access to your
-funds is to use a wallet backup phrase.`
+function getInitialValues(): FormFields {
+  return {
+    ...INITIAL_VALUES,
+    name: walletsPlugin.getNextWalletName(),
+  }
+}
 
-export class WalletsCreateView extends Component<Props, StateProps> {
+class WalletsCreateView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
+    hasWallets: false,
   }
 
   constructor(props: Props) {
@@ -93,7 +101,18 @@ export class WalletsCreateView extends Component<Props, StateProps> {
   }
 
   componentDidMount() {
-    this.props.requestBlockNumbers()
+    const {
+      requestBlockNumbers,
+      hasWallets,
+    }: Props = this.props
+
+    requestBlockNumbers()
+
+    gaSendEvent(
+      'CreateWallet',
+      'StartedCreate',
+      hasWallets ? 'additional' : 'new',
+    )
   }
 
   setCurrentStep = (currentStep: WalletsCreateStep) => () => {
@@ -101,21 +120,38 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     const event: ?string = EVENTS[currentStep]
 
     if (event) {
-      gaSendEvent('CreateWallet', event)
+      gaSendEvent(
+        'CreateWallet',
+        event,
+      )
     }
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.NAME:
-        return t`Create Wallet`
+        return i18n._(
+          'WalletsCreate.Create.title',
+          null,
+          { defaults: 'Create wallet' },
+        )
 
       case STEPS.BACKUP_FORM:
       case STEPS.BACKUP_TICKS:
-        return t`Back Up Wallet`
+        return i18n._(
+          'WalletsCreate.Backup.title',
+          null,
+          { defaults: 'Back Up Wallet' },
+        )
 
       case STEPS.PASSWORD:
-        return t`Enter Security Password to Protect Your Wallet`
+        return i18n._(
+          'WalletsCreate.Password.title',
+          null,
+          { defaults: 'Enter Security Password to Protect Your Wallet' },
+        )
 
       default:
         return ''
@@ -178,128 +214,175 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     onChange(name, isChecked ? 'true' : null)
   }
 
-  renderWalletNameForm = ({
+  handleFocus = () => {
+    gaSendEvent(
+      'CreateWallet',
+      'NameStartedInput',
+    )
+  }
+
+  renderNameStep = ({
     handleSubmit,
     submitting: isSubmitting,
     values: {
       name = '',
     } = {},
-  }: FormRenderProps) => (
-    <form
-      onSubmit={handleSubmit}
-      className={walletsCreateStyle.form}
-    >
-      <Field
-        component={JInputField}
-        label={t`Wallet Name`}
-        infoMessage={checkNameExists(name)}
-        name='name'
-        isDisabled={isSubmitting}
-      />
-      <Button
-        className={ofssetsStyle.mt16}
-        type='submit'
-        isLoading={isSubmitting}
-        isDisabled={!name.trim()}
-      >
-        {t`Next`}
-      </Button>
-    </form>
-  )
+  }: FormRenderProps) => {
+    const { i18n }: Props = this.props
 
-  /* eslint-disable react/no-danger */
-  renderBackupTicksForm = ({
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+      >
+        <Field
+          onFocus={this.handleFocus}
+          component={JInputField}
+          label={i18n._(
+            'WalletsCreate.Create.name',
+            null,
+            { defaults: 'Wallet Name' },
+          )}
+          infoMessage={checkNameExists(name)}
+          name='name'
+          maxLength={32}
+          isDisabled={isSubmitting}
+        />
+        <Button
+          className={ofssetsStyle.mt16}
+          type='submit'
+          isLoading={isSubmitting}
+          isDisabled={!name.trim()}
+        >
+          {i18n._(
+            'WalletsCreate.Create.submit',
+            null,
+            { defaults: 'Next' },
+          )}
+        </Button>
+      </form>
+    )
+  }
+
+  renderTicksStep = ({
     handleSubmit,
     form,
     values: {
       loseAccess,
       compromise,
     } = {},
+  }: FormRenderProps) => {
+    const { i18n }: Props = this.props
+
+    const BACKUP_TEXT: string = i18n._(
+      'WalletsCreate.Backup.description',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'Jwallet never sends your wallets anywhere. \nTherefore, in case of device loss or failure, the only way to restore access to your \nfunds is to use a wallet backup phrase.' },
+    )
+
+    return (
+      <div className={styles.form}>
+        <UserActionInfo
+          text={BACKUP_TEXT}
+          title={i18n._(
+            'WalletsCreate.Backup.title',
+            null,
+            { defaults: 'Back Up Wallet' },
+          )}
+          iconClassName={styles.icon}
+          iconName='ic_backup_48-use-fill'
+        />
+        <form
+          onSubmit={handleSubmit}
+          className={styles.ticks}
+        >
+          <JCheckbox
+            name='loseAccess'
+            onChange={this.handleChange(form.change, 'loseAccess')}
+          >
+            {i18n._(
+              'WalletsCreate.Backup.loseAccess',
+              null,
+              // eslint-disable-next-line max-len
+              { defaults: 'I understand that I will lose access to my funds if I loose wallet backup phrase.' },
+            )}
+          </JCheckbox>
+          <JCheckbox
+            name='compromise'
+            onChange={this.handleChange(form.change, 'compromise')}
+          >
+            {i18n._(
+              'WalletsCreate.Backup.compromise',
+              null,
+              // eslint-disable-next-line max-len
+              { defaults: 'I understand that all my assets might be lost if my wallet backup phrase is \ncompromised.' },
+            )}
+          </JCheckbox>
+          <p className={styles.note}>
+            {i18n._(
+              'WalletsCreate.Backup.beCareful',
+              null,
+              // eslint-disable-next-line max-len
+              { defaults: 'Be very careful with wallet backup phrase — anyone who know it will get access to \nyour funds.' },
+            )}
+          </p>
+          <Button
+            type='submit'
+            isDisabled={!(loseAccess && compromise)}
+          >
+            {i18n._(
+              'WalletsCreate.Backup.submit',
+              null,
+              { defaults: 'Continue' },
+            )}
+          </Button>
+        </form>
+      </div>
+    )
+  }
+
+  renderBackupStep = ({
+    handleSubmit,
+    values: {
+      name,
+      data,
+    } = {},
   }: FormRenderProps) => (
-    <div className={walletsCreateStyle.form}>
-      <JIcon
-        className={walletsCreateStyle.icon}
-        color='blue'
-        name='ic_backup_48-use-fill'
-      />
-      <h2 className={walletsCreateStyle.title}>{t`Back Up Wallet`}</h2>
-      <p
-        className={walletsCreateStyle.text}
-        dangerouslySetInnerHTML={{
-          __html: BACKUP_TEXT.split('\n').join('<br />'),
-        }}
-      />
-      <form
-        onSubmit={handleSubmit}
-        className={walletsCreateStyle.ticks}
-      >
-        <JCheckbox
-          name='loseAccess'
-          onChange={this.handleChange(form.change, 'loseAccess')}
-        >
-          {t`I understand that I will lose access to my funds if I loose wallet backup phrase.`}
-        </JCheckbox>
-        <JCheckbox
-          name='compromise'
-          onChange={this.handleChange(form.change, 'compromise')}
-        >
-          {t`I understand that all my assets might be lost if my wallet backup phrase is 
-          compromised.`}
-        </JCheckbox>
-        <p className={walletsCreateStyle.note}>
-          {t`Be very careful with wallet backup phrase — anyone who know it will get access to 
-          your funds.`}
-        </p>
-        <Button
-          type='submit'
-          isDisabled={!(loseAccess && compromise)}
-        >
-          {t`Continue`}
-        </Button>
-      </form>
-    </div>
+    <WalletBackupForm
+      handleSubmit={handleSubmit}
+      data={data || ''}
+      name={name || ''}
+      isMnemonic
+    />
   )
-  /* eslint-enable react/no-danger */
 
-  renderWalletsCreateForm = (formRenderProps: FormRenderProps) => {
-    const {
-      handleSubmit,
-      values = {},
-      submitting,
-    }: FormRenderProps = formRenderProps
+  renderPasswordStep = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => (
+    <WalletPasswordForm
+      handleSubmit={handleSubmit}
+      values={values}
+      hint={this.props.hint}
+      isSubmitting={submitting}
+    />
+  )
 
+  renderForm = (formRenderProps: FormRenderProps) => {
     switch (this.state.currentStep) {
       case STEPS.NAME:
-        return this.renderWalletNameForm(formRenderProps)
+        return this.renderNameStep(formRenderProps)
 
       case STEPS.BACKUP_TICKS:
-        return this.renderBackupTicksForm(formRenderProps)
+        return this.renderTicksStep(formRenderProps)
 
-      case STEPS.BACKUP_FORM: {
-        const {
-          name,
-          data,
-        }: FormFields = values
-
-        return (
-          <WalletBackupForm
-            handleSubmit={handleSubmit}
-            data={data || ''}
-            name={name || ''}
-            isMnemonic
-          />
-        )
-      }
+      case STEPS.BACKUP_FORM:
+        return this.renderBackupStep(formRenderProps)
 
       case STEPS.PASSWORD:
-        return (
-          <WalletPasswordForm
-            handleSubmit={handleSubmit}
-            values={values}
-            hint={this.props.hint}
-            isSubmitting={submitting}
-          />
-        )
+        return this.renderPasswordStep(formRenderProps)
 
       default:
         return null
@@ -308,17 +391,20 @@ export class WalletsCreateView extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={walletsCreateStyle.core}>
+      <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
         />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsCreateForm}
-          initialValues={WALLETS_CREATE_INITIAL_VALUES}
+          initialValues={getInitialValues()}
         />
       </div>
     )
   }
 }
+
+const WalletsCreateViewEnhanced = withI18n()(WalletsCreateView)
+export { WalletsCreateViewEnhanced as WalletsCreateView }

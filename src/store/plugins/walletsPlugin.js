@@ -1,12 +1,20 @@
 // @flow strict
 
 import uuidv4 from 'uuid/v4'
-import { t } from 'ttag'
+import Promise from 'bluebird'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
+import { i18n } from 'i18n/lingui'
 import { type Store } from 'redux'
 
+import { web3 } from 'services'
 import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { selectTickerItems } from 'store/selectors/ticker'
 import { selectPasswordPersist } from 'store/selectors/password'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import {
   getNonce,
@@ -17,8 +25,14 @@ import {
 } from 'utils/encryption'
 
 import {
+  checkETH,
+  getFiatBalance,
+} from 'utils/digitalAssets'
+
+import {
   setActiveWallet,
   setWalletsItems,
+  changeActiveAddress,
 } from 'store/modules/wallets'
 
 import {
@@ -32,6 +46,8 @@ import {
 } from 'errors'
 
 import * as walletsUtils from 'utils/wallets'
+
+import { toastsPlugin } from '.'
 
 export type ImportWalletPayload = {|
   +data: string,
@@ -76,8 +92,12 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+  getFiatCourses = (): FiatCourses => selectTickerItems(this.getState())
+  getNetwork = (): Network => selectCurrentNetworkOrThrow(this.getState())
+  getFiatCurrency = (): FiatCurrencyCode => selectFiatCurrency(this.getState())
+  getActiveAssets = (): DigitalAsset[] => selectActiveDigitalAssets(this.getState())
 
-  getInternalKey = async (password: string): Promise<?Uint8Array> => {
+  getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
     const state: AppState = this.getState()
 
     const {
@@ -113,7 +133,11 @@ class WalletsPlugin {
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
     if (!(data && name)) {
-      throw new Error(t`Invalid wallet data`)
+      throw new Error(i18n._(
+        'WalletsImport.errors.dataInvalid',
+        null,
+        { defaults: 'Invalid wallet data' },
+      ))
     }
 
     try {
@@ -131,27 +155,59 @@ class WalletsPlugin {
 
       const items: Wallets = this.getItems()
       const newItems: Wallets = walletsUtils.appendWallet(items, newWallet)
+      const isFirst: boolean = (newItems.length === 1)
 
-      if (newItems.length === 1) {
+      if (isFirst) {
         this.dispatch(setActiveWallet(newWallet.id))
       }
 
-      this.dispatch(setWalletsItems(newItems))
+      this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
+      const eventLabel: string = isFirst ? 'new' : 'additional'
 
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreated')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreated',
+          eventLabel,
+        )
+
+        toastsPlugin.showToast(i18n._(
+          'walletsPlugin.toast.create',
+          null,
+          { defaults: 'Wallet created.' },
+        ))
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreated')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreated',
+          eventLabel,
+        )
+
+        toastsPlugin.showToast(i18n._(
+          'walletsPlugin.toast.import',
+          null,
+          { defaults: 'Wallet imported.' },
+        ))
       }
     } catch (err) {
       if (createdBlockNumber) {
-        gaSendEvent('CreateWallet', 'WalletCreationError')
+        gaSendEvent(
+          'CreateWallet',
+          'WalletCreationError',
+        )
       } else {
-        gaSendEvent('ImportWallet', 'WalletCreationError')
+        gaSendEvent(
+          'ImportWallet',
+          'WalletCreationError',
+        )
       }
 
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'WalletsImport.errors.passwordInvalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
 
@@ -170,6 +226,13 @@ class WalletsPlugin {
     return (current + 1)
   }
 
+  getNextWalletName = (): string => {
+    const walletsCount: number = this.getItems().length
+    const nextWalletNumber: string = walletsCount ? ` ${walletsCount + 1}` : ''
+
+    return `My Wallet${nextWalletNumber}`
+  }
+
   checkWalletUniqueness = (
     uniqueProperty: string,
     propertyName: string,
@@ -183,7 +246,12 @@ class WalletsPlugin {
     )
 
     if (foundWallet) {
-      throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
+      // FIXME: Do we need to translate this? Looks like internal error text
+      throw new Error(i18n._(
+        'WalletsImport.errors.walletIsNotUnique',
+        { propertyName },
+        { defaults: 'Wallet with such {propertyName} already exists' },
+      ))
     }
   }
 
@@ -205,12 +273,14 @@ class WalletsPlugin {
   updateWallet = (
     walletId: WalletId,
     updatedData: WalletUpdatedData,
+    nextPage?: ?string = null,
+    params?: { [key: string]: any } = {},
   ): Wallets => {
     const wallet: Wallet = this.getWallet(walletId)
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.updateWallet(items, wallet, updatedData)
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, nextPage, params || {}))
 
     return newItems
   }
@@ -224,14 +294,14 @@ class WalletsPlugin {
   removeWallet = (walletId: WalletId): Wallets => {
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.removeWallet(items, walletId)
-    const activeWalletId: ?WalletId = selectActiveWalletId(this.getState())
+    const activeWalletId: WalletId = selectActiveWalletId(this.getState())
 
     if (walletId === activeWalletId) {
       const firstWallet: ?Wallet = newItems[0]
       this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
     }
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, 'Wallets'))
 
     return newItems
   }
@@ -270,60 +340,90 @@ class WalletsPlugin {
     )
   }
 
-  upgradeWallet = async (
+  setActiveAddress = (
     walletId: WalletId,
-    password: string,
-    data: string,
-    passphrase: string,
-    derivationPath: string,
-  ): Promise<Wallets> => {
-    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+    addressIndexNew: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
 
-    if (!internalKey) {
-      throw new WalletInconsistentDataError('upgradeWallet data error')
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
     }
 
-    return this.updateWallet(
-      walletId,
-      walletsUtils.upgradeWallet({
-        wallet: this.getWallet(walletId),
-        data,
-        passphrase,
-        internalKey,
-        derivationPath,
-      }),
+    const newItems: Wallets = this.updateWallet(
+      walletId, {
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
     )
+
+    this.dispatch(setActiveWallet(walletId))
+    this.dispatch(changeActiveAddress())
+
+    return newItems
+  }
+
+  upgradeWallet = async (
+    walletId: WalletId,
+    values: FormFields,
+  ): ?FormFields => {
+    const {
+      data,
+      password,
+      passphrase,
+      derivationPath,
+    }: FormFields = values
+
+    try {
+      const internalKey: ?Uint8Array = await this.getInternalKey(password)
+
+      if (!internalKey) {
+        throw new WalletInconsistentDataError('upgradeWallet data error')
+      }
+
+      this.updateWallet(
+        walletId,
+        walletsUtils.upgradeWallet({
+          wallet: this.getWallet(walletId),
+          data,
+          passphrase,
+          internalKey,
+          derivationPath,
+        }),
+      )
+    } catch (error) {
+      gaSendEvent(
+        'UnlockFeatures',
+        'WalletUpgradeError',
+      )
+
+      return {
+        password: i18n._(
+          'entity.Password.error.invalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
+      }
+    }
+
+    return null
   }
 
   reEncryptWallets = async (
-    password: string,
+    internalKeyOld: ?Uint8Array,
     newPassword: string,
     passwordHint: string,
   ): Promise<Wallets> => {
-    const state: AppState = this.getState()
-
-    const {
-      salt,
-      internalKey,
-    }: PasswordPersist = selectPasswordPersist(state)
-
-    if (!internalKey) {
+    if (!internalKeyOld) {
       throw new WalletInconsistentDataError('reEncryptWallets data error')
     }
 
     if (!newPassword) {
       throw new WalletInconsistentDataError('password can\'t be empty')
     }
-
-    const derivedKey: Uint8Array = await deriveKeyFromPassword(
-      password,
-      salt,
-    )
-
-    const internalKeyDec: Uint8Array = decryptInternalKey(
-      internalKey,
-      derivedKey,
-    )
 
     const newSalt: string = generateSalt()
     const newInternalKey: Uint8Array = getNonce()
@@ -342,19 +442,146 @@ class WalletsPlugin {
 
     const newItems: Wallets = items.map((wallet: Wallet) => walletsUtils.reEncryptWallet(
       wallet,
-      internalKeyDec,
+      internalKeyOld,
       newInternalKey,
     ))
 
-    this.dispatch(setNewPassword({
-      salt,
-      internalKey: internalKeyEnc,
-      hint: passwordHint || '',
-    }))
+    this.dispatch(setNewPassword(
+      internalKeyEnc,
+      newSalt,
+      passwordHint || '',
+    ))
 
     this.dispatch(setWalletsItems(newItems))
 
     return newItems
+  }
+
+  deriveOneMoreAddress = (walletId: WalletId): Wallets => {
+    const { derivationIndex }: Wallet = this.getWallet(walletId)
+
+    if (derivationIndex === null) {
+      throw new WalletInconsistentDataError('derivationIndex doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        derivationIndex: (derivationIndex + 1),
+      },
+    )
+  }
+
+  switchMode = (
+    walletId: WalletId,
+    addressIndexNew?: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        isSimplified: !isSimplified,
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
+      isSimplified ? 'WalletsItemAddresses' : 'Wallets',
+      isSimplified ? { walletId } : {},
+    )
+  }
+
+  getActiveAssetsIds = (): string[] => {
+    const activeAssets: DigitalAsset[] = this.getActiveAssets()
+
+    return activeAssets.map(({ blockchainParams }: DigitalAsset): string =>
+      checkETH(blockchainParams.address) ? 'ETH' : blockchainParams.address)
+  }
+
+  requestAssetBalance = async (
+    ownerAddress: Address,
+    assetAddress: Address,
+    retryCount?: number = 0,
+  ): Promise<string> => {
+    try {
+      const balance: string = await web3.getAssetBalance(
+        this.getNetwork(),
+        ownerAddress,
+        assetAddress,
+      )
+
+      return balance
+    } catch (error) {
+      return Promise
+        .delay((2 ** ((retryCount > 6) ? 6 : retryCount)) * 1000)
+        .then(() => this.requestAssetBalance(
+          ownerAddress,
+          assetAddress,
+          retryCount + 1,
+        ))
+    }
+  }
+
+  requestFiatBalanceByAddress = async (address: Address): Promise<BigNumber> => {
+    const fiatCourses: FiatCourses = this.getFiatCourses()
+    const activeAssets: DigitalAsset[] = this.getActiveAssets()
+    const fiatCurrency: FiatCurrencyCode = this.getFiatCurrency()
+
+    const balances: string[] = await Promise.map(
+      activeAssets,
+      ({ blockchainParams }: DigitalAsset): string => this.requestAssetBalance(
+        address,
+        blockchainParams.address,
+      ),
+    )
+
+    return activeAssets.reduce((
+      result: BigNumber,
+      asset: DigitalAsset,
+      index: number,
+    ): BigNumber => result.plus(getFiatBalance(
+      {
+        ...asset,
+        balance: {
+          value: balances[index],
+        },
+      },
+      fiatCourses,
+      fiatCurrency,
+    ) || 0), new BigNumber(0))
+  }
+
+  requestFiatBalanceByXPUB = async (
+    walletId: WalletId,
+    derivationIndex: number,
+  ): Promise<BigNumber> => {
+    const addresses: Address[] = this.getAddresses(walletId, 0, derivationIndex)
+
+    return Promise
+      .map(addresses, this.requestFiatBalanceByAddress)
+      .then((balances: BigNumber[]): BigNumber => balances.reduce((
+        result: BigNumber,
+        balance: BigNumber,
+      ) => result.plus(balance), new BigNumber(0)))
+  }
+
+  requestFiatBalance = async (walletId: WalletId): Promise<BigNumber> => {
+    const {
+      id,
+      xpub,
+      derivationIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (xpub && !isSimplified) {
+      return this.requestFiatBalanceByXPUB(id, derivationIndex || 0)
+    }
+
+    return this.requestFiatBalanceByAddress(this.getAddress(id))
   }
 }
 

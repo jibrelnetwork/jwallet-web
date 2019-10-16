@@ -115,11 +115,6 @@ const config: AppConfig = {
   blockExplorerUILink: 'etherscan.io',
 
   /**
-   * supported languages
-   */
-  supportedLanguages: ['en', 'ko', 'zh', 'ja'],
-
-  /**
    * number of addresses derived from bip32 extended public key
    */
   mnemonicAddressesCount: 4,
@@ -141,6 +136,8 @@ const config: AppConfig = {
   processingBlockWaitTimeout: 1 * ONE_SECOND,
 
   syncTransactionsTimeout: 10 * ONE_SECOND,
+
+  mediumRangeRequestTimeout: ONE_SECOND,
 
   maxBlocksPerTransactionsRequest: 200 * 1000,
 
@@ -165,6 +162,10 @@ const config: AppConfig = {
   sessionIDKey: 'jwallet.activeTab',
 
   messageCopyTimeout: 2000,
+
+  cancelAddress: '0x000000000000000000000063616E63656c6c6564',
+
+  encryptedMnemonicLength: 120,
 }
 
 export default config

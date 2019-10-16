@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Field } from 'react-final-form'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JSwitch,
@@ -29,6 +29,8 @@ type Props = {|
   +className: ?string,
   +gasPriceFieldName: string,
   +gasLimitFieldName: string,
+  +estimatedGasLimit: ?string,
+  +isDisabled: boolean,
 |}
 
 class PriorityField extends Component<Props> {
@@ -40,16 +42,17 @@ class PriorityField extends Component<Props> {
     gasPriceFieldName: 'gasPrice',
     gasLimitFieldName: 'gasLimit',
     validateType: 'touched',
+    isDisabled: false,
   }
 
-  handleOpen = (isOpened: boolean) => {
+  handleOpen = (isOpen: boolean) => {
     const {
       input: {
         onChange,
       },
     } = this.props
 
-    onChange(isOpened)
+    onChange(isOpen)
   }
 
   render() {
@@ -61,9 +64,23 @@ class PriorityField extends Component<Props> {
       isLoading,
       gasPriceFieldName,
       gasLimitFieldName,
+      estimatedGasLimit,
+      isDisabled,
     } = this.props
 
-    const isOpened = !!input.value
+    const isOpen = !isDisabled && !!input.value
+
+    const gasLimitLabel = estimatedGasLimit
+      ? i18n._(
+        'Send.PriorityField.gasLimit.estimated',
+        { estimatedGasLimit },
+        { defaults: 'Gas limit ({estimatedGasLimit} estimated)' },
+      )
+      : i18n._(
+        'Send.PriorityField.gasLimit',
+        null,
+        { defaults: 'Gas limit' },
+      )
 
     return (
       <div
@@ -75,22 +92,36 @@ class PriorityField extends Component<Props> {
       >
         <div className={classNames(
           fieldStyle.wrap,
-          isOpened && fieldStyle.open,
+          isOpen && fieldStyle.open,
           isLoading && fieldStyle.loading,
+          isDisabled && fieldStyle.disabled,
         )}
         >
           <div className={fieldStyle.main}>
             <div className={fieldStyle.title}>
-              {isOpened && blockchainFee
-                ? t`Blockchain fee — ${blockchainFee} ETH`
-                : t`Customize blockchain fee`
-              }
+              {isOpen
+                ? blockchainFee
+                  ? i18n._(
+                    'Send.PriorityField.fee.estimated',
+                    { blockchainFee },
+                    { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+                  )
+                  : i18n._(
+                    'Send.PriorityField.fee',
+                    null,
+                    { defaults: 'Blockchain Fee' },
+                  )
+                : i18n._(
+                  'Send.PriorityField.fee.custom',
+                  null,
+                  { defaults: 'Custom Blockchain Fee' },
+                )}
             </div>
             <JSwitch
               name='priority-field-switch'
-              isChecked={isOpened}
+              isChecked={isOpen}
               onChange={this.handleOpen}
-              isDisabled={isLoading}
+              isDisabled={isDisabled || isLoading}
             />
           </div>
           <div className={fieldStyle.settings}>
@@ -100,19 +131,32 @@ class PriorityField extends Component<Props> {
                   className={fieldStyle.field}
                   component={InputWithUnit}
                   name={gasLimitFieldName}
-                  label={t`Gas Limit`}
+                  label={gasLimitLabel}
+                  isDisabled={isDisabled}
+                  maxLength={32}
                 />
               }
               <Field
                 className={fieldStyle.field}
                 component={InputWithUnit}
                 name={gasPriceFieldName}
-                label={t`Gas price`}
+                isDisabled={isDisabled}
+                label={i18n._(
+                  'Send.PriorityField.gasPrice',
+                  null,
+                  { defaults: 'Gas price' },
+                )}
                 unit='GWei'
+                maxLength={32}
               />
             </div>
             <div className={fieldStyle.bottom}>
-              {t`Higher gas price reduces the processing time but increases the transaction fee.`}
+              {i18n._(
+                'Send.PriorityField.help',
+                null,
+                // eslint-disable-next-line max-len
+                { defaults: 'Higher gas price reduces the processing time but increases the transaction fee.' },
+              )}
             </div>
           </div>
         </div>

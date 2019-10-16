@@ -1,15 +1,16 @@
-// @flow
+// @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { type I18n } from '@lingui/core'
+
+import { useI18n } from 'app/hooks'
 
 import {
   CloseableScreen,
-  DigitalAssetEditForm,
+  DigitalAssetAddForm,
 } from 'components'
 
 export type Props = {
-  +close: Function,
   +submit: () => void,
   +openView: Function,
   +closeView: Function,
@@ -19,8 +20,7 @@ export type Props = {
   +isAddressLoading: boolean,
 }
 
-const AddAssetView = ({
-  close,
+export const AddAssetView = ({
   openView,
   closeView,
   formFields,
@@ -28,23 +28,32 @@ const AddAssetView = ({
   setField,
   submit,
   isAddressLoading,
-}: Props) => (
-  <CloseableScreen
-    close={close}
-    onOpen={openView}
-    onClose={closeView}
-    title={t`Add digital asset`}
-  >
-    <DigitalAssetEditForm
-      submit={submit}
-      setField={setField}
-      formFields={formFields}
-      invalidFields={invalidFields}
-      submitLabel={t`Add asset`}
-      isAddressLoading={isAddressLoading}
-      isAddressEditable
-    />
-  </CloseableScreen>
-)
+}: Props) => {
+  const i18n: I18n = useI18n()
 
-export default AddAssetView
+  return (
+    <CloseableScreen
+      onOpen={openView}
+      onClose={closeView}
+      title={i18n._(
+        'AssetsItemAdd.title',
+        null,
+        { defaults: 'Add digital asset' },
+      )}
+    >
+      <DigitalAssetAddForm
+        submit={submit}
+        setField={setField}
+        formFields={formFields}
+        invalidFields={invalidFields}
+        submitLabel={i18n._(
+          'AssetsItemAdd.primaryButton.title',
+          null,
+          { defaults: 'Add asset' },
+        )}
+        isAddressLoading={isAddressLoading}
+        isAddressEditable
+      />
+    </CloseableScreen>
+  )
+}

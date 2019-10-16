@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import classNames from 'classnames'
 
@@ -29,6 +29,8 @@ export function Tabs({
   activeTab,
   onTabClick,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={tabsStyle.core} onClick={handleTabBarClick}>
       <button
@@ -40,7 +42,11 @@ export function Tabs({
           activeTab === 'contacts' && tabsStyle.active,
         )}
       >
-        {t`Contacts`}
+        {i18n._(
+          'Send.RecipientPicker.contacts',
+          null,
+          { defaults: 'Contacts' },
+        )}
       </button>
       <button
         type='button'
@@ -51,7 +57,11 @@ export function Tabs({
           activeTab === 'wallets' && tabsStyle.active,
         )}
       >
-        {t`My Wallets`}
+        {i18n._(
+          'Send.RecipientPicker.wallets',
+          null,
+          { defaults: 'My Wallets' },
+        )}
       </button>
     </div>
   )

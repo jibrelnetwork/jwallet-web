@@ -1,24 +1,21 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
-import buttonStyle from 'components/base/Button/button.m.scss'
+import { useI18n } from 'app/hooks'
+import { Button } from 'components/base'
 import { PasswordInput } from 'components'
 
-import {
-  JLink,
-  Button,
-} from 'components/base'
-
-import walletPasswordFormStyle from './walletPasswordForm.m.scss'
+import styles from './walletPasswordForm.m.scss'
+import { Forgot } from './components/Forgot/Forgot'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   +values: FormFields,
   +hint: string,
+  +description: ?string,
   +isSubmitting: boolean,
 |}
 
@@ -28,21 +25,38 @@ export function WalletPasswordForm({
     password,
   } = {},
   hint,
+  description,
   isSubmitting,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <form
       onSubmit={handleSubmit}
-      className={walletPasswordFormStyle.core}
+      className={styles.core}
     >
+      {description && (
+        <div className={styles.description}>
+          {description}
+        </div>
+      )}
       <Field
         component={PasswordInput}
         value={password}
-        label={t`Security Password`}
-        infoMessage={`${t`Hint`}: ${hint}`}
+        label={i18n._(
+          'WalletPasswordForm.password',
+          null,
+          { defaults: 'Security Password' },
+        )}
+        infoMessage={i18n._(
+          'WalletPasswordForm.hint',
+          { hint },
+          { defaults: 'Hint: {hint}' },
+        )}
         theme='white-icon'
         name='password'
         isDisabled={isSubmitting}
+        isAutoFocus
       />
       <Button
         className={ofssetsStyle.mt16}
@@ -50,19 +64,18 @@ export function WalletPasswordForm({
         isLoading={isSubmitting}
         isDisabled={!(password || '').trim()}
       >
-        {t`Continue`}
+        {i18n._(
+          'WalletPasswordForm.submit',
+          null,
+          { defaults: 'Continue' },
+        )}
       </Button>
-      <JLink
-        className={`${buttonStyle.additional} ${walletPasswordFormStyle.forgot}`}
-        color='blue'
-        href='/forgot-password'
-      >
-        {t`Forgot?`}
-      </JLink>
+      <Forgot />
     </form>
   )
 }
 
 WalletPasswordForm.defaultProps = {
+  description: null,
   isSubmitting: false,
 }

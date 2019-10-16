@@ -8,7 +8,7 @@ import sprite from './spriteAssets'
 // eslint-disable-next-line no-unused-vars
 import { type SpriteIcon } from './types'
 
-const iconsAsset = keyBy/* :: <SpriteIcon, string> */(
+const iconsAsset = keyBy<SpriteIcon, string>(
   sprite.keys().map((x) => {
     const file = sprite(x).default
     const [,, width, height] = file.viewBox.split(/(\s+)/).filter(e => e.trim().length > 0)

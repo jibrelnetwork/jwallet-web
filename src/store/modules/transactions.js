@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 export const FETCH_BY_OWNER_REQUEST = '@@transactions/FETCH_BY_OWNER_REQUEST'
 
@@ -15,12 +15,13 @@ export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
 export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
 export const ADD_PENDING_TRANSACTION = '@@transactions/ADD_PENDING_TRANSACTION'
-export const CHECK_PENDING_TRANSACTION = '@@transactions/CHECK_PENDING_TRANSACTION'
 export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSACTION'
 export const REMOVE_PENDING_TRANSACTIONS = '@@transactions/REMOVE_PENDING_TRANSACTIONS'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
-export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
+export const SET_ERROR_FILTER = '@@transactions/SET_ERROR_FILTER'
+export const SET_STUCK_FILTER = '@@transactions/SET_STUCK_FILTER'
+export const SET_PENDING_FILTER = '@@transactions/SET_PENDING_FILTER'
 
 type UpdateTransactionData = {|
   +data?: TransactionData,
@@ -32,7 +33,6 @@ export function fetchByOwnerRequest(
   requestQueue: Channel,
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
-  fromBlock: number,
   toBlock: number,
 ) {
   return {
@@ -42,23 +42,18 @@ export function fetchByOwnerRequest(
       networkId,
       ownerAddress,
       toBlock,
-      fromBlock,
     },
   }
 }
 
 export function resyncTransactionsStart(
   requestQueue: Channel,
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
   toBlock: number,
 ) {
   return {
     type: RESYNC_TRANSACTIONS_START,
     payload: {
       requestQueue,
-      networkId,
-      ownerAddress,
       toBlock,
     },
   }
@@ -187,23 +182,6 @@ export function addPendingTransaction(
   }
 }
 
-export function checkPendingTransaction(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-  assetAddress: AssetAddress,
-  transactionId: TransactionId,
-) {
-  return {
-    type: CHECK_PENDING_TRANSACTION,
-    payload: {
-      networkId,
-      assetAddress,
-      ownerAddress,
-      transactionId,
-    },
-  }
-}
-
 export function removePendingTransaction(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
@@ -245,12 +223,24 @@ export function changeSearchInput(searchQuery: string) {
   }
 }
 
-export function setIsOnlyPending(isOnlyPending: boolean) {
+export function setErrorFilter(payload: boolean) {
   return {
-    type: SET_IS_ONLY_PENDING,
-    payload: {
-      isOnlyPending,
-    },
+    type: SET_ERROR_FILTER,
+    payload,
+  }
+}
+
+export function setStuckFilter(payload: boolean) {
+  return {
+    type: SET_STUCK_FILTER,
+    payload,
+  }
+}
+
+export function setPendingFilter(payload: boolean) {
+  return {
+    type: SET_PENDING_FILTER,
+    payload,
   }
 }
 
@@ -264,7 +254,9 @@ type TransactionsAction =
   ExtractReturn<typeof updateTransactionData> |
   ExtractReturn<typeof addPendingTransaction> |
   ExtractReturn<typeof changeSearchInput> |
-  ExtractReturn<typeof setIsOnlyPending>
+  ExtractReturn<typeof setErrorFilter> |
+  ExtractReturn<typeof setStuckFilter> |
+  ExtractReturn<typeof setPendingFilter>
 
 const initialState: TransactionsState = {
   persist: {
@@ -272,8 +264,9 @@ const initialState: TransactionsState = {
     pending: {},
   },
   searchQuery: '',
-  isOnlyPending: false,
-  isConnectionError: false,
+  isErrorFiltered: false,
+  isStuckFiltered: false,
+  isPendingFiltered: false,
 }
 
 function transactions(
@@ -427,6 +420,7 @@ function transactions(
                   ...itemsByAsset,
                   [blockNumber]: {
                     ...itemsByBlock,
+                    isError: false,
                     items: newTransactions,
                   },
                 },
@@ -650,10 +644,22 @@ function transactions(
         searchQuery: action.payload.searchQuery,
       }
 
-    case SET_IS_ONLY_PENDING:
+    case SET_ERROR_FILTER:
       return {
         ...state,
-        isOnlyPending: action.payload.isOnlyPending,
+        isErrorFiltered: action.payload,
+      }
+
+    case SET_STUCK_FILTER:
+      return {
+        ...state,
+        isStuckFiltered: action.payload,
+      }
+
+    case SET_PENDING_FILTER:
+      return {
+        ...state,
+        isPendingFiltered: action.payload,
       }
 
     default:

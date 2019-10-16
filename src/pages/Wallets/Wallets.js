@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import {
   selectWalletsItems,
-  selectActiveWalletIdOrThrow,
+  selectActiveWalletId,
 } from 'store/selectors/wallets'
 
 import {
@@ -15,10 +15,8 @@ import {
 function mapStateToProps(state: AppState) {
   return {
     items: selectWalletsItems(state),
-    activeWalletId: selectActiveWalletIdOrThrow(state),
+    activeWalletId: selectActiveWalletId(state),
   }
 }
 
-export const Wallets = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-)(WalletsView)
+export const Wallets = connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps)(WalletsView)

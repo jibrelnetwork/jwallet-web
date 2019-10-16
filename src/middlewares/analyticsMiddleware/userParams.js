@@ -1,10 +1,10 @@
 // @flow strict
 
 import { SET_WALLETS_ITEMS } from 'store/modules/wallets'
-import { SET_FIAT_CURRENCY } from 'store/modules/settings'
+import { SET_FIAT_CURRENCY } from 'store/modules/user'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectFavoritesItems } from 'store/selectors/favorites'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 import {
   METRICS,
@@ -14,8 +14,7 @@ import {
 } from 'utils/analytics'
 
 import {
-  ADD_AUTO as FAVORITES_ADD_AUTO,
-  ADD_BY_USER as FAVORITES_ADD_BY_USER,
+  ADD as FAVORITES_ADD,
   REMOVE as FAVORITES_REMOVE,
 } from 'store/modules/favorites'
 
@@ -82,13 +81,12 @@ export const userParams = (state: AppState, action: Object) => {
     }
 
     case SET_FIAT_CURRENCY: {
-      gaSetUserDimension(DIMENSIONS.CURRENCY, selectSettingsFiatCurrency(state))
+      gaSetUserDimension(DIMENSIONS.CURRENCY, selectFiatCurrency(state))
 
       break
     }
 
-    case FAVORITES_ADD_AUTO:
-    case FAVORITES_ADD_BY_USER:
+    case FAVORITES_ADD:
     case FAVORITES_REMOVE: {
       gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
 

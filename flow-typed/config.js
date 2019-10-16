@@ -37,7 +37,6 @@ declare type AppConfig = {|
   +copyToBufferTimeout: number,
   +walletIdInitTimeout: number,
   +blockExplorerUILink: 'etherscan.io',
-  +supportedLanguages: LanguageCode[],
   +mnemonicAddressesCount: number,
   +landingURL: 'https://jwallet.network',
   +deleteConfirmTimeout: number,
@@ -50,6 +49,7 @@ declare type AppConfig = {|
   +blockExplorerMaxResponseSize: number,
   +requestQueueWorkersCount: number,
   +resyncTransactionsTimeout: number,
+  +mediumRangeRequestTimeout: number,
   +syncBalancesTimeout: number,
   +miningDelay: number,
   +addressWalletType: 'address',
@@ -57,4 +57,6 @@ declare type AppConfig = {|
   +fiatCoursesSyncTimeout: number,
   +sessionIDKey: string,
   +messageCopyTimeout: number,
+  +cancelAddress: string,
+  +encryptedMnemonicLength: number,
 |}

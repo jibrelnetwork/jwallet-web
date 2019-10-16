@@ -1,8 +1,6 @@
-// @flow
+// @flow strict
 
-import { type DigitalAssetsGridAction } from 'store/modules/digitalAssetsGrid'
 import { type AddAssetAction } from 'store/modules/addAsset'
-import { type EditAssetAction } from 'store/modules/editAsset'
 
 export const INIT = '@@digitalAssets/INIT'
 
@@ -246,7 +244,4 @@ const digitalAssets = (
 
 export default digitalAssets
 
-export type DigitalAssetsModuleAction = DigitalAssetsAction |
-  DigitalAssetsGridAction |
-  AddAssetAction |
-  EditAssetAction
+export type DigitalAssetsModuleAction = DigitalAssetsAction | AddAssetAction

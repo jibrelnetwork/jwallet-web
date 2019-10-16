@@ -7,7 +7,9 @@ import fromWeiToGWei from './fromWeiToGWei'
 import fromGweiToWei from './fromGweiToWei'
 import divDecimals from './divDecimals'
 import { toBigNumber } from './toBigNumber'
-import formatBalance from './formatBalance'
+
+export { formatBalance } from './formatBalance'
+export { trimLeadingZeroes } from './trimLeadingZeroes'
 
 export {
   round,
@@ -17,5 +19,4 @@ export {
   fromGweiToWei,
   divDecimals,
   toBigNumber,
-  formatBalance,
 }

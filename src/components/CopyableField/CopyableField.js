@@ -1,11 +1,11 @@
 // @flow strict
 
+import React from 'react'
 import classNames from 'classnames'
-import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { type I18n } from '@lingui/core'
 
-import { clipboard } from 'services'
-import { JIcon } from 'components/base'
+import { useI18n } from 'app/hooks'
+import { CopyIconButton } from 'components'
 
 import copyableFieldStyles from './copyableField.m.scss'
 
@@ -14,41 +14,44 @@ type Props = {|
   +label: string,
 |}
 
-export class CopyableField extends PureComponent<Props> {
-  handleCopy = () => {
-    clipboard.copyText(this.props.value)
-  }
+export function CopyableField({
+  value,
+  label,
+}: Props) {
+  const labelOrNothing: string = label
+    ? ` ${label}`
+    : ''
 
-  render() {
-    const {
-      value,
-      label,
-    }: Props = this.props
+  const i18n: I18n = useI18n()
 
-    return (
-      <div
-        className={classNames(
-          '__copyable-field',
-          copyableFieldStyles.core,
-        )}
-      >
-        <div className={copyableFieldStyles.content}>
-          <div className={copyableFieldStyles.label}>
-            {label}
-          </div>
-          <div className={copyableFieldStyles.value}>
-            {value}
-          </div>
+  return (
+    <div
+      className={classNames(
+        '__copyable-field',
+        copyableFieldStyles.core,
+      )}
+    >
+      <div className={copyableFieldStyles.content}>
+        <div className={copyableFieldStyles.label}>
+          {label}
         </div>
-        <button
-          type='button'
-          title={t`Copy${label ? ' ' : ''}${label || ''}`}
-          onClick={this.handleCopy}
-          className={copyableFieldStyles.button}
-        >
-          <JIcon name='copy-use-fill' />
-        </button>
+        <div className={copyableFieldStyles.value}>
+          {value.replace(/ /g, '\u00A0')}
+        </div>
       </div>
-    )
-  }
+      <CopyIconButton
+        content={value.replace(/ /g, '&nbsp;')}
+        title={i18n._(
+          'CopyableField.copy',
+          { labelOrNothing },
+          { defaults: 'Copy{labelOrNothing}' },
+        )}
+        toastMessage={label && i18n._(
+          'CopyableField.toast',
+          { label },
+          { defaults: '{ label } copied.' },
+        )}
+      />
+    </div>
+  )
 }

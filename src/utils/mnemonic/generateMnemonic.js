@@ -2,7 +2,6 @@
 
 import Mnemonic from 'bitcore-mnemonic'
 import { crypto } from 'bitcore-lib'
-import { t } from 'ttag'
 
 const RANDOM_BUFFER_LENGTH: number = 32
 const ENGLISH_WORDS: string[] = Mnemonic.Words.ENGLISH
@@ -11,7 +10,7 @@ function concatEntropyBuffers(entropyBuffer: Buffer, randomBuffer: Buffer): Buff
   const totalEntropy: Buffer = Buffer.concat([entropyBuffer, randomBuffer])
 
   if (totalEntropy.length !== (entropyBuffer.length + randomBuffer.length)) {
-    throw new Error(t`Concatenation of entropy buffers failed`)
+    throw new Error('Concatenation of entropy buffers failed')
   }
 
   return crypto.Hash.sha256(totalEntropy)
@@ -21,7 +20,7 @@ function getHashedEntropy(entropy: ?string, randomBufferLength: number): ?Buffer
   if (!entropy) {
     return null
   } else if (typeof entropy !== 'string') {
-    throw new TypeError(t`Entropy is set but not a string`)
+    throw new TypeError('Entropy is set but not a string')
   }
 
   const entropyBuffer: Buffer = Buffer.from(entropy)

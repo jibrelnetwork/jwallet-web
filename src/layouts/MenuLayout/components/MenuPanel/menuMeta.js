@@ -2,122 +2,134 @@
 
 export type MenuMeta = {
   isMinimized: boolean,
-  previousRouteNameFallback: ?string,
+  previousRoute: ?string,
 }
 
 const MENU_META_DEFAULT: MenuMeta = {
   isMinimized: false,
-  previousRouteNameFallback: null,
+  previousRoute: null,
 }
 
 const MENU_META: { [string]: ?MenuMeta } = {
   Home: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: null,
   },
   Send: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
   },
-  Receive: {
+  ReceiveAsset: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
   },
   AssetsItem: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
   },
-  AssetsItemEdit: {
+  AssetsItemDetails: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
   },
   AssetsItemAdd: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
+  },
+  AssetsItemEdit: {
+    isMinimized: true,
+    previousRoute: '/',
+  },
+  AssetsItemDelete: {
+    isMinimized: true,
+    previousRoute: '/',
   },
   History: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: null,
   },
   HistoryItem: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/history',
+  },
+  HistoryItemCancel: {
+    isMinimized: true,
+    previousRoute: '/history',
   },
   Contacts: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: '/',
+  },
+  ContactsItem: {
+    isMinimized: true,
+    previousRoute: '/contacts',
   },
   ContactsItemAdd: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/contacts',
   },
   ContactsItemEdit: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/contacts',
   },
-  MoreActions: {
+  ContactsItemDelete: {
+    isMinimized: true,
+    previousRoute: null,
+  },
+  More: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: null,
   },
   Support: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: null,
   },
   About: {
     isMinimized: true,
-    previousRouteNameFallback: 'MoreActions',
+    previousRoute: '/more',
   },
   Settings: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRoute: null,
   },
   SettingsCurrency: {
     isMinimized: true,
-    previousRouteNameFallback: 'Settings',
+    previousRoute: '/settings',
   },
   SettingsDevelopment: {
     isMinimized: true,
-    previousRouteNameFallback: 'Settings',
+    previousRoute: '/settings',
   },
   SettingsLanguage: {
     isMinimized: true,
-    previousRouteNameFallback: 'Settings',
+    previousRoute: '/settings',
   },
-  SettingsSecurityPassword: {
+  SettingsPassword: {
     isMinimized: true,
-    previousRouteNameFallback: 'Settings',
+    previousRoute: '/settings',
   },
   Wallets: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRoute: '/',
   },
   WalletsCreate: {
     isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
+    previousRoute: '/wallets',
   },
   WalletsImport: {
     isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
+    previousRoute: '/wallets',
   },
-  WalletsItem: {
+  WalletsItemAddresses: {
     isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
+    previousRoute: '/wallets',
   },
   WalletsItemBackup: {
     isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
+    previousRoute: '/wallets',
   },
-  WalletsItemDelete: {
+  WalletsItemModeDisable: {
     isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemRename: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemUpgrade: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
+    previousRoute: '/wallets',
   },
 }
 

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import uuidv4 from 'uuid/v4'
 import Promise from 'bluebird'
@@ -15,6 +15,7 @@ type PromiseWorkerTask = {|
   +reject: Function,
   +resolve: Function,
   +errorMessage: ?string,
+  +taskTimeout?: number,
 |}
 
 type PromiseWorkerQueue = { [string]: ?PromiseWorkerTask }
@@ -30,9 +31,9 @@ type PromiseWorkerTaskPayload = {|
   +taskName: string,
   +errorMessage?: string,
   +transfer?: ArrayBuffer,
+  +taskTimeout?: number,
 |}
 
-const TASK_TIMEOUT = 30 * 1000
 const MAX_QUEUE_LENGTH = 1000
 const WORKER_TYPE = 'promise'
 
@@ -40,7 +41,10 @@ const WORKER_TYPE = 'promise'
  * Private methods for PromiseWorker
  */
 
-function removeTask(self: Object, taskId: string) {
+function removeTask(
+  self: Object,
+  taskId: string,
+) {
   const taskIds: string[] = Object.keys(self.queue)
 
   self.queue = taskIds.reduce((reduceResult: PromiseWorkerQueue, currentTaskId: string) => {
@@ -54,7 +58,11 @@ function removeTask(self: Object, taskId: string) {
   }, {})
 }
 
-function addTask(self: Object, taskId: string, task: PromiseWorkerTask) {
+function addTask(
+  self: Object,
+  taskId: string,
+  task: PromiseWorkerTask,
+) {
   const queueLength = Object.keys(self.queue).length
   const existedTask = self.queue[taskId]
 
@@ -65,12 +73,15 @@ function addTask(self: Object, taskId: string, task: PromiseWorkerTask) {
   }
 
   self.queue[taskId] = task
+  const { taskTimeout }: PromiseWorkerTask = task
 
-  setTimeout(() => {
-    removeTask(self, taskId)
-    const timeoutErrorMsg = task.errorMessage || `Worker did not respond within ${TASK_TIMEOUT}ms`
-    task.reject(new WorkerTaskTimeoutError(timeoutErrorMsg))
-  }, TASK_TIMEOUT)
+  if (taskTimeout) {
+    setTimeout(() => {
+      removeTask(self, taskId)
+      const timeoutErrorMsg = task.errorMessage || `Worker did not respond within ${taskTimeout}ms`
+      task.reject(new WorkerTaskTimeoutError(timeoutErrorMsg))
+    }, taskTimeout)
+  }
 }
 
 function handleError(err: Error) {
@@ -107,7 +118,10 @@ function handleTask(self, {
   removeTask(self, taskId)
 }
 
-function startListen(self: Object, worker: Object) {
+function startListen(
+  self: Object,
+  worker: Object,
+) {
   if (self.worker) {
     throw new WorkerError({
       workerType: WORKER_TYPE,
@@ -145,6 +159,7 @@ class PromiseWorker {
     payload,
     taskName,
     transfer,
+    taskTimeout,
     errorMessage,
   }: PromiseWorkerTaskPayload): Promise => {
     const taskId: string = uuidv4()
@@ -168,6 +183,7 @@ class PromiseWorker {
     return new Promise((resolve, reject) => addTask(this, taskId, {
       reject,
       resolve,
+      taskTimeout,
       errorMessage,
     }))
   }

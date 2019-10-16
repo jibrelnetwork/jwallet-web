@@ -1,11 +1,11 @@
-// @flow
+// @flow strict
 
 /* Common Errors */
+export { StorageError } from './StorageError'
 export { PageNotFoundError } from './PageNotFoundError'
 
 /* Selector errors */
 export { default as ActiveNetworkNotFoundError } from './ActiveNetworkNotFoundError'
-export { default as ActiveWalletNotFoundError } from './ActiveWalletNotFoundError'
 export { default as DigitalAssetNotFoundError } from './DigitalAssetNotFoundError'
 export { default as WalletNotFoundError } from './WalletNotFoundError'
 export { default as WalletInconsistentDataError } from './WalletInconsistentDataError'

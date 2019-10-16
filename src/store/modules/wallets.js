@@ -2,14 +2,19 @@
 
 export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
 export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
+export const CHANGE_ACTIVE_ADDRESS = '@@wallets/CHANGE_ACTIVE_ADDRESS'
 
-export const SIMPLIFY_WALLET = '@@wallets/SIMPLIFY_WALLET'
-
-export function setWalletsItems(items: Wallets) {
+export function setWalletsItems(
+  items: Wallets,
+  nextPage?: ?string = null,
+  params?: { [key: string]: any } = {},
+) {
   return {
     type: SET_WALLETS_ITEMS,
     payload: {
       items,
+      params,
+      nextPage,
     },
   }
 }
@@ -23,20 +28,16 @@ export function setActiveWallet(activeWalletId: ?WalletId) {
   }
 }
 
-export function simplifyWallet(walletId: WalletId, isSimplified: boolean) {
+export function changeActiveAddress() {
   return {
-    type: SIMPLIFY_WALLET,
-    payload: {
-      walletId,
-      isSimplified,
-    },
+    type: CHANGE_ACTIVE_ADDRESS,
   }
 }
 
 export type WalletsAction =
   ExtractReturn<typeof setWalletsItems> |
   ExtractReturn<typeof setActiveWallet> |
-  ExtractReturn<typeof simplifyWallet>
+  ExtractReturn<typeof changeActiveAddress>
 
 const initialState: WalletsState = {
   persist: {

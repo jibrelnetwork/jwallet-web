@@ -1,0 +1,22 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  flex-grow: 1;
+  margin-top: -112px;
+}
+
+.info {
+  @include font(16px, 24px);
+
+  display: block;
+  width: 100%;
+  max-width: 352px;
+  text-align: center;
+  color: $main-black-40;
+}
+
+.image {
+  margin-bottom: 24px;
+}

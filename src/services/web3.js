@@ -1,12 +1,20 @@
-// @flow
+// @flow strict
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
-import { t } from 'ttag'
 import { BigNumber } from 'bignumber.js'
+import { AbiCoder } from 'ethers/utils/abi-coder'
 
-import checkETH from 'utils/digitalAssets/checkETH'
-import { getAddressChecksum } from 'utils/address'
+import { checkETH } from 'utils/digitalAssets'
+
+import {
+  add0x,
+  strip0x,
+  getAddressChecksum,
+} from 'utils/address'
+
 import * as type from 'utils/type'
+
+const abiCoder = new AbiCoder()
 
 /**
  * Pre-calculated keccak256 values
@@ -29,8 +37,25 @@ const ERC20_INTERFACE_SIGNATURES = {
   transferFrom: '23b872dd7302113369cda2901243429419bec145408fa8b352b3dd92b66c680b',
 }
 
+const BURN_SIGNATURE = '0x512586160ebd4dc6945ba9ec5d21a1f723f26f3c7aa36cdffb6818d4e7b88030'
+const MINT_SIGNATURE = '0x3fffaa5804a26fcec0d70b1d0fb0a2d0031df3a5f9c8af2127c2f4360e97b463'
+const TRANSFER_SIGNATURE = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+
 const ZERO_HEX = '0x'
 const ETH_DEFAULT_GAS_LIMIT = 21000
+
+function leftPadAddress(address: Address) {
+  const leftPad: string = '0'.repeat(24)
+
+  return add0x(`${leftPad}${strip0x(address)}`)
+}
+
+function decodeAbiParameter(
+  input: string,
+  bytes: string,
+): string | BigNumber {
+  return abiCoder.decode([input], bytes)[0]
+}
 
 function isBigNumber(data: any): boolean {
   return (
@@ -68,7 +93,7 @@ export function getAssetBalance(
 
   return balancePromise.then((value: any) => {
     if (!isBigNumber(value)) {
-      throw new Error(t`Returned balance is not an instance of BigNumber`)
+      throw new Error('Returned balance is not an instance of BigNumber')
     }
 
     return value.toString()
@@ -89,7 +114,7 @@ function getAssetDecimals(network: Network, assetAddress: AssetAddress): Promise
     contractAddress: assetAddress,
   }).then((value: any) => {
     if (!isBigNumber(value)) {
-      throw new Error(t`Returned decimals is not an instance of BigNumber`)
+      throw new Error('Returned decimals is not an instance of BigNumber')
     }
 
     return value.toNumber()
@@ -197,7 +222,7 @@ function prepareBlock(data: any): BlockData {
     type.isNumber(data.number) &&
     type.isNumber(data.timestamp)
   )) {
-    throw new Error(t`Invalid ETH block format`)
+    throw new Error('Invalid ETH block format')
   }
 
   const {
@@ -245,15 +270,16 @@ function prepareTransaction(data: any): TransactionData {
   if (!(
     !type.isVoid(data) &&
     type.isObject(data) &&
-    isBigNumber(data.gasPrice) &&
-    data.nonce
+    type.isNumber(data.nonce) &&
+    isBigNumber(data.gasPrice)
   )) {
-    throw new Error(t`Invalid ETH transaction format`)
+    throw new Error('Invalid ETH transaction format')
   }
 
   return {
     gasPrice: data.gasPrice.toString(),
-    nonce: Number(data.nonce),
+    nonce: data.nonce,
+    hasInput: false, // always false, because we show them as token events
   }
 }
 
@@ -278,7 +304,7 @@ function prepareTransactionReceipt(data: any): TransactionReceiptData {
     type.isObject(data) &&
     type.isNumber(data.gasUsed)
   )) {
-    throw new Error(t`Invalid ETH transaction format`)
+    throw new Error('Invalid ETH transaction format')
   }
 
   const {
@@ -313,7 +339,7 @@ function getTransactionReceiptData(network: Network, hash: Hash): Promise<Transa
 
 function handleEventsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isArray(response)) {
-    throw new Error(t`Invalid contract events response`)
+    throw new Error('Invalid contract events response')
   }
 
   return response
@@ -331,16 +357,34 @@ function checkTransferEvent(data: Object): boolean {
     type.isString(data.args.to) &&
     isBigNumber(data.args.value) &&
     type.isString(data.args.from) &&
-    type.isNumber(data.logIndex) &&
+    type.isString(data.logIndex) &&
     type.isString(data.blockHash) &&
-    type.isNumber(data.blockNumber) &&
+    type.isString(data.blockNumber) &&
     type.isString(data.transactionHash)
   )
 }
 
+function prepareTransferEvent(item: Object): Object {
+  const {
+    data,
+    topics,
+  } = item
+
+  return {
+    ...item,
+    args: {
+      value: decodeAbiParameter('uint256', data),
+      to: decodeAbiParameter('address', topics[2]),
+      from: decodeAbiParameter('address', topics[1]),
+    },
+  }
+}
+
 function prepareTransferEvents(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
-    if (!checkTransferEvent(item)) {
+    const preparedItem = prepareTransferEvent(item)
+
+    if (!checkTransferEvent(preparedItem)) {
       return result
     }
 
@@ -351,7 +395,7 @@ function prepareTransferEvents(data: Object[]): Transactions {
       blockNumber,
       transactionHash,
       removed,
-    }: TransferEventFromEthereumNode = item
+    }: TransferEventFromEthereumNode = preparedItem
 
     const {
       to,
@@ -363,20 +407,20 @@ function prepareTransferEvents(data: Object[]): Transactions {
       to: getAddressChecksum(to),
       from: getAddressChecksum(from),
       blockHash,
-      blockNumber,
       data: null,
       blockData: null,
       receiptData: null,
-      amount: value,
       hash: transactionHash,
       contractAddress: null,
+      amount: value.toString(),
       eventType: 1,
       isRemoved: !!removed,
+      blockNumber: parseInt(blockNumber, 16),
     }
 
     return {
       ...result,
-      [`${transactionHash}${logIndex}`]: newTransaction,
+      [`${transactionHash}${parseInt(logIndex, 16)}`]: newTransaction,
     }
   }, {})
 }
@@ -384,7 +428,7 @@ function prepareTransferEvents(data: Object[]): Transactions {
 function getTransferEvents(
   network: Network,
   assetAddress: AssetAddress,
-  filter: SmartContractEventFilter,
+  topics: Array<?string>,
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
@@ -398,12 +442,11 @@ function getTransferEvents(
     rpcaddr,
     rpcport,
     ssl,
-    event: 'Transfer',
-    contractAddress: assetAddress,
     options: {
-      filter,
-      toBlock,
-      fromBlock,
+      topics,
+      address: assetAddress,
+      toBlock: add0x(toBlock.toString(16)),
+      fromBlock: add0x(fromBlock.toString(16)),
     },
   }
 
@@ -421,7 +464,17 @@ function getTransferEventsTo(
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
-  return getTransferEvents(network, assetAddress, { to }, fromBlock, toBlock)
+  return getTransferEvents(
+    network,
+    assetAddress,
+    [
+      TRANSFER_SIGNATURE,
+      null,
+      leftPadAddress(to),
+    ],
+    fromBlock,
+    toBlock,
+  )
 }
 
 function getTransferEventsFrom(
@@ -431,7 +484,16 @@ function getTransferEventsFrom(
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
-  return getTransferEvents(network, assetAddress, { from }, fromBlock, toBlock)
+  return getTransferEvents(
+    network,
+    assetAddress,
+    [
+      TRANSFER_SIGNATURE,
+      leftPadAddress(from),
+    ],
+    fromBlock,
+    toBlock,
+  )
 }
 
 function checkJNTEvent(data: Object): boolean {
@@ -442,16 +504,34 @@ function checkJNTEvent(data: Object): boolean {
     type.isObject(data.args) &&
     isBigNumber(data.args.value) &&
     type.isString(data.args.owner) &&
-    type.isNumber(data.logIndex) &&
+    type.isString(data.logIndex) &&
     type.isString(data.blockHash) &&
-    type.isNumber(data.blockNumber) &&
+    type.isString(data.blockNumber) &&
     type.isString(data.transactionHash)
   )
 }
 
+function prepareJNTEvent(item: Object): Object {
+  const {
+    data,
+    topics,
+  } = item
+
+  return {
+    ...item,
+    event: (topics[0] === BURN_SIGNATURE) ? 'BurnEvent' : 'MintEvent',
+    args: {
+      value: decodeAbiParameter('uint256', data),
+      owner: decodeAbiParameter('address', topics[1]),
+    },
+  }
+}
+
 function prepareJNTEvents(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
-    if (!checkJNTEvent(item)) {
+    const preparedItem = prepareJNTEvent(item)
+
+    if (!checkJNTEvent(preparedItem)) {
       return result
     }
 
@@ -463,7 +543,7 @@ function prepareJNTEvents(data: Object[]): Transactions {
       blockNumber,
       transactionHash,
       removed,
-    }: JNTEventFromEthereumNode = item
+    }: JNTEventFromEthereumNode = preparedItem
 
     const {
       owner,
@@ -474,13 +554,13 @@ function prepareJNTEvents(data: Object[]): Transactions {
 
     const newTransaction: Transaction = {
       blockHash,
-      blockNumber,
       data: null,
       blockData: null,
       receiptData: null,
-      amount: value,
       hash: transactionHash,
       contractAddress: null,
+      amount: value.toString(),
+      blockNumber: parseInt(blockNumber, 16),
       to: (event === 'MintEvent') ? ownerAddressChecksum : null,
       from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
       eventType: 2,
@@ -489,7 +569,7 @@ function prepareJNTEvents(data: Object[]): Transactions {
 
     return {
       ...result,
-      [`${transactionHash}${logIndex}`]: newTransaction,
+      [`${transactionHash}${parseInt(logIndex, 16)}`]: newTransaction,
     }
   }, {})
 }
@@ -497,8 +577,7 @@ function prepareJNTEvents(data: Object[]): Transactions {
 function getJNTEvents(
   network: Network,
   assetAddress: AssetAddress,
-  event: JNTEventName,
-  owner: OwnerAddress,
+  topics: Array<?string>,
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
@@ -512,14 +591,11 @@ function getJNTEvents(
     rpcaddr,
     rpcport,
     ssl,
-    event,
-    contractAddress: assetAddress,
     options: {
-      toBlock,
-      fromBlock,
-      filter: {
-        owner,
-      },
+      topics,
+      address: assetAddress,
+      toBlock: add0x(toBlock.toString(16)),
+      fromBlock: add0x(fromBlock.toString(16)),
     },
   }
 
@@ -537,7 +613,16 @@ function getMintEvents(
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
-  return getJNTEvents(network, assetAddress, 'MintEvent', ownerAddress, fromBlock, toBlock)
+  return getJNTEvents(
+    network,
+    assetAddress,
+    [
+      MINT_SIGNATURE,
+      leftPadAddress(ownerAddress),
+    ],
+    fromBlock,
+    toBlock,
+  )
 }
 
 function getBurnEvents(
@@ -547,7 +632,16 @@ function getBurnEvents(
   fromBlock: number,
   toBlock: number,
 ): Promise<Transactions> {
-  return getJNTEvents(network, assetAddress, 'BurnEvent', ownerAddress, fromBlock, toBlock)
+  return getJNTEvents(
+    network,
+    assetAddress,
+    [
+      BURN_SIGNATURE,
+      leftPadAddress(ownerAddress),
+    ],
+    fromBlock,
+    toBlock,
+  )
 }
 
 function sendTransaction(

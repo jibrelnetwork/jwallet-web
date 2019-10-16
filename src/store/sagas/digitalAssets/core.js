@@ -2,11 +2,14 @@
 
 import { mapKeys } from 'lodash-es'
 
+import { delay } from 'redux-saga'
+
 import {
   put,
   call,
   select,
   takeEvery,
+  takeLatest,
 } from 'redux-saga/effects'
 
 import {
@@ -145,6 +148,7 @@ function* init(): Saga<void> {
 }
 
 function* setAssetIsActive(): Saga<void> {
+  yield delay(10)
   yield put(blocks.syncRestart())
   yield put(ticker.syncRestart())
 }
@@ -162,12 +166,10 @@ function* deleteCustomAsset(
   }
 
   yield put(digitalAssets.deleteAssetRequest(assetAddress))
-  yield put(blocks.syncRestart())
-  yield put(ticker.syncRestart())
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {
   yield takeEvery(digitalAssets.INIT, init)
-  yield takeEvery(digitalAssets.SET_ASSET_IS_ACTIVE, setAssetIsActive)
+  yield takeLatest(digitalAssets.SET_ASSET_IS_ACTIVE, setAssetIsActive)
   yield takeEvery(digitalAssets.DELETE_CUSTOM_ASSET, deleteCustomAsset)
 }

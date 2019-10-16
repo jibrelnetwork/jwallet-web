@@ -6,28 +6,13 @@
   position: relative;
 }
 
-.icon {
-  margin-bottom: 32px;
-}
-
-.title {
-  margin-bottom: 8px;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: normal;
-  color: $main-black;
-}
-
-.text {
-  font-size: 14px;
-  line-height: 22px;
-  color: $main-black-60;
-  text-align: center;
-}
-
 .form {
   width: 544px;
   margin-top: 32px;
+}
+
+.icon {
+  @include sprite-icon-color($main-blue);
 }
 
 .fields {

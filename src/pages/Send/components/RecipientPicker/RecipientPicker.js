@@ -1,11 +1,13 @@
 // @flow strict
 
-import React, {
-  Component,
-} from 'react'
-import { t } from 'ttag'
+import React, { Component } from 'react'
 
-import escapeRegExp from 'utils/regexp/escapeRegExp'
+import { JIcon } from 'components/base'
+
+import {
+  searchContacts,
+  searchRecipientWallets,
+} from 'utils/search'
 
 import {
   JPickerBody,
@@ -13,10 +15,9 @@ import {
   JPickerCurrent,
   NotFoundItem,
 } from 'components/base/JPicker'
-import { JIcon } from 'components/base'
+
 import {
   getAddressName,
-  startsWithOrEndsWith,
   checkAddressPartValid,
 } from 'utils/address'
 
@@ -25,99 +26,27 @@ import { ContactItem } from './ContactItem/ContactItem'
 import { ContactIcon } from './ContactIcon/ContactIcon'
 import { WalletList } from './WalletList/WalletList'
 import { QuickSendItem } from './QuickSendItem/QuickSendItem'
+
+import styles from './recipientPicker.m.scss'
+
 import {
   Tabs,
   type Tab,
 } from './Tabs/Tabs'
 
-type Contact = {|
-  +name?: string,
-  +description?: string,
-  +address: Address,
-|}
-
-export type RecipientPickerWalletAddress = {|
-  address: Address,
-  name: string,
-  fiatBalance?: string,
-|}
-
-export type RecipientPickerWallet = {|
-  id: WalletId,
-  type: 'address' | 'mnemonic' | 'read-only',
-  name: string,
-  addresses: RecipientPickerWalletAddress[],
-|}
-
-function filterContacts(
-  contacts: Contact[],
-  searchQuery: string,
-): Contact[] {
-  const query: string = searchQuery.trim()
-  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
-
-  return !query ? contacts : contacts.reduce((
-    result,
-    contact,
-  ) => {
-    const {
-      name,
-      description,
-      address,
-    } = contact
-
-    const isFound: boolean =
-      (name && searchRe.test(name)) ||
-      (description && searchRe.test(description)) ||
-      startsWithOrEndsWith(address, query)
-
-    return !isFound ? result : [
-      ...result,
-      contact,
-    ]
-  }, [])
-}
-
-function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
-  if (!searchQuery) {
-    return wallets
-  }
-
-  const searchRe: RegExp = new RegExp(escapeRegExp(searchQuery), 'ig')
-
-  return wallets.map((wallet) => {
-    if (searchRe.test(wallet.name || '')) {
-      return wallet
-    }
-
-    // filter addresses
-    const addresses = wallet.addresses.filter((addr, index) =>
-      searchRe.test(getAddressName(addr.name, index)) ||
-      startsWithOrEndsWith(addr.address, searchQuery))
-
-    if (addresses.length) {
-      return {
-        ...wallet,
-        addresses,
-      }
-    }
-
-    return null
-  }).filter(Boolean)
-}
-
-type Props = {|
+export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  // +fiatCurrency: FiatCurrency,
-  +contacts: Contact[],
+  +contacts: Favorite[],
   +wallets: RecipientPickerWallet[],
+  +className: string,
+  +label: string,
 |}
 
-type ComponentState = {|
-  searchQuery: string,
-  activeTab: Tab,
-  openWallets: string[],
+type StateProps = {|
+  +activeTab: Tab,
+  +searchQuery: string,
+  +openWallets: string[],
 |}
 
 type CurrentRendererInput = {
@@ -129,9 +58,9 @@ type SearchInputRef = {
   current: null | HTMLInputElement,
 }
 
-class RecipientPicker extends Component<Props, ComponentState> {
+class RecipientPicker extends Component<Props, StateProps> {
   static defaultProps = {
-    fiatCurrency: 'USD',
+    className: '',
   }
 
   state = {
@@ -147,33 +76,18 @@ class RecipientPicker extends Component<Props, ComponentState> {
       input,
       contacts,
       wallets,
-    } = this.props
+      label,
+    }: Props = this.props
 
-    const { searchQuery } =  this.state
+    const {
+      activeTab,
+      searchQuery,
+    }: StateProps =  this.state
 
-    const activeContact = contacts.find(contact => contact.address === input.value)
+    const isActiveWalletsTab: boolean = (activeTab === 'wallets')
+    const activeContact: ?Favorite = contacts.find(contact => contact.address === input.value)
 
-    if (activeContact) {
-      const title = activeContact.name
-        ? activeContact.name
-        : activeContact.address
-
-      return (
-        <JPickerCurrent
-          ref={this.searchInputRef}
-          isEditable={isOpen}
-          label={t`Recipient`}
-          value={!isOpen ? title : ''}
-          inputValue={searchQuery}
-          onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
-            <ContactIcon name={activeContact.name} />
-          )}
-        />
-      )
-    }
-
-    const activeWallet = wallets.find((wallet) => {
+    const activeWallet: ?RecipientPickerWallet = wallets.find((wallet: RecipientPickerWallet) => {
       if (wallet.id === input.value) {
         return true
       }
@@ -185,43 +99,67 @@ class RecipientPicker extends Component<Props, ComponentState> {
       return false
     })
 
-    if (activeWallet && activeWallet.type === 'mnemonic') {
-      const [activeAddress, activeAddressIndex] =
-        activeWallet.addresses.reduce((
-          result,
-          walletAddress,
-          index,
-        ) => walletAddress.address === input.value
-          ? [walletAddress, index]
-          : result, [undefined, 0])
-
-      const title = activeAddress
-        ? `${activeWallet.name} / ${getAddressName(activeAddress.name, activeAddressIndex)}`
-        : activeWallet.name
+    // if current tab is 'wallets' and active wallet was found - just skip code below
+    if (activeContact && !(activeWallet && isActiveWalletsTab)) {
+      const title = activeContact.name
+        ? activeContact.name
+        : activeContact.address
 
       return (
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={label}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
-            <JIcon name='0x-use-fill' color='blue' />
+          iconComponent={(
+            <ContactIcon name={activeContact.name} />
           )}
         />
       )
-    } else if (activeWallet) {
+    }
+
+    if (activeWallet) {
+      if (activeWallet.type === 'mnemonic') {
+        const [activeAddress, activeAddressIndex] = activeWallet.addresses.reduce((
+          result,
+          walletAddress,
+          index,
+        ) => (walletAddress.address === input.value)
+          ? [walletAddress, index]
+          : result, [undefined, 0])
+
+        const title: string = !activeAddress ? activeWallet.name : getAddressName(
+          activeAddress.name,
+          activeAddressIndex,
+          activeWallet.name,
+        )
+
+        return (
+          <JPickerCurrent
+            ref={this.searchInputRef}
+            isEditable={isOpen}
+            label={label}
+            value={!isOpen ? title : ''}
+            inputValue={searchQuery}
+            onInputChange={this.handleSearchQueryChange}
+            iconComponent={(
+              <JIcon name='0x-use-fill' color='blue' />
+            )}
+          />
+        )
+      }
+
       return (
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={label}
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='wallet-use-fill' color='blue' />
           )}
         />
@@ -232,12 +170,15 @@ class RecipientPicker extends Component<Props, ComponentState> {
       <JPickerCurrent
         ref={this.searchInputRef}
         isEditable={isOpen}
-        label={t`Recipient`}
+        label={label}
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
-        iconRenderer={() => (
-          <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
+        iconComponent={(
+          <JIcon
+            name='contact-2-use-fill'
+            className={(isOpen || input.value) ? styles.blue : styles.gray}
+          />
         )}
       />
     )
@@ -298,18 +239,15 @@ class RecipientPicker extends Component<Props, ComponentState> {
       input,
       contacts,
       // fiatCurrency,
-    } = this.props
+    }: Props = this.props
 
-    if (!contacts.length) {
-      return (
-        <Empty tab='contacts' />
-      )
-    }
+    const { searchQuery }: StateProps = this.state
+    const activeContact = contacts.find(contact => (contact.address === input.value))
 
-    const { searchQuery } = this.state
-
-    const activeContact = contacts.find(contact => contact.address === input.value)
-    const filteredContacts = filterContacts(contacts, searchQuery)
+    const filteredContacts: Favorite[] = searchContacts(
+      contacts,
+      searchQuery,
+    )
 
     if (!filteredContacts.length) {
       if (checkAddressPartValid(searchQuery)) {
@@ -321,10 +259,22 @@ class RecipientPicker extends Component<Props, ComponentState> {
           />
         )
       } else {
+        if (!contacts.length) {
+          return (
+            <Empty tab='contacts' />
+          )
+        }
+
         return (
           <NotFoundItem />
         )
       }
+    }
+
+    if (!contacts.length) {
+      return (
+        <Empty tab='contacts' />
+      )
     }
 
     return (
@@ -349,19 +299,18 @@ class RecipientPicker extends Component<Props, ComponentState> {
     const {
       input,
       wallets,
-    } = this.props
+    }: Props = this.props
 
     if (!wallets.length) {
-      return (
-        <Empty tab='wallets' />
-      )
+      return <Empty tab='wallets' />
     }
 
-    const {
-      searchQuery,
-    } = this.state
+    const { searchQuery }: StateProps = this.state
 
-    const filteredWallets = filterWallets(wallets, searchQuery)
+    const filteredWallets: RecipientPickerWallet[] = searchRecipientWallets(
+      wallets,
+      searchQuery,
+    )
 
     if (!filteredWallets.length) {
       if (checkAddressPartValid(searchQuery)) {
@@ -395,6 +344,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
   render() {
     const {
       meta,
+      className,
     } = this.props
 
     const {
@@ -405,6 +355,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
     return (
       <JPickerBody
+        className={className}
         isOpen={isOpen}
         onOpen={this.handleOpen}
         onClose={this.handleClose}

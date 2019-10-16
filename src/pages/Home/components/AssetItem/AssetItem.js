@@ -1,8 +1,27 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
+
+import offsetsStyle from 'styles/offsets.m.scss'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { selectTickerItems } from 'store/selectors/ticker'
+import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
+import { selectBalanceByAssetAddress } from 'store/selectors/balances'
+import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
+
+import {
+  getFiatBalance,
+  checkBalanceLoading,
+} from 'utils/digitalAssets'
+
+import {
+  formatFiatBalance,
+  formatAssetBalance,
+} from 'utils/formatters'
 
 import {
   JAssetSymbol,
@@ -10,62 +29,38 @@ import {
   JLink,
   JShimmer,
 } from 'components/base'
-import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
-import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
-import { getFiatBalance } from 'store/utils/getFiatBalances'
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
-import { checkBalanceLoading } from 'utils/digitalAssets'
-import { formatAssetBalance } from 'utils/formatters'
-import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
 
-import offsetsStyle from 'styles/offsets.m.scss'
-import assetItemStyle from 'pages/Home/components/AssetItem/assetItem.m.scss'
+import styles from './assetItem.m.scss'
 
-type ContainerProps = {|
+type OwnProps = {|
   +address: AssetAddress,
 |}
 
 type Props = {|
-  ...$Exact<ContainerProps>,
+  ...$Exact<OwnProps>,
   ...$Exact<DigitalAssetWithBalance>,
-  balance: ToBigNumberValue,
-  fiatSymbol: string,
-  fiatBalance: string,
-  isLoadingBalance: boolean,
+  +balance: ToBigNumberValue,
+  +fiatBalance: ?BigNumber,
+  +fiatCurrency: FiatCurrencyCode,
+  +isLoadingBalance: boolean,
 |}
 
-export function AssetItemInternal({
+function AssetItem({
   symbol,
   address,
   balance,
   name,
-  fiatSymbol,
   fiatBalance,
+  fiatCurrency,
   blockchainParams,
   isLoadingBalance,
 }: Props) {
-  // FIXME: move formatters to external file
-  const formattedBalance = formatAssetBalance(
-    address,
-    balance,
-    blockchainParams.decimals,
-    symbol,
-  )
-
-  const formattedFiatBalance = `${fiatSymbol}\u202F${formatBalance(divDecimals(fiatBalance))}`
-
   return (
     <JLink
-      className={`__asset-item ${assetItemStyle.core} ${offsetsStyle.mb16}`}
+      className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}
       href={`/assets/${address}`}
     >
-      <div
-        className={classNames(assetItemStyle.item, assetItemStyle.assetIcon)}
-      >
+      <div className={classNames(styles.item, styles.assetIcon)}>
         <JAssetSymbol
           address={address}
           symbol={symbol}
@@ -73,64 +68,73 @@ export function AssetItemInternal({
           size={32}
         />
       </div>
-      <div
-        className={classNames(assetItemStyle.item, assetItemStyle.mainBlock)}
-      >
-        <div className={assetItemStyle.text}>
+      <div className={classNames(styles.item, styles.mainBlock)}>
+        <div className={styles.text}>
           {name}
         </div>
-        <div className={assetItemStyle.subtext}>
+        <div className={styles.subtext}>
           {symbol}
         </div>
       </div>
-      <div
-        className={classNames(assetItemStyle.item, assetItemStyle.amountBlock)}
-      >
-        <div className={`${assetItemStyle.assetAmount} ${assetItemStyle.text}`}>
-          {isLoadingBalance
-            ? <JShimmer />
-            : formattedBalance}
+      <div className={classNames(styles.item, styles.amountBlock)}>
+        <div className={`${styles.assetAmount} ${styles.text}`}>
+          {isLoadingBalance ? <JShimmer /> : formatAssetBalance(
+            address,
+            balance,
+            blockchainParams.decimals,
+            symbol,
+          )}
         </div>
         <div
-          className={`${assetItemStyle.assetAmount} ${assetItemStyle.subtext}`}
+          className={`${styles.assetAmount} ${styles.subtext}`}
           style={{ minWidth: '80px' }}
         >
-          {isLoadingBalance
-            ? <JShimmer />
-            : formattedFiatBalance}
+          {isLoadingBalance ? <JShimmer /> : formatFiatBalance(
+            fiatBalance,
+            fiatCurrency,
+          )}
         </div>
       </div>
-      <div
-        className={classNames(assetItemStyle.item, assetItemStyle.arrowIcon)}
-      >
-        <JIcon className={assetItemStyle.arrow} name='arrow-right-use-fill' />
+      <div className={classNames(styles.item, styles.arrowIcon)}>
+        <JIcon className={styles.arrow} name='arrow-right-use-fill' />
       </div>
     </JLink>
   )
 }
 
-export const AssetItem =
-  connect<Props, ContainerProps, _, _, _, _>(
-    (state: AppState, ownProps: ContainerProps) => {
-      const asset = selectDigitalAssetsItems(state)[ownProps.address]
+function mapStateToProps(state: AppState, { address }: OwnProps) {
+  const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
+  const asset: ?DigitalAsset = digitalAssets[address]
 
-      if (!asset) {
-        return { ...ownProps }
-      }
+  if (!asset) {
+    return { address }
+  }
 
-      const balance = selectBalanceByAssetAddressToCurrentBlock(state, ownProps.address)
-      const { symbol: fiatSymbol } = selectSettingsFiatCurrencyData(state)
-      const fiatBalance = getFiatBalance(state, {
-        ...asset,
-        balance,
-      })
+  const fiatCourses: FiatCourses = selectTickerItems(state)
+  const fiatCurrency: FiatCurrencyCode = selectFiatCurrency(state)
 
-      return {
-        ...asset,
-        balance: balance ? balance.value : 0,
-        isLoadingBalance: checkBalanceLoading(balance),
-        fiatSymbol,
-        fiatBalance,
-      }
+  const balance: ?Balance = selectBalanceByAssetAddress(
+    state,
+    address,
+  )
+
+  const fiatBalance: ?BigNumber = getFiatBalance(
+    {
+      ...asset,
+      balance,
     },
-  )(AssetItemInternal)
+    fiatCourses,
+    fiatCurrency,
+  )
+
+  return {
+    ...asset,
+    fiatBalance,
+    fiatCurrency,
+    balance: balance ? balance.value : 0,
+    isLoadingBalance: checkBalanceLoading(balance),
+  }
+}
+
+const AssetItemEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(AssetItem)
+export { AssetItemEnhanced as AssetItem }

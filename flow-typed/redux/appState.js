@@ -26,16 +26,13 @@ declare type AppState = {
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
   +walletsAddresses: WalletsAddressesState,
-  +walletsRenameAddress: WalletsRenameAddressState,
   // networks
-   +networks: NetworksState,
+  +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +digitalAssetsAdd: AddAssetState,
-  +digitalAssetsEdit: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
-  +digitalAssetsSend: DigitalAssetsSendState,
   // blocks
   +blocks: BlocksState,
   // transactions
@@ -44,8 +41,6 @@ declare type AppState = {
   +balances: BalancesState,
   // comments
   +comments: CommentsState,
-  // settings
-  +settings: SettingsState,
   // favorites
   +favorites: FavoritesState,
   // upgrade
@@ -58,4 +53,6 @@ declare type AppState = {
   +password: PasswordState,
   // user
   +user: UserState,
+  // toasts
+  +toasts: ToastsState,
 }

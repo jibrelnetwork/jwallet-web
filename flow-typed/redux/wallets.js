@@ -25,7 +25,7 @@ declare type ScryptParams = {|
 
 declare type WalletCreatedBlockNumber = { [NetworkName]: ?number }
 
-declare type Wallet = {|
+declare type WalletV1 = {|
   +encrypted: WalletEncryptedData,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
   +id: string,
@@ -37,9 +37,12 @@ declare type Wallet = {|
   +customType: WalletCustomType,
   +orderIndex: number,
   +addressIndex: ?number,
+  +derivationIndex: ?number,
   +isReadOnly: boolean,
   +isSimplified: ?boolean,
 |}
+
+declare type Wallet = WalletV1
 
 declare type WalletUpdatedData = {|
   +encrypted?: WalletEncryptedData,
@@ -48,6 +51,7 @@ declare type WalletUpdatedData = {|
   +derivationPath?: string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
+  +derivationIndex?: ?number,
   +isReadOnly?: ?boolean,
   +isSimplified?: ?boolean,
 |}
@@ -72,10 +76,12 @@ declare type PasswordResult = {|
   |},
 |}
 
-declare type WalletsPersist = {|
-  +items: Wallets,
+declare type WalletsPersistV1 = {|
+  +items: WalletV1[],
   +activeWalletId: ?WalletId,
 |}
+
+declare type WalletsPersist = WalletsPersistV1
 
 declare type WalletsState = {|
   +persist: WalletsPersist,
@@ -100,18 +106,6 @@ declare type WalletsAddressesPersist = {|
 
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
-  +addresses: OwnerAddress[],
-  +balances: WalletsBalances,
-  +iteration: Index,
-  +isLoading: boolean,
-|}
-
-/**
- * Wallets rename address
- */
-declare type WalletsRenameAddressState ={|
-  +name: string,
-  +invalidFields: FormFields,
 |}
 
 declare type HDPublicKey = {|
@@ -149,4 +143,17 @@ declare type KeyWordArray = {|
 declare type KeyWordArrayEncoder = {|
   +parse: (string) => KeyWordArray,
   +stringify: (KeyWordArray) => string,
+|}
+
+declare type RecipientPickerWalletAddress = {|
+  +name: string,
+  +fiatBalance?: string,
+  +address: OwnerAddress,
+|}
+
+declare type RecipientPickerWallet = {|
+  +id: WalletId,
+  +name: string,
+  +type: 'address' | 'mnemonic' | 'read-only',
+  +addresses: RecipientPickerWalletAddress[],
 |}

@@ -7,6 +7,7 @@
   @include font;
   @include flex-column;
 
+  z-index: $z-index-menu;
   position: absolute;
   top: 0;
   left: 0;
@@ -17,6 +18,7 @@
   background-image: linear-gradient(71.21deg, $main-blue 0.35%, #00309b 100%);
   transition: left 0.15s ease-in-out;
 
+  /*
   @include vertical-tablet {
     @include flex-row;
 
@@ -27,6 +29,7 @@
     height: 80px;
     transition: top 0.15s ease-in-out;
   }
+  */
 }
 
 .actions,
@@ -185,13 +188,14 @@
 
 .back {
   @include flex-column-center;
+  @include sprite-icon-color($main-blue);
   @include property-transition(background-color, opacity);
 
   width: 36px;
   height: 36px;
   position: absolute;
   z-index: $z-index-menu-back;
-  top: 48px;
+  top: 52px;
   left: $menu-panel-width + 18px;
   opacity: 0;
   visibility: hidden;
@@ -203,10 +207,12 @@
     background-color: $main-blue-10;
   }
 
+  /*
   @include vertical-tablet {
     left: 42px;
     top: 106px;
   }
+  */
 }
 
 .minimized {
@@ -214,10 +220,12 @@
   background-image: none;
   background-color: $main-blue;
 
+  /*
   @include vertical-tablet {
     left: 0;
     top: -56px;
   }
+  */
 
   .network,
   .logo,
@@ -231,3 +239,11 @@
     visibility: visible;
   }
 }
+
+/*
+@media (max-width: 850px) {
+  .back {
+    left: 16px;
+  }
+}
+*/

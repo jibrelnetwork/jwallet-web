@@ -1,8 +1,9 @@
 // @flow
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
 import { Field } from 'react-final-form'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { PasswordInput } from 'components'
 import { checkPasswordStrength } from 'utils/encryption'
@@ -21,6 +22,7 @@ type Props = {|
   +label: string,
   +isDisabled: boolean,
   +isAutoFocus: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -30,13 +32,6 @@ type StateProps = {|
 |}
 
 const MIN_PASSWORD_STRENGTH_SCORE: number = 3
-
-const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
-  'red': t`Too weak`,
-  'green': t`Not bad`,
-  'yellow': t`Bit weak`,
-  'orange': t`Easily cracked`,
-}
 
 function getStatusByScore(
   score: number,
@@ -66,7 +61,7 @@ function checkStrong(score: number): boolean {
   return (score >= MIN_PASSWORD_STRENGTH_SCORE)
 }
 
-export class NewPasswordField extends Component<Props, StateProps> {
+class NewPasswordFieldComponent extends Component<Props, StateProps> {
   static defaultProps = {
     isDisabled: false,
     isAutoFocus: false,
@@ -112,6 +107,31 @@ export class NewPasswordField extends Component<Props, StateProps> {
       return null
     }
 
+    const { i18n } = this.props
+
+    const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
+      'red': i18n._(
+        'common.NewPasswordField.strength.red',
+        null,
+        { defaults: 'Too weak' },
+      ),
+      'green': i18n._(
+        'common.NewPasswordField.strength.green',
+        null,
+        { defaults: 'Not bad' },
+      ),
+      'yellow': i18n._(
+        'common.NewPasswordField.strength.yellow',
+        null,
+        { defaults: 'Bit weak' },
+      ),
+      'orange': i18n._(
+        'common.NewPasswordField.strength.orange',
+        null,
+        { defaults: 'Easily cracked' },
+      ),
+    }
+
     const {
       passwordResult,
       isFetching,
@@ -147,9 +167,10 @@ export class NewPasswordField extends Component<Props, StateProps> {
       this.setCheckingPasswordResult(password)
     } else {
       this.setState({ passwordResult: null })
+      this.props.onScoreChange(false)
     }
 
-    this.props.onChange('password', password)
+    this.props.onChange('passwordNew', password)
   }
 
   handleScoreChange = (newPasswordResult: PasswordResult) => {
@@ -166,6 +187,7 @@ export class NewPasswordField extends Component<Props, StateProps> {
       label,
       isDisabled,
       isAutoFocus,
+      i18n,
     }: Props = this.props
 
     const {
@@ -188,8 +210,9 @@ export class NewPasswordField extends Component<Props, StateProps> {
           value={values.password}
           infoMessage={infoMessage}
           errorMessage={errorMessage}
-          name='password'
+          name='passwordNew'
           theme='white-indicator'
+          maxLength={100}
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
@@ -197,12 +220,19 @@ export class NewPasswordField extends Component<Props, StateProps> {
         <Field
           component={PasswordInput}
           value={values.passwordConfirm}
-          label={t`Repeat Security Password`}
+          label={i18n._(
+            'common.NewPasswordField.input.passwordConfirm.title',
+            null,
+            { defaults: 'Repeat Security Password' },
+          )}
           theme='white-icon'
           name='passwordConfirm'
+          maxLength={100}
           isDisabled={isDisabled}
         />
       </div>
     )
   }
 }
+
+export const NewPasswordField = withI18n()(NewPasswordFieldComponent)

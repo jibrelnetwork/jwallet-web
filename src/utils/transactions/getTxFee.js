@@ -1,20 +1,22 @@
-// @flow
+// @flow strict
 
 import {
   toBigNumber,
   divDecimals,
   formatBalance,
+  trimLeadingZeroes,
 } from 'utils/numbers'
 
-function getTxFee(gasUsed: number, gasPrice: string, decimals: number): string {
+const ETH_DECIMALS: number = 18
+
+export function getTxFee(gasUsed: number, gasPrice: string): string {
   if (!(gasUsed && gasPrice)) {
     return '0'
   }
 
   const value: BigNumber = toBigNumber(gasPrice).times(gasUsed)
-  const valueDivDecimals: BigNumber = divDecimals(value, decimals)
+  const valueDivDecimals: BigNumber = divDecimals(value, ETH_DECIMALS)
+  const valueFormat: string = formatBalance(valueDivDecimals, 6)
 
-  return formatBalance(valueDivDecimals, 6)
+  return trimLeadingZeroes(valueFormat)
 }
-
-export default getTxFee

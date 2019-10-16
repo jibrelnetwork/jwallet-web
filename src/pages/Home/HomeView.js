@@ -1,61 +1,78 @@
-// @flow
+// @flow strict
 
-import React, { Component } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import React, { Component } from 'react'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
+
 import {
   get,
   isEqual,
 } from 'lodash-es'
 
+import noResultImg from 'public/assets/pic_assets_112.svg'
+import buttonStyles from 'components/base/Button/button.m.scss'
+import { searchAssets } from 'utils/search'
+import { gaSendEvent } from 'utils/analytics'
+
+import {
+  SearchInput,
+  TitleHeader,
+} from 'components'
+
 import {
   JIcon,
-  SearchInput,
   JLink,
-  Header,
   Button,
 } from 'components/base'
 
-import noResultImg from 'public/assets/pic_assets_112.svg'
-
+import styles from './home.m.scss'
 import { AssetItem } from './components/AssetItem/AssetItem'
-import { filterAssetByQuery } from './filterAssetByQuery'
+import { ManageAssetItem } from './components/AssetItem/ManageAssetItem'
 
-import homeStyle from './home.m.scss'
-
+const HEADER_OFFSET_TOP_DEFAULT: number = 264
 // eslint-disable-next-line max-len
-const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
-const ASSETS_HEADER_BOTTOM_EDGE = 376
+const JCASH_UTM_URL: string = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
 
 export type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
+  +setAssetIsActive: (assetAddress: string, isActive: boolean) => any,
   +items: DigitalAssetWithBalance[],
+  +i18n: I18n,
 |}
 
-type ComponentState = {|
-  searchQuery: string,
-  isInManageMode: boolean,
-  isSticky: boolean,
+type StateProps = {|
+  +searchQuery: string,
+  +assetsState: {
+    [assetAddress: string]: boolean,
+  },
+  +isInManageMode: boolean,
+  +isAssetsHeaderScrolled: boolean,
 |}
 
-export class HomeView extends Component<Props, ComponentState> {
+type AssetState = {|
+  +address: AssetAddress,
+  isActive: boolean,
+|}
+
+function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
+  return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
+}
+
+class HomeView extends Component<Props, StateProps> {
+  headerRef = React.createRef<HTMLDivElement>()
+
   constructor(props: Props) {
     super(props)
 
     this.state = {
+      assetsState: {},
       searchQuery: '',
       isInManageMode: false,
-      isSticky: false,
+      isAssetsHeaderScrolled: false,
     }
   }
 
-  componentDidMount() {
-    this.rootWrapper.addEventListener('scroll', this.handleScroll)
-    this.props.openView()
-  }
-
-  shouldComponentUpdate(nextProps: Props, nextState: ComponentState) {
+  shouldComponentUpdate(nextProps: Props, nextState: StateProps) {
     if (
       nextProps.items
         .find(
@@ -74,172 +91,335 @@ export class HomeView extends Component<Props, ComponentState> {
     return !isEqual(this.state, nextState)
   }
 
-  componentWillUnmount() {
-    this.rootWrapper.removeEventListener('scroll', this.handleScroll)
-    this.props.closeView()
-  }
-
-  rootWrapper = window.root || document.getElementById('root')
-
   handleSearchQueryInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     e.preventDefault()
 
     this.setState({ searchQuery: e.target.value })
   }
 
-  handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const { isSticky } = this.state
-    const { scrollTop } = this.rootWrapper
+  handleEnterManageMode = () => {
+    const assetsState = this.props.items.reduce((reduceResult, item) => {
+      reduceResult[item.blockchainParams.address] = Boolean(item.isActive)
 
-    if (!isSticky && scrollTop >= ASSETS_HEADER_BOTTOM_EDGE) {
-      this.setState({ isSticky: true })
-    }
+      return reduceResult
+    }, {})
 
-    if (isSticky && scrollTop < ASSETS_HEADER_BOTTOM_EDGE) {
-      this.setState({ isSticky: false })
-    }
+    this.setState({
+      assetsState,
+      isInManageMode: true,
+    })
+
+    gaSendEvent(
+      'AssetManager',
+      'ManageModeEnabled',
+    )
   }
 
-  handleClickManage = () => {
-    this.setState(({
+  handleLeaveManageMode = () => {
+    const { assetsState }: StateProps = this.state
+
+    const {
+      items,
+      setAssetIsActive,
+    }: Props = this.props
+
+    const diff: AssetState[] = items
+      .map((item: DigitalAssetWithBalance): ?AssetState =>
+        (Boolean(item.isActive) === assetsState[item.blockchainParams.address]) ? null : {
+          isActive: assetsState[item.blockchainParams.address],
+          address: item.blockchainParams.address,
+        })
+      .filter(Boolean)
+
+    diff.forEach(({
+      address,
+      isActive,
+    }: AssetState) => setAssetIsActive(
+      address,
+      isActive,
+    ))
+
+    this.setState({
+      searchQuery: '',
+      isInManageMode: false,
+    })
+
+    gaSendEvent(
+      'AssetManager',
+      'ManageModeDisabled',
+    )
+  }
+
+  handleManageAssetCheck = (address: string, isChecked: boolean) => {
+    this.setState({
+      assetsState: {
+        ...this.state.assetsState,
+        [address]: isChecked,
+      },
+    })
+
+    gaSendEvent(
+      'AssetManager',
+      isChecked ? 'TurnOnAsset' : 'TurnOffAsset',
+      address,
+    )
+  }
+
+  handleAssetsHeaderScroll = (isScrolled: boolean) => {
+    this.setState({ isAssetsHeaderScrolled: isScrolled })
+  }
+
+  handleSendClick = () => {
+    gaSendEvent(
+      'SendAssets',
+      'StartedSend',
+    )
+  }
+
+  handleReceiveClick = () => {
+    gaSendEvent(
+      'ReceiveAssets',
+      'StartedReceive',
+    )
+  }
+
+  handleExchangeClick = () => {
+    gaSendEvent(
+      'ExchangeAssets',
+      'StartedExchange',
+    )
+  }
+
+  getHeaderOffsetTop = (): number => {
+    if (!(this.headerRef && this.headerRef.current)) {
+      return HEADER_OFFSET_TOP_DEFAULT
+    }
+
+    return this.headerRef.current.offsetTop
+  }
+
+  renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => {
+    const {
       isInManageMode,
-    }) => ({
-      isInManageMode: !isInManageMode,
-    }))
+      assetsState,
+    } = this.state
+
+    return (
+      <ul className={styles.assetList}>
+        {filteredItems.map((item) => {
+          const address = get(item, 'blockchainParams.address')
+
+          return (
+            <li key={address}>
+              {isInManageMode
+                ? (
+                  <ManageAssetItem
+                    address={address}
+                    isChecked={assetsState[address] || false}
+                    onCheck={this.handleManageAssetCheck}
+                  />
+                ) : (
+                  <AssetItem address={address} />
+                )}
+            </li>
+          )
+        })}
+      </ul>
+    )
   }
 
-  renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => (
-    <ul className={homeStyle.assetList}>
-      {filteredItems.map((item) => {
-        const address = get(item, 'blockchainParams.address')
+  renderEmptyList = () => {
+    const { i18n } = this.props
 
-        return (
-          <li key={address}>
-            <AssetItem address={address} />
-          </li>
-        )
-      })}
-    </ul>
-  )
-
-  renderEmptyList = () => (
-    <figure>
-      <img
-        src={noResultImg}
-        className={homeStyle.emptyIcon}
-        alt={t`No search results in assets list`}
-      />
-      <figcaption>{t`No Search Results.`}</figcaption>
-    </figure>
-  )
+    return (
+      <figure>
+        <img
+          src={noResultImg}
+          className={styles.emptyIcon}
+          alt={i18n._(
+            'Home.noSearchResults.alt',
+            null,
+            { defaults: 'No search results in assets list' },
+          )}
+        />
+        <figcaption>{i18n._(
+          'Home.noSearchResults.description',
+          null,
+          { defaults: 'No Search Results.' },
+        )}
+        </figcaption>
+      </figure>
+    )
+  }
 
   render() {
     const {
       items,
-    } = this.props
-    const {
-      isInManageMode,
-      isSticky,
-    } = this.state
+      i18n,
+    }: Props = this.props
 
-    const filteredItems = items.filter(item => filterAssetByQuery(
-      item,
-      this.state.searchQuery,
-    ))
-    const isEmptyAssetsList = filteredItems.length <= 0
+    const {
+      searchQuery,
+      isInManageMode,
+      isAssetsHeaderScrolled,
+    }: StateProps = this.state
+
+    const filteredItems: DigitalAssetWithBalance[] = searchAssets(
+      isInManageMode ? items : filterActiveDigitalAssets(items),
+      searchQuery,
+    )
+
+    const isEmptyAssetsList: boolean = !filteredItems.length
 
     return (
-      <div className={homeStyle.core}>
-        <section className={homeStyle.linksSection}>
-          <Header title={t`Transfer`} />
-          <nav className={homeStyle.links}>
+      <div className={styles.core}>
+        <section className={styles.linksSection}>
+          <TitleHeader
+            title={i18n._(
+              'Home.transfer.title',
+              null,
+              { defaults: 'Transfer' },
+            )}
+            isScrolled={isAssetsHeaderScrolled ? false : null}
+            withMenu
+          />
+          <nav className={styles.links}>
             <JLink
-              className={homeStyle.link}
+              onClick={this.handleSendClick}
+              className={styles.link}
               href='/send'
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-send-use-fill'
                   color='blue'
                 />
               </div>
-              {t`Send`}
+              {i18n._(
+                'Home.transfer.send',
+                null,
+                { defaults: 'Send' },
+              )}
             </JLink>
             <JLink
-              className={homeStyle.link}
+              onClick={this.handleReceiveClick}
+              className={styles.link}
               href='/receive'
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-receive-use-fill'
                   color='blue'
                 />
               </div>
-              {t`Receive`}
+              {i18n._(
+                'Home.transfer.receive',
+                null,
+                { defaults: 'Receive' },
+              )}
             </JLink>
             <JLink
-              className={homeStyle.link}
+              onClick={this.handleExchangeClick}
+              className={styles.link}
               href={JCASH_UTM_URL}
             >
-              <div className={homeStyle.linkIcon}>
+              <div className={styles.linkIcon}>
                 <JIcon
                   name='home-exchange-use-fill'
                   color='blue'
                 />
               </div>
-              {t`Exchange`}
+              {i18n._(
+                'Home.transfer.exchange',
+                null,
+                { defaults: 'Exchange' },
+              )}
             </JLink>
           </nav>
         </section>
         <section
           className={classNames(
-            homeStyle.assetsSection,
-            isEmptyAssetsList && homeStyle.empty,
+            styles.assets,
+            isEmptyAssetsList && styles.empty,
           )}
         >
           <div
-            className={classNames(
-              homeStyle.assetsHeaderWrapper,
-              isSticky && homeStyle.sticky,
-            )}
+            ref={this.headerRef}
+            className={styles.header}
           >
-            <Header
-              title={t`Assets`}
-              className={homeStyle.assetsHeader}
+            <TitleHeader
+              onScroll={this.handleAssetsHeaderScroll}
+              title={isInManageMode ? i18n._(
+                'Home.assets.title.manage',
+                null,
+                { defaults: 'Manage Assets' },
+              ) : i18n._(
+                'Home.assets.title.default',
+                null,
+                { defaults: 'Assets' },
+              )}
+              offsetTop={this.getHeaderOffsetTop()}
+              withMenu
             >
-              <div className={homeStyle.search}>
+              <div className={styles.search}>
                 <SearchInput
                   onChange={this.handleSearchQueryInput}
+                  value={searchQuery}
                 />
               </div>
-              {isInManageMode
-                ? (
-                  <Button
-                    className={`__save-button ${homeStyle.save}`}
-                    theme='additional'
-                    onClick={this.handleClickManage}
-                  >
-                    {t`Save`}
-                  </Button>
-                )
-                : (
-                  <Button
-                    className='__manage-button'
-                    theme='additional-icon'
-                    onClick={this.handleClickManage}
+              {isInManageMode ? (
+                <>
+                  <JLink
+                    className={styles.add}
+                    href='/assets/add'
+                    theme='button-additional-icon'
                   >
                     <JIcon
-                      name='ic_manage_24-use-fill'
-                      className={`${Button.iconClassName}`}
+                      className={buttonStyles.icon}
+                      name='ic_add_24-use-fill'
                     />
-                    {t`Manage`}
+                    <span className={buttonStyles.label}>
+                      {i18n._(
+                        'Home.assets.add',
+                        null,
+                        { defaults: 'Add Asset' },
+                      )}
+                    </span>
+                  </JLink>
+                  <Button
+                    onClick={this.handleLeaveManageMode}
+                    className={styles.save}
+                    theme='additional'
+                  >
+                    {i18n._(
+                      'Home.assets.save',
+                      null,
+                      { defaults: 'Save' },
+                    )}
                   </Button>
-                )
-              }
-            </Header>
+                </>
+              ) : (
+                <Button
+                  className='__manage-button'
+                  theme='additional-icon'
+                  onClick={this.handleEnterManageMode}
+                >
+                  <JIcon
+                    name='ic_manage_24-use-fill'
+                    className={buttonStyles.icon}
+                  />
+                  <span className={buttonStyles.label}>
+                    {i18n._(
+                      'Home.assets.manage',
+                      null,
+                      { defaults: 'Manage' },
+                    )}
+                  </span>
+                </Button>
+              )}
+            </TitleHeader>
           </div>
-          <div className={homeStyle.content}>
+          <div className={styles.content}>
             {isEmptyAssetsList
               ? this.renderEmptyList()
               : this.renderAssetsList(filteredItems)
@@ -250,3 +430,6 @@ export class HomeView extends Component<Props, ComponentState> {
     )
   }
 }
+
+const HomeViewEnhanced = withI18n()(HomeView)
+export { HomeViewEnhanced as HomeView }

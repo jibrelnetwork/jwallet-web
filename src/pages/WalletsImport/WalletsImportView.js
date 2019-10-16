@@ -1,11 +1,8 @@
 // @flow strict
 
-import { t } from 'ttag'
-
-import React, {
-  Fragment,
-  Component,
-} from 'react'
+import React, { Component } from 'react'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
@@ -15,11 +12,11 @@ import {
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { gaSendEvent } from 'utils/analytics'
+import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   getTypeByInput,
   checkNameExists,
-  validateDerivationPath,
 } from 'utils/wallets'
 
 import {
@@ -30,10 +27,11 @@ import {
 
 import {
   TitleHeader,
+  MnemonicOptions,
   WalletPasswordForm,
 } from 'components'
 
-import walletsImportStyle from './walletsImport.m.scss'
+import styles from './walletsImport.m.scss'
 
 import {
   getInfoDataMessage,
@@ -54,12 +52,13 @@ export type WalletsImportSubmitPayload = {|
 export type Props = {|
   onBack?: ?WalletsImportBackHandler,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
+  +i18n: I18n,
   +hint: string,
+  +hasWallets: boolean,
 |}
 
 type StateProps = {|
   +currentStep: WalletsImportStep,
-  +isAdvancedOpened: boolean,
 |}
 
 export const STEPS: WalletsImportSteps = {
@@ -67,7 +66,7 @@ export const STEPS: WalletsImportSteps = {
   PASSWORD: 'PASSWORD',
 }
 
-const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
+const INITIAL_VALUES: FormFields = {
   name: '',
   data: '',
   password: '',
@@ -76,17 +75,17 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
   walletType: null,
 }
 
-const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of the wallet you want 
-to import. You can also enter a public key or address to access wallet in read-only mode. We 
-support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
+function getInitialValues(): FormFields {
+  return {
+    ...INITIAL_VALUES,
+    name: walletsPlugin.getNextWalletName(),
+  }
+}
 
-const DEFAULT_DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
-affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
-mnemonic from a hardwallet. In all other cases just leave it as is.`
-
-export class WalletsImportView extends Component<Props, StateProps> {
+class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
+    hasWallets: false,
   }
 
   constructor(props: Props) {
@@ -94,28 +93,45 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
     this.state = {
       currentStep: STEPS.DATA,
-      isAdvancedOpened: false,
     }
   }
 
+  componentDidMount() {
+    gaSendEvent(
+      'ImportWallet',
+      'StartedImport',
+      this.props.hasWallets ? 'additional' : 'new',
+    )
+  }
+
   setCurrentStep = (currentStep: WalletsImportStep) => {
-    this.setState({
-      currentStep,
-      isAdvancedOpened: false,
-    })
+    this.setState({ currentStep })
 
     if (currentStep === STEPS.PASSWORD) {
-      gaSendEvent('ImportWallet', 'DataEntered')
+      gaSendEvent(
+        'ImportWallet',
+        'DataEntered',
+      )
     }
   }
 
   getTitle = (): string => {
+    const { i18n }: Props = this.props
+
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return t`Import Wallet`
+        return i18n._(
+          'WalletsImport.import.title',
+          null,
+          { defaults: 'Import wallet' },
+        )
 
       case STEPS.PASSWORD:
-        return t`Enter Security Password to Protect Your Wallet`
+        return i18n._(
+          'WalletsImport.password.title',
+          null,
+          { defaults: 'Enter Security Password to Protect Your Wallet' },
+        )
 
       default:
         return ''
@@ -134,10 +150,6 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
   goToPasswordStep = () => {
     this.setCurrentStep(STEPS.PASSWORD)
-  }
-
-  handleOpenAdvanced = () => {
-    this.setState({ isAdvancedOpened: true })
   }
 
   handleBack = () => {
@@ -163,8 +175,13 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
     change('data', data)
     change('walletType', walletType)
+  }
 
-    this.setState({ isAdvancedOpened: false })
+  handleFocus = () => {
+    gaSendEvent(
+      'ImportWallet',
+      'NameStartedInput',
+    )
   }
 
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
@@ -183,7 +200,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
     })
   }
 
-  renderWalletsImportDataStep = ({
+  renderDataStep = ({
     handleSubmit,
     form,
     values: {
@@ -195,6 +212,8 @@ export class WalletsImportView extends Component<Props, StateProps> {
     } = {},
     submitting: isSubmitting,
   }: FormRenderProps) => {
+    const { i18n }: Props = this.props
+
     const infoDataMessage: ?string = getInfoDataMessage(
       data,
       passphrase,
@@ -210,88 +229,87 @@ export class WalletsImportView extends Component<Props, StateProps> {
     )
 
     const successDataMessage: ?string = getSuccessDataMessage(data)
-    const { isAdvancedOpened }: StateProps = this.state
+
+    const DEFAULT_DATA_MESSAGE: string = i18n._(
+      'WalletsImport.data.description.default',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'Enter a private key or backup phrase of the wallet you want to import. You can also enter a public key or address to access wallet in read-only mode. We support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.' },
+    )
 
     return (
       <form
         onSubmit={handleSubmit}
-        className={walletsImportStyle.form}
+        className={styles.form}
       >
         <Field
+          onFocus={this.handleFocus}
           component={JInputField}
-          label={t`Wallet Name`}
+          label={i18n._(
+            'WalletsImport.name',
+            null,
+            { defaults: 'Wallet Name' },
+          )}
           infoMessage={checkNameExists(name)}
           name='name'
+          maxLength={32}
           isDisabled={isSubmitting}
         />
         <Field
           component={JTextArea}
           onChange={this.handleChange(form.change)}
-          label={t`Address, Key, Mnemonic`}
+          label={i18n._(
+            'WalletsImport.data',
+            null,
+            { defaults: 'Address, Key, Mnemonic' },
+          )}
           errorMessage={errorDataMessage}
           infoMessage={infoDataMessage || successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
           isDisabled={isSubmitting}
         />
-        {(walletType === 'mnemonic') && (isAdvancedOpened ? (
-          <Fragment>
-            <Field
-              component={JInputField}
-              label={t`Mnemonic Passphrase (Optional)`}
-              name='passphrase'
-              isDisabled={isSubmitting}
-            />
-            <Field
-              component={JInputField}
-              label={t`Derivation Path (Optional)`}
-              infoMessage={DEFAULT_DERIVATION_PATH_MESSAGE}
-              errorMessage={validateDerivationPath(derivationPath)}
-              name='derivationPath'
-              isDisabled={isSubmitting}
-            />
-          </Fragment>
-        ) : (
-          <Button
-            className={ofssetsStyle.mt16}
-            theme='secondary'
-            onClick={this.handleOpenAdvanced}
-          >
-            {t`Advanced`}
-          </Button>
-        ))}
+        {(walletType === 'mnemonic') && (
+          <MnemonicOptions
+            derivationPath={derivationPath}
+            isFormDisabled={!!isSubmitting}
+          />
+        )}
         <Button
           className={ofssetsStyle.mt16}
           type='submit'
           isLoading={isSubmitting}
           isDisabled={!!infoDataMessage || !!errorDataMessage || !(name.trim() && data.trim())}
         >
-          {t`Import`}
+          {i18n._(
+            'WalletsImport.submit',
+            null,
+            { defaults: 'Import' },
+          )}
         </Button>
       </form>
     )
   }
 
-  renderWalletsImportForm = (formRenderProps: FormRenderProps) => {
+  renderPasswordStep = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => (
+    <WalletPasswordForm
+      handleSubmit={handleSubmit}
+      values={values}
+      hint={this.props.hint}
+      isSubmitting={submitting}
+    />
+  )
+
+  renderForm = (formRenderProps: FormRenderProps) => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return this.renderWalletsImportDataStep(formRenderProps)
+        return this.renderDataStep(formRenderProps)
 
-      case STEPS.PASSWORD: {
-        const {
-          handleSubmit,
-          values = {},
-          submitting,
-        }: FormRenderProps = formRenderProps
-
-        return (
-          <WalletPasswordForm
-            handleSubmit={handleSubmit}
-            values={values}
-            hint={this.props.hint}
-            isSubmitting={submitting}
-          />
-        )
-      }
+      case STEPS.PASSWORD:
+        return this.renderPasswordStep(formRenderProps)
 
       default:
         return null
@@ -300,17 +318,20 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={walletsImportStyle.core}>
+      <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
         />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsImportForm}
-          initialValues={WALLETS_IMPORT_INITIAL_VALUES}
+          initialValues={getInitialValues()}
         />
       </div>
     )
   }
 }
+
+const WalletsImportViewEnhanced = withI18n()(WalletsImportView)
+export { WalletsImportViewEnhanced as WalletsImportView }

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 declare type Hash = string
 // TransactionId consist of: `${txHash}${?txLogIndex}`
@@ -8,6 +8,13 @@ declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
   +to: string,
   +from: string,
+  /**
+   * input field is always presented in transaction payload
+   * when input is empty, the field has value "0x"
+   *
+   * it is necessary to define "abstract" contract method call
+   */
+  +input: string,
   +value: string,
   +gasUsed: string,
   +isError: string,
@@ -16,6 +23,7 @@ declare type TransactionFromBlockExplorer = {|
   +timeStamp: string,
   +blockNumber: string,
   +contractAddress: string,
+  +nonce: string,
 |}
 
 declare type ERC20EventName = 'Transfer'
@@ -25,8 +33,6 @@ declare type SmartContractEventName = ERC20EventName | JNTEventName
 declare type SmartContractEventProps = {|
   +options: SmartContractEventOptions,
   +rpcaddr: string,
-  +event: SmartContractEventName,
-  +contractAddress: AssetAddress,
   +rpcport: number,
   +ssl: boolean,
 |}
@@ -38,9 +44,10 @@ declare type SmartContractEventFilter = {|
 |}
 
 declare type SmartContractEventOptions = {|
-  +filter: SmartContractEventFilter,
-  +toBlock: number,
-  +fromBlock: number,
+  +topics: Array<?string>,
+  +address: Address,
+  +toBlock: string,
+  +fromBlock: string,
 |}
 
 declare type JNTEventArgs = {|
@@ -94,6 +101,7 @@ declare type TransactionEventType = 0 | 1 | 2
 declare type TransactionData = {|
   +gasPrice: string,
   +nonce: number,
+  +hasInput: boolean,
 |}
 
 declare type TransactionBlockData = {|
@@ -105,10 +113,16 @@ declare type TransactionReceiptData = {|
   +status: TransactionStatus,
 |}
 
+declare type TransactionContractTransferData = {|
+  +amount: string,
+  +to: OwnerAddress,
+|}
+
 declare type Transaction = {|
   +data: ?TransactionData,
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
+  +contractTransferData?: TransactionContractTransferData,
   +hash: Hash,
   +amount: string,
   +blockHash: ?Hash,
@@ -120,13 +134,23 @@ declare type Transaction = {|
   +isRemoved: boolean,
 |}
 
+declare type TransactionPrimaryKeys = {|
+  +id: TransactionId,
+  +blockNumber: BlockNumber,
+  +assetAddress: AssetAddress,
+|}
+
 declare type TransactionWithPrimaryKeys = {|
   ...Transaction,
-  +keys: {|
-    +id: TransactionId,
-    +blockNumber: BlockNumber,
-    +assetAddress: AssetAddress,
-  |},
+  +keys: TransactionPrimaryKeys,
+|}
+
+declare type TransactionWithNoteAndNames = {|
+  ...TransactionWithPrimaryKeys,
+  // fields below are necessary for searching
+  +note: ?string,
+  +toName: ?string,
+  +fromName: ?string,
 |}
 
 declare type Transactions = {
@@ -174,6 +198,7 @@ declare type TransactionsPersist = {|
 declare type TransactionsState = {|
   +persist: TransactionsPersist,
   +searchQuery: string,
-  +isOnlyPending: boolean,
-  +isConnectionError: boolean,
+  +isErrorFiltered: boolean,
+  +isStuckFiltered: boolean,
+  +isPendingFiltered: boolean,
 |}

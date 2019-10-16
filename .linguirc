@@ -1,0 +1,5 @@
+localeDir: "<rootDir>/src/data/lingui"
+srcPathDirs: ["src/"]
+fallbackLocale: "en"
+sourceLocale: "en"
+format: "minimal"

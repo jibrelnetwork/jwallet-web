@@ -1,11 +1,12 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
+import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectPasswordHint } from 'store/selectors/password'
 
 import {
@@ -44,7 +45,11 @@ function validateWalletData(
   const trimmedData: string = (data || '').trim()
 
   if (!trimmedData) {
-    return t`The field should not be empty`
+    return i18n._(
+      'WalletsImport.errors.dataEmpty',
+      null,
+      { defaults: 'The field should not be empty' },
+    )
   }
 
   const infoDataMessage: ?string = getInfoDataMessage(
@@ -148,6 +153,7 @@ function mapStateToProps(state: AppState) {
   return {
     hint: selectPasswordHint(state),
     submit: submitWalletsImportForm,
+    hasWallets: !!selectWalletsItems(state).length,
   }
 }
 

@@ -1,0 +1,12 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+
+  min-height: 100%;
+  padding-top: $page-header-height;
+}
+
+.scrolled {
+  box-shadow: $select-shadow;
+}

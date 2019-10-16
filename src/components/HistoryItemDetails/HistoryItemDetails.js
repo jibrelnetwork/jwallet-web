@@ -2,63 +2,159 @@
 
 import { connect } from 'react-redux'
 
-import { edit } from 'store/modules/comments'
-import { selectFavorites } from 'store/selectors/favorites'
-import { selectAddressWalletsNames } from 'store/selectors/wallets'
-import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { getShortenedAddress } from 'utils/address'
-
+import config from 'config'
 import { PageNotFoundError } from 'errors'
-import {
-  MEMO, transactionsIndex,
-} from 'store/transactionsIndex'
+import { toBigNumber } from 'utils/numbers'
+import { formatAssetBalance } from 'utils/formatters'
+import { edit as editNote } from 'store/modules/comments'
+import { selectCommentsItems } from 'store/selectors/comments'
+import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectDigitalAsset } from 'store/selectors/digitalAssets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
+  selectTransactionById,
+  selectTransactionByHash,
+  selectPendingTransactionByHash,
+} from 'store/selectors/transactions'
+
+import {
+  getNote,
+  getTxFee,
+} from 'utils/transactions'
+
+import {
+  HistoryItemDetailsView,
   type Props,
-  HistoryItemDetailsInternal,
-} from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+} from './HistoryItemDetailsView'
 
-export type ContainerProps = {
-  txHash: TransactionId,
-}
+export type OwnProps = {|
+  +id: TransactionId,
+  +asset?: AssetAddress,
+  +blockNumber?: BlockNumber,
+  +isPage?: boolean,
+|}
 
-const mapDispatchToProps = {
-  editNote: edit,
-}
-
-function getPrimaryName(
+function mapStateToProps(
   state: AppState,
-  address: OwnerAddress,
-): string {
-  const favorites = selectFavorites(state)
-  const addressNames = selectAddressWalletsNames(state)
+  {
+    id,
+    asset,
+    blockNumber,
+  }: OwnProps,
+) {
+  const item: ?TransactionWithPrimaryKeys = selectTransactionById(
+    state,
+    id,
+    asset,
+    blockNumber,
+  ) || selectPendingTransactionByHash(
+    state,
+    id,
+    asset,
+  ) || selectTransactionByHash(
+    state,
+    id,
+    asset,
+  )
 
-  return favorites[address]
-    || addressNames[address]
-    || getShortenedAddress(address)
-}
-
-function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
-  const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
-    ? MEMO.transactionsIndex
-    : transactionsIndex(state)
-  const transactionRecord = dataMap[txHash]
-
-  if (!transactionRecord) {
+  if (!item) {
     throw new PageNotFoundError()
   }
 
+  const {
+    keys: {
+      assetAddress,
+    },
+    data,
+    blockData,
+    receiptData,
+    to,
+    from,
+    hash,
+    amount,
+    blockHash,
+    eventType,
+    contractAddress,
+    isRemoved,
+  }: TransactionWithPrimaryKeys = item
+
+  if (!(data && blockData && receiptData)) {
+    throw new PageNotFoundError()
+  }
+
+  const notes: Comments = selectCommentsItems(state)
+  const network: Network = selectCurrentNetworkOrThrow(state)
+  const ownerAddress: OwnerAddress = selectActiveWalletAddress(state)
+
+  const digitalAsset: ?DigitalAsset = selectDigitalAsset(
+    state,
+    assetAddress,
+  )
+
+  const addressNames: AddressNames = selectAllAddressNames(
+    state,
+    true,
+  )
+
+  const { timestamp }: TransactionBlockData = blockData
+  const isZeroAmount: boolean = toBigNumber(amount).isZero()
+  const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
+
+  const {
+    blockchainParams,
+    name: assetName,
+    symbol: assetSymbol,
+  } = digitalAsset || {}
+
+  const assetDecimals: number = blockchainParams ? blockchainParams.decimals : 18
+
+  const amountStr: ?string = (isZeroAmount || !assetSymbol) ? null : formatAssetBalance(
+    assetAddress,
+    amount,
+    assetDecimals,
+    assetSymbol,
+  )
+
   return {
-    ...transactionRecord,
-    fromName: getPrimaryName(state, transactionRecord.from),
-    toName: getPrimaryName(state, transactionRecord.to),
-    blockExplorer: blockExplorerUISubdomain,
+    to,
+    from,
+    hash,
+    amount,
+    eventType,
+    assetName,
+    assetSymbol,
+    assetAddress,
+    contractAddress,
+    toName: to && addressNames[to],
+    fromName: from && addressNames[from],
+    blockExplorerUISubdomain: network.blockExplorerUISubdomain,
+    amountStr: amountStr && `${isSent ? '−' : '+'}\u00A0${amountStr}`,
+    fee: getTxFee(
+      receiptData.gasUsed,
+      data.gasPrice,
+    ),
+    note: getNote(
+      notes,
+      id,
+      hash,
+    ),
+    timestamp,
+    assetDecimals,
+    isPending: !blockHash,
+    hasInput: data.hasInput,
+    isCancel: (to === config.cancelAddress),
+    isFailed: !receiptData.status || isRemoved,
+    isSent: !!from && (ownerAddress.toLowerCase() === from.toLowerCase()),
   }
 }
 
-export const HistoryItemDetails = (
-  connect< Props, ContainerProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)(
-    (HistoryItemDetailsInternal),
-  )
-)
+const mapDispatchToProps = {
+  editNote,
+}
+
+export const HistoryItemDetails = connect<Props, OwnProps, _, _, _, _>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HistoryItemDetailsView)

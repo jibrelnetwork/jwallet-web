@@ -9,17 +9,29 @@ import {
 
 import { JIcon } from 'components/base'
 
+// $FlowFixMe
 const filesSmall = require.context(
   '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/,
 )
+
+// $FlowFixMe
 const filesMedium = require.context(
   '../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/,
 )
+
+// $FlowFixMe
 const filesLarge = require.context(
   '../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/,
 )
+
+// $FlowFixMe
 const filesXLarge = require.context(
   '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/,
+)
+
+// $FlowFixMe
+const filesColored = require.context(
+  '../../../public/assets/icons/sprite-colored', true, /.*\.svg$/,
 )
 
 const iconsSmall = filesSmall
@@ -45,6 +57,13 @@ const iconsXLarge = filesXLarge
   .map(
     filepath =>
       filesXLarge(filepath).default.id.replace(/-usage$/, ''),
+  )
+
+const iconsColored = filesColored
+  .keys()
+  .map(
+    filepath =>
+      filesColored(filepath).default.id.replace(/-usage$/, ''),
   )
 
 const AVAILABLE_COLORS = [
@@ -141,6 +160,19 @@ storiesOf('JIcon', module).addDecorator(withKnobs)
                 <JIcon
                   name={name}
                   color={allIconsListColorSelectValue}
+                />
+                <span>{name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2 className='title'>Colored</h2>
+          <ul className='icons-list'>
+            {iconsColored.map(name => (
+              <li key={name}>
+                <JIcon
+                  name={name}
                 />
                 <span>{name}</span>
               </li>

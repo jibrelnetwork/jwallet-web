@@ -56,26 +56,6 @@ export function selectCustomDigitalAssets(state: AppState): DigitalAsset[] {
   return flattenedItems.filter(({ isCustom }: DigitalAsset): boolean => !!isCustom)
 }
 
-export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterOptions {
-  return state.digitalAssetsGrid.filter
-}
-
-export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppState): string {
-  return digitalAssetsGrid.searchQuery
-}
-
-export function selectDigitalAssetsManageSearchQuery({ digitalAssetsManage }: AppState): string {
-  return digitalAssetsManage.searchQuery
-}
-
 export function selectAddAsset(state: AppState): AddAssetState {
   return state.digitalAssetsAdd
-}
-
-export function selectEditAsset(state: AppState): EditAssetState {
-  return state.digitalAssetsEdit
-}
-
-export function selectDigitalAssetsSend(state: AppState): DigitalAssetsSendState {
-  return state.digitalAssetsSend
 }

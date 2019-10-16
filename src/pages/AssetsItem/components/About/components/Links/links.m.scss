@@ -1,0 +1,31 @@
+@import 'styles/mixins';
+
+.core {
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.link {
+  margin-top: 8px;
+}
+
+.label {
+  color: inherit;
+  text-transform: capitalize;
+  border-bottom: 1px solid $main-blue-30;
+}
+
+.anchor {
+  @include flex-row;
+
+  align-items: center;
+  color: $main-blue;
+
+  &:hover > .label {
+    border-bottom-color: transparent;
+  }
+}
+
+.icon {
+  @include sprite-icon-color($main-blue-30);
+}

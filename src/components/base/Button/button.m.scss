@@ -1,7 +1,7 @@
 @import "styles/mixins";
 
 .core {
-  @include font;
+  @include font(14px, 22px);
   @include box;
   @include hover-animation;
   @include flex-row-center;
@@ -83,13 +83,13 @@
 
 .additional {
   @include property-transition(background-color, color);
-  @include font(14px, 22px);
 
   height: 40px;
   width: auto;
   background: transparent;
   font-weight: 600;
   color: $main-black-40;
+  line-height: 22px;
   padding: 9px 20px;
   border-radius: 4px;
 
@@ -107,22 +107,28 @@
 }
 
 .additional-icon {
+  @include flex-row-center;
   @include property-transition(background-color, color);
-  @include font(14px, 22px);
 
   height: 40px;
   width: auto;
   background: transparent;
   font-weight: 600;
+  line-height: 22px;
   color: $main-black-40;
-  padding: 9px 10px 9px 8px;
+  padding: 0 10px 0 8px;
   border-radius: 4px;
 
   .icon {
     @include property-transition(fill, stroke);
-    @include sprite-icon-color($main-black-20);
+    @include sprite-icon-color($main-black-30);
+  }
 
-    margin: 0 8px 0 0;
+  .label {
+    @include font(14px, 22px);
+
+    margin-left: 8px;
+    font-weight: 600;
   }
 
   &:hover,
@@ -140,4 +146,16 @@
   }
 
   // Design suggests there is no disabled state for this button style, so none implemented
+}
+
+.general-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: general;
+  height: 48px;
+}
+
+.secondary-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: secondary;
+  height: 48px;
 }

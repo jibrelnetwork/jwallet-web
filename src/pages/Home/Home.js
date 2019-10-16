@@ -1,97 +1,32 @@
-// @flow
+// @flow strict
 
 import { connect } from 'react-redux'
 
-import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWallet } from 'store/selectors/wallets'
+import { setAssetIsActive } from 'store/modules/digitalAssets'
+import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectTransactionsByOwner } from 'store/selectors/transactions'
 
 import {
-  selectActiveWallet,
-  selectActiveWalletAddress,
-} from 'store/selectors/wallets'
-
-import {
-  selectDigitalAssetsItems,
-  selectDigitalAssetsGridFilters,
-  selectDigitalAssetsGridSearchQuery,
-} from 'store/selectors/digitalAssets'
-
-import {
-  checkETH,
-  searchDigitalAssets,
+  sortAssets,
   filterAssetsBalances,
   flattenDigitalAssets,
   getDigitalAssetsWithBalance,
 } from 'utils/digitalAssets'
 
 import {
-  selectCurrentBlock,
-  selectProcessingBlock,
-} from 'store/selectors/blocks'
-
-import {
-  openView,
-  closeView,
-} from 'store/modules/digitalAssetsGrid'
-
-import {
   HomeView,
   type Props,
 } from './HomeView'
 
-function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
-  return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
-}
-
-function prepareDigitalAssets(
-  items: DigitalAssetWithBalance[],
-  filterOptions: DigitalAssetsFilterOptions,
-  searchQuery: string,
-): DigitalAssetWithBalance[] {
-  const itemsActive: DigitalAssetWithBalance[] = filterActiveDigitalAssets(items)
-
-  const itemsFound: DigitalAssetWithBalance[] = searchDigitalAssets(
-    itemsActive,
-    searchQuery,
-  )
-
-  return itemsFound.reduce((reduceResult, item) =>
-    checkETH(item.blockchainParams.address)
-      ? [item, ...reduceResult]
-      : [...reduceResult, item], [])
-}
-
 function mapStateToProps(state: AppState) {
-  const wallet: ?Wallet = selectActiveWallet(state)
-
-  if (!wallet) {
-    return {
-      filterOptions: {
-        sortBy: 'name',
-        sortByNameDirection: 'asc',
-        sortByBalanceDirection: 'asc',
-        isHideZeroBalance: false,
-      },
-      items: [],
-    }
-  }
-
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
-  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
-  const filterOptions: DigitalAssetsFilterOptions = selectDigitalAssetsGridFilters(state)
-  const txs: ?TransactionsByOwner = selectTransactionsByOwner(state, networkId, ownerAddress)
-
-  const assetsBalances: ?Balances = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    currentBlock ? currentBlock.number.toString() : null,
-  )
+  const wallet: Wallet = selectActiveWallet(state)
+  const assets: DigitalAssets = selectDigitalAssetsItems(state)
+  const processingBlock: ?BlockData = selectProcessingBlock(state)
+  const txs: ?TransactionsByOwner = selectTransactionsByOwner(state)
+  const assetsBalances: ?Balances = selectBalancesByBlockNumber(state)
 
   /**
    * filterAssetsBalances is necessary to make sure that app displays
@@ -111,16 +46,15 @@ function mapStateToProps(state: AppState) {
   )
 
   return {
-    filterOptions,
-    items: prepareDigitalAssets(assetsWithBalance, filterOptions, searchQuery),
+    items: sortAssets(assetsWithBalance),
   }
 }
 
 const mapDispatchToProps = {
-  openView,
-  closeView,
+  setAssetIsActive,
 }
 
-export default (
-  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
+export default connect<Props, OwnPropsEmpty, _, _, _, _>(
+  mapStateToProps,
+  mapDispatchToProps,
 )(HomeView)

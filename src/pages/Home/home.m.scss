@@ -1,12 +1,9 @@
 @import 'styles/mixins';
-@import 'styles/colors';
 
 .core {
-  @include box;
-
-  position: relative;
   width: 100%;
   height: 100%;
+  padding: $page-header-height 0;
 }
 
 .title {
@@ -32,12 +29,13 @@
   margin: 0 16px;
   padding: 32px 32px 46px;
   text-align: center;
-  background: #fff;
+  background: $white;
   box-shadow: $normal-shadow;
   border-radius: 4px;
   font-weight: 600;
   font-size: 18px;
   line-height: 26px;
+  color: $main-blue;
 
   &:hover,
   &:active {
@@ -55,24 +53,13 @@
   background-color: $main-blue-5;
 }
 
-.header {
-  width: 100%;
-  background-image:
-    linear-gradient(
-      to bottom,
-      hsl(228, 33.33%, 97.06%) 0%,
-      hsl(228, 33.33%, 97.06%) 60%,
-      hsla(228, 33.33%, 97.06%, 0) 100%
-    );
-}
-
 .container {
   @include flex-row;
   @include header-container;
 
   align-items: center;
   justify-content: space-between;
-  height: $page-header-height;
+  height: 130px;
 }
 
 .actions {
@@ -93,13 +80,13 @@
   padding: 0 0 64px;
 }
 
-.assets-section {
+.assets {
   &.empty {
     height: calc(100% - 264px);
 
     > .content {
       display: flex;
-      height: calc(100% - #{$new-page-header-height});
+      height: calc(100% - #{$page-header-height});
       align-items: center;
       justify-content: center;
       text-align: center;
@@ -109,28 +96,9 @@
   }
 }
 
-.assets-header-wrapper {
-  background-color: $pale-grey;
-
-  &.sticky {
-    position: fixed;
-    z-index: 100;
-    left: $menu-panel-width;
-    right: 0;
-    top: -$new-page-header-height;
-    transition: transform 0.3s 0.1s $default-animation;
-    transform: translateY($new-page-header-height);
-    box-shadow: 0 7px 18px rgba(8, 30, 57, 0.2);
-
-    > .assets-header {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    + .content {
-      padding-top: $new-page-header-height;
-    }
-  }
+.header {
+  width: 100%;
+  height: $page-header-height;
 }
 
 .asset-list {
@@ -141,4 +109,12 @@
 
 .empty-icon {
   margin-bottom: 24px;
+}
+
+.add {
+  max-width: 120px;
+}
+
+.save {
+  max-width: 100px;
 }

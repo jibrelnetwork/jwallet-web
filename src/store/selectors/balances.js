@@ -1,8 +1,8 @@
-// @flow
+// @flow strict
 
+import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectCurrentBlock } from 'store/selectors/blocks'
 
 export function selectBalances(state: AppState): BalancesState {
   return state.balances
@@ -22,8 +22,9 @@ export function selectBalancesItems(state: AppState): BalancesItems {
 
 export function selectBalancesByNetworkId(
   state: AppState,
-  networkId: NetworkId,
+  networkIdOptional?: NetworkId,
 ): ?BalancesByNetworkId {
+  const networkId: NetworkId = networkIdOptional || selectCurrentNetworkId(state)
   const balancesItems: BalancesItems = selectBalancesItems(state)
 
   return balancesItems[networkId]
@@ -31,32 +32,32 @@ export function selectBalancesByNetworkId(
 
 export function selectBalancesByOwner(
   state: AppState,
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
+  ownerOptional?: OwnerAddress,
 ): ?BalancesByOwner {
-  const itemsByNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(
-    state,
-    networkId,
-  )
+  const owner: OwnerAddress = ownerOptional || selectActiveWalletAddress(state)
+  const itemsByNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(state)
 
   if (!itemsByNetworkId) {
     return null
   }
 
-  return itemsByNetworkId[ownerAddress]
+  return itemsByNetworkId[owner]
 }
 
 export function selectBalancesByBlockNumber(
   state: AppState,
-  networkId: NetworkId,
-  ownerAddress: ?OwnerAddress,
-  blockNumber: ?BlockNumber,
+  blockNumberOptional?: ?BlockNumber,
 ): ?Balances {
-  if (!(blockNumber && ownerAddress)) {
+  const currentBlock: ?BlockData = selectCurrentBlock(state)
+
+  const blockNumber: ?BlockNumber = blockNumberOptional ||
+    (currentBlock && currentBlock.number.toString())
+
+  if (!blockNumber) {
     return null
   }
 
-  const itemsByOwner: ?BalancesByOwner = selectBalancesByOwner(state, networkId, ownerAddress)
+  const itemsByOwner: ?BalancesByOwner = selectBalancesByOwner(state)
 
   if (!itemsByOwner) {
     return null
@@ -67,43 +68,13 @@ export function selectBalancesByBlockNumber(
 
 export function selectBalanceByAssetAddress(
   state: AppState,
-  networkId: NetworkId,
-  ownerAddress: ?OwnerAddress,
-  blockNumber: ?BlockNumber,
   assetAddress: AssetAddress,
 ): ?Balance {
-  if (!(blockNumber && ownerAddress)) {
-    return null
-  }
-
-  const itemsByBlockNumber: ?Balances = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    ownerAddress,
-    blockNumber,
-  )
+  const itemsByBlockNumber: ?Balances = selectBalancesByBlockNumber(state)
 
   if (!itemsByBlockNumber) {
     return null
   }
 
   return itemsByBlockNumber[assetAddress]
-}
-
-export function selectBalanceByAssetAddressToCurrentBlock(
-  state: AppState,
-  assetAddress: AssetAddress,
-): ?Balance {
-  const networkID = selectCurrentNetworkId(state)
-  const currentAddress = selectActiveWalletAddress(state)
-  const currentBlock = selectCurrentBlock(state, networkID)
-  const currentBlockNumber = currentBlock ? currentBlock.number : null
-
-  return selectBalanceByAssetAddress(
-    state,
-    networkID,
-    currentAddress,
-    String(currentBlockNumber),
-    assetAddress,
-  )
 }

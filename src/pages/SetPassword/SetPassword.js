@@ -1,8 +1,11 @@
 // @flow strict
 
-import { t } from 'ttag'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { StartLayout } from 'layouts'
+import { NewPasswordForm } from 'components'
+import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
 
 import {
@@ -12,28 +15,32 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import {
-  SetPasswordView,
-  type Props,
-} from './SetPasswordView'
+type OwnProps = {|
+  +dispatch?: Function,
+|}
+
+type Props = {|
+  +dispatch: Function,
+  +submit: (FormFields, Function) => Promise<void>,
+|}
 
 async function submitSetPasswordForm(
   values: FormFields,
   dispatch: Function,
 ): Promise<void> {
   const {
-    password,
+    passwordNew,
     passwordHint,
   }: FormFields = values
 
-  if (!password) {
+  if (!passwordNew) {
     return
   }
 
   const salt: string = generateSalt()
 
   const derivedKey: Uint8Array = await deriveKeyFromPassword(
-    password,
+    passwordNew,
     salt,
   )
 
@@ -42,50 +49,45 @@ async function submitSetPasswordForm(
     derivedKey,
   )
 
-  dispatch(setNewPassword({
+  dispatch(setNewPassword(
+    internalKeyEnc,
     salt,
-    internalKey: internalKeyEnc,
-    hint: passwordHint || '',
-  }))
+    passwordHint || '',
+  ))
 }
 
-function validateSetPasswordForm({
-  password,
-  passwordHint,
-  passwordConfirm,
-}: FormFields): ?FormFields {
-  if (password !== passwordConfirm) {
-    return {
-      passwordConfirm: t`Password does not match confirmation`,
-    }
+class SetPassword extends Component<Props> {
+  handleSubmit = async (values: FormFields): Promise<void> => {
+    const {
+      submit,
+      dispatch,
+    }: Props = this.props
+
+    await submit(
+      values,
+      dispatch,
+    )
+
+    gaSendEvent(
+      'CreateAccount',
+      'SecurityPasswordSet',
+    )
   }
 
-  if (!passwordHint) {
-    return {
-      passwordHint: t`Password hint is required`,
-    }
+  render() {
+    return (
+      <StartLayout className='__new-password'>
+        <NewPasswordForm onSubmit={this.handleSubmit} />
+      </StartLayout>
+    )
   }
-
-  if (password === passwordHint) {
-    return {
-      passwordHint: t`Password and hint should not be equal`,
-    }
-  }
-
-  return null
 }
 
 function mapStateToProps() {
   return {
     submit: submitSetPasswordForm,
-    validate: validateSetPasswordForm,
   }
 }
 
-type OwnProps = {|
-  dispatch?: Function,
-|}
-
-export const SetPassword = connect< Props, OwnProps, _, _, _, _ >(
-  mapStateToProps,
-)(SetPasswordView)
+const SetPasswordEnhanced = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(SetPassword)
+export { SetPasswordEnhanced as SetPassword }

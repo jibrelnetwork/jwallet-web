@@ -1,0 +1,27 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  width: 100%;
+  min-height: 100%;
+  padding: $page-header-height 0;
+}
+
+.form {
+  @include flex-column-center;
+
+  position: relative;
+  width: 544px;
+}
+
+.warning {
+  position: absolute;
+  bottom: 32px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: $main-black-40;
+  font-style: normal;
+  font-weight: normal;
+}
