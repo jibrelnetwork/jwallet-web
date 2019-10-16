@@ -11,8 +11,6 @@ export function pageView() {
   return (next: Function) => (action: any) => {
     try {
       if (action.type === ROUTER5_PAGE_VIEW_ACTION_TYPE) {
-        console.error(action.payload.route.path)
-
         gaSendPageView(action.payload.route.path)
       }
     } catch (error) {
