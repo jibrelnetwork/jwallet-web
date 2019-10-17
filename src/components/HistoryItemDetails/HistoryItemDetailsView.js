@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import React, { Component } from 'react'
 
 import { checkStuck } from 'utils/transactions'
+import { gaSendException } from 'utils/analytics'
 
 import styles from './historyItemDetails.m.scss'
 import { Burn } from './components/Burn/Burn'
@@ -53,10 +54,34 @@ export type CardProps = {|
 
 type StateProps = {|
   +note: ?string,
-  +timeoutId: ?number,
+  +timeoutId: ?TimeoutID,
 |}
 
+// eslint-disable-next-line fp/no-let
+let RENDER_COUNTER: number = 0
+const RENDER_COUNTER_TIMEOUT: number = 1000
+const RENDER_COUNTER_THRESHOLD: number = 60
 const EDIT_NOTE_DELAY: number = 500
+
+function checkRenderCounter() {
+  setTimeout(() => {
+    if (RENDER_COUNTER > RENDER_COUNTER_THRESHOLD) {
+      const errorMessage: string = `Transaction item details rendered to much: ${RENDER_COUNTER}`
+
+      console.error(errorMessage)
+
+      gaSendException({
+        exDescription: errorMessage,
+        exFatal: false,
+      })
+    }
+
+    // eslint-disable-next-line fp/no-mutation
+    RENDER_COUNTER = 0
+
+    checkRenderCounter()
+  }, RENDER_COUNTER_TIMEOUT)
+}
 
 export class HistoryItemDetailsView extends Component<Props, StateProps> {
   cardRef = React.createRef<HTMLDivElement>()
@@ -67,6 +92,10 @@ export class HistoryItemDetailsView extends Component<Props, StateProps> {
     this.state = {
       note: this.props.note,
       timeoutId: null,
+    }
+
+    if (props.isPage) {
+      checkRenderCounter()
     }
   }
 
@@ -112,7 +141,7 @@ export class HistoryItemDetailsView extends Component<Props, StateProps> {
       clearTimeout(timeoutId)
     }
 
-    const newTimeoutId: number = setTimeout(() => {
+    const newTimeoutId: TimeoutID = setTimeout(() => {
       this.props.editNote(this.props.id, note)
       this.setState({ timeoutId: null })
     }, EDIT_NOTE_DELAY)
@@ -177,6 +206,9 @@ export class HistoryItemDetailsView extends Component<Props, StateProps> {
 
   render() {
     const CardComponent = this.getCardComponent()
+
+    // eslint-disable-next-line no-plusplus, fp/no-mutation
+    RENDER_COUNTER++
 
     return (
       <div
