@@ -37,6 +37,14 @@ export async function checkMigrationV1Needed(): Promise<boolean> {
   }
 }
 
+function cutWalletName(name: string): string {
+  if (name.length < 33) {
+    return name
+  }
+
+  return name.substr(0, 32)
+}
+
 function migrateWalletToV1(
   item: any,
   internalKey: Uint8Array,
@@ -47,6 +55,7 @@ function migrateWalletToV1(
 
   const {
     encrypted,
+    name,
     customType,
     derivationPath,
     bip32XPublicKey,
@@ -58,6 +67,7 @@ function migrateWalletToV1(
         ...item,
         xpub: null,
         derivationIndex: null,
+        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -74,6 +84,7 @@ function migrateWalletToV1(
         ...item,
         xpub: null,
         derivationIndex: null,
+        name: cutWalletName(name),
         encrypted: {
           ...encrypted,
           xprv: null,
@@ -86,6 +97,7 @@ function migrateWalletToV1(
         customType: 'xpub',
         derivationIndex: 0,
         xpub: bip32XPublicKey,
+        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -125,6 +137,7 @@ function migrateWalletToV1(
         ...item,
         derivationIndex: 0,
         xpub: bip32XPublicKey,
+        name: cutWalletName(name),
         encrypted: {
           ...encrypted,
           xprv: encryption.encryptData({
