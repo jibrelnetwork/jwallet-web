@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { actions } from 'redux-router5'
 import { withI18n } from '@lingui/react'
 import { type I18n } from '@lingui/core'
 
@@ -32,7 +31,6 @@ type FormValues = {|
 |}
 
 type Props = {|
-  +goBack: () => any,
   +setFiatCurrency: (code: FiatCurrencyCode) => any,
   +i18n: I18n,
   +selectedCurrencyCode: FiatCurrencyCode,
@@ -57,12 +55,6 @@ class SettingsCurrencyPage extends Component<Props> {
       'Settings',
       'CurrencyChanged',
     )
-  }
-
-  handleBackClick = () => {
-    if (this.props.goBack) {
-      this.props.goBack()
-    }
   }
 
   renderForm = ({
@@ -104,10 +96,7 @@ class SettingsCurrencyPage extends Component<Props> {
 
     return (
       <div className={styles.core}>
-        <TitleHeader
-          onBack={this.handleBackClick}
-          title={i18n._('SettingsCurrency.title', null, { defaults: 'Currency' })}
-        />
+        <TitleHeader title={i18n._('SettingsCurrency.title', null, { defaults: 'Currency' })} />
         <Form
           onSubmit={this.handleSubmit}
           render={this.renderForm}
@@ -126,7 +115,6 @@ function mapStateToProps(state: AppState) {
 
 const mapDispatchToProps = {
   setFiatCurrency,
-  goBack: () => actions.navigateTo('Settings'),
 }
 
 export const SettingsCurrency = compose(

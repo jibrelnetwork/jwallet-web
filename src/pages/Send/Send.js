@@ -137,10 +137,7 @@ class SendAsset extends Component<Props, StateProps> {
 
     return (
       <div className={styles.core}>
-        <TitleHeader
-          onBack={this.handleClose}
-          title={i18n._('Send.title', null, { defaults: 'Send' })}
-        />
+        <TitleHeader title={i18n._('Send.title', null, { defaults: 'Send' })} />
         <ConnectedStepOneForm
           onSubmit={this.handleSendFormSubmit}
           nodeError={nodeError}
