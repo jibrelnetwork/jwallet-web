@@ -57,13 +57,19 @@ type StateProps = {|
   +timeoutId: ?TimeoutID,
 |}
 
-// eslint-disable-next-line fp/no-let
+/* eslint-disable fp/no-let */
 let RENDER_COUNTER: number = 0
+let RENDER_COUNTER_THRESHOLD_NOTIFIED: boolean = false
+/* eslint-enable fp/no-let */
 const RENDER_COUNTER_TIMEOUT: number = 1000
 const RENDER_COUNTER_THRESHOLD: number = 60
 const EDIT_NOTE_DELAY: number = 500
 
 function checkRenderCounter() {
+  if (RENDER_COUNTER_THRESHOLD_NOTIFIED) {
+    return
+  }
+
   setTimeout(() => {
     if (RENDER_COUNTER > RENDER_COUNTER_THRESHOLD) {
       const errorMessage: string = `Transaction item details rendered to much: ${RENDER_COUNTER}`
@@ -74,6 +80,9 @@ function checkRenderCounter() {
         exDescription: errorMessage,
         exFatal: false,
       })
+
+      // eslint-disable-next-line fp/no-mutation
+      RENDER_COUNTER_THRESHOLD_NOTIFIED = true
     }
 
     // eslint-disable-next-line fp/no-mutation
