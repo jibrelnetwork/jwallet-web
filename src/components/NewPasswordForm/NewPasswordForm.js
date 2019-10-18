@@ -28,7 +28,7 @@ type StateProps = {|
   +isStrongPassword: boolean,
 |}
 
-const PASSWORD_FORM_INITIAL_VALUES = {
+const PASSWORD_FORM_INITIAL_VALUES: FormFields = {
   passwordNew: '',
   passwordHint: '',
   passwordConfirm: '',
@@ -85,6 +85,16 @@ class NewPasswordForm extends Component<Props, StateProps> {
 
   handleScoreChange = (isStrongPassword: boolean) => {
     this.setState({ isStrongPassword })
+  }
+
+  handleSubmit = async (values: FormFields): ?FormFields => {
+    const errors: ?FormFields = this.validate(values)
+
+    if (errors) {
+      return errors
+    }
+
+    return this.props.onSubmit(values)
   }
 
   renderSetPasswordForm = ({
@@ -154,10 +164,7 @@ class NewPasswordForm extends Component<Props, StateProps> {
   }
 
   render() {
-    const {
-      i18n,
-      onSubmit: handleSubmit,
-    }: Props = this.props
+    const { i18n }: Props = this.props
 
     return (
       <div className={styles.core}>
@@ -169,8 +176,7 @@ class NewPasswordForm extends Component<Props, StateProps> {
           )}
         </h1>
         <Form
-          onSubmit={handleSubmit}
-          validate={this.validate}
+          onSubmit={this.handleSubmit}
           render={this.renderSetPasswordForm}
           initialValues={PASSWORD_FORM_INITIAL_VALUES}
         />
