@@ -41,7 +41,7 @@ export type Props = {|
 |}
 
 class ContactAddFormComponent extends PureComponent<Props> {
-  validate = (values: FormValues) => {
+  validate = (values: FormValues): ?FormFields => {
     const {
       i18n,
       checkContactExistsByAddress,
@@ -86,11 +86,19 @@ class ContactAddFormComponent extends PureComponent<Props> {
     return null
   }
 
-  handleSubmit = ({
-    name,
-    address,
-    description,
-  }: FormValues) => {
+  handleSubmit = (values: FormValues): ?FormFields => {
+    const errors: ?FormFields = this.validate(values)
+
+    if (errors) {
+      return errors
+    }
+
+    const {
+      name,
+      address,
+      description,
+    }: FormValues = values
+
     this.props.addContact({
       name: (name || '').trim(),
       address: getAddressChecksum(address),
@@ -103,6 +111,8 @@ class ContactAddFormComponent extends PureComponent<Props> {
     )
 
     this.props.goBack()
+
+    return null
   }
 
   render() {
@@ -117,8 +127,8 @@ class ContactAddFormComponent extends PureComponent<Props> {
       <Form
         render={({
           handleSubmit,
-          submitting,
-          valid: isValid,
+          values = {},
+          submitting: isSubmitting,
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
@@ -132,7 +142,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 { defaults: 'Name' },
               )}
               name='name'
-              isDisabled={submitting}
+              isDisabled={isSubmitting}
               maxLength={32}
             />
             <Field
@@ -143,7 +153,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 { defaults: 'Address' },
               )}
               name='address'
-              isDisabled={submitting || address}
+              isDisabled={isSubmitting || address}
               maxLength={42}
             />
             <Field
@@ -160,19 +170,18 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 null,
                 { defaults: 'This note is only visible to you.' },
               )}
-              isDisabled={submitting}
+              isDisabled={isSubmitting}
               maxLength={256}
             />
             <Button
               type='submit'
-              isDisabled={!isValid}
-              isLoading={submitting}
+              isLoading={isSubmitting}
+              isDisabled={!values.address}
             >
               {i18n._('ContactForm.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}
-        validate={this.validate}
         onSubmit={this.handleSubmit}
         initialValues={initialValues}
       />
