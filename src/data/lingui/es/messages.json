@@ -419,6 +419,6 @@
     "WalletsImport.errors.privateKeyTooLong": "La clave privada de Ethereum no puede tener más de 64 caracteres",
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRV no puede tener más de { length } caracteres",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPUB no puede tener más de { length } caracteres",
-    "HistoryList.Empty.text.filtered": "",
-    "WalletsMigration.description": ""
+    "HistoryList.Empty.text.filtered": "No hay resultados de búsqueda.",
+    "WalletsMigration.description": "Para migrar los datos de almacenamiento, debe introducir la contraseña de seguridad. Por favor, no cierre la pestaña, este proceso tomará un tiempo."
 }

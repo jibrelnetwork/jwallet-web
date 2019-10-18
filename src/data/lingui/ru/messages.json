@@ -419,6 +419,6 @@
     "WalletsImport.errors.privateKeyTooLong": "Приватный ключ Ethereum не должен быть длиннее 64 символов.",
     "WalletsImport.errors.xprvTooLong": "BIP32 XPUP не должен быть длиннее { length } символов.",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPRV не должен быть длиннее { length } символов.",
-    "HistoryList.Empty.text.filtered": "",
-    "WalletsMigration.description": ""
+    "HistoryList.Empty.text.filtered": "Результаты поиска отсутствуют.",
+    "WalletsMigration.description": "Чтобы перенести данные хранилища, необходимо ввести пароль безопасности. Пожалуйста, не закрывайте вкладку, этот процесс займет некоторое время."
 }
