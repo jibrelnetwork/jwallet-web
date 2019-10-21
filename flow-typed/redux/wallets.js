@@ -48,6 +48,7 @@ declare type WalletUpdatedData = {|
   +encrypted?: WalletEncryptedData,
   +name?: string,
   +xpub?: ?string,
+  +address?: ?Address,
   +derivationPath?: string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,

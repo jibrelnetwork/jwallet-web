@@ -4,8 +4,14 @@ import config from 'config'
 import { strip0x } from 'utils/address'
 import { leftPad } from 'utils/formatters'
 import { encryptData } from 'utils/encryption'
-import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import { WalletInconsistentDataError } from 'errors'
+
+import {
+  getXPUBFromXPRV,
+  getXPRVFromMnemonic,
+  getXPUBFromMnemonic,
+  getAddressIndexFromXPUB,
+} from 'utils/mnemonic'
 
 import {
   getTypeByInput,
@@ -20,22 +26,51 @@ export type UpgradeWalletData = {|
   +internalKey: Uint8Array,
 |}
 
+function getAddressIndex(
+  xpub,
+  address,
+  addressIndex,
+): number {
+  const addressIndexFromXPUB: number = address ? getAddressIndexFromXPUB(
+    address,
+    xpub,
+  ) : -1
+
+  return addressIndex || ((addressIndexFromXPUB !== -1)
+    ? addressIndexFromXPUB
+    : 0
+  )
+}
+
 function addMnemonic(
   {
+    encrypted,
     xpub,
-    id: walletId,
+    address,
+    addressIndex,
+    derivationIndex,
+    isSimplified,
   }: Wallet,
   mnemonic: string,
   passphrase: ?string,
   derivationPath: ?string,
   internalKey: Uint8Array,
 ): WalletUpdatedData {
-  if (!xpub) {
-    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
-  }
+  const xpubNew: string = xpub || getXPUBFromMnemonic(
+    mnemonic,
+    passphrase,
+    derivationPath,
+  )
+
+  const addressIndexNew: number = getAddressIndex(
+    xpubNew,
+    address,
+    addressIndex,
+  )
 
   return {
     encrypted: {
+      ...encrypted,
       mnemonic: encryptData({
         key: internalKey,
         data: leftPad(
@@ -52,43 +87,59 @@ function addMnemonic(
         key: internalKey,
         data: getXPRVFromMnemonic(mnemonic, passphrase, derivationPath),
       }),
-      privateKey: null,
     },
+    xpub: xpubNew,
+    address: null,
     customType: 'mnemonic',
     derivationPath: (derivationPath || '').trim(),
+    addressIndex: addressIndexNew,
+    derivationIndex: derivationIndex || addressIndexNew,
     isReadOnly: false,
+    isSimplified: (isSimplified !== null) ? isSimplified : true,
   }
 }
 
 function addXPRV(
   {
+    encrypted,
     xpub,
-    id: walletId,
+    address,
+    addressIndex,
+    derivationIndex,
+    isSimplified,
   }: Wallet,
   xprv: string,
   internalKey: Uint8Array,
 ): WalletUpdatedData {
-  if (!xpub) {
-    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
-  }
+  const xpubNew: string = xpub || getXPUBFromXPRV(xprv)
+
+  const addressIndexNew: number = getAddressIndex(
+    xpubNew,
+    address,
+    addressIndex,
+  )
 
   return {
     encrypted: {
+      ...encrypted,
       xprv: encryptData({
         data: xprv,
         key: internalKey,
       }),
-      mnemonic: null,
-      passphrase: null,
-      privateKey: null,
     },
+    address: null,
     customType: 'xprv',
+    xpub: xpub || xpubNew,
+    addressIndex: addressIndexNew,
+    derivationIndex: derivationIndex || addressIndexNew,
     isReadOnly: false,
+    isSimplified: (isSimplified !== null) ? isSimplified : true,
   }
 }
 
 function addPrivateKey(
   {
+    encrypted,
     address,
     id: walletId,
   }: Wallet,
@@ -101,13 +152,11 @@ function addPrivateKey(
 
   return {
     encrypted: {
+      ...encrypted,
       privateKey: encryptData({
         key: internalKey,
         data: strip0x(privateKey.toLowerCase()),
       }),
-      xprv: null,
-      mnemonic: null,
-      passphrase: null,
     },
     customType: 'privateKey',
     isReadOnly: false,

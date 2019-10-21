@@ -22,6 +22,7 @@ import {
   getXPUBFromXPRV,
   checkMnemonicValid,
   getXPUBFromMnemonic,
+  getAddressIndexFromXPUB,
   checkDerivationPathValid,
 } from 'utils/mnemonic'
 
@@ -39,10 +40,11 @@ const XPUB_ERROR: string = i18n._(
   null,
   { defaults: 'Input XPRV or mnemonic for your current XPUB' },
 )
+
 const ADDRESS_ERROR: string = i18n._(
   'WalletsItemUpgrade.input.data.error.noPrivateKey',
   null,
-  { defaults: 'Input private key for your current address' },
+  { defaults: 'Input private key, xprv or mnemonic for your current address' },
 )
 
 function getErrorPrivateKeyMessage(
@@ -70,16 +72,39 @@ function getErrorXPRVMessage(
   publicData: string,
   data: string,
 ): ?string {
-  if (type !== 'xpub') {
-    return ADDRESS_ERROR
-  } else if (!checkXkeyValid(data, 'prv')) {
+  if (!checkXkeyValid(data, 'prv')) {
     return i18n._(
       'WalletsItemUpgrade.input.data.error.invalidXprv',
       null,
       { defaults: 'Invalid XPRV' },
     )
-  } else if (getXPUBFromXPRV(data) !== publicData) {
-    return XPUB_ERROR
+  }
+
+  const xpub: string = getXPUBFromXPRV(data)
+
+  switch (type) {
+    case 'xpub': {
+      if ((xpub !== publicData)) {
+        return XPUB_ERROR
+      }
+
+      break
+    }
+
+    case 'address': {
+      if (getAddressIndexFromXPUB(publicData, xpub) === -1) {
+        return i18n._(
+          'WalletsItemUpgrade.input.data.error.invalidXPRVForAddress',
+          null,
+          { defaults: 'Entered XPRV doesn\'t suit for current address-based wallet' },
+        )
+      }
+
+      break
+    }
+
+    default:
+      return null
   }
 
   return null
@@ -92,9 +117,7 @@ function getErrorMnemonicMessage(
   passphrase: ?string,
   derivationPath: ?string,
 ): ?string {
-  if (type !== 'xpub') {
-    return ADDRESS_ERROR
-  } else if (!checkMnemonicValid(data)) {
+  if (!checkMnemonicValid(data)) {
     return i18n._(
       'WalletsItemUpgrade.input.data.error.invalidMnemonic',
       null,
@@ -102,8 +125,37 @@ function getErrorMnemonicMessage(
     )
   } else if (!checkDerivationPathValid((derivationPath || '').trim())) {
     return null
-  } else if (getXPUBFromMnemonic(data, passphrase, derivationPath) !== publicData) {
-    return XPUB_ERROR
+  }
+
+  const xpub: string = getXPUBFromMnemonic(
+    data,
+    passphrase,
+    derivationPath,
+  )
+
+  switch (type) {
+    case 'xpub': {
+      if ((xpub !== publicData)) {
+        return XPUB_ERROR
+      }
+
+      break
+    }
+
+    case 'address': {
+      if (getAddressIndexFromXPUB(publicData, xpub) === -1) {
+        return i18n._(
+          'WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress',
+          null,
+          { defaults: 'Entered mnemonic doesn\'t suit for current address-based wallet' },
+        )
+      }
+
+      break
+    }
+
+    default:
+      return null
   }
 
   return null
@@ -140,13 +192,27 @@ export function getErrorDataMessage(
 
   switch (dataType) {
     case 'privateKey':
-      return getErrorPrivateKeyMessage(type, publicData, inputData)
+      return getErrorPrivateKeyMessage(
+        type,
+        publicData,
+        inputData,
+      )
 
     case 'xprv':
-      return getErrorXPRVMessage(type, publicData, inputData)
+      return getErrorXPRVMessage(
+        type,
+        publicData,
+        inputData,
+      )
 
     case 'mnemonic':
-      return getErrorMnemonicMessage(type, publicData, inputData, passphrase, derivationPath)
+      return getErrorMnemonicMessage(
+        type,
+        publicData,
+        inputData,
+        passphrase,
+        derivationPath,
+      )
 
     default:
       break
@@ -162,13 +228,16 @@ export function getErrorDataMessage(
   }
 }
 
-function mapStateToProps(state: AppState, ownProps: OwnProps) {
+function mapStateToProps(
+  state: AppState,
+  { walletId }: OwnProps,
+) {
   const {
     id,
     customType,
     xpub,
     address,
-  }: Wallet = walletsPlugin.getWallet(ownProps.walletId)
+  }: Wallet = walletsPlugin.getWallet(walletId)
 
   return {
     walletId: id,
