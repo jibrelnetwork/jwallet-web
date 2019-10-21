@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "Nombre",
     "WalletsItemAddresses.actions.addAddress": "Añadir nueva dirección",
     "WalletsItemAddresses.title": "Gestionar direcciones",
-    "WalletsItemAddresses.wallet.description": "Monedero multidirección •  {count, plural, one {1 Address} other {# Addresses}}",
+    "WalletsItemAddresses.wallet.description": "Monedero multidirección • {count, plural, one {1 Address} other {# Addresses}}",
     "WalletsItemBackup.backup.title": "Copia de seguridad del monedero",
     "WalletsItemBackup.securityPassword.title": "Introduzca la contraseña de seguridad",
     "WalletsItemDelete.actions.cancel": "Conservar monedero",
