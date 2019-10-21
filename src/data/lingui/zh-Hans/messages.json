@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "名称",
     "WalletsItemAddresses.actions.addAddress": "添加新地址",
     "WalletsItemAddresses.title": "管理地址",
-    "WalletsItemAddresses.wallet.description": "多地址钱包  •  {count, plural, one {1 个地址} other {# 个地址}}",
+    "WalletsItemAddresses.wallet.description": "多地址钱包 • {count, plural, one {1 个地址} other {# 个地址}}",
     "WalletsItemBackup.backup.title": "备份钱包",
     "WalletsItemBackup.securityPassword.title": "输入安全密码",
     "WalletsItemDelete.actions.cancel": "保留钱包",

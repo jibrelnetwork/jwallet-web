@@ -167,7 +167,7 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
                     count: derivationIndex + 1,
                   }, {
                     /* eslint-disable-next-line max-len */
-                    defaults: 'Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}',
+                    defaults: 'Multi-Address Wallet • {count, plural, one {1 Address} other {# Addresses}}',
                   },
                 )}
               </div>

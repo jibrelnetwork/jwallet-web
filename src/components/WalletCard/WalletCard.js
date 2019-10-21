@@ -283,7 +283,7 @@ function mapStateToProps(state: AppState, {
   const isMultiAddress: boolean = !!xpub && !isSimplified
 
   const addressName: string = isMultiAddress && isActive
-    ? `${getAddressName(addressNames[address], addressIndex || 0)}  •  `
+    ? `${getAddressName(addressNames[address], addressIndex || 0)} • `
     : ''
 
   return {
