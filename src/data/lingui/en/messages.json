@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "Name",
     "WalletsItemAddresses.actions.addAddress": "Add New Address",
     "WalletsItemAddresses.title": "Manage Addresses",
-    "WalletsItemAddresses.wallet.description": "Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}",
+    "WalletsItemAddresses.wallet.description": "Multi-Address Wallet • {count, plural, one {1 Address} other {# Addresses}}",
     "WalletsItemBackup.backup.title": "Back Up Wallet",
     "WalletsItemBackup.securityPassword.title": "Enter Security Password",
     "WalletsItemDelete.actions.cancel": "Keep Wallet",

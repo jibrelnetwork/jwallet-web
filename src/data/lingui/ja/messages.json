@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "名",
     "WalletsItemAddresses.actions.addAddress": "新しいアドレスを追加",
     "WalletsItemAddresses.title": "アドレスの管理",
-    "WalletsItemAddresses.wallet.description": "マルチアドレスのウォレット  •  {count, plural, one {1 件のアドレス} other {# 件のアドレス}}",
+    "WalletsItemAddresses.wallet.description": "マルチアドレスのウォレット • {count, plural, one {1 件のアドレス} other {# 件のアドレス}}",
     "WalletsItemBackup.backup.title": "ウォレットのバックアップ",
     "WalletsItemBackup.securityPassword.title": "セキュリティパスワードの入力",
     "WalletsItemDelete.actions.cancel": "ウォレットを削除しない",
