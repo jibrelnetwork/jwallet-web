@@ -29,9 +29,9 @@ import {
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   MnemonicOptions,
-  WalletPasswordForm,
 } from 'components'
 
 import styles from './walletsItemUpgrade.m.scss'
@@ -300,7 +300,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
     }: FormRenderProps = formRenderProps
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         handleSubmit={handleSubmit}
         values={values}
         hint={this.props.hint}

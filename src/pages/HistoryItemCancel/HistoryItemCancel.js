@@ -28,9 +28,9 @@ import { selectPendingTransactionByHash } from 'store/selectors/transactions'
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   ButtonWithConfirm,
-  WalletPasswordForm,
 } from 'components'
 
 import {
@@ -310,7 +310,7 @@ class HistoryItemCancel extends Component<Props, StateProps> {
     const { hint }: Props = this.props
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         isSubmitting={submitting}
         handleSubmit={handleSubmit}
         values={values}

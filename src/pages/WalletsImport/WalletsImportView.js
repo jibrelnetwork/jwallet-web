@@ -27,8 +27,8 @@ import {
 
 import {
   TitleHeader,
+  PasswordForm,
   MnemonicOptions,
-  WalletPasswordForm,
 } from 'components'
 
 import styles from './walletsImport.m.scss'
@@ -295,7 +295,7 @@ class WalletsImportView extends Component<Props, StateProps> {
     values = {},
     submitting,
   }: FormRenderProps) => (
-    <WalletPasswordForm
+    <PasswordForm
       handleSubmit={handleSubmit}
       values={values}
       hint={this.props.hint}

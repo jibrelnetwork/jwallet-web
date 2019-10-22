@@ -8,7 +8,7 @@ import { useI18n } from 'app/hooks'
 import { Button } from 'components/base'
 import { PasswordInput } from 'components'
 
-import styles from './walletPasswordForm.m.scss'
+import styles from './passwordForm.m.scss'
 import { Forgot } from './components/Forgot/Forgot'
 
 type Props = {|
@@ -19,7 +19,7 @@ type Props = {|
   +isSubmitting: boolean,
 |}
 
-export function WalletPasswordForm({
+export function PasswordForm({
   handleSubmit,
   values: {
     password,
@@ -75,7 +75,7 @@ export function WalletPasswordForm({
   )
 }
 
-WalletPasswordForm.defaultProps = {
+PasswordForm.defaultProps = {
   description: null,
   isSubmitting: false,
 }
