@@ -420,6 +420,8 @@ class WalletsPlugin {
           derivationPath,
         }),
       )
+
+      this.dispatch(setActiveWallet(walletId))
     } catch (error) {
       gaSendEvent(
         'UnlockFeatures',
