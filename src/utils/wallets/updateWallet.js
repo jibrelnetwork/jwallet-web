@@ -14,6 +14,7 @@ export function updateWallet(
     encrypted,
     name,
     xpub,
+    address,
     derivationPath,
     customType,
     addressIndex,
@@ -27,6 +28,7 @@ export function updateWallet(
     encrypted: encrypted || wallet.encrypted,
     name: name || wallet.name,
     xpub: xpub || wallet.xpub,
+    address: address || wallet.address,
     customType: customType || wallet.customType,
     derivationPath: derivationPath || wallet.derivationPath,
     addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
@@ -35,7 +37,13 @@ export function updateWallet(
     isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
   }
 
-  const newItems: Wallets = removeWallet(items, wallet.id)
+  const newItems: Wallets = removeWallet(
+    items,
+    wallet.id,
+  )
 
-  return appendWallet(newItems, newWallet)
+  return appendWallet(
+    newItems,
+    newWallet,
+  )
 }
