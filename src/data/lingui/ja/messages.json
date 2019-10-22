@@ -420,5 +420,7 @@
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRVは{ length }文字より長くしないでください。",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPUBは{ length }文字より長くしないでください。",
     "HistoryList.Empty.text.filtered": "検索結果がありません。",
-    "WalletsMigration.description": "ストレージ データを移行するには、セキュリティ パスワードを入力する必要があります。タブを閉じないでください、このプロセスはしばらく時間がかかります。"
+    "WalletsMigration.description": "ストレージ データを移行するには、セキュリティ パスワードを入力する必要があります。タブを閉じないでください、このプロセスはしばらく時間がかかります。",
+    "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
 }
