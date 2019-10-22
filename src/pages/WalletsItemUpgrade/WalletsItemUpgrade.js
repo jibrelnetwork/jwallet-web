@@ -47,6 +47,16 @@ const ADDRESS_ERROR: string = i18n._(
   { defaults: 'Input private key, xprv or mnemonic for your current address' },
 )
 
+function checkXPUBUniq(xpub: string): ?string {
+  try {
+    walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
+
+    return null
+  } catch (error) {
+    return error.message
+  }
+}
+
 function getErrorPrivateKeyMessage(
   type: WalletCustomType,
   publicData: string,
@@ -92,6 +102,12 @@ function getErrorXPRVMessage(
     }
 
     case 'address': {
+      const xpubUniqError: ?string = checkXPUBUniq(xpub)
+
+      if (xpubUniqError) {
+        return xpubUniqError
+      }
+
       if (getAddressIndexFromXPUB(publicData, xpub) === -1) {
         return i18n._(
           'WalletsItemUpgrade.input.data.error.invalidXPRVForAddress',
@@ -143,6 +159,12 @@ function getErrorMnemonicMessage(
     }
 
     case 'address': {
+      const xpubUniqError: ?string = checkXPUBUniq(xpub)
+
+      if (xpubUniqError) {
+        return xpubUniqError
+      }
+
       if (getAddressIndexFromXPUB(publicData, xpub) === -1) {
         return i18n._(
           'WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress',
