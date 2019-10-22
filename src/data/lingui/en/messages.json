@@ -420,5 +420,7 @@
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRV shouldn't be longer than { length } characters",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPUB shouldn't be longer than { length } characters",
     "HistoryList.Empty.text.filtered": "No Search Results.",
-    "WalletsMigration.description": "To migrate storage data, you need to enter security password. Please don't close the tab, this process will take a while."
+    "WalletsMigration.description": "To migrate storage data, you need to enter security password. Please don't close the tab, this process will take a while.",
+    "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "Entered mnemonic doesn't suit for current address-based wallet",
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "Entered XPRV doesn't suit for current address-based wallet"
 }
