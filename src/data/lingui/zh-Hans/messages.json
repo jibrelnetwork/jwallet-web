@@ -420,5 +420,7 @@
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRV 的长度不能超过 { length } 个字符。",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPUB 的长度不能超过 { length } 个字符。",
     "HistoryList.Empty.text.filtered": "没有搜索结果。",
-    "WalletsMigration.description": "要迁移存储数据，您需要输入安全密码。请不要关闭选项卡，此过程将需要一段时间。"
+    "WalletsMigration.description": "要迁移存储数据，您需要输入安全密码。请不要关闭选项卡，此过程将需要一段时间。",
+    "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
 }

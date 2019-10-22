@@ -420,5 +420,7 @@
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRV 키는  { length }자를 초과할 수 없습니다.",
     "WalletsImport.errors.xpubTooLong": "BIP32 XPUB 키는  { length }자를 초과할 수 없습니다.",
     "HistoryList.Empty.text.filtered": "검색 결과 없음.",
-    "WalletsMigration.description": "저장소 데이터를 마이그레이션하려면 보안 암호를 입력해야 합니다. 탭을 닫지 마십시오,이 과정은 시간이 좀 걸릴 것입니다."
+    "WalletsMigration.description": "저장소 데이터를 마이그레이션하려면 보안 암호를 입력해야 합니다. 탭을 닫지 마십시오,이 과정은 시간이 좀 걸릴 것입니다.",
+    "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
 }
