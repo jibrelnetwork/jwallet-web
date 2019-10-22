@@ -1,7 +1,7 @@
 @import 'styles/mixins';
 
 .core {
-  @include flex-column-center;
+  @include flex-column;
 
   margin: 0 auto;
   min-height: 100%;
@@ -14,7 +14,7 @@
 }
 
 .wallet {
-  @include flex-column-center;
+  @include flex-column;
 
   width: 544px;
   margin: auto;
