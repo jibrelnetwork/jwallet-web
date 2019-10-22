@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "이름",
     "WalletsItemAddresses.actions.addAddress": "새 주소 추가",
     "WalletsItemAddresses.title": "주소 관리",
-    "WalletsItemAddresses.wallet.description": "다중 주소 지갑  •  {count, plural, one {주소 1개} other {주소 #개}}",
+    "WalletsItemAddresses.wallet.description": "다중 주소 지갑 • {count, plural, one {주소 1개} other {주소 #개}}",
     "WalletsItemBackup.backup.title": "지갑 백업",
     "WalletsItemBackup.securityPassword.title": "보안 비밀번호 임력",
     "WalletsItemDelete.actions.cancel": "지갑 보관",

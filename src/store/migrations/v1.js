@@ -131,7 +131,7 @@ function migrateWalletToV1(
       const passphraseDec: string = encryption.decryptData({
         key: internalKey,
         data: encrypted.passphrase,
-      })
+      }).replace(/^ +/, '') // trim spaces from start
 
       return {
         ...item,
