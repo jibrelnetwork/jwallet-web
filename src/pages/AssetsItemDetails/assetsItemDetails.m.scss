@@ -3,7 +3,7 @@
 .core {
   @include flex-column-center;
 
-  min-height: 100%;
+  min-height: 100vh;
   max-width: 544px;
   margin: 0 auto;
   padding: $page-header-height 0;

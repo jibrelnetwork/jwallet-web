@@ -6,7 +6,7 @@
   padding: $page-header-height 0;
 
   &.empty {
-    height: 100%;
+    min-height: 100vh;
   }
 }
 
