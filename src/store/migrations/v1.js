@@ -3,6 +3,7 @@
 import { gaSendException } from 'utils/analytics'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 
+import config from 'config'
 import * as type from 'utils/type'
 import * as encryption from 'utils/encryption'
 
@@ -15,7 +16,7 @@ import {
   deleteStoreData,
 } from './db'
 
-const STORAGE_VERSION: number = 1
+const STORAGE_VERSION: number = config.storageVersion
 const WALLETS_STORE_KEY: string = 'persist:jwallet-web-wallets'
 const PASSWORD_STORE_KEY: string = 'persist:jwallet-web-password'
 const TRANSACTIONS_STORE_KEY: string = 'persist:jwallet-web-transactions'
@@ -36,6 +37,14 @@ export async function checkMigrationV1Needed(): Promise<boolean> {
   }
 }
 
+function cutWalletName(name: string): string {
+  if (name.length < 33) {
+    return name
+  }
+
+  return name.substr(0, 32)
+}
+
 function migrateWalletToV1(
   item: any,
   internalKey: Uint8Array,
@@ -46,6 +55,7 @@ function migrateWalletToV1(
 
   const {
     encrypted,
+    name,
     customType,
     derivationPath,
     bip32XPublicKey,
@@ -57,6 +67,7 @@ function migrateWalletToV1(
         ...item,
         xpub: null,
         derivationIndex: null,
+        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -73,6 +84,7 @@ function migrateWalletToV1(
         ...item,
         xpub: null,
         derivationIndex: null,
+        name: cutWalletName(name),
         encrypted: {
           ...encrypted,
           xprv: null,
@@ -85,6 +97,7 @@ function migrateWalletToV1(
         customType: 'xpub',
         derivationIndex: 0,
         xpub: bip32XPublicKey,
+        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -118,12 +131,13 @@ function migrateWalletToV1(
       const passphraseDec: string = encryption.decryptData({
         key: internalKey,
         data: encrypted.passphrase,
-      })
+      }).replace(/^ +/, '') // trim spaces from start
 
       return {
         ...item,
         derivationIndex: 0,
         xpub: bip32XPublicKey,
+        name: cutWalletName(name),
         encrypted: {
           ...encrypted,
           xprv: encryption.encryptData({

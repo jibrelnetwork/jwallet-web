@@ -1,3 +1,5 @@
+// @flow strict
+
 export {
   ga,
   gaSendEvent,
@@ -8,8 +10,3 @@ export {
   METRICS,
   DIMENSIONS,
 } from './ga'
-
-export {
-  reactRouterOnEnterPageView,
-  reactRouterOnChangePageView,
-} from './react-router-page-view'

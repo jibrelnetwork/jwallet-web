@@ -1,10 +1,10 @@
 {
     "Agreements.acceptTermsAndConditions": "I have read and accepted <0>Terms of Use</0> and <1>Privacy Policy</1>.",
-    "Agreements.action.submit": "Confirm and continue",
+    "Agreements.action.submit": "Continue",
     "Agreements.consentNoWarranty": "I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind.",
     "Agreements.consentTrackingCookies": "I consent to allow cookies for collecting anonymous usage data to improve quality of provided service.",
     "Agreements.title": "Terms and Conditions",
-    "Agreements.understandPrivateDataPolicy": "I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser",
+    "Agreements.understandPrivateDataPolicy": "I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser.",
     "AssetItemEdit.addressLabel": "Address (ERC-20)",
     "AssetItemEdit.decimalsLabel": "Decimals",
     "AssetItemEdit.nameLabel": "Name",
@@ -172,7 +172,7 @@
     "WalletsItemAddresses.WalletAddressCard.title": "Name",
     "WalletsItemAddresses.actions.addAddress": "Add New Address",
     "WalletsItemAddresses.title": "Manage Addresses",
-    "WalletsItemAddresses.wallet.description": "Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}",
+    "WalletsItemAddresses.wallet.description": "Multi-Address Wallet • {count, plural, one {1 Address} other {# Addresses}}",
     "WalletsItemBackup.backup.title": "Back Up Wallet",
     "WalletsItemBackup.securityPassword.title": "Enter Security Password",
     "WalletsItemDelete.actions.cancel": "Keep Wallet",
@@ -418,5 +418,9 @@
     "Wallets.title": "My Wallets",
     "WalletsImport.errors.privateKeyTooLong": "Ethereum private key shouldn't be longer than 64 characters",
     "WalletsImport.errors.xprvTooLong": "BIP32 XPRV shouldn't be longer than { length } characters",
-    "WalletsImport.errors.xpubTooLong": "BIP32 XPUB shouldn't be longer than { length } characters"
+    "WalletsImport.errors.xpubTooLong": "BIP32 XPUB shouldn't be longer than { length } characters",
+    "HistoryList.Empty.text.filtered": "No Search Results.",
+    "WalletsMigration.description": "To migrate storage data, you need to enter security password. Please don't close the tab, this process will take a while.",
+    "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "Entered mnemonic doesn't suit for current address-based wallet",
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "Entered XPRV doesn't suit for current address-based wallet"
 }

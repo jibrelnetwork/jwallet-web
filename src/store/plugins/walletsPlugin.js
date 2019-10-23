@@ -7,14 +7,19 @@ import BigNumber from 'bignumber.js'
 import { i18n } from 'i18n/lingui'
 import { type Store } from 'redux'
 
+import config from 'config'
 import { web3 } from 'services'
-import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
 import { selectFiatCurrency } from 'store/selectors/user'
 import { selectTickerItems } from 'store/selectors/ticker'
 import { selectPasswordPersist } from 'store/selectors/password'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+
+import {
+  gaSendEvent,
+  gaSendException,
+} from 'utils/analytics'
 
 import {
   getNonce,
@@ -28,6 +33,11 @@ import {
   checkETH,
   getFiatBalance,
 } from 'utils/digitalAssets'
+
+import {
+  initTransaction,
+  setStoreVersion,
+} from 'store/migrations/db'
 
 import {
   setActiveWallet,
@@ -159,6 +169,22 @@ class WalletsPlugin {
 
       if (isFirst) {
         this.dispatch(setActiveWallet(newWallet.id))
+
+        try {
+          const transaction: IDBTransaction = await initTransaction()
+
+          await setStoreVersion(
+            config.storageVersion,
+            transaction,
+          )
+        } catch (error) {
+          console.error(error)
+
+          gaSendException({
+            exDescription: `StorageTransactionError: ${error.message}`,
+            exFatal: true,
+          })
+        }
       }
 
       this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
@@ -394,6 +420,8 @@ class WalletsPlugin {
           derivationPath,
         }),
       )
+
+      this.dispatch(setActiveWallet(walletId))
     } catch (error) {
       gaSendEvent(
         'UnlockFeatures',

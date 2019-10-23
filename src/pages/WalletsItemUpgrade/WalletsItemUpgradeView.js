@@ -226,7 +226,6 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
       values,
     )
 
-    const isXPUB: boolean = (type === 'xpub')
     const inputtedDataType: ?WalletCustomType = getTypeByInput(data)
     const isDPathError: boolean = !!derivationPath && !!validateDerivationPath(derivationPath)
     const isDisabled: boolean = !inputtedDataType || !!errorDataMessage || isDPathError
@@ -271,7 +270,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {isXPUB && (inputtedDataType === 'mnemonic') && (
+        {(inputtedDataType === 'mnemonic') && (
           <MnemonicOptions
             derivationPath={derivationPath}
             isFormDisabled={!!isSubmitting}

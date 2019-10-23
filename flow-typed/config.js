@@ -59,4 +59,5 @@ declare type AppConfig = {|
   +messageCopyTimeout: number,
   +cancelAddress: string,
   +encryptedMnemonicLength: number,
+  +storageVersion: number,
 |}
