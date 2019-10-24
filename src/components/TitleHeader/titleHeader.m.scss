@@ -12,21 +12,40 @@
 }
 
 .back {
+  @include sprite-icon-color($main-blue);
+  @include property-transition(background-color);
+
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.route-icon {
+  @include sprite-icon-color($main-blue);
+
+  width: 24px;
+  height: 24px;
+  margin-left: 3px;
+}
+
+.breadcrumbs {
   @include flex-row-center;
-  @include property-transition(background-color, opacity);
+  @include property-transition(opacity);
 
   z-index: $z-index-menu-back;
   position: absolute;
   top: 48px;
   left: 48px;
-  width: 40px;
-  height: 40px;
+  border: none;
+  background: none;
   transition-delay: 0.15s;
-  border-radius: 50%;
-  background-color: transparent;
+  outline: none;
+  appearance: none;
   cursor: pointer;
 
-  &:hover {
+  &:hover > .back {
     background-color: $main-blue-10;
   }
 }
@@ -34,6 +53,7 @@
 .title {
   @include ellipsis;
 
+  min-height: 40px;
   min-width: 200px;
   max-width: 736px;
   margin-right: auto;

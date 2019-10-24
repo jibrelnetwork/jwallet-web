@@ -187,23 +187,41 @@
 }
 
 .back {
-  @include flex-column-center;
   @include sprite-icon-color($main-blue);
-  @include property-transition(background-color, opacity);
+  @include property-transition(background-color);
+
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background-color: transparent;
+  border-radius: 50%;
+}
+
+.route-icon {
+  @include sprite-icon-color($main-blue);
+
+  width: 24px;
+  height: 24px;
+  margin-left: 3px;
+}
+
+.breadcrumbs {
+  @include flex-row-center;
+  @include property-transition(opacity);
 
   z-index: $z-index-menu-back;
   position: absolute;
   top: 48px;
   left: $menu-panel-width + 24px;
-  width: 40px;
-  height: 40px;
+  border: none;
+  background: none;
   opacity: 0;
+  outline: none;
+  appearance: none;
   visibility: hidden;
   transition-delay: 0.15s;
-  border-radius: 50%;
-  background-color: transparent;
 
-  &:hover {
+  &:hover > .back {
     background-color: $main-blue-10;
   }
 
@@ -234,7 +252,7 @@
     opacity: 0;
   }
 
-  .back {
+  .breadcrumbs {
     opacity: 1;
     visibility: visible;
   }

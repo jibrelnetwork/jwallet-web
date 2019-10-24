@@ -14,8 +14,9 @@ type Props = {|
   +onBack: ?TitleHeaderBack,
   +onScroll: ?TitleHeaderScroll,
   +children: React$Node,
-  +title: ?string,
+  +title: string,
   +className: ?string,
+  +previousRouteIconName: ?string,
   +offsetTop: number,
   +withMenu: boolean,
   +isScrolled: ?boolean,
@@ -42,8 +43,9 @@ export class TitleHeader extends Component<Props, StateProps> {
     onBack: undefined,
     onScroll: undefined,
     children: null,
-    title: null,
+    title: '',
     className: null,
+    previousRouteIconName: null,
     offsetTop: 0,
     withMenu: false,
     isScrolled: null,
@@ -124,6 +126,7 @@ export class TitleHeader extends Component<Props, StateProps> {
       children,
       title,
       className,
+      previousRouteIconName,
       offsetTop,
       withMenu,
     }: Props = this.props
@@ -145,14 +148,24 @@ export class TitleHeader extends Component<Props, StateProps> {
       >
         <div className={styles.content}>
           {handleClick && (
-            <div
+            <button
               onClick={handleClick}
-              className={styles.back}
+              className={styles.breadcrumbs}
+              type='button'
             >
-              <JIcon name='arrow-back-use-fill' size='medium' color='blue' />
-            </div>
+              <JIcon
+                className={styles.back}
+                name='arrow-back-use-fill'
+              />
+              {previousRouteIconName && (
+                <JIcon
+                  className={styles.routeIcon}
+                  name={`${previousRouteIconName}-use-fill`}
+                />
+              )}
+            </button>
           )}
-          {title && <h1 className={styles.title}>{title}</h1>}
+          <h1 className={styles.title}>{title}</h1>
           {children && (
             <aside className={styles.aside}>
               {children}

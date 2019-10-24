@@ -230,7 +230,7 @@ class HistoryItemCancel extends Component<Props, StateProps> {
     const {
       i18n,
       walletId,
-    } = this.props
+    }: Props = this.props
 
     try {
       const privateKey = await walletsPlugin.getPrivateKey(
@@ -260,6 +260,10 @@ class HistoryItemCancel extends Component<Props, StateProps> {
 
     return (
       <div className={styles.core}>
+        <TitleHeader
+          onBack={this.handleCancelAgreement}
+          previousRouteIconName='history'
+        />
         <UserActionInfo
           text={i18n._(
             'HistoryItemCancel.agreement.text',
