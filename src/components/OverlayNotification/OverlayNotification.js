@@ -1,17 +1,18 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 import JThumbnail from 'components/base/JThumbnail'
 
-import type {
-  JThumbnailImage,
-  JThumbnailDescription,
+import {
+  type JThumbnailColor,
+  type JThumbnailImage,
+  type JThumbnailDescription,
 } from 'components/base/JThumbnail/JThumbnail'
 
 type Props = {|
-  +color: 'gray' | 'red',
+  +color: JThumbnailColor,
   +image: JThumbnailImage,
   +description: JThumbnailDescription,
   +isTransparent: boolean,
@@ -36,7 +37,6 @@ class OverlayNotification extends PureComponent<Props> {
           color={color}
           image={image}
           description={description}
-          iconSize='large'
         />
       </div>
     )

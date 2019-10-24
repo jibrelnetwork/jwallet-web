@@ -1,12 +1,12 @@
-// @flow
+// @flow strict
 
 import cryptoJS from 'crypto-js'
 
-import getAddressChecksum from './getAddressChecksum'
+import { getAddressChecksum } from '.'
 
 const ENCODER: KeyWordArrayEncoder = cryptoJS.enc.Hex
 
-function getAddressFromKeyPair(keyPair: KeyPair): string {
+export function getAddressFromKeyPair(keyPair: KeyPair): string {
   const isCompact: boolean = false
   const publicKey: string = keyPair.getPublic(isCompact, 'hex').slice(2)
   const publicKeyWordArray: KeyWordArray = ENCODER.parse(publicKey)
@@ -15,5 +15,3 @@ function getAddressFromKeyPair(keyPair: KeyPair): string {
 
   return getAddressChecksum(address)
 }
-
-export default getAddressFromKeyPair

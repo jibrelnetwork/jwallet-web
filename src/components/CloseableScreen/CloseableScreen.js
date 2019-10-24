@@ -1,28 +1,22 @@
-// @flow
+// @flow strict
 
 import React, { Component } from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 
-import JText from 'components/base/JText'
-import ESCButton from 'components/ESCButton'
+import { TitleHeader } from 'components'
 
 type CloseableScreenHandler = () => void
 
 type Props = {|
-  +close: ?CloseableScreenHandler,
   +onOpen: ?CloseableScreenHandler,
   +onClose: ?CloseableScreenHandler,
   +children: React$Node,
   +title: string,
-  +isCloseable: boolean,
 |}
 
-class CloseableScreen extends Component<Props> {
+export class CloseableScreen extends Component<Props> {
   static defaultProps = {
-    close: null,
     onOpen: null,
     onClose: null,
-    isCloseable: true,
   }
 
   componentDidMount() {
@@ -39,39 +33,17 @@ class CloseableScreen extends Component<Props> {
 
   render() {
     const {
-      close,
       children,
       title,
-      isCloseable,
-    } = this.props
+    }: Props = this.props
 
     return (
       <div className='closeable-screen'>
-        <div className='header'>
-          <div className='container'>
-            <JText
-              value={title}
-              color='gray'
-              size='tab'
-            />
-            <div className='actions'>
-              {close && <ESCButton
-                onESC={close}
-                color='gray'
-                iconName='cross'
-                isDisabled={!isCloseable}
-              />}
-            </div>
-          </div>
-        </div>
+        <TitleHeader title={title} />
         <div className='content'>
-          <Scrollbars autoHide>
-            {children}
-          </Scrollbars>
+          {children}
         </div>
       </div>
     )
   }
 }
-
-export default CloseableScreen

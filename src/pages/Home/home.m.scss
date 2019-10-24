@@ -1,0 +1,121 @@
+@import 'styles/mixins';
+
+.core {
+  width: 100%;
+  min-height: 100vh;
+  padding: $page-header-height 0;
+}
+
+.title {
+  padding: 54px 0 24px;
+  font-size: 24px;
+  line-height: 34px;
+  color: $main-black;
+  font-weight: normal;
+}
+
+.links {
+  @include flex-row;
+
+  margin: 0 -16px;
+}
+
+.link {
+  @include property-transition(box-shadow);
+
+  display: block;
+  flex-grow: 1;
+  flex-basis: 0;
+  margin: 0 16px;
+  padding: 32px 32px 46px;
+  text-align: center;
+  background: $white;
+  box-shadow: $normal-shadow;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  color: $main-blue;
+
+  &:hover,
+  &:active {
+    box-shadow: $select-shadow;
+  }
+}
+
+.link-icon {
+  @include flex-column-center;
+
+  margin: 0 auto 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $main-blue-5;
+}
+
+.container {
+  @include flex-row;
+  @include header-container;
+
+  align-items: center;
+  justify-content: space-between;
+  height: 130px;
+}
+
+.actions {
+  @include flex-row-center;
+}
+
+.search {
+  max-width: 414px;
+}
+
+.search,
+.filter {
+  flex: 1;
+  margin-right: 24px;
+}
+
+.content {
+  padding: 0 0 64px;
+}
+
+.assets {
+  &.empty {
+    height: calc(100% - 264px);
+
+    > .content {
+      display: flex;
+      height: calc(100% - #{$page-header-height});
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: $main-black-40;
+      user-select: none;
+    }
+  }
+}
+
+.header {
+  width: 100%;
+  height: $page-header-height;
+  margin-top: 20px;
+}
+
+.asset-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.empty-icon {
+  margin-bottom: 24px;
+}
+
+.add {
+  max-width: 120px;
+}
+
+.save {
+  max-width: 100px;
+}

@@ -1,47 +1,35 @@
-// @flow
+// @flow strict
 
-import React, { Component, Fragment } from 'react'
-import { t } from 'ttag'
-
+import React, { Component } from 'react'
 import classNames from 'classnames'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
-import { JFlatButton, JIcon, JTooltip } from 'components/base'
+import { Button } from 'components/base'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import buttonWithConfirmStyle from './buttonWithConfirm.m.scss'
 
 type Props = {|
-  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  +onCancelClick: Function,
-  +color: 'blue' | 'gray' | 'sky' | 'white',
-  +label: ?string,
-  +bgColor: ?string,
-  +iconTooltipName: ?string,
-  +iconTooltipColor: ?JIconColor,
+  +onCancel: () => void,
+  +onConfirm: () => void,
   +labelCancel: string,
   +labelConfirm: string,
   +confirmTimeout: number,
-  +isReverse: boolean,
-  isActive?: boolean,
+  +isReversed: boolean,
+  +i18n: I18nType,
 |}
 
-type ComponentState = {|
-  countdown: number,
-  intervalId: ?IntervalID,
-  isActive: boolean,
+type StateProps = {|
+  +countdown: number,
+  +intervalId: ?IntervalID,
 |}
 
 const ONE_SECOND: 1000 = 1000
 
-class ButtonWithConfirm extends Component<Props, ComponentState> {
+class ButtonWithConfirmComponent extends Component<Props, StateProps> {
   static defaultProps = {
-    label: null,
-    bgColor: null,
-    iconTooltipName: null,
-    iconTooltipColor: null,
     confirmTimeout: 0,
-    isReverse: false,
-    isActive: false,
-    onCancelClick: () => {},
+    isReversed: false,
   }
 
   constructor(props: Props) {
@@ -50,14 +38,15 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     this.state = {
       intervalId: null,
       countdown: props.confirmTimeout,
-      isActive: props.isActive || false,
     }
   }
 
   componentDidMount() {
-    if (this.state.isActive) {
-      this.initAction()
-    }
+    this.startCountdown()
+  }
+
+  componentWillUnmount() {
+    this.finishCountdown()
   }
 
   setIntervalId = (intervalId: ?IntervalID) => {
@@ -90,91 +79,63 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
   }
 
   resetCountdown = () => {
+    const {
+      onCancel,
+      confirmTimeout,
+    }: Props = this.props
+
     this.finishCountdown()
-    this.setCountdown(this.props.confirmTimeout)
-    this.props.onCancelClick()
+    this.setCountdown(confirmTimeout)
+    onCancel()
   }
 
-  initAction = () => {
-    this.setState({ isActive: true })
-    this.startCountdown()
-  }
-
-  cancelAction = () => {
-    this.setState({ isActive: false })
+  handleCancel = () => {
     this.resetCountdown()
   }
 
   render() {
     const {
-      onClick,
-      color,
-      label,
-      bgColor,
-      iconTooltipName,
-      iconTooltipColor,
+      i18n,
+      isReversed,
       labelCancel,
       labelConfirm,
-      isReverse,
+      onConfirm: handleConfirm,
     }: Props = this.props
 
-    const {
-      countdown,
-      isActive,
-    }: ComponentState = this.state
+    const { countdown }: StateProps = this.state
+    const isConfirmDisabled: boolean = (countdown > 0)
 
     return (
-      <div className='button-with-confirm'>
-        {isActive ? (
-          <div
-            className={classNames(
-              'actions',
-              bgColor && `-overlay-${bgColor}`,
-              isReverse && '-reverse',
-            )}
-          >
-            <JFlatButton
-              onClick={this.cancelAction}
-              label={labelCancel}
-              color={color}
-              isBordered
-            />
-            <div className='confirm'>
-              <JFlatButton
-                onClick={onClick}
-                color={color}
-                label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
-                isDisabled={countdown > 0}
-                isBordered
-              />
-            </div>
-          </div>
-        ) : (
-          <Fragment>
-            {label && !iconTooltipName && !iconTooltipColor && (
-              <JFlatButton
-                onClick={this.initAction}
-                label={label}
-                color={color}
-                isBordered
-              />
-            )}
-            {iconTooltipName && iconTooltipColor && !label && (
-              <div className='icon' onClick={this.initAction}>
-                <JTooltip text={t`Delete`}>
-                  <JIcon
-                    size='medium'
-                    color={iconTooltipColor}
-                    name={iconTooltipName}
-                  />
-                </JTooltip>
-              </div>
-            )}
-          </Fragment>
+      <div
+        className={classNames(
+          buttonWithConfirmStyle.core,
+          isReversed && buttonWithConfirmStyle.reversed,
         )}
+      >
+        <Button
+          onClick={this.handleCancel}
+          className={buttonWithConfirmStyle.cancel}
+          theme={isReversed ? 'general' : 'secondary'}
+        >
+          {labelCancel}
+        </Button>
+        <Button
+          onClick={handleConfirm}
+          className={buttonWithConfirmStyle.confirm}
+          theme={isReversed ? 'secondary' : 'general'}
+          isDisabled={isConfirmDisabled}
+        >
+          {isConfirmDisabled
+            ? i18n._(
+              'common.ButtonWithConfirm.countdown',
+              { countdown },
+              { defaults: '{countdown} sec' },
+            )
+            : labelConfirm}
+        </Button>
       </div>
     )
   }
 }
 
-export default ButtonWithConfirm
+export const ButtonWithConfirm = withI18n()(ButtonWithConfirmComponent)

@@ -1,0 +1,123 @@
+@import 'styles/mixins';
+@import 'styles/zindex';
+
+.content {
+  @include flex-row;
+
+  max-width: $centred-content-width-paddings + 152px * 2;
+  padding: 48px 202px 30px 192px;
+  margin: 0 auto;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.back {
+  @include flex-row-center;
+  @include property-transition(background-color, opacity);
+
+  z-index: $z-index-menu-back;
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  width: 40px;
+  height: 40px;
+  transition-delay: 0.15s;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $main-blue-10;
+  }
+}
+
+.title {
+  @include ellipsis;
+
+  min-width: 200px;
+  max-width: 736px;
+  margin-right: auto;
+  line-height: 40px;
+  font-size: 24px;
+  font-weight: normal;
+  color: $main-black;
+}
+
+.aside {
+  @include flex-row;
+
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.icon {
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-30);
+}
+
+.label {
+  @include font(14px, 22px);
+
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.action {
+  @include flex-row-center;
+
+  &:not(:last-child) {
+    margin-right: 37px;
+  }
+
+  &:hover {
+    .icon {
+      @include sprite-icon-color($main-blue);
+    }
+  }
+}
+
+.core {
+  @include font;
+  @include flex-row;
+  @include property-transition(box-shadow);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-width: 1024px;
+  background-color: transparent;
+
+  &.menu {
+    padding-left: 304px;
+
+    .content {
+      margin: 0 auto;
+      padding: 48px 40px 30px 40px;
+    }
+  }
+
+  &.static {
+    position: static;
+    min-width: initial;
+
+    .content {
+      padding: 48px 0 30px 0;
+    }
+  }
+
+  &.scrolled {
+    z-index: $z-index-header;
+    box-shadow: $select-shadow;
+    background-color: $pale-grey;
+  }
+}
+
+@media (min-width: 1500px) {
+  .core.menu {
+    .content {
+      max-width: 1120px;
+      padding: 48px 0 30px 0;
+    }
+  }
+}

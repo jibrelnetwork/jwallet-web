@@ -1,129 +1,163 @@
-// @flow
-
-import { t } from 'ttag'
+// @flow strict
 
 import config from 'config'
-import strip0x from 'utils/address/strip0x'
-import encryptData from 'utils/encryption/encryptData'
+import { strip0x } from 'utils/address'
+import { leftPad } from 'utils/formatters'
+import { encryptData } from 'utils/encryption'
+import { getXPRVFromMnemonic } from 'utils/mnemonic'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
-  getWallet,
-  checkMnemonicType,
-} from 'utils/wallets'
+  getTypeByInput,
+  checkReadOnlyType,
+} from '.'
 
-import updateWallet from './updateWallet'
-
-type UpgradeWalletData = {|
-  +items: Wallets,
-  +mnemonicOptions: ?MnemonicOptions,
-  +data: string,
-  +walletId: WalletId,
-  +encryptionType: string,
+export type UpgradeWalletData = {|
+  +wallet: Wallet,
+  +data: ?string,
+  +passphrase: ?string,
+  +derivationPath: ?string,
   +internalKey: Uint8Array,
 |}
 
 function addMnemonic(
-  wallets: Wallets,
-  wallet: Wallet,
+  {
+    xpub,
+    id: walletId,
+  }: Wallet,
   mnemonic: string,
-  mnemonicOptions: MnemonicOptions,
+  passphrase: ?string,
+  derivationPath: ?string,
   internalKey: Uint8Array,
-  encryptionType: string,
-): Wallets {
-  const {
-    id,
-    type,
-    bip32XPublicKey,
-  }: Wallet = wallet
-
-  if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new Error(t`WalletDataError`)
+): WalletUpdatedData {
+  if (!xpub) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
   }
 
-  const {
-    network,
-    passphrase,
-    derivationPath,
-  }: MnemonicOptions = mnemonicOptions
-
-  return updateWallet(wallets, id, {
-    network,
-    derivationPath,
+  return {
     encrypted: {
       mnemonic: encryptData({
-        encryptionType,
-        data: mnemonic,
         key: internalKey,
+        data: leftPad(
+          mnemonic.toLowerCase(),
+          ' ',
+          config.encryptedMnemonicLength,
+        ),
       }),
       passphrase: encryptData({
-        encryptionType,
         key: internalKey,
-        data: passphrase.trim().toLowerCase(),
+        data: passphrase || '',
+      }),
+      xprv: encryptData({
+        key: internalKey,
+        data: getXPRVFromMnemonic(mnemonic, passphrase, derivationPath),
       }),
       privateKey: null,
     },
-    customType: config.mnemonicWalletType,
+    customType: 'mnemonic',
+    derivationPath: (derivationPath || '').trim(),
     isReadOnly: false,
-  })
+  }
+}
+
+function addXPRV(
+  {
+    xpub,
+    id: walletId,
+  }: Wallet,
+  xprv: string,
+  internalKey: Uint8Array,
+): WalletUpdatedData {
+  if (!xpub) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
+  }
+
+  return {
+    encrypted: {
+      xprv: encryptData({
+        data: xprv,
+        key: internalKey,
+      }),
+      mnemonic: null,
+      passphrase: null,
+      privateKey: null,
+    },
+    customType: 'xprv',
+    isReadOnly: false,
+  }
 }
 
 function addPrivateKey(
-  wallets: Wallets,
-  wallet: Wallet,
+  {
+    address,
+    id: walletId,
+  }: Wallet,
   privateKey: string,
   internalKey: Uint8Array,
-  encryptionType: string,
-): Wallets {
-  const {
-    id,
-    type,
-    address,
-  }: Wallet = wallet
-
-  if (checkMnemonicType(type) || !address) {
-    throw new Error(t`WalletDataError`)
+): WalletUpdatedData {
+  if (!address) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet address is empty')
   }
 
-  return updateWallet(wallets, id, {
+  return {
     encrypted: {
       privateKey: encryptData({
-        encryptionType,
         key: internalKey,
-        data: strip0x(privateKey),
+        data: strip0x(privateKey.toLowerCase()),
       }),
+      xprv: null,
       mnemonic: null,
       passphrase: null,
     },
     customType: 'privateKey',
     isReadOnly: false,
-  })
+  }
 }
 
-function upgradeWallet({
-  items,
-  mnemonicOptions,
+export function upgradeWallet({
+  wallet,
   data,
-  walletId,
+  passphrase,
+  derivationPath,
   internalKey,
-  encryptionType,
-}: UpgradeWalletData): Wallets {
-  const wallet: Wallet = getWallet(items, walletId)
+}: UpgradeWalletData): WalletUpdatedData {
+  const {
+    customType,
+    id: walletId,
+  }: Wallet = wallet
 
-  if (!wallet.isReadOnly) {
-    throw new Error(t`WalletDataError`)
+  if (!checkReadOnlyType(customType)) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet is not read only')
   }
 
-  const preparedData: string = data.trim().toLowerCase()
+  const preparedData: string = (data || '').trim()
+  const inputType: ?WalletCustomType = getTypeByInput(preparedData)
 
-  if (checkMnemonicType(wallet.type)) {
-    if (!mnemonicOptions) {
-      throw new Error(t`WalletDataError`)
-    }
+  switch (inputType) {
+    case 'mnemonic':
+      return addMnemonic(
+        wallet,
+        preparedData,
+        passphrase,
+        derivationPath,
+        internalKey,
+      )
 
-    return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey, encryptionType)
+    case 'xprv':
+      return addXPRV(
+        wallet,
+        preparedData,
+        internalKey,
+      )
+
+    case 'privateKey':
+      return addPrivateKey(
+        wallet,
+        preparedData,
+        internalKey,
+      )
+
+    default:
+      throw new Error('Invalid input type')
   }
-
-  return addPrivateKey(items, wallet, preparedData, internalKey, encryptionType)
 }
-
-export default upgradeWallet

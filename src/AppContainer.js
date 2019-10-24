@@ -1,29 +1,35 @@
-// @flow
+// @flow strict
 
 import React from 'react'
-import { Router } from 'react-router'
+import { RouterProvider } from 'react-router5'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import { type Persistor } from 'redux-persist/lib/types'
 
-import type { Persistor } from 'redux-persist/lib/types'
-import { type Store, type Dispatch } from 'redux'
-import { type AppAction } from 'routes'
+import {
+  type Store,
+  type Dispatch,
+} from 'redux'
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
+import { Toast } from 'components'
+import { type AppAction } from 'store/modules'
+import { LanguageProvider } from 'app/components'
 
-type Props = {
-  store: Store<AppState, AppAction, Dispatch<AppAction>>,
-  routes: Object,
-  history: Object,
-  persistor: Persistor,
-}
+import { AppRouter } from './AppRouter'
 
-type State = {
-  isPrimaryInstance: boolean,
-}
+type Props = {|
+  +router: Object,
+  +persistor: Persistor,
+  +store: Store<AppState, AppAction, Dispatch<AppAction>>,
+|}
 
-class AppContainer extends React.Component<Props, State> {
+type ComponentState = {|
+  +isPrimaryInstance: boolean,
+|}
+
+export class AppContainer extends React.Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -33,34 +39,38 @@ class AppContainer extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { persistor, store } = this.props
+    const {
+      store,
+      persistor,
+    } = this.props
+
     startSessionWatcher(
       persistor,
       store.dispatch,
-      (isPrimaryInstance) => {
-        this.setState({ isPrimaryInstance })
-      }
+      isPrimaryInstance => this.setState({ isPrimaryInstance }),
     )
   }
 
   render() {
-    const { store, persistor, history, routes } = this.props
+    const {
+      store,
+      router,
+      persistor,
+    } = this.props
 
     return (
-      <Provider store={store}>
-        <div style={{ height: '100%' }}>
-          {this.state.isPrimaryInstance ?
+      <LanguageProvider>
+        <Provider store={store}>
+          {!this.state.isPrimaryInstance ? <SingularTabBlockScreen /> : (
             <PersistGate persistor={persistor}>
-              <Router history={history}>
-                {routes}
-              </Router>
-            </PersistGate> :
-            <SingularTabBlockScreen />
-          }
-        </div>
-      </Provider>
+              <RouterProvider router={router}>
+                <AppRouter />
+                <Toast />
+              </RouterProvider>
+            </PersistGate>
+          )}
+        </Provider>
+      </LanguageProvider>
     )
   }
 }
-
-export default AppContainer

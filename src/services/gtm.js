@@ -27,7 +27,7 @@ function pushCreateAccount(eventLabel: string, isInitialised: boolean = false) {
  */
 function pushImportAccount(
   eventLabel: string,
-  accountType: string | void,
+  accountType: ?string,
   isInitialised: boolean = false,
 ) {
   push({

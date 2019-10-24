@@ -2,6 +2,12 @@
 
 import React from 'react'
 
+export type JLoaderColor = 'blue' | 'gray' | 'white' | 'sky' | 'dark'
+
+type Props = {|
+  +color: JLoaderColor,
+|}
+
 const JLoader = ({ color }: Props) => (
   <div className={`j-loader -${color}`}>
     <div className='dot -first' />
@@ -9,9 +15,5 @@ const JLoader = ({ color }: Props) => (
     <div className='dot -third' />
   </div>
 )
-
-type Props = {
-  color: 'blue' | 'gray' | 'white' | 'sky' | 'dark',
-}
 
 export default JLoader

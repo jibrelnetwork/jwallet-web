@@ -1,0 +1,16 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  height: auto;
+}
+
+.content {
+  @include box;
+  @include flex-column-center;
+
+  min-height: 100vh;
+  padding: 150px 0;
+  flex: 1;
+}

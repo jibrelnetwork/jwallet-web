@@ -1,0 +1,9 @@
+@import 'styles/mixins';
+
+.blue {
+  @include sprite-icon-color($main-blue);
+}
+
+.gray {
+  @include sprite-icon-color($main-black-30);
+}

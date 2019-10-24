@@ -1,0 +1,161 @@
+@import "styles/mixins";
+
+.core {
+  @include font(14px, 22px);
+  @include box;
+  @include hover-animation;
+  @include flex-row-center;
+  @include ellipsis;
+
+  height: 48px;
+  width: 100%;
+  padding: 0 25px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  line-height: 48px;
+  text-align: center;
+  font-weight: 600;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:active {
+    transition: all 0.2s linear;
+    box-shadow: none;
+  }
+}
+
+.general {
+  height: 64px;
+  background-color: $blue-two;
+  box-shadow: $blue-shadow;
+  color: $white;
+
+  //&:focus,
+  &:hover {
+    box-shadow: $hover-on-general-button-shadow;
+  }
+
+  &:active {
+    box-shadow: none;
+    color: $white-60;
+  }
+
+  &:disabled {
+    background-color: $main-black-10;
+    color: $main-black-20;
+    box-shadow: none;
+
+    &.-loading {
+      background-color: $main-blue;
+    }
+  }
+}
+
+.secondary {
+  height: 64px;
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba($black, 0.1);
+  color: $main-blue;
+
+  //&:focus,
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+
+  &:active {
+    box-shadow: none;
+    color: $main-blue-60;
+  }
+
+  &:disabled {
+    background-color: $main-black-10;
+    color: $main-black-20;
+    box-shadow: none;
+
+    &.-loading {
+      background-color: $white;
+    }
+  }
+}
+
+.additional {
+  @include property-transition(background-color, color);
+
+  height: 40px;
+  width: auto;
+  background: transparent;
+  font-weight: 600;
+  color: $main-black-40;
+  line-height: 22px;
+  padding: 9px 20px;
+  border-radius: 4px;
+
+  &:hover,
+  &:active {
+    background-color: $main-blue-10;
+    color: $main-blue;
+  }
+
+  &:active {
+    background-color: $main-blue-20;
+  }
+
+  // Design suggests there is no disabled state for this button style, so none implemented
+}
+
+.additional-icon {
+  @include flex-row-center;
+  @include property-transition(background-color, color);
+
+  height: 40px;
+  width: auto;
+  background: transparent;
+  font-weight: 600;
+  line-height: 22px;
+  color: $main-black-40;
+  padding: 0 10px 0 8px;
+  border-radius: 4px;
+
+  .icon {
+    @include property-transition(fill, stroke);
+    @include sprite-icon-color($main-black-30);
+  }
+
+  .label {
+    @include font(14px, 22px);
+
+    margin-left: 8px;
+    font-weight: 600;
+  }
+
+  &:hover,
+  &:active {
+    background-color: $main-blue-10;
+    color: $main-blue;
+
+    .icon {
+      @include sprite-icon-color($main-blue);
+    }
+  }
+
+  &:active {
+    background-color: $main-blue-20;
+  }
+
+  // Design suggests there is no disabled state for this button style, so none implemented
+}
+
+.general-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: general;
+  height: 48px;
+}
+
+.secondary-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: secondary;
+  height: 48px;
+}

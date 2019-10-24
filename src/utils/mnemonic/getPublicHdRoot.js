@@ -1,9 +1,7 @@
-// @flow
+// @flow strict
 
 import bitcore from 'bitcore-lib'
 
-function getPublicHdRoot(bip32XPublicKey: string): HDPublicKey {
-  return new bitcore.HDPublicKey(bip32XPublicKey)
+export function getPublicHdRoot(xpub: string): HDPublicKey {
+  return new bitcore.HDPublicKey(xpub)
 }
-
-export default getPublicHdRoot

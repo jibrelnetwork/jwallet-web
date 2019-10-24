@@ -1,6 +1,8 @@
 // @flow
 
-function getDigitalAssetByAddress<T: DigitalAsset | DigitalAssetWithBalance>(
+type GetDigitalAssetByAddressItem = DigitalAsset | DigitalAssetWithBalance
+
+function getDigitalAssetByAddress<T: GetDigitalAssetByAddressItem>(
   items: T[],
   address: AssetAddress,
 ): ?T {

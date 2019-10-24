@@ -1,0 +1,26 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  position: relative;
+}
+
+.form {
+  width: 544px;
+  margin-top: 32px;
+}
+
+.icon {
+  @include sprite-icon-color($main-blue);
+}
+
+.fields {
+  border-radius: 4px;
+  box-shadow: $normal-shadow;
+  overflow: hidden;
+}
+
+.button {
+  margin: 32px 0 16px 0;
+}

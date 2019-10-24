@@ -1,7 +1,7 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 import JText from 'components/base/JText'
 
@@ -17,7 +17,7 @@ class JRadio extends PureComponent<Props> {
     isChecked: false,
   }
 
-  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (this.props.onChange) {
       this.props.onChange(event.target.checked)
     }
@@ -35,7 +35,7 @@ class JRadio extends PureComponent<Props> {
       <div className={classNames('j-radio', isChecked && '-checked')}>
         <label className='field'>
           <input
-            onChange={this.onChange}
+            onChange={this.handleChange}
             name={`radio-${name}`}
             type='radio'
             className='checkbox'

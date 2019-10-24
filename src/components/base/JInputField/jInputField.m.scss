@@ -1,0 +1,137 @@
+@import "styles/mixins";
+
+.core {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.wrap,
+.input {
+  @include hover-animation;
+}
+
+.wrap {
+  height: 72px;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.label {
+  @include property-transition(color, font-size, font-weight, top);
+
+  position: absolute;
+  display: block;
+  top: 24px;
+  left: 16px;
+  right: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  cursor: text;
+}
+
+.input {
+  @include font(14px, 14px);
+
+  display: block;
+  font-style: normal;
+  padding: 24px 24px 26px 16px;
+  line-height: 22px;
+  width: 100%;
+  background: transparent;
+  resize: none;
+  border: none;
+  font-weight: 600;
+
+  &::placeholder {
+    color: $main-black-30;
+  }
+}
+
+.message {
+  margin-bottom: 8px;
+  color: $main-black-60;
+}
+
+.field-message {
+  padding: 0 16px;
+}
+
+.active {
+  .input {
+    padding-top: 34px;
+    padding-bottom: 16px;
+  }
+
+  .label {
+    top: 16px;
+    font-size: 12px;
+    background-color: transparent;
+  }
+}
+
+.white-icon {
+  .input {
+    padding-right: 72px;
+  }
+}
+
+.white-indicator {
+  .input {
+    padding-right: 148px;
+  }
+}
+
+.white,
+.white-icon,
+.white-indicator {
+  .wrap {
+    background-color: $white;
+    box-shadow: $normal-shadow;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
+  }
+
+  .input {
+    color: $main-black;
+  }
+
+  .label {
+    color: $main-black-30;
+  }
+
+  &:hover .input::placeholder,
+  &:hover .label {
+    color: $main-black-30;
+  }
+
+  .error .label {
+    color: $main-red;
+  }
+
+  .disabled {
+    opacity: 0.7;
+    box-shadow: none;
+    background: $white;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    .label {
+      cursor: default;
+      color: $main-black-30;
+    }
+
+    &.value .label {
+      color: $main-black-40;
+    }
+
+    .input {
+      color: $main-black-40;
+    }
+  }
+}

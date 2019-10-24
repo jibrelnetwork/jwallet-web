@@ -1,0 +1,33 @@
+@import 'styles/mixins';
+
+.core {
+  text-align: center;
+}
+
+.title {
+  @include font(20px, 28px);
+
+  font-style: normal;
+  font-weight: normal;
+  color: $main-black;
+}
+
+.description {
+  @include font(14px, 22px);
+
+  font-style: normal;
+  font-weight: normal;
+  color: $main-black-60;
+}
+
+.icon {
+  text-align: center;
+
+  &.blue {
+    @include sprite-icon-color($main-blue);
+  }
+
+  &.gray {
+    @include sprite-icon-color($main-black-60);
+  }
+}

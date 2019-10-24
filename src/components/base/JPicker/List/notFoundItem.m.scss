@@ -1,0 +1,14 @@
+@import "styles/mixins";
+@import "styles/colors";
+
+.core {
+  position: relative;
+  height: 72px;
+  padding: 26px 0 24px 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px;
+  color: $main-black-60;
+  text-align: center;
+  cursor: default;
+}

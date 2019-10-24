@@ -1,0 +1,22 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  width: 100%;
+  min-height: 100vh;
+}
+
+.center {
+  @include flex-column-center;
+
+  width: 300px;
+}
+
+.button {
+  width: 160px;
+}
+
+.icon {
+  @include sprite-icon-color($main-black-60);
+}

@@ -1,0 +1,63 @@
+@import "styles/mixins";
+
+.core {
+  text-decoration: none;
+}
+
+.text-white {
+  // FIXME: inherit font from parent
+  @include font;
+
+  display: inline;
+  color: $white;
+  text-decoration: underline $white;
+  // stylelint-disable-next-line property-no-unknown
+  text-decoration-skip-ink: auto;
+  transition: color 0.2s, text-decoration-color 0.2s;
+
+  &:hover,
+  &:active {
+    color: $bright-sky-blue;
+    text-decoration-color: $bright-sky-blue;
+  }
+}
+
+.text-blue {
+  display: inline;
+  color: $blue-two;
+  text-decoration: underline $blue-two;
+  // stylelint-disable-next-line property-no-unknown
+  text-decoration-skip-ink: auto;
+  transition: color 0.2s, text-decoration-color 0.2s;
+
+  &:hover,
+  &:active {
+    color: $bright-sky-blue;
+    text-decoration-color: $bright-sky-blue;
+  }
+}
+
+.button-general {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core general from '../Button/button.m.scss';
+}
+
+.button-secondary {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core secondary from '../Button/button.m.scss';
+}
+
+.button-general-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core general-confirm from '../Button/button.m.scss';
+}
+
+.button-secondary-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core secondary-confirm from '../Button/button.m.scss';
+}
+
+.button-additional-icon {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core additional-icon from '../Button/button.m.scss';
+}

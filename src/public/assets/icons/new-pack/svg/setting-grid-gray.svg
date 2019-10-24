@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.294 24.247">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #3d4f6c;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="setting-grid" transform="translate(-198 -818)">
+    <rect id="Rectangle_12600" data-name="Rectangle 12600" class="cls-1" width="24" height="24" transform="translate(198 818)"/>
+    <g id="layers-grid-settings" transform="translate(198.25 818.25)">
+      <path id="Path_21679" data-name="Path 21679" class="cls-2" d="M8.25,18.75H3.75a3,3,0,0,1-3-3v-12a3,3,0,0,1,3-3h12a3,3,0,0,1,3,3v3"/>
+      <line id="Line_6635" data-name="Line 6635" class="cls-2" y2="18" transform="translate(6.75 0.75)"/>
+      <line id="Line_6636" data-name="Line 6636" class="cls-2" y2="9" transform="translate(12.75 0.75)"/>
+      <line id="Line_6637" data-name="Line 6637" class="cls-2" x1="18" transform="translate(0.75 6.75)"/>
+      <line id="Line_6638" data-name="Line 6638" class="cls-2" x1="7.5" transform="translate(0.75 12.75)"/>
+      <circle id="Ellipse_1887" data-name="Ellipse 1887" class="cls-2" cx="1.5" cy="1.5" r="1.5" transform="translate(15.75 15)"/>
+      <path id="Path_21680" data-name="Path 21680" class="cls-2" d="M18.525,10.7l.442,1.453a.993.993,0,0,0,1.173.681l1.473-.341a1.338,1.338,0,0,1,1.274,2.218l-1.03,1.111a1,1,0,0,0,0,1.362l1.03,1.111a1.338,1.338,0,0,1-1.274,2.218l-1.473-.341a.993.993,0,0,0-1.173.681L18.525,22.3a1.331,1.331,0,0,1-2.549,0l-.442-1.453a.993.993,0,0,0-1.173-.681l-1.473.341a1.338,1.338,0,0,1-1.274-2.218l1.03-1.111a1,1,0,0,0,0-1.362L11.614,14.7a1.338,1.338,0,0,1,1.274-2.218l1.473.341a.993.993,0,0,0,1.173-.681l.442-1.453a1.331,1.331,0,0,1,2.549.006Z"/>
+    </g>
+  </g>
+</svg>

@@ -1,14 +1,17 @@
+// flow-typed signature: 05be98929cc44ad67f621acb3e103b12
+// flow-typed version: f9a5d5efad/redux-saga_v0.16.x/flow_>=v0.56.0
+
 // @flow
 
-// flow-typed signature: 8fcc4ef5fa7f64aff3c36fa3f7a03600
-// flow-typed version: aba9864a3d/redux-saga_v0.16.x/flow_>=v0.56.0
-
 /* eslint-disable no-unused-vars, no-redeclare, eslint-comments/no-unused-disable,
-  eslint-comments/disable-enable-pair, flowtype/no-types-missing-file-annotation,
-  no-irregular-whitespace, quotes, import/newline-after-import */
+  eslint-comments/disable-enable-pair, flowtype/no-types-missing-file-annotation, flowtype/semi,
+  no-irregular-whitespace, quotes, flowtype/delimiter-dangle,
+  import/newline-after-import, flowtype/require-compound-type-alias,
+  flowtype/array-style-simple-type, flowtype/type-import-style, semi, comma-dangle,
+  flowtype/object-type-delimiter  */
 
 declare module "redux-saga" {
-  import typeof * as _effects from "redux-saga/effects"
+  import typeof * as _effects from "redux-saga/effects";
   declare export var effects: _effects;
 
   declare export interface Channel {
@@ -470,8 +473,8 @@ declare module "redux-saga/effects" {
     SetContextEffect,
     SpawnEffect,
     TakeEffect,
-    Task,
-  } from "redux-saga"
+    Task
+  } from "redux-saga";
 
   declare export var take: {
     <P: Pattern>(pattern: P): TakeEffect<P, void, void>,
@@ -483,11 +486,11 @@ declare module "redux-saga/effects" {
   };
 
   declare export var put: {
-    <A: Object>(action: A): PutEffect<A, null>,
-    <A: Object>(channel: Channel, action: A): PutEffect<A, Channel>,
+    <A: {}>(action: A): PutEffect<A, null>,
+    <A: {}>(channel: Channel, action: A): PutEffect<A, Channel>,
     resolve: {
-      <A: Object>(action: A): PutEffect<A, null>,
-      <A: Object>(channel: Channel, action: A): PutEffect<A, Channel>,
+      <A: {}>(action: A): PutEffect<A, null>,
+      <A: {}>(channel: Channel, action: A): PutEffect<A, Channel>,
     }
   };
 
@@ -2499,3 +2502,10 @@ declare module "redux-saga/effects" {
     ): ForkEffect<null, Function, [T1, T2, T3, T4, T5, T6, T7, T8]>
   };
 }
+
+/* eslint-enable no-unused-vars, no-redeclare, eslint-comments/no-unused-disable,
+  eslint-comments/disable-enable-pair, flowtype/no-types-missing-file-annotation, flowtype/semi,
+  no-irregular-whitespace, quotes, flowtype/delimiter-dangle,
+  import/newline-after-import, flowtype/require-compound-type-alias,
+  flowtype/array-style-simple-type, flowtype/type-import-style, semi, comma-dangle,
+  flowtype/object-type-delimiter  */

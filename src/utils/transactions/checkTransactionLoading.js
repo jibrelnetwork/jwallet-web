@@ -1,6 +1,8 @@
 // @flow
 
-function checkTransactionLoading<T: Transaction | TransactionWithPrimaryKeys>(item: T): boolean {
+type CheckTransactionLoadingItem = Transaction | TransactionWithPrimaryKeys
+
+function checkTransactionLoading<T: CheckTransactionLoadingItem>(item: T): boolean {
   const {
     data,
     blockData,

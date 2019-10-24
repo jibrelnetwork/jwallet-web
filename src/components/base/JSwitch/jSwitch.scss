@@ -7,10 +7,6 @@
     margin-bottom: $checkbox-item-margin-bottom;
   }
 
-  &.-disabled {
-    opacity: 0.5;
-  }
-
   > .field {
     width: 42px;
     height: 24px;
@@ -28,7 +24,7 @@
       display: block;
       cursor: pointer;
       border-radius: 100px;
-      background-color: rgba($dusk, 0.2);
+      background-color: $main-black-30;
       transition: background-color 0.3s ease;
 
       &::after {
@@ -45,18 +41,36 @@
       }
     }
 
+    &:hover {
+      > .switch {
+        background-color: $main-black-40;
+      }
+    }
+
     > .checkbox:checked ~ .switch {
-      background-color: $blue-two;
+      background-color: $main-blue;
 
       &::after {
         transform: translateX(calc(100% - 2px));
       }
     }
+  }
 
+  &.-disabled > .field {
     &:hover {
       > .switch {
-        background-color: rgba($dusk, 0.6);
+        background-color: $main-black-10;
       }
+    }
+
+    > .checkbox:checked ~ .switch {
+      background-color: $main-black-10;
+    }
+
+    // stylelint-disable-next-line no-descending-specificity
+    > .switch {
+      cursor: default;
+      background-color: $main-black-10;
     }
   }
 }

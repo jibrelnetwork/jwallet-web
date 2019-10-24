@@ -1,0 +1,26 @@
+@import "styles/mixins";
+@import "styles/colors";
+
+.core {
+  position: relative;
+  height: 72px;
+  cursor: pointer;
+  padding: 8px;
+
+  .inner {
+    height: 100%;
+    border-radius: 2px;
+
+    &.focused {
+      background: $main-black-5;
+    }
+
+    &.selected {
+      background: $main-blue-5;
+    }
+
+    &.selected.focused {
+      background: $main-blue-10;
+    }
+  }
+}

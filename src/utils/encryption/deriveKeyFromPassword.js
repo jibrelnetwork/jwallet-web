@@ -1,17 +1,19 @@
 // @flow
 
-import scrypt from 'scryptsy'
+import { scryptWorkerInstance } from 'workers/scrypt/wrapper'
 
-function deriveKeyFromPassword(
+export const DERIVED_KEY_LENGTH: number = 32
+
+export async function deriveKeyFromPassword(
   password: string,
-  scryptParams: ScryptParams,
-  derivedKeyLength: number,
   salt: string,
-): Uint8Array {
-  const { N, r, p }: ScryptParams = scryptParams
-  const derivedKey: Buffer = scrypt(password, salt, N, r, p, derivedKeyLength)
-
-  return new Uint8Array(derivedKey)
+): Promise<Uint8Array> {
+  return scryptWorkerInstance.executeTask({
+    taskName: 'deriveKeyFromPassword',
+    payload: {
+      salt,
+      password,
+      dkLen: DERIVED_KEY_LENGTH,
+    },
+  })
 }
-
-export default deriveKeyFromPassword

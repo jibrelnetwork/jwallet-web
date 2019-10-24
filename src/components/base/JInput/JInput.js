@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-import JIcon from 'components/base/JIcon'
+import { JIcon } from 'components/base'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
@@ -12,6 +12,7 @@ type JInputOnChangeHandler = (string) => void
 type JInputIconPosition = 'left' | 'right'
 export type JInputColor = 'gray' | 'white'
 export type JInputType = 'text' | 'password'
+type JInputSideBorderRadius = 'all' | 'top' | 'left' | 'bottom' | 'right'
 
 type Props = {|
   +onChange: ?JInputOnChangeHandler,
@@ -21,14 +22,14 @@ type Props = {|
   +label: ?string,
   +value: ?JInputValue,
   +placeholder: ?string,
-  +helpMessage: ?string,
   +infoMessage: ?string,
   +errorMessage: ?string,
   +color: JInputColor,
   +type: JInputType,
-  +sideBorderRadius: 'all' | 'top' | 'left' | 'bottom' | 'right',
   +iconPosition: ?JInputIconPosition,
+  +sideBorderRadius: JInputSideBorderRadius,
   +rows: ?number,
+  +maxLength: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
   +isDisabled: boolean,
@@ -45,11 +46,13 @@ type ChildrenProps = {|
   +className: string,
   +value: ?JInputValue,
   +placeholder: ?string,
+  +maxLength: ?number,
   +disabled: boolean,
   +autoFocus: boolean,
 |}
 
 const noop = () => {}
+
 const MAX_ROWS = 12
 
 class JInput extends PureComponent<Props> {
@@ -65,10 +68,10 @@ class JInput extends PureComponent<Props> {
     iconPosition: null,
     color: 'white',
     placeholder: '',
-    helpMessage: null,
     infoMessage: null,
     errorMessage: null,
     rows: 0,
+    maxLength: null,
     isLoading: false,
     isPinCode: false,
     isDisabled: false,
@@ -78,8 +81,9 @@ class JInput extends PureComponent<Props> {
   }
 
   componentDidUpdate() {
-    if (this.textarea.current) {
-      const { current } = this.textarea
+    if (this.textareaRef.current) {
+      const { current } = this.textareaRef
+
       while (
         current.clientHeight < current.scrollHeight &&
         current.rows <= MAX_ROWS
@@ -91,7 +95,7 @@ class JInput extends PureComponent<Props> {
     }
   }
 
-  textarea = React.createRef()
+  textareaRef = React.createRef<HTMLTextAreaElement>()
 
   render() {
     const {
@@ -104,9 +108,9 @@ class JInput extends PureComponent<Props> {
       color,
       label,
       value,
+      maxLength,
       sideBorderRadius,
       placeholder,
-      helpMessage,
       infoMessage,
       errorMessage,
       iconPosition,
@@ -132,10 +136,11 @@ class JInput extends PureComponent<Props> {
       placeholder: labelOrPlaceholder,
       onBlur,
       onFocus,
+      maxLength,
     }
 
     const children = isMultiline
-      ? <textarea {...baseProps} rows={rows} ref={this.textarea} />
+      ? <textarea {...baseProps} rows={rows} ref={this.textareaRef} />
       : <input {...baseProps} type={type} />
 
     return (
@@ -144,7 +149,6 @@ class JInput extends PureComponent<Props> {
           `j-input -${type} -${color}`,
           !!value && '-value',
           infoMessage && '-info',
-          helpMessage && '-help',
           isLoading && '-loading',
           isPinCode && '-pincode',
           errorMessage && '-error',
@@ -153,7 +157,7 @@ class JInput extends PureComponent<Props> {
           isMultiline && '-multiline',
           isVirtualHalfSize && '-virtual-half-size',
           withIndicator && '-with-indicator',
-          iconPosition && `-icon-posotion-${iconPosition}`
+          iconPosition && `-icon-posotion-${iconPosition}`,
         )}
       >
         {children}
@@ -161,11 +165,9 @@ class JInput extends PureComponent<Props> {
         {!errorMessage && infoMessage && <div className='info'>{infoMessage}</div>}
         {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
-        <div className='help'><div className='icon' /></div>
         {isDisabled && (
           <div className='lock'>
             <JIcon
-              size='medium'
               color={color}
               name='padding-lock'
             />

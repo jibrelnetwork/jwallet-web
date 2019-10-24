@@ -2,14 +2,14 @@
 
 import isSafari from './isSafari'
 import flatten from './flatten'
-import flattenWithHelper from './flattenWithHelper'
-import reactRouterBack from './reactRouterBack'
+import flattenWith from './flattenWith'
 import startSessionWatcher from './startSessionWatcher'
 
 export {
   flatten,
-  flattenWithHelper,
+  flattenWith,
   isSafari,
-  reactRouterBack,
   startSessionWatcher,
 }
+
+export { router5BackOrFallbackFunctionCreator } from './router5BackOrFallbackFunctionCreator'

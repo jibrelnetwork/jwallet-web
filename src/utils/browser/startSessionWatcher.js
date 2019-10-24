@@ -1,29 +1,33 @@
-// @flow
+// @flow strict
+
 import uuidv4 from 'uuid/v4'
 import config from 'config'
-import type { Persistor } from 'redux-persist/lib/types'
-import { closeMenuLayout } from 'routes/modules/core'
+import { type Persistor } from 'redux-persist/lib/types'
+
+import * as blocks from 'store/modules/blocks'
+import * as ticker from 'store/modules/ticker'
 
 export default function startSessionWatcher(
   persistor: Persistor,
   dispatch: Function,
-  callback: Function
+  callback: Function,
 ): void {
   const appID = uuidv4()
-
   const tabIDKey = config.sessionIDKey
 
-  if (
-    appID !== localStorage.getItem(tabIDKey)
-  ) {
+  if (appID !== localStorage.getItem(tabIDKey)) {
     localStorage.setItem(tabIDKey, appID)
   }
 
   const listener = window.addEventListener('storage', (event) => {
-    if (event.key === tabIDKey && event.newValue !== appID) {
+    if ((event.key === tabIDKey) && (event.newValue !== appID)) {
       persistor.pause()
-      dispatch(closeMenuLayout())
+
+      dispatch(blocks.syncStop())
+      dispatch(ticker.syncStop())
+
       window.removeEventListener('storage', listener)
+
       callback(false)
     }
   })

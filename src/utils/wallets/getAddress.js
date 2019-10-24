@@ -1,25 +1,20 @@
-// @flow
+// @flow strict
 
-import { t } from 'ttag'
+import { generateAddresses } from 'utils/mnemonic'
+import { WalletInconsistentDataError } from 'errors'
 
-import generateAddresses from 'utils/mnemonic/generateAddresses'
+import { checkMultiAddressType } from '.'
 
-import {
-  getWallet,
-  checkMnemonicType,
-} from '.'
-
-function getAddress(wallets: Wallets, walletId: string): Address {
-  const {
-    type,
-    address,
-    bip32XPublicKey,
-    addressIndex,
-  }: Wallet = getWallet(wallets, walletId)
-
-  if (!checkMnemonicType(type)) {
+export function getAddress({
+  xpub,
+  address,
+  customType,
+  addressIndex,
+  id: walletId,
+}: Wallet): Address {
+  if (!checkMultiAddressType(customType)) {
     if (!address) {
-      throw new Error(t`WalletDataError`)
+      throw new WalletInconsistentDataError({ walletId }, 'wallet does not have address')
     }
 
     return address
@@ -28,13 +23,11 @@ function getAddress(wallets: Wallets, walletId: string): Address {
   const indexStart: number = addressIndex || 0
   const indexEnd: number = indexStart + 1
 
-  if (!bip32XPublicKey) {
-    throw new Error(t`WalletDataError`)
+  if (!xpub) {
+    throw new WalletInconsistentDataError({ walletId }, 'xpub is empty')
   }
 
-  const derivedAddresses: Address[] = generateAddresses(bip32XPublicKey, indexStart, indexEnd)
+  const derivedAddresses: Address[] = generateAddresses(xpub, indexStart, indexEnd)
 
   return derivedAddresses[0]
 }
-
-export default getAddress

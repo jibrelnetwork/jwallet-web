@@ -1,12 +1,10 @@
-// @flow
+// @flow strict
 
-function getShortenedAddress(
+export function getShortenedAddress(
   address: Address,
-  startSymbols: number = 15,
-  finishSymbols: number = 6,
-  splitSymbol: string = '...'
+  startSymbols: number = 10,
+  finishSymbols: number = 10,
+  splitSymbol: string = '\u2026',
 ): string {
   return `${address.substr(0, startSymbols)}${splitSymbol}${address.substr(-1 * finishSymbols)}`
 }
-
-export default getShortenedAddress

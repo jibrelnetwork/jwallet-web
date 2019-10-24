@@ -1,0 +1,37 @@
+@import "styles/colors";
+
+.core {
+  height: 55px;
+  border-bottom: 1px solid $main-black-10;
+  text-align: center;
+}
+
+.button {
+  display: inline-block;
+  position: relative;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  height: 54px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 54px;
+  color: $main-black-40;
+  margin: 0 24px;
+  background-color: transparent;
+
+  &.active {
+    color: $main-blue;
+
+    &::after {
+      content: ' ';
+      position: absolute;
+      display: block;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: $main-blue;
+    }
+  }
+}

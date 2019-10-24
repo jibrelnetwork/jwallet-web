@@ -1,0 +1,64 @@
+@import 'styles/mixins';
+
+.item {
+  @include flex-column-center;
+
+  position: relative;
+  min-width: 64px;
+}
+
+.data {
+  overflow: hidden;
+}
+
+.label {
+  @include ellipsis;
+  @include font(12px, 20px);
+
+  color: $main-black-40;
+}
+
+.body {
+  @include ellipsis;
+  @include font(14px, 22px);
+
+  font-weight: 600;
+  color: $main-black;
+}
+
+.info {
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.arrow-icon,
+.asset-icon {
+  flex-basis: 64px;
+  width: 64px;
+}
+
+.arrow {
+  @include sprite-icon-color($main-black-40);
+
+  transition:
+    transform 0.4s 0s $default-animation,
+    fill 0.4s 0.2s $default-animation;
+  transform: translate(0);
+}
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  padding: 14px 0 16px;
+  justify-content: space-between;
+  background-color: $white;
+
+  &:hover {
+    .arrow {
+      @include sprite-icon-color($main-blue);
+
+      transform: translate(8px);
+    }
+  }
+}

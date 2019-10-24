@@ -1,0 +1,56 @@
+@import 'styles/base';
+@import 'styles/mixins';
+@import 'styles/colors';
+@import 'styles/responsive';
+
+.core {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 0 0 $menu-panel-width;
+  transition: padding-left 0.15s ease-in-out;
+
+  /*
+  @include vertical-tablet {
+    padding: 0;
+    margin-top: 80px;
+    transition: margin-top 0.15s ease-in-out;
+  }
+  */
+}
+
+.minimized {
+  padding: 0 152px;
+
+  /*
+  @include vertical-tablet {
+    padding: 0 16px;
+    margin-top: 24px;
+  }
+  */
+}
+
+.content {
+  @include flex-column;
+
+  flex-grow: 1;
+  max-width: 1200px;
+  padding: 0 40px;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  /*
+  @include vertical-tablet {
+    padding: 0 16px;
+  }
+  */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 130px;
+  background-color: rgba($pale-grey, 0.9);
+}

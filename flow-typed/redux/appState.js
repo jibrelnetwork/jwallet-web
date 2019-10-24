@@ -1,25 +1,38 @@
 // @flow
 
-/* eslint-disable-next-line no-unused-vars */
-import type { Saga, Channel } from 'redux-saga'
+import {
+  // eslint-disable-next-line no-unused-vars
+  type Saga,
+  // eslint-disable-next-line no-unused-vars
+  type Channel,
+} from 'redux-saga'
+
+declare type Router5Route = {
+  +name: string,
+  +params: {
+    [key: string]: any,
+  },
+  +path: string,
+  // TODO: describe meta property
+}
+
+type Router5State = {
+  +route: Router5Route,
+  previousRoute?: Router5Route,
+}
 
 declare type AppState = {
   // wallets
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
-  +walletsImport: WalletsImportState,
-  +walletsBackup: WalletsBackupState,
   +walletsAddresses: WalletsAddressesState,
-  +walletsRenameAddress: WalletsRenameAddressState,
   // networks
-   +networks: NetworksState,
+  +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +digitalAssetsAdd: AddAssetState,
-  +digitalAssetsEdit: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
-  +digitalAssetsSend: DigitalAssetsSendState,
   // blocks
   +blocks: BlocksState,
   // transactions
@@ -28,8 +41,6 @@ declare type AppState = {
   +balances: BalancesState,
   // comments
   +comments: CommentsState,
-  // settings
-  +settings: SettingsState,
   // favorites
   +favorites: FavoritesState,
   // upgrade
@@ -37,5 +48,11 @@ declare type AppState = {
   // ticker
   +ticker: TickerState,
   // router
-  +router: RouterState,
+  +router: Router5State,
+  // password
+  +password: PasswordState,
+  // user
+  +user: UserState,
+  // toasts
+  +toasts: ToastsState,
 }

@@ -1,73 +1,125 @@
-// @flow
+// @flow strict
 
+import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
-import MenuPanel from 'components/MenuPanel'
-import OverlayNotification from 'components/OverlayNotification'
+import { OverlayNotification } from 'components'
+
+import * as blocks from 'store/modules/blocks'
+import * as ticker from 'store/modules/ticker'
+import * as digitalAssets from 'store/modules/digitalAssets'
+
+import styles from './menuLayout.m.scss'
+import { MenuPanel } from './components'
+import { getMenuMeta } from './components/MenuPanel/menuMeta'
+
+type MenuLayoutHandler = () => any
+
+type OwnProps = {|
+  +children: React$Node,
+  +routeName: string,
+|}
 
 type Props = {|
-  +openLayout: () => void,
-  +closeLayout: () => void,
-  +setActive: (Index) => void,
-  +getMoreRequest: () => void,
-  +items: Wallets,
-  +addresses: Address[],
-  +addressNames: AddressNames,
-  +children: React$Node,
-  +activeWalletId: ?WalletId,
-  +fiatCurrency: FiatCurrency,
-  +fiatBalance: number,
+  ...OwnProps,
+  +stopBlocksSync: MenuLayoutHandler,
+  +startBlocksSync: MenuLayoutHandler,
+  +startTickerSync: MenuLayoutHandler,
+  +initDigitalAssets: MenuLayoutHandler,
+  +i18n: I18nType,
   +isConnectionError: boolean,
 |}
 
 class MenuLayout extends Component<Props> {
   componentDidMount() {
-    this.props.openLayout()
+    const {
+      startBlocksSync,
+      startTickerSync,
+      initDigitalAssets,
+      routeName,
+    }: Props = this.props
+
+    startTickerSync()
+    initDigitalAssets()
+
+    /**
+     * Blocks syncing shouldn't be started on pages connected with wallets management
+     * Also, check comment in componentDidUpdate below
+     */
+    if (routeName.indexOf('Wallets') === 0) {
+      return
+    }
+
+    startBlocksSync()
   }
 
   componentWillUnmount() {
-    this.props.closeLayout()
+    this.props.stopBlocksSync()
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    const {
+      stopBlocksSync,
+      startBlocksSync,
+      routeName,
+    }: Props = this.props
+
+    /**
+     * Defining of necessity of start/stop sync better to move in router's meta-info
+     * Current solution is ok, until someone will have problems with routes naming
+     */
+    const isPrevWallets: boolean = (prevProps.routeName.indexOf('Wallets') === 0)
+    const isCurrWallets: boolean = (routeName.indexOf('Wallets') === 0)
+
+    if (!isPrevWallets && isCurrWallets) {
+      stopBlocksSync()
+    } else if (isPrevWallets && !isCurrWallets) {
+      startBlocksSync()
+    }
   }
 
   render() {
     const {
-      setActive,
-      getMoreRequest,
-      items,
-      addresses,
-      addressNames,
+      i18n,
       children,
-      fiatCurrency,
-      activeWalletId,
-      fiatBalance,
+      routeName,
       isConnectionError,
     }: Props = this.props
 
+    const { isMinimized } = getMenuMeta(routeName)
+
     return (
-      <div className='menu-layout'>
-        <div className='aside'>
-          <MenuPanel
-            setActiveAddress={setActive}
-            getMoreAddresses={getMoreRequest}
-            items={items}
-            addresses={addresses}
-            addressNames={addressNames}
-            fiatCurrency={fiatCurrency}
-            activeWalletId={activeWalletId}
-            fiatBalance={fiatBalance}
-          />
-        </div>
-        <div className='content'>
+      <div
+        className={classNames(
+          '__menu-layout',
+          `__page-${routeName.toLowerCase()}`,
+          styles.core,
+          isMinimized && styles.minimized,
+        )}
+      >
+        <MenuPanel routeName={routeName} />
+        <div className={classNames('__menu-layout_content', styles.content)}>
           {children}
           {isConnectionError && (
-            <div className='overlay'>
+            <div className={classNames('__menu-layout_overlay', styles.overlay)}>
               <OverlayNotification
                 color='red'
                 image='screen-error'
                 description={[
-                  t`Internet connection error.`,
-                  t`Try again.`,
+                  i18n._(
+                    'layout.MenuLayout.error.noConnection.description.0',
+                    null,
+                    { defaults: 'Internet connection error.' },
+                  ),
+                  i18n._(
+                    'layout.MenuLayout.error.noConnection.description.1',
+                    null,
+                    { defaults: 'Try again.' },
+                  ),
                 ]}
               />
             </div>
@@ -78,4 +130,21 @@ class MenuLayout extends Component<Props> {
   }
 }
 
-export default MenuLayout
+const mapDispatchToProps = {
+  stopBlocksSync: blocks.syncStop,
+  startBlocksSync: blocks.syncStart,
+  startTickerSync: ticker.syncStart,
+  initDigitalAssets: digitalAssets.init,
+}
+
+const mapStateToProps = () => ({ isConnectionError: false })
+
+const MenuLayoutEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(MenuLayout)
+
+export { MenuLayoutEnhanced as MenuLayout }

@@ -8,7 +8,15 @@ Download and start image:
 docker run -it -p 8080:80 jibrelnetwork/jwallet-web
 ```
 
+Start with storybook:
+
+```bash
+docker run -it --env ENV=demo -p 8080:80 somename
+```
+
 And check it running: [http://localhost:8080]()
+
+For recommended browsers list check out: [@jibrelnetwork/browserslist-config](https://github.com/jibrelnetwork/browserslist-config)
 
 Visit our repository on Docker Hub: https://hub.docker.com/r/jibrelnetwork/jwallet-web/
 

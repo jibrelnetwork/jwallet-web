@@ -1,9 +1,7 @@
-// @flow
+// @flow strict
 
 import checkETH from './checkETH'
 import checkJNT from './checkJNT'
-import parseBalance from './parseBalance'
-import balanceToString from './balanceToString'
 import checkBalanceLoading from './checkBalanceLoading'
 import searchDigitalAssets from './searchDigitalAssets'
 import filterAssetsBalances from './filterAssetsBalances'
@@ -13,11 +11,12 @@ import compareDigitalAssetsByName from './compareDigitalAssetsByName'
 import getDigitalAssetsWithBalance from './getDigitalAssetsWithBalance'
 import compareDigitalAssetsByBalance from './compareDigitalAssetsByBalance'
 
+export { sortAssets } from './sortAssets'
+export { getFiatBalance } from './getFiatBalance'
+
 export {
   checkETH,
   checkJNT,
-  parseBalance,
-  balanceToString,
   checkBalanceLoading,
   searchDigitalAssets,
   filterAssetsBalances,

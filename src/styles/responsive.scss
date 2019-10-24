@@ -1,0 +1,7 @@
+$screen-width-desktop-min: 1024px;
+
+@mixin vertical-tablet {
+  @media (max-width: #{$screen-width-desktop-min - 1px}) {
+    @content;
+  }
+}

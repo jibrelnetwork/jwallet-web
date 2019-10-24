@@ -1,0 +1,15 @@
+@import "styles/colors";
+
+.core {
+  display: flex;
+  text-align: right;
+  flex-direction: column;
+
+  .balance {
+    display: block;
+    color: $main-blue;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+  }
+}

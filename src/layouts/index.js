@@ -1,11 +1,5 @@
-// @flow
+// @flow strict
 
-import CoreLayout from './CoreLayout'
-import MenuLayout from './MenuLayout'
-import WalletsLayout from './WalletsLayout'
+export { MenuLayout } from './MenuLayout/MenuLayout'
+export { StartLayout } from './StartLayout/StartLayout'
 
-export {
-  CoreLayout,
-  MenuLayout,
-  WalletsLayout,
-}

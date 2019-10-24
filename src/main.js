@@ -1,37 +1,31 @@
 // @flow
+
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { syncHistoryWithStore } from 'react-router-redux'
 
-import router from 'routes/index'
-import configureStore from 'store/configureStore'
-import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
+import { router } from 'store/router'
+import { configureStore } from 'store/configureStore'
 
-import './data/lang'
-
-import AppContainer from './AppContainer'
+import {
+  DIMENSIONS,
+  gaSetUserDimension,
+} from 'utils/analytics'
 
 import browsercheck from './browsercheck'
-
-// ========================================================
-// Browser History Setup
-// ========================================================
-const browserHistory = createBrowserHistory()
+import { AppContainer } from './AppContainer'
 
 // ========================================================
 // Store and History Instantiation
 // ========================================================
-// Create redux store and sync with react-router-redux. We have installed the
-// react-router-redux reducer under the routerKey "router" in src/routes/index.js,
-// so we need to provide a custom `selectLocationState` to inform
-// react-router-redux of its location.
+// Create redux store and sync with redux-router5
 const initialState = window.___INITIAL_STATE__
 
-const { store, persistor } = configureStore(initialState, browserHistory)
-
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: state => state.router,
+const {
+  store,
+  persistor,
+} = configureStore({
+  initialState,
+  router,
 })
 
 // ========================================================
@@ -52,12 +46,14 @@ const renderApp = () => {
   browsercheck()
     .then(
       () => {
+        // router starts only after browser check is ok
+        router.start()
+
         const appContainer = (
           <AppContainer
             store={store}
-            routes={router}
-            history={history}
             persistor={persistor}
+            router={router}
           />
         )
 
@@ -65,7 +61,7 @@ const renderApp = () => {
       },
       (err) => {
         console.error(err)
-      }
+      },
     )
     .catch((err) => {
       throw err
@@ -98,7 +94,7 @@ if (!__DEV__) {
     }
 
     // Setup hot module replacement
-    hmr.accept('./routes/index', () => {
+    hmr.accept('./pages/index', () => {
       setTimeout(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
 

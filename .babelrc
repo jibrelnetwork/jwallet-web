@@ -1,9 +1,15 @@
 {
   "plugins": [
-    "transform-export-extensions"
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-transform-runtime", { "regenerator": true }],
+    "macros"
   ],
   "presets": [
-    "react-app",
-    "@babel/flow"
-  ]
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/flow",
+    "@lingui/react"
+  ],
+  "retainLines": true
 }

@@ -1,23 +1,47 @@
 // @flow
 
 import createSagaMiddleware from 'redux-saga'
+
+import { forOwn } from 'lodash-es'
 import { persistStore } from 'redux-persist'
-import { routerMiddleware } from 'react-router-redux'
-import { applyMiddleware, compose, createStore } from 'redux'
+
+import {
+  reduxPlugin,
+  router5Middleware,
+} from 'redux-router5'
+
+import {
+  compose,
+  createStore,
+  applyMiddleware,
+  type Store,
+} from 'redux'
+
+import { type AppAction } from 'store/modules'
 
 import sagas from './sagas'
-import workers from '../workers'
 import middlewares from '../middlewares'
-import { redirect } from '../middlewares/redirect'
 import { makeRootReducer } from './reducers'
+import * as plugins from './plugins'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
+export function configureStore({
+  initialState = {},
+  router,
+}: {
+  initialState: $Shape<AppState>,
+  router: Object,
+}) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, redirect, routerMiddleware(history), ...middlewares]
+  const middleware = [
+    sagaMiddleware,
+    router5Middleware(router),
+    // redirect,
+    ...middlewares,
+  ]
 
   if (__DEV__ && !window.localStorage.hideReduxLogger) {
     const { logger } = require('redux-logger')
@@ -41,23 +65,27 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // Store Instantiation and HMR Setup
   // ======================================================
   const rootReducer = makeRootReducer()
+
   const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
   )
-  const store = createStore(rootReducer, initialState, enhancer)
+
+  const store: Store<AppState, AppAction> = createStore(rootReducer, initialState, enhancer)
   const persistor = persistStore(store)
+  router.usePlugin(reduxPlugin(store.dispatch))
 
   // ======================================================
   // Run sagas
   // ======================================================
-  Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
+  sagas.forEach(saga => sagaMiddleware.run(saga))
 
   // ======================================================
-  // Start workers
+  // Connect plugins
   // ======================================================
-  workers.forEach(worker => worker.run(store))
+  forOwn(plugins, plugin => plugin.connect(store))
 
-  return { store, persistor }
+  return {
+    store,
+    persistor,
+  }
 }
-
-export default configureStore

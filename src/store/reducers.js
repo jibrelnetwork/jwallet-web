@@ -1,53 +1,46 @@
-// @flow
+// @flow strict
 
-import { combineReducers, type Reducer } from 'redux'
-import { routerReducer as router } from 'react-router-redux'
+import {
+  combineReducers,
+  type Reducer,
+} from 'redux'
 
-import type { AppAction } from 'routes'
+import { router5Reducer as router } from 'redux-router5'
 
-import blocks from 'routes/modules/blocks'
-import ticker from 'routes/modules/ticker'
-import balances from 'routes/modules/balances'
-import comments from 'routes/modules/comments'
-import networks from 'routes/modules/networks'
-import upgrade from 'routes/Upgrade/modules/upgrade'
-import transactions from 'routes/modules/transactions'
-import settings from 'routes/Settings/modules/settings'
-import favorites from 'routes/Favorites/modules/favorites'
+import blocks from 'store/modules/blocks'
+import ticker from 'store/modules/ticker'
+import balances from 'store/modules/balances'
+import comments from 'store/modules/comments'
+import networks from 'store/modules/networks'
+import transactions from 'store/modules/transactions'
+import favorites from 'store/modules/favorites'
 
 // digital assets
-import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import digitalAssetsAdd from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
-import digitalAssetsEdit from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
-import digitalAssetsSend from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
-import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
-import digitalAssetsManage from 'routes/DigitalAssets/routes/Manage/modules/digitalAssetsManage'
+import digitalAssets from 'store/modules/digitalAssets'
+import digitalAssetsAdd from 'store/modules/addAsset'
 
 // wallets
-import wallets from 'routes/Wallets/modules/wallets'
-import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
-import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
-import walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
-import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/walletsRenameAddress'
+import wallets from 'store/modules/wallets'
+import walletsCreate from 'store/modules/walletsCreate'
+import walletsAddresses from 'store/modules/walletsAddresses'
 
-import persistReducers from './persistReducers'
+// user
+import user from 'store/modules/user'
 
-export function makeRootReducer() {
+// toasts
+import toasts from 'store/modules/toasts'
+
+import { type AppAction } from 'store/modules'
+import { password } from 'store/modules/password'
+
+import { persistReducers } from './persistReducers'
+
+export function makeRootReducer(): Reducer<AppState, AppAction> {
   const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     router,
-    upgrade,
-    // wallets
+    toasts,
     walletsCreate,
-    walletsImport,
-    walletsBackup,
-    walletsRenameAddress,
-    // digitalAssets
     digitalAssetsAdd,
-    digitalAssetsEdit,
-    digitalAssetsSend,
-    digitalAssetsGrid,
-    digitalAssetsManage,
     ...persistReducers({
       blocks,
       ticker,
@@ -55,11 +48,12 @@ export function makeRootReducer() {
       balances,
       comments,
       networks,
-      settings,
+      password,
       favorites,
       transactions,
       digitalAssets,
       walletsAddresses,
+      user,
     }),
   })
 

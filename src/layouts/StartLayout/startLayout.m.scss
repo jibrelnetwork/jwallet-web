@@ -1,0 +1,29 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+
+  position: relative;
+  min-height: 100vh;
+
+  &.has-logo {
+    padding: 64px 0 176px;
+  }
+}
+
+.logo {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  margin: 0 64px 64px;
+}
+
+.main {
+  @include flex-column-center;
+
+  flex-grow: 1;
+  margin: 0 auto;
+  padding: 0 64px;
+  max-width: 544px + 2 * 64px;
+  width: 100%;
+}

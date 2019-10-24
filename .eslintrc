@@ -1,6 +1,6 @@
 {
   "extends": [
-    "jibrelnetwork"
+    "@jibrelnetwork"
   ],
   "globals": {
     "Modernizr": false,
@@ -11,27 +11,28 @@
     "__ROPSTEN_RPC_ADDR__": false,
     "__ROPSTEN_RPC_PORT__": false,
     "__DEFAULT_TICKER_API__": false,
-    "__DEFAULT_BLOCKEXPLORER_API__": false
+    "__DEFAULT_BLOCKEXPLORER_API__": false,
+    "_": false,
+    "OwnPropsEmpty": false
   },
   "rules": {
-    "no-use-before-define": 0,
-    "fp/no-mutation": [2, {
-      "commonjs": true,
-      "allowThis": true,
-      "exceptions": [
-        { "property": "onmessage" },
-        { "property": "src" },
-        { "property": "type" },
-        { "property": "href" },
-        { "property": "innerHTML" },
-        { "property": "postMessage" },
-        { "property": "defaultProps" },
-        { "property": "asyncReducers" },
-        { "property": "childContextTypes" },
-        { "property": "captchaCallback" },
-        { "property": "captchaErrorCallback" },
-        { "property": "captchaExpiredCallback" }
-      ]
-    }]
+    "unicorn/catch-error-name": 0,
+    "unicorn/prevent-abbreviations": 0,
+    "import/no-cycle": 0,
+    "operator-linebreak": 0,
+    "react/destructuring-assignment": 0,
+    "react/sort-comp": 0,
+    "implicit-arrow-linebreak": 0,
+    "react/require-default-props": 0,
+    "unicorn/prefer-includes": 0,
+    "unicorn/no-unreadable-array-destructuring": 0,
+    "unicorn/prefer-node-append": 0,
+    "react/no-access-state-in-setstate": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "import/no-useless-path-segments": 0,
+    "lines-between-class-members": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-tag-spacing": 0,
+    "react/jsx-wrap-multilines": 0
   }
 }

@@ -1,0 +1,38 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  max-width: 576px;
+  padding: 16px;
+  min-height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.icon {
+  @include sprite-icon-color($main-black-60);
+
+  margin-bottom: 32px;
+}
+
+.title {
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: $main-black;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+  margin-bottom: 32px;
+}
+
+.button {
+  max-width: 160px;
+  height: 48px;
+}

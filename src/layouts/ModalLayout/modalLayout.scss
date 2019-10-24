@@ -1,9 +1,0 @@
-.modal-layout {
-  all: initial;
-
-  @include flex-column-center;
-
-  width: calc(100vw - #{$menu-panel-width});
-  height: 100vh;
-  background-color: $white;
-}

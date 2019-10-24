@@ -1,6 +1,9 @@
 // @flow
 
-import { addLocale, useLocale } from 'ttag'
+import {
+  addLocale,
+  useLocale,
+} from 'ttag'
 
 import translationEn from './en.json'
 

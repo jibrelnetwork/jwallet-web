@@ -1,5 +1,5 @@
-import { pure } from 'recompose'
+// @flow
 
 import JTooltip from './JTooltip'
 
-export default pure(JTooltip)
+export default JTooltip

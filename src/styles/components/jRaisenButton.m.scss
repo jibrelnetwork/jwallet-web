@@ -1,0 +1,105 @@
+@import "styles/mixins";
+
+.j-raised-button {
+  all: initial;
+
+  @include box;
+  @include hover-animation;
+  @include flex-row-center;
+
+  height: 48px;
+  padding: 0 25px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+
+  &.-wide {
+    height: 64px;
+    width: 100%;
+  }
+
+  &.-loading,
+  &:disabled {
+    cursor: default;
+  }
+
+  > .label {
+    display: inline-block;
+    line-height: 1;
+    margin-bottom: -2px;
+  }
+
+  &.-blue {
+    background-color: $blue-two;
+    box-shadow: 0 3px 6px rgba($blue, 0.33);
+
+    &:disabled {
+      background-color: $blue-three;
+      box-shadow: none;
+
+      > .label {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &.-white {
+    background-color: $white;
+
+    &.-loading {
+      background-color: $blue;
+
+      &.-hover-dark {
+        background-color: $white;
+      }
+    }
+
+    &:disabled {
+      background-color: $blue-three;
+
+      &.-hover-dark {
+        background-color: rgba($white, 0.1);
+      }
+
+      > .label {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: $bright-sky-blue;
+
+    &.-hover-dark {
+      background-color: rgba($white, 0.8);
+    }
+
+    &.-blue {
+      &.-loading {
+        background-color: $blue-two;
+      }
+
+      &:disabled {
+        background-color: $blue-three;
+      }
+    }
+
+    &.-white {
+      &.-loading {
+        background-color: $blue;
+
+        &.-hover-dark {
+          background-color: $white;
+        }
+      }
+
+      &:disabled {
+        background-color: $blue-three;
+      }
+    }
+  }
+
+  > .icon {
+    margin-right: 10px;
+  }
+}

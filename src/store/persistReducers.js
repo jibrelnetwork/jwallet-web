@@ -1,26 +1,25 @@
-// @flow
+// @flow strict
 
 import storage from 'localforage'
 import { persistReducer } from 'redux-persist'
-
-import type { Reducer } from 'redux'
-import type { AppAction } from 'routes'
-import type { PersistConfig } from 'redux-persist/lib/types.js.flow'
+import { type Reducer } from 'redux'
+import { type PersistConfig } from 'redux-persist/lib/types.js.flow'
 
 type PersistableReducerName =
+  'user' |
   'blocks' |
   'ticker' |
   'wallets' |
   'balances' |
   'comments' |
   'networks' |
-  'settings' |
+  'password' |
   'favorites' |
   'transactions' |
   'digitalAssets' |
   'walletsAddresses'
 
-type PersistableReducer = Reducer<any, AppAction>
+type PersistableReducer = Reducer<any, any>
 type PersistableReducers = { [PersistableReducerName]: ?PersistableReducer }
 
 function persistConfig(reducerName: PersistableReducerName): PersistConfig {
@@ -35,10 +34,10 @@ function getPersistableReducer(
   name: PersistableReducerName,
   reducer: ?PersistableReducer,
 ): ?PersistableReducer {
-  return reducer && persistReducer/* :: < any, AppAction > */(persistConfig(name), reducer)
+  return reducer && persistReducer/* :: < any, any > */(persistConfig(name), reducer)
 }
 
-function persistReducers(reducers: PersistableReducers) {
+export function persistReducers(reducers: PersistableReducers) {
   const persistableReducers: PersistableReducers = Object.keys(reducers).reduce((
     result: PersistableReducers,
     reducerName: PersistableReducerName,
@@ -58,5 +57,3 @@ function persistReducers(reducers: PersistableReducers) {
 
   return persistableReducers
 }
-
-export default persistReducers

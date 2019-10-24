@@ -1,6 +1,7 @@
 // @flow
 
 import flattenDigitalAssets from 'utils/digitalAssets/flattenDigitalAssets'
+import { DigitalAssetNotFoundError } from 'errors'
 
 export function selectDigitalAssets(state: AppState): DigitalAssetsState {
   return state.digitalAssets
@@ -28,6 +29,19 @@ export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress):
   ): boolean => (blockchainParams.address.toLowerCase() === assetAddressLower))
 }
 
+export function selectDigitalAssetOrThrow(
+  state: AppState,
+  assetAddress: AssetAddress,
+): DigitalAsset {
+  const asset = selectDigitalAsset(state, assetAddress)
+
+  if (!asset) {
+    throw new DigitalAssetNotFoundError({ address: assetAddress })
+  }
+
+  return asset
+}
+
 export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
   const items: DigitalAssets = selectDigitalAssetsItems(state)
   const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
@@ -42,26 +56,6 @@ export function selectCustomDigitalAssets(state: AppState): DigitalAsset[] {
   return flattenedItems.filter(({ isCustom }: DigitalAsset): boolean => !!isCustom)
 }
 
-export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterOptions {
-  return state.digitalAssetsGrid.filter
-}
-
-export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppState): string {
-  return digitalAssetsGrid.searchQuery
-}
-
-export function selectDigitalAssetsManageSearchQuery({ digitalAssetsManage }: AppState): string {
-  return digitalAssetsManage.searchQuery
-}
-
 export function selectAddAsset(state: AppState): AddAssetState {
   return state.digitalAssetsAdd
-}
-
-export function selectEditAsset(state: AppState): EditAssetState {
-  return state.digitalAssetsEdit
-}
-
-export function selectDigitalAssetsSend(state: AppState): DigitalAssetsSendState {
-  return state.digitalAssetsSend
 }

@@ -1,0 +1,65 @@
+@import 'styles/colors';
+
+.core {
+  position: relative;
+}
+
+.label {
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid $main-black-10;
+  margin-bottom: 8px;
+  overflow: hidden;
+  flex-direction: column;
+
+  .title {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 28px;
+    color: $main-black-40;
+  }
+
+  .mask {
+    position: absolute;
+    left: 0;
+    top: 28px;
+    z-index: 1;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+
+    .masked-value {
+      opacity: 0;
+      margin-right: 6px;
+    }
+
+    .masked-unit {
+      color: $main-black-40;
+    }
+  }
+
+  .input {
+    position: relative;
+    border: none;
+    -webkit-appearance: none;
+    color: $main-black;
+    z-index: 2;
+    padding: 0 0 6px;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+    background: transparent;
+  }
+}
+
+.field-message {
+  margin-bottom: 15px;
+}
+
+.error {
+  .title {
+    color: $main-red;
+  }
+}

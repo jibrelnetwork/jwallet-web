@@ -1,0 +1,16 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+
+  min-height: 100vh;
+  justify-content: center;
+  padding: $page-header-height 0;
+}
+
+.form {
+  @include flex-column-center;
+
+  width: 544px;
+  margin: 0 auto;
+}

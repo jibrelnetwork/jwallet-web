@@ -1,10 +1,3 @@
-import getAgreementValue from './getAgreementValue'
-import setAgreementValue from './setAgreementValue'
-import checkAgreements from './checkAgreements'
+// @flow
 
-export {
-  getAgreementValue,
-  setAgreementValue,
-  checkAgreements,
-}
-
+export { checkAgreements } from './checkAgreements'

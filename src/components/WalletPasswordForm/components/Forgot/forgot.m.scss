@@ -1,0 +1,40 @@
+@import 'styles/mixins';
+
+.core {
+  position: absolute;
+  bottom: 90px;
+}
+
+.overlay {
+  z-index: 11;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $pale-grey;
+}
+
+.info {
+  @include flex-column-center;
+
+  height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+}
+
+.icon {
+  @include sprite-icon-color($main-black-60);
+}
+
+.back {
+  display: inline-flex;
+  width: auto;
+  min-width: 160px;
+  margin-top: 16px;
+  align-self: center;
+}
+
+.forgot {
+  color: $main-blue;
+}

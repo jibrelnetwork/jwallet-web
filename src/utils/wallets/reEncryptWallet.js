@@ -1,42 +1,45 @@
-// @flow
+// @flow strict
 
-import { t } from 'ttag'
-
-import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import config from 'config'
+import { leftPad } from 'utils/formatters'
 
 import {
   decryptData,
   encryptData,
 } from 'utils/encryption'
 
-function reEncryptWallet(
+import {
+  checkReadOnlyType,
+  checkMultiAddressType,
+} from '.'
+
+export function reEncryptWallet(
   wallet: Wallet,
   internalKey: Uint8Array,
-  encryptionType: string,
   internalKeyNew: Uint8Array,
-  encryptionTypeNew: string,
 ): Wallet {
   const {
-    type,
     encrypted,
-    isReadOnly,
+    customType,
   }: Wallet = wallet
 
-  if (isReadOnly) {
+  if (checkReadOnlyType(customType)) {
     return wallet
   }
 
-  if (checkMnemonicType(type) && encrypted.mnemonic && encrypted.passphrase) {
-    const mnemonic: string = decryptData({
-      encryptionType,
+  if (checkMultiAddressType(customType)) {
+    const mnemonic: ?string = encrypted.mnemonic && decryptData({
       key: internalKey,
       data: encrypted.mnemonic,
-    })
+    }).trim()
 
-    const passphrase: string = decryptData({
-      encryptionType,
+    const xprv: ?string = encrypted.xprv && decryptData({
       key: internalKey,
-      // $FlowFixMe
+      data: encrypted.xprv,
+    }).trim()
+
+    const passphrase: ?string = encrypted.passphrase && decryptData({
+      key: internalKey,
       data: encrypted.passphrase,
     })
 
@@ -44,39 +47,44 @@ function reEncryptWallet(
       ...wallet,
       encrypted: {
         ...encrypted,
-        mnemonic: encryptData({
-          data: mnemonic,
+        mnemonic: !mnemonic ? null : encryptData({
+          data: leftPad(
+            mnemonic,
+            ' ',
+            config.encryptedMnemonicLength,
+          ),
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
-        passphrase: encryptData({
+        xprv: !xprv ? null : encryptData({
+          data: xprv,
+          key: internalKeyNew,
+        }),
+        /**
+         * passphrase could be empty string in case of 'mnemonic' type
+         * but it should be null in case of 'xprv' type
+         * so we should use strict equal comparison with null
+         */
+        passphrase: (passphrase === null) || (passphrase === undefined) ? null : encryptData({
           data: passphrase,
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
       },
     }
-  } else if (!checkMnemonicType(type) && encrypted.privateKey) {
-    const privateKey: string = decryptData({
-      encryptionType,
+  } else {
+    const privateKey: ?string = encrypted.privateKey && decryptData({
       key: internalKey,
       data: encrypted.privateKey,
-    })
+    }).trim()
 
     return {
       ...wallet,
       encrypted: {
         ...encrypted,
-        privateKey: encryptData({
+        privateKey: !privateKey ? null : encryptData({
           data: privateKey,
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
       },
     }
   }
-
-  throw new Error(t`WalletDataError`)
 }
-
-export default reEncryptWallet

@@ -1,0 +1,37 @@
+@import "styles/mixins";
+
+.core {
+  position: relative;
+  display: flex;
+  padding: 0 16px;
+  align-items: center;
+  height: 100%;
+}
+
+.icon {
+  display: inline-flex;
+  margin-right: 16px;
+}
+
+.wrap {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.title {
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+  font-weight: 600;
+}
+
+.description {
+  @include ellipsis;
+
+  display: block;
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+  max-width: 440px;
+}

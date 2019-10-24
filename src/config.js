@@ -115,11 +115,6 @@ const config: AppConfig = {
   blockExplorerUILink: 'etherscan.io',
 
   /**
-   * supported languages
-   */
-  supportedLanguages: ['en', 'ko', 'zh', 'ja'],
-
-  /**
    * number of addresses derived from bip32 extended public key
    */
   mnemonicAddressesCount: 4,
@@ -132,7 +127,7 @@ const config: AppConfig = {
   /**
    * timeout before confirming of delete wallet action
    */
-  deleteConfirmTimeout: 30,
+  deleteConfirmTimeout: __DEV__ ? 3 : 30,
 
   latestBlockSyncTimeout: 30 * ONE_SECOND,
 
@@ -141,6 +136,8 @@ const config: AppConfig = {
   processingBlockWaitTimeout: 1 * ONE_SECOND,
 
   syncTransactionsTimeout: 10 * ONE_SECOND,
+
+  mediumRangeRequestTimeout: ONE_SECOND,
 
   maxBlocksPerTransactionsRequest: 200 * 1000,
 
@@ -160,33 +157,17 @@ const config: AppConfig = {
 
   mnemonicWalletType: 'mnemonic',
 
-  encryptedDataLength: 120,
-
-  defaultSaltBytesCount: 32,
-
-  defaultScryptParams: {
-    /**
-     * 2 ** 18 - complexity like geth
-     * 2 ** 14 - recommended Scrypt complexity
-     */
-    N: __DEV__ ? 2 ** 14 : 2 ** 18,
-    r: 8,
-    p: 1,
-  },
-
-  defaultEncryptionType: 'nacl.secretbox',
-
-  defaultDerivationKeyLength: 32,
-
-  defaultRandomBufferLength: 32,
-
   fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 
   sessionIDKey: 'jwallet.activeTab',
 
-  minPasswordStrengthScore: 3,
-
   messageCopyTimeout: 2000,
+
+  cancelAddress: '0x000000000000000000000063616E63656c6c6564',
+
+  encryptedMnemonicLength: 120,
+
+  storageVersion: 1,
 }
 
 export default config

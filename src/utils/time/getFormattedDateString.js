@@ -1,24 +1,30 @@
 // @flow
 
-import { t } from 'ttag'
+type GetFormattedDateStringInput = Date | string | number
 
+type TokensData = {|
+  +usedTokens: string[],
+  +str: string,
+|}
+
+// FIXME I18N: use Intl.DateTimeFormat
 const MONTHS = [
-  t`January`,
-  t`February`,
-  t`March`,
-  t`April`,
-  t`May`,
-  t`June`,
-  t`July`,
-  t`August`,
-  t`Septemner`,
-  t`October`,
-  t`November`,
-  t`December`,
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 
 function getFormattedDateString(
-  dateObj: Date | string | number,
+  dateObj: GetFormattedDateStringInput,
   format: string = 'hh:mm MM/DD/YYYY',
   isUTC: boolean = false,
 ): string {
@@ -72,16 +78,14 @@ function getFormattedDateString(
       }
 
       return result
-    }, { usedTokens: [], str: format })
+    }, {
+      usedTokens: [],
+      str: format,
+    })
     /**
      * usedTokens not needed now, so return just result str
      */
     .str
-}
-
-type TokensData = {
-  +usedTokens: Array<string>,
-  +str: string,
 }
 
 export default getFormattedDateString

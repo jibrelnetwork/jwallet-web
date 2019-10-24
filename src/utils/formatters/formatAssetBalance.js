@@ -1,15 +1,22 @@
 // @flow
 
-import { divDecimals, formatBalance } from 'utils/numbers'
-import { checkETH } from 'utils/digitalAssets'
+import checkETH from 'utils/digitalAssets/checkETH'
 
-export default function formatAssetBalance(
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
+
+import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
+
+export function formatAssetBalance(
   asset: AssetAddress,
-  balance: BigNumber | string | number | void,
+  balance: ToBigNumberValue,
   decimals?: number = 18,
+  symbol?: ?string = null,
 ): string {
-  return formatBalance(
+  return `${formatBalance(
     divDecimals(balance, decimals),
     checkETH(asset) ? 4 : 2,
-  )
+  )}${symbol ? `\u00A0${symbol}` : ''}`
 }

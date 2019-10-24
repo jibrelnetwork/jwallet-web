@@ -1,4 +1,11 @@
-import { getAgreementValue } from 'utils/agreements'
+// @flow strict
+
+// import { getAgreementValue } from 'utils/agreements'
+
+type GAException = {|
+  +exDescription?: string,
+  +exFatal?: boolean,
+|}
 
 const REPORTED_ONCE = {}
 
@@ -32,26 +39,37 @@ const reportOnce = (message) => {
 
 // We pass parameters directly to external library function, so:
 // eslint-disable-next-line fp/no-rest-parameters
-export const ga = (...args) => {
-  if (getAgreementValue('consentTrackingCookies')) {
-    try {
-      window.ga(...args)
-    } catch (err) {
-      reportOnce('Google Analytics is not available')
-    }
+export const ga = (...args: any[]) => {
+  // if (getAgreementValue('consentTrackingCookies')) {
+  try {
+    window.ga(...args)
+  } catch (err) {
+    reportOnce('Google Analytics is not available')
   }
+  // }
 }
 
-export const gaSendPageView = (location) => {
+export const gaSendPageView = (location: string) => {
   ga('send', 'pageview', location)
 }
 
 // eslint-disable-next-line fp/no-rest-parameters
-export const gaSendEvent = (...args) => {
+export const gaSendEvent = (...args: any[]) => {
   ga('send', 'event', ...args)
 }
 
-export const gaSetUserMetric = (metric, value) => {
+export const gaSendException = (gaException: GAException) => {
+  ga(
+    'send',
+    'exception',
+    gaException,
+  )
+}
+
+export const gaSetUserMetric = (
+  metric: string,
+  value: string,
+) => {
   if (!metric) {
     reportOnce('You tried to set undefined metric')
   } else {
@@ -59,7 +77,10 @@ export const gaSetUserMetric = (metric, value) => {
   }
 }
 
-export const gaSetUserDimension = (dimension, text) => {
+export const gaSetUserDimension = (
+  dimension: string,
+  text: string,
+) => {
   if (!dimension) {
     reportOnce('You tried to set undefined dimension')
   } else {

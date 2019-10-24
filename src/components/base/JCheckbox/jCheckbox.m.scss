@@ -1,0 +1,64 @@
+@import 'styles/mixins';
+
+.core {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 24px;
+  height: 24px;
+}
+
+.field {
+  position: relative;
+  display: block;
+  padding-left: 40px;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+
+  .on,
+  .off {
+    @include property-transition(fill, stroke, opacity);
+  }
+
+  .off {
+    @include sprite-icon-color($main-black-20);
+
+    opacity: 1;
+  }
+
+  .on {
+    @include sprite-icon-color($main-blue);
+
+    opacity: 0;
+    transition: opacity 0.3s ease 0s;
+  }
+
+  &:hover {
+    .off {
+      @include sprite-icon-color($main-black-50);
+    }
+  }
+}
+
+.input {
+  display: none;
+
+  &:checked ~ .off {
+    opacity: 0;
+  }
+
+  &:checked ~ .on {
+    opacity: 1;
+  }
+}
+
+.link {
+  margin-left: 5px;
+  margin-right: 5px;
+}

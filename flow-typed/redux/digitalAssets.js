@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 declare type DigitalAssetsSortField = 'name' | 'balance'
 
@@ -42,17 +42,6 @@ declare type DigitalAssetBlockchainParams = {|
   +deploymentBlockNumber?: number,
 |}
 
-/*
-declare type DigitalAsset = {|
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: Decimals,
-  +isCustom?: boolean,
-  +isActive?: boolean,
-|}
-*/
-
 declare type DigitalAsset = {|
   +assetPage?: DigitalAssetPage,
   +display?: DigitalAssetDisplay,
@@ -62,23 +51,16 @@ declare type DigitalAsset = {|
   +symbol: string,
   +isCustom?: boolean,
   +isActive?: boolean,
+  +hasDefaultFields?: boolean,
 |}
 
 declare type DigitalAssetWithBalance = {|
+  ...DigitalAsset,
   +balance: ?Balance,
-  // +fiatBalance: ?string,
-  +assetPage: DigitalAssetPage,
-  +display: DigitalAssetDisplay,
-  +priceFeed: DigitalAssetPriceFeed,
-  +blockchainParams: DigitalAssetBlockchainParams,
-  +name: string,
-  +symbol: string,
-  +isCustom?: boolean,
-  +isActive?: boolean,
 |}
 
 declare type DigitalAssets = {
-  [AssetAddress]: ?DigitalAsset
+  [AssetAddress]: ?DigitalAsset,
 }
 
 declare type DigitalAssetsPersist = {|
@@ -92,6 +74,15 @@ declare type DigitalAssetsState = {|
 declare type DigitalAssetsGridState = {|
   +filter: DigitalAssetsFilterOptions,
   +searchQuery: string,
+|}
+
+declare type SendTransactionProps = {|
+  +value: BigNumber,
+  +gasLimit?: BigNumber,
+  +gasPrice?: BigNumber,
+  +to: Address,
+  +privateKey: string,
+  +nonce?: number,
 |}
 
 /**
@@ -114,33 +105,10 @@ declare type AddAssetState = {|
 |}
 
 /**
- * Edit custom digital asset
- */
-declare type EditAssetState = {|
-  +formFields: EditAssetFormFields,
-  +invalidFields: EditAssetFormFields
-|}
-
-/**
  * Digital assets manage
  */
 declare type DigitalAssetsManageState = {|
   +searchQuery: string,
-|}
-
-/**
- * Send asset
- */
-declare type DigitalAssetsSendFormStepIndex = 0
-declare type DigitalAssetsSendConfirmStepIndex = 1
-
-declare type DigitalAssetsSendStepIndex =
-  DigitalAssetsSendFormStepIndex |
-  DigitalAssetsSendConfirmStepIndex
-
-declare type DigitalAssetsSendSteps = {|
-  +FORM: DigitalAssetsSendFormStepIndex,
-  +CONFIRM: DigitalAssetsSendConfirmStepIndex,
 |}
 
 declare type TXPriorityKey = 'LOW' | 'NORMAL' | 'HIGH' | 'CUSTOM'
@@ -151,53 +119,4 @@ declare type TXPriorityData = {|
   +title: string,
   +icon: string,
   +description: string,
-|}
-
-declare type DigitalAssetsSendFormFields = {|
-  +nonce: string,
-  +amount: string,
-  +comment: string,
-  +gasLimit: string,
-  +gasPrice: string,
-  +password: string,
-  +amountFiat: string,
-  +recipient: Address,
-  +assetAddress: AssetAddress,
-|}
-
-declare type GasValues = {|
-  gasPrice: ?string,
-  gasLimit: ?string,
-|}
-
-declare type DigitalAssetsSendState = {|
-  +formFieldValues: DigitalAssetsSendFormFields,
-  +formFieldErrors: DigitalAssetsSendFormFields,
-  +formFieldWarnings: DigitalAssetsSendFormFields,
-  +priority: TXPriorityKey,
-  +currentStep: DigitalAssetsSendStepIndex,
-  +isLoading: boolean,
-  +requestedGasValues: GasValues,
-  +finalGasValues: GasValues,
-  +sendAssetError: string,
-  +isPotentiallyFail: boolean,
-|}
-
-declare type SendTransactionProps = {|
-  +value: BigNumber,
-  gasLimit?: BigNumber,
-  gasPrice?: BigNumber,
-  +to: Address,
-  +privateKey: string,
-  nonce?: number,
-|}
-
-declare type DigitalAssetsSendRouteParams = {|
-  +to?: string,
-  +gas?: string,
-  +nonce?: string,
-  +asset?: string,
-  +amount?: string,
-  +comment?: string,
-  +gasPrice?: string,
 |}

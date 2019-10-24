@@ -1,30 +1,235 @@
 const path = require('path');
+const webpack = require('webpack')
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 
 const srcPath = path.resolve(__dirname, '..', 'src')
 
-module.exports = (baseConfig) => {
-  baseConfig.module.rules.push({
-    test: /\.s?css$/,
-    use: [
-      'style-loader',
+module.exports = async ({ config: baseConfig }, env) => {
+  baseConfig.output.globalObject = 'this'
+
+  const newRules = [{
+    oneOf: [
+      // SCSS modules loader
       {
-        loader: 'css-loader',
-        options: {
-          importLoaders: 2,
-        }
+        test: /\.m\.scss$/,
+        include: path.resolve('src'),
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              url: true,
+              import: false,
+              modules: 'local',
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              camelCase: true,
+              importLoaders: 2,
+              sourceMap: true,
+            },
+          },
+          {
+            // Options for PostCSS as we reference these options twice
+            // Adds vendor prefixing based on your specified browser support in
+            // package.json
+            loader: require.resolve('postcss-loader'),
+            options: {
+              // Necessary for external CSS imports to work
+              // https://github.com/facebook/create-react-app/issues/2677
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 11',
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ],
+              sourceMap: true,
+            },
+          },
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.resolve('src'),
+              ],
+            },
+          },
+        ].filter(Boolean),
       },
-      'sass-loader'
-    ],
-  })
-  baseConfig.module.rules.push({
+
+      // SCSS loader
+      {
+        test: /\.scss$/,
+        include: path.resolve('src'),
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 2,
+              sourceMap: true,
+            },
+          },
+          {
+            // Options for PostCSS as we reference these options twice
+            // Adds vendor prefixing based on your specified browser support in
+            // package.json
+            loader: require.resolve('postcss-loader'),
+            options: {
+              // Necessary for external CSS imports to work
+              // https://github.com/facebook/create-react-app/issues/2677
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 11',
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ],
+              sourceMap: true,
+            },
+          },
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.resolve('src'),
+              ],
+            },
+          },
+        ].filter(Boolean),
+      },
+
+      // Worker loader
+      {
+        test: /worker\.js$/,
+        use: [
+          require.resolve('worker-loader'),
+          require.resolve('babel-loader'),
+        ],
+      },
+    ]
+  },
+  {
     test: /\.svg$/,
-    loader: 'file-loader',
-    options: {
-      name: 'static/media/[name].[hash:8].[ext]',
+    include: [
+      path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+      path.resolve(srcPath, 'public/assets/tokens'),
+    ],
+    use: [
+      {
+        loader: 'svg-sprite-loader',
+        options: {
+          extract: true,
+          spriteFilename: '[hash:8].sprite.svg',
+          publicPath: './static/media/',
+        },
+      },
+      {
+        loader: 'svgo-loader',
+        options: {
+          plugins: [
+            { removeTitle: true },
+            { removeDoctype: true },
+            { removeComments: true },
+            { collapseGroups: true },
+            { convertPathData: true },
+            { removeDimensions: true },
+            { convertTransform: true },
+            { removeUselessDefs: true },
+            { removeUselessStrokeAndFill: true },
+            { removeNonInheritableGroupAttrs: true },
+            { removeStyleElement: true },
+            { removeAttrs: { attrs: '(fill|stroke)' } },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    test: /\.svg$/,
+    include: [
+      path.resolve(srcPath, 'public/assets/icons/sprite-colored')
+    ],
+    use: [
+      {
+        loader: 'svg-sprite-loader',
+        options: {
+          extract: true,
+          spriteFilename: '[hash:8].sprite-colored.svg',
+          publicPath: './static/media/',
+        },
+      },
+      {
+        loader: 'svgo-loader',
+        options: {
+          plugins: [
+            { removeTitle: true },
+            { removeDoctype: true },
+            { removeComments: true },
+            { collapseGroups: true },
+            { convertPathData: true },
+            { removeDimensions: true },
+            { convertTransform: true },
+            { removeUselessDefs: true },
+            { removeUselessStrokeAndFill: true },
+            { removeNonInheritableGroupAttrs: true },
+            { removeStyleElement: true }
+          ],
+        },
+      },
+    ],
+  },
+]
+
+  baseConfig.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.BUILD_NUMBER': 'dev',
+      '__DEV__': true,
+      '__PROD__': false,
+      '__DEFAULT_TICKER_API__': '{}',
+      '__DEFAULT_BLOCKEXPLORER_API__': '{}',
+    })
+  )
+
+  baseConfig.plugins.push(
+    new SpriteLoaderPlugin()
+  )
+
+  baseConfig.resolve.modules = [
+    ...baseConfig.resolve.modules,
+    srcPath
+  ]
+
+  baseConfig.module.rules = [
+    ...newRules,
+    ...baseConfig.module.rules,
+  ].map(loader => {
+    if (loader.loader && loader.loader.indexOf('file-loader')) {
+      loader.exclude = [
+        path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+        path.resolve(srcPath, 'public/assets/icons/sprite-colored'),
+        path.resolve(srcPath, 'public/assets/tokens'),
+      ]
     }
+
+    return loader
   })
 
-  baseConfig.resolve.modules = [srcPath, 'node_modules']
+  baseConfig.externals = ['net', 'fs', 'tls']
 
   return baseConfig
-};
+}

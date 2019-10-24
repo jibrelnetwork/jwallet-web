@@ -1,9 +1,7 @@
 // @flow
 
-import zxcvbn from 'zxcvbn'
+export async function checkPasswordStrength(password: string): Promise<PasswordResult> {
+  const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn')
 
-function checkPasswordStrength(password: string): PasswordResult {
   return zxcvbn(password)
 }
-
-export default checkPasswordStrength

@@ -6,17 +6,19 @@ import {
 } from 'utils/address'
 
 import {
+  checkXkeyValid,
   checkMnemonicValid,
-  checkBip32XPublicKeyValid,
 } from 'utils/mnemonic'
 
-function getTypeByInput(data: ?string): ?WalletCustomType {
+export function getTypeByInput(data: ?string): ?WalletCustomType {
   if (!data) {
     return null
   } else if (checkMnemonicValid(data)) {
     return 'mnemonic'
-  } else if (checkBip32XPublicKeyValid(data)) {
-    return 'bip32Xpub'
+  } else if (checkXkeyValid(data, 'prv')) {
+    return 'xprv'
+  } else if (checkXkeyValid(data, 'pub')) {
+    return 'xpub'
   } else if (checkPrivateKeyValid(data)) {
     return 'privateKey'
   } else if (checkAddressValid(data) || checkAddressValid(`0x${data}`)) {
@@ -25,5 +27,3 @@ function getTypeByInput(data: ?string): ?WalletCustomType {
 
   return null
 }
-
-export default getTypeByInput

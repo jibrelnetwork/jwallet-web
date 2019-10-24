@@ -1,8 +1,10 @@
 // @flow
 
-import toBigNumber from './toBigNumber'
+import { toBigNumber } from './toBigNumber'
 
-function isZero(value: BigNumber | string | number | void): boolean {
+type IsZeroValue = BigNumber | string | number | void
+
+function isZero(value: IsZeroValue): boolean {
   if (!value) {
     return true
   }

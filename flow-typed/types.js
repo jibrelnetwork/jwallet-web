@@ -1,6 +1,7 @@
 // @flow
 
-import type { ComponentType } from 'react'
+import { type ComponentType } from 'react'
+import { type FormApi } from 'react-final-form'
 
 declare type Index = number
 
@@ -15,9 +16,25 @@ declare type AssetAddress = Address | EthereumAddress
 declare type AddressNames = { [Address]: ?string }
 
 declare type SortDirection = 'asc' | 'desc'
-declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
+declare type LanguageCode = 'en' | 'ru' | 'ko' | 'zh-Hans' | 'zh-Hant' | 'ja' | 'es'
+
+declare type LanguageData = {
+  title: string,
+  isDisabled: boolean,
+}
+
+declare type Languages = { [LanguageCode]: LanguageInfo }
 
 declare type FormFields = { [string]: ?string }
+declare type FormValidate = (values: Object) => Object | Promise<Object>
+declare type FormFieldChange = (name: string, value: any) => void
+
+declare type FormSubmit = (
+  values: Object,
+  form: FormApi,
+  callback: ?(errors: ?Object) => void,
+) => ?Object | Promise<?Object> | void
+
 declare type SetFieldFunction<T> = ($Keys<T>, string) => void
 
 declare type OwnPropsEmpty = {||}
@@ -46,13 +63,13 @@ declare type ReactRouterState = {
     +pathname: string,
     +hash: string,
     +key: string,
-    +search: string
+    +search: string,
   },
   +routes: [{
-    +path: string
+    +path: string,
   }],
   params: {
-    [string]: string
+    [string]: string,
   },
-  components: [ComponentType]
+  components: [ComponentType],
 }

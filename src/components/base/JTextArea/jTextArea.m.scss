@@ -1,0 +1,91 @@
+@import 'styles/mixins';
+
+.core {
+  @include hover-animation;
+
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  margin-bottom: 16px;
+  line-height: $form-field-line-height;
+  resize: none;
+  cursor: text;
+}
+
+.field-message {
+  padding-left: 16px;
+}
+
+.white {
+  .label {
+    @include property-transition(color, font-size, font-weight, top);
+
+    position: absolute;
+    top: 24px;
+    left: 16px;
+    right: 24px;
+    display: block; /* for Firefox */
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    color: $main-black-30;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    will-change: contents;
+    pointer-events: none;
+  }
+
+  .input {
+    @include font(14px, 22px);
+    @include property-transition(top);
+
+    appearance: none;
+    resize: none;
+    position: relative;
+    display: block;
+    min-width: 100%;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: $main-black;
+    font-weight: 600;
+  }
+
+  .wrap {
+    @include property-transition(box-shadow);
+
+    padding: 24px 16px 26px;
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: $normal-shadow;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
+
+    &.active {
+      .label {
+        top: 14px;
+        font-size: 12px;
+      }
+
+      .input {
+        top: 10px;
+      }
+    }
+
+    &.message {
+      margin-bottom: 8px;
+    }
+
+    &.disabled {
+      background: $white-70;
+
+      &:hover {
+        box-shadow: $normal-shadow;
+      }
+    }
+  }
+}

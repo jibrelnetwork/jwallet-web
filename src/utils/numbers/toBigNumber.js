@@ -3,8 +3,11 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 
-function toBigNumber(value: BigNumber | string | number | void, base?: number = 10): BigNumber {
+export type ToBigNumberValue = BigNumber | string | number
+
+function toBigNumber(value: ?ToBigNumberValue, base?: number = 10): BigNumber {
   return new BigNumber(value || 0, base)
 }
 
+export { toBigNumber }
 export default toBigNumber

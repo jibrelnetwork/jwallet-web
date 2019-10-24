@@ -1,17 +1,21 @@
-// @flow
+// @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
-import currenciesData from 'data/currencies'
+import { CURRENCIES } from 'data'
 
-function formatCurrency(curCode: FiatCurrency): string {
-  const currencyDescription: ?string = currenciesData[curCode]
+function formatCurrency(fiatCurrency: FiatCurrency): string {
+  const fiatCurrencyData: ?FiatCurrencyData = CURRENCIES[fiatCurrency]
 
-  if (!currencyDescription) {
-    throw new Error(t`InvalidFiatCurrencyCode`)
+  if (!fiatCurrencyData) {
+    throw new Error(i18n._(
+      'formatters.formatCurrency.errors.codeInvalid',
+      null,
+      { defaults: 'Invalid Fiat Currency Code' },
+    ))
   }
 
-  return currencyDescription
+  return fiatCurrencyData.name
 }
 
 export default formatCurrency

@@ -1,12 +1,13 @@
-// @flow
-import formatBoolean from './formatBoolean'
-import formatCurrency from './formatCurrency'
-import formatLanguage from './formatLanguage'
-import formatAssetBalance from './formatAssetBalance'
+// @flow strict
 
-export {
-  formatBoolean,
-  formatCurrency,
-  formatLanguage,
-  formatAssetBalance,
-}
+import formatCurrency from './formatCurrency'
+
+export { leftPad } from './leftPad'
+export { formatETHAmount } from './formatETHAmount'
+export { formatFiatBalance } from './formatFiatBalance'
+export { formatCurrencyWithSymbol } from './formatCurrencyWithSymbol'
+export { formatAssetBalance } from './formatAssetBalance'
+export { splitContactName } from './splitContactName'
+export { formatInitials } from './formatInitials'
+
+export { formatCurrency }

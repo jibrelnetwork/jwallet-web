@@ -1,0 +1,22 @@
+@import 'styles/colors';
+
+.core {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  background-color: $main-black-60;
+  opacity: 0.4;
+  animation: blinkShimmer 1s linear 0s infinite alternate;
+}
+
+@keyframes blinkShimmer {
+  0% { opacity: 0.1; }
+  100% { opacity: 0.2; }
+}

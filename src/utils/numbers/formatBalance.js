@@ -1,12 +1,14 @@
-// @flow
+// @flow strict
 
 import {
   isZero,
   toBigNumber,
 } from '.'
 
-function formatBalance(
-  value: BigNumber | string | number | void,
+import { type ToBigNumberValue } from './toBigNumber'
+
+export function formatBalance(
+  value: ?ToBigNumberValue,
   dp?: number = 2,
   rm?: number,
 ): string {
@@ -32,5 +34,3 @@ function formatBalance(
 
   return valueBN.toFormat(dp, rm)
 }
-
-export default formatBalance

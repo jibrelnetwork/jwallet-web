@@ -1,68 +1,30 @@
-// @flow
+// @flow strict
 
-import { t } from 'ttag'
+import { decryptData } from 'utils/encryption'
+import { WalletInconsistentDataError } from 'errors'
+import { getPrivateKeyFromXPRV } from 'utils/mnemonic'
 
-import decryptData from 'utils/encryption/decryptData'
-import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
-
-import checkMnemonicType from './checkMnemonicType'
-
-function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: string): string {
+export function getPrivateKey(wallet: Wallet, internalKey: Uint8Array): string {
   const {
+    id,
     encrypted,
-    type,
-    isReadOnly,
+    addressIndex,
   }: Wallet = wallet
 
-  if (isReadOnly) {
-    throw new Error(t`WalletDataError`)
-  }
-
-  if (checkMnemonicType(type)) {
-    const {
-      network,
-      addressIndex,
-      derivationPath,
-    }: Wallet = wallet
-
-    if (
-      !encrypted.mnemonic ||
-      !encrypted.passphrase ||
-      !network ||
-      !derivationPath
-    ) {
-      throw new Error(t`WalletDataError`)
-    }
-
-    const mnemonic: string = decryptData({
-      encryptionType,
-      key: internalKey,
-      data: encrypted.mnemonic,
-    })
-
-    return getPrivateKeyFromMnemonic(
-      mnemonic,
-      addressIndex || 0,
+  if (encrypted.xprv) {
+    return getPrivateKeyFromXPRV(
       decryptData({
-        encryptionType,
         key: internalKey,
-        // $FlowFixMe
-        data: encrypted.passphrase,
-      }),
-      derivationPath,
-      network,
+        data: encrypted.xprv,
+      }).trim(),
+      addressIndex || 0,
     )
-  } else {
-    if (!encrypted.privateKey) {
-      throw new Error(t`WalletDataError`)
-    }
-
+  } else if (encrypted.privateKey) {
     return decryptData({
-      encryptionType,
       key: internalKey,
       data: encrypted.privateKey,
-    })
+    }).trim()
+  } else {
+    throw new WalletInconsistentDataError({ walletId: id })
   }
 }
-
-export default getPrivateKey

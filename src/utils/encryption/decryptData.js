@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
@@ -13,7 +13,6 @@ type DecodedEncryptedData = {|
 type DecryptPayload = {|
   +key: Uint8Array,
   +data: EncryptedData,
-  +encryptionType: string,
 |}
 
 function decodeEncryptedData(data: EncryptedData): DecodedEncryptedData {
@@ -28,24 +27,19 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
   const decryptedData: ?Uint8Array = nacl.secretbox.open(decoded.data, decoded.nonce, key)
 
   if ((decryptedData === null) || (decryptedData === undefined)) {
-    throw new Error(t`InvalidPasswordError`)
+    throw new Error(i18n._(
+      'entity.Password.error.invalid',
+    ))
   }
 
-  return util.encodeUTF8(decryptedData).trim()
+  return util.encodeUTF8(decryptedData)
 }
 
-function decryptData(payload: DecryptPayload): string {
+export function decryptData(payload: DecryptPayload): string {
   const {
     key,
     data,
-    encryptionType,
   }: DecryptPayload = payload
-
-  if (encryptionType !== 'nacl.secretbox') {
-    throw new Error(t`DecryptionTypeError ${encryptionType}`)
-  }
 
   return decryptNaclSecretbox(data, key)
 }
-
-export default decryptData

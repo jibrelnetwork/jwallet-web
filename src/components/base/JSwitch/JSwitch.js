@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
 type Props = {|
-  +onChange: ?((boolean) => void),
+  +onChange: ?((isChecked: boolean) => any),
   +name: string,
   +isChecked: boolean,
   +isDisabled: boolean,

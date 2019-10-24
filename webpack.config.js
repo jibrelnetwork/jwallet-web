@@ -17,6 +17,8 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
+
 const PATHS = {
   INDEX_HTML: path.resolve('src/public/index.html'),
   INDEX_JS: path.resolve('src/main.js'),
@@ -42,15 +44,6 @@ const shouldUseRelativeAssetPaths = publicPath === './'
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
 const publicUrl = publicPath.slice(0, -1)
 
-// replace globalObject when we are in development so HMR and web workers would work together
-// for details see:
-// https://github.com/webpack/webpack/issues/6642 (closed in favor of 6525)
-// https://github.com/webpack/webpack/issues/6525
-const globalObject = isEnvDevelopment ? 'this' : undefined
-
-// This is the production configuration.
-// It compiles slowly and is focused on producing a fast and minimal bundle.
-// The development configuration is different and lives in a separate file.
 module.exports = {
   mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
   bail: true,
@@ -62,12 +55,12 @@ module.exports = {
   ].filter(Boolean),
 
   output: {
+    publicPath,
     path: PATHS.OUTPUT,
+    globalObject: 'this',
     pathinfo: isEnvDevelopment,
     filename: 'static/js/[name].[hash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
-    publicPath,
-    globalObject,
     devtoolModuleFilenameTemplate: isEnvDevelopment
       ? info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
       : info =>
@@ -96,7 +89,7 @@ module.exports = {
           'package.json',
           path.resolve('assets/mainnet/assets.json'),
           path.resolve('assets/ropsten/assets.json'),
-        ]
+        ],
       ),
     ],
   },
@@ -124,7 +117,76 @@ module.exports = {
         ],
         include: PATHS.SOURCE,
       },
-
+      {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+          path.resolve(__dirname, 'src/public/assets/tokens'),
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite.svg',
+              publicPath: '/static/media/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+                { removeAttrs: { attrs: '(fill|stroke)' } },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-colored'),
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite-colored.svg',
+              publicPath: '/static/media/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+              ],
+            },
+          },
+        ],
+      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -141,9 +203,9 @@ module.exports = {
             },
           },
 
-          // SCSS loader
+          // SCSS modules loader
           {
-            test: /\.scss$/,
+            test: /\.m\.scss$/,
             include: PATHS.SOURCE,
             use: [
               isEnvDevelopment && require.resolve('style-loader'),
@@ -151,12 +213,18 @@ module.exports = {
                 loader: MiniCssExtractPlugin.loader,
                 options: Object.assign(
                   {},
-                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
                 ),
               },
               {
                 loader: require.resolve('css-loader'),
                 options: {
+                  import: true,
+                  modules: 'local',
+                  localIdentName: isEnvDevelopment ?
+                    '[path][name]__[local]--[hash:base64:5]' :
+                    '[hash:base64:8]',
+                  camelCase: true,
                   importLoaders: 2,
                   sourceMap: isEnvProduction,
                 },
@@ -197,6 +265,59 @@ module.exports = {
             ].filter(Boolean),
           },
 
+          // SCSS loader
+          {
+            test: /\.scss$/,
+            include: PATHS.SOURCE,
+            use: [
+              isEnvDevelopment && require.resolve('style-loader'),
+              isEnvProduction && {
+                loader: MiniCssExtractPlugin.loader,
+                options: Object.assign(
+                  {},
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
+                ),
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                // Options for PostCSS as we reference these options twice
+                // Adds vendor prefixing based on your specified browser support in
+                // package.json
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    require('autoprefixer')({
+                      browsers: [
+                        'extends @jibrelnetwork/browserslist-config/polyfill',
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                  ],
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
+                },
+              },
+            ].filter(Boolean),
+          },
+
           // Worker loader
           {
             test: /worker\.js$/,
@@ -212,7 +333,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve(
-                'babel-preset-react-app/webpack-overrides'
+                'babel-preset-react-app/webpack-overrides',
               ),
               cacheDirectory: true,
               cacheCompression: isEnvProduction,
@@ -230,7 +351,11 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-colored'),
+                      path.resolve(__dirname, 'src/public/assets/tokens'),
+            ],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -292,7 +417,7 @@ module.exports = {
     // See https://github.com/facebook/create-react-app/issues/186
     isEnvDevelopment &&
     new WatchMissingNodeModulesPlugin(
-      path.resolve('node_modules')
+      path.resolve('node_modules'),
     ),
 
     isEnvProduction &&
@@ -344,17 +469,6 @@ module.exports = {
       openAnalyzer: false,
     }),
 
-    // we pack files more than 8kb with gzip in advance
-    // to prevent nginx from converting it in run-time
-    isEnvProduction &&
-    new CompressionPlugin({
-      threshold: 8192,
-      exclude: /\.map$/,
-      algorithm(input, compressionOptions, callback) {
-        return zopfli.gzip(input, compressionOptions, callback)
-      },
-    }),
-
     new CopyWebpackPlugin([
       {
         from: 'src/public/**/*',
@@ -363,6 +477,19 @@ module.exports = {
         transformPath: targetPath => targetPath.replace(/src\/public/, ''),
       },
     ]),
+
+    new SpriteLoaderPlugin(),
+
+    // we pack files more than 1kb with gzip in advance
+    // to prevent nginx from converting it in run-time
+    isEnvProduction &&
+    new CompressionPlugin({
+      threshold: 1024,
+      exclude: /\.map$/,
+      algorithm(input, compressionOptions, callback) {
+        return zopfli.gzip(input, compressionOptions, callback)
+      },
+    }),
   ].filter(Boolean),
 
   optimization: {
@@ -430,11 +557,12 @@ module.exports = {
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
       app.use(
-        require('react-dev-utils/evalSourceMapMiddleware')(server)
+        require('react-dev-utils/evalSourceMapMiddleware')(server),
       )
+
       // This lets us open files from the runtime error overlay.
       app.use(
-        require('react-dev-utils/errorOverlayMiddleware')()
+        require('react-dev-utils/errorOverlayMiddleware')(),
       )
 
       // This service worker file is effectively a 'no-op' that will reset any
@@ -443,7 +571,7 @@ module.exports = {
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       app.use(
-        require('react-dev-utils/noopServiceWorkerMiddleware')()
+        require('react-dev-utils/noopServiceWorkerMiddleware')(),
       )
     },
   },

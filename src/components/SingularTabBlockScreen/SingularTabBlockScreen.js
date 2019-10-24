@@ -1,41 +1,65 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
-
-import { JThumbnail, JFlatButton } from 'components/base'
+import { useI18n } from 'app/hooks'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-const descriptionText: Array<string> =
-  (t`Jwallet can be open only in one tab simultaneously.
-    Please reload this tab to continue using it.`).split('\n')
+import {
+  JThumbnail,
+  JFlatButton,
+} from 'components/base'
 
-const SingularTabBlockScreen = () => (
-  <div className='wallets-layout'>
-    <Scrollbars autoHide>
-      <div className='not-found-view'>
-        <div className='content'>
-          <JThumbnail
-            color='white'
-            iconSize='xlarge'
-            image='bad-browser'
-            title={t`Jwallet supports only single tab`}
-            description={descriptionText}
-          />
-          <div className='actions'>
-            <div className='back'>
-              <JFlatButton
-                onClick={() => { window.location.reload(false) }}
-                color='white'
-                label={t`Reload Page`}
-                isHoverOpacity
-              />
+const SingularTabBlockScreen = () => {
+  const i18n = useI18n()
+
+  // FIXME I18N after JThumbnail
+  const descriptionText = [
+    i18n._(
+      'SingularTabBlockScreen.description.0',
+      null,
+      { defaults: 'Jwallet can be open only in one tab simultaneously.' },
+    ),
+    i18n._(
+      'SingularTabBlockScreen.description.1',
+      null,
+      { defaults: 'Please reload this tab to continue using it.' },
+    ),
+  ]
+
+  return (
+    <div className='wallets-layout'>
+      <Scrollbars autoHide>
+        <div className='not-found-view'>
+          <div className='content'>
+            <JThumbnail
+              color='white'
+              image='bad-browser'
+              title={i18n._(
+                'SingularTabBlockScreen.title',
+                null,
+                { defaults: 'Jwallet supports only single tab' },
+              )}
+              description={descriptionText}
+            />
+            <div className='actions'>
+              <div className='back'>
+                <JFlatButton
+                  onClick={() => { window.location.reload(false) }}
+                  color='white'
+                  label={i18n._(
+                    'SingularTabBlockScreen.action.reload',
+                    null,
+                    { defaults: 'Reload Page' },
+                  )}
+                  isHoverOpacity
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </Scrollbars>
-  </div>
-)
+      </Scrollbars>
+    </div>
+  )
+}
 
 export default SingularTabBlockScreen

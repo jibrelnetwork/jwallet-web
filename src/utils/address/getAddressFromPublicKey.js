@@ -1,12 +1,10 @@
-// @flow
+// @flow strict
 
-import ec from './ec'
-import getAddressFromKeyPair from './getAddressFromKeyPair'
+import { ec } from './ec'
+import { getAddressFromKeyPair } from '.'
 
-function getAddressFromPublicKey(publicKey: string): string {
+export function getAddressFromPublicKey(publicKey: string): string {
   const keyPair: KeyPair = ec.keyFromPublic(publicKey, 'hex')
 
   return getAddressFromKeyPair(keyPair)
 }
-
-export default getAddressFromPublicKey

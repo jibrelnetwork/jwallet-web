@@ -1,17 +1,32 @@
-FROM node:8-onbuild AS build
+FROM node:10 AS build
 
-ENV MAIN_RPC_ADDR=main.node.jwallet.network \
-    ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
+RUN mkdir /app
+WORKDIR /app
 
-RUN npm r lint-staged
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+COPY package.json .
+RUN npm install && npm cache clean --force
+COPY . .
+
 RUN npm run build:clean
+RUN npm run storybook:build
 
 FROM nginx:alpine
 
-COPY --from=build /usr/src/app/build/. /app/
-COPY version.txt /app/
-COPY nginx.conf /etc/nginx/
-COPY run.sh /bin/run.sh
+ENV NODE_ENV ${NODE_ENV:-production}
+ENV MAIN_RPC_ADDR=main.jnode.network
+ENV ROPSTEN_RPC_ADDR=ropsten.jnode.network
 
-RUN ["run.sh", "check"]
+RUN wget -q https://github.com/jibrelnetwork/dockerize/releases/latest/download/dockerize-alpine-linux-amd64-latest.tar.gz \
+ && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-latest.tar.gz \
+ && rm dockerize-alpine-linux-amd64-latest.tar.gz
+
+COPY docker/nginx.tpl.conf /etc/nginx/nginx.tpl.conf
+COPY docker/run.sh /bin/run.sh
+
+COPY --from=build /app/build/. /app/
+COPY --from=build /app/docs/. /docs/
+COPY version.txt /app/
+
 CMD ["run.sh", "start"]
