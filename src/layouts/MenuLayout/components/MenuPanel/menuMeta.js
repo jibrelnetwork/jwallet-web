@@ -17,7 +17,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
   Send: {
     isMinimized: true,
-    previousRoute: '/',
+    previousRoute: null,
   },
   ReceiveAsset: {
     isMinimized: true,
@@ -53,7 +53,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
   HistoryItemCancel: {
     isMinimized: true,
-    previousRoute: '/history',
+    previousRoute: null,
   },
   Contacts: {
     isMinimized: false,
@@ -130,6 +130,10 @@ const MENU_META: { [string]: ?MenuMeta } = {
   WalletsItemModeDisable: {
     isMinimized: true,
     previousRoute: '/wallets',
+  },
+  WalletsItemUpgrade: {
+    isMinimized: true,
+    previousRoute: null,
   },
 }
 
