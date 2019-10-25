@@ -143,7 +143,7 @@ export const WALLETS = {
         xprv: {
           nonce: '5uewdcpUZGXfbywNsHv4TyOM1AjHxKR7',
           // eslint-disable-next-line max-len
-          data: 'vh7EFQ6VNYLaR1W0CWQ/cG5WXbnoOcNHD7wX1Vttu1vTl47XduvU86xNtTQgwrkiOIPz24yFpauWIsSgcexUYAamngwom3yUJlxw/jw/VR9rEfWVGis13tRVpFtQaISONrqhPSpqhmhQxoMdbPnOWRILkbWrJaWBgxp8V8r7mg==',
+          data: 'hYW4EXjdsB1HH1CXApVjRW5WXbnoOsZYM7Ag0zx8903Uz8z3BNbSzu9zvD1Z/JgwAIPqnLe5kLqXEeOgb95Nfy/3zDoalE+DGFgwhgMadRdGY+ubH1xt45QbpxdvWcSuOrvldipOjldO1680ffryTDd7tIqea4TJlzRYQvPrmw==',
         },
       },
     }, {
