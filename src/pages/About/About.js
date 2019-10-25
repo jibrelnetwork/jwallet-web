@@ -37,7 +37,8 @@ class AboutView extends Component<Props, StateProps> {
 
   async componentDidMount() {
     try {
-      this.setState({ version: await this.requestVersion() })
+      const version: string = await this.requestVersion()
+      this.setState({ version: version.replace(/\s/g, '') })
     } catch (error) {
       const errorMessage: string = error.message
 
@@ -54,7 +55,7 @@ class AboutView extends Component<Props, StateProps> {
         version: i18n._(
           'About.version.error',
           null,
-          { defaults: 'App version request failed. Please, try again a bit later' },
+          { defaults: 'unavailable' },
         ),
       })
     }
@@ -62,7 +63,7 @@ class AboutView extends Component<Props, StateProps> {
 
   requestVersion = (): Promise<string> => {
     if (__DEV__) {
-      return new Promise(resolve => setTimeout(() => resolve('2.2.0.691-edc1108'), 2000))
+      return new Promise(resolve => setTimeout(() => resolve('develop'), 2000))
     }
 
     return fetch(VERSION_TXT_URL).then((response: Response): Promise<string> => {
