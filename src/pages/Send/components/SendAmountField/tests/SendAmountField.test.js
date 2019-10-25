@@ -31,7 +31,7 @@ describe('SendAmountField', () => {
     expect(wrapper.prop('fiatCurrency')).toBe('USD')
     expect(wrapper.prop('infoMessage')).toBe('')
     expect(wrapper.prop('className')).toBe('')
-    expect(wrapper.prop('label')).toBe('Amount')
+    expect(wrapper.prop('label')).toBeUndefined()
     expect(wrapper.prop('meta')).toBeDefined()
     expect(wrapper.prop('input')).toBeDefined()
   })
