@@ -2,10 +2,11 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { useI18n } from 'app/hooks'
 
-import svgLogoWhite from 'public/assets/logo/logo-white.svg'
-import { JLink } from 'components/base'
+import {
+  JLink,
+  AppLogo,
+} from 'components/base'
 
 import menuPanelStyle from './menuPanel.m.scss'
 
@@ -24,13 +25,10 @@ type Props = {|
 |}
 
 export function MenuPanel({ routeName }: Props) {
-  const i18n = useI18n()
-  const menuMeta: MenuMeta = getMenuMeta(routeName)
-
   const {
     isMinimized,
     previousRoute,
-  }: MenuMeta = menuMeta
+  }: MenuMeta = getMenuMeta(routeName)
 
   return (
     <header
@@ -48,17 +46,7 @@ export function MenuPanel({ routeName }: Props) {
           menuPanelStyle.logo,
         )}
       >
-        <img
-          src={svgLogoWhite}
-          alt={i18n._(
-            'layout.MenuLayout.logo.alt',
-            null,
-            { defaults: 'Jwallet Logo' },
-          )}
-          width='136'
-          height='48'
-          className={menuPanelStyle.logoImage}
-        />
+        <AppLogo />
       </JLink>
       <Wallet />
       <Actions routeName={routeName} />
