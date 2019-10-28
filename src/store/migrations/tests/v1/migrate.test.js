@@ -3,13 +3,24 @@
 import assert from 'assert'
 
 import {
+  migrateUserToV1,
+  migrateNotesToV1,
   migrateWalletsToV1,
+  migrateContactsToV1,
   migratePasswordToV1,
+  migrateDigitalAssetsToV1,
+  migrateWalletsAddressesToV1,
 } from '../../v1'
 
 import {
+  USER,
+  NOTES,
   WALLETS,
+  CONTACTS,
   PASSWORD,
+  SETTINGS,
+  DIGITAL_ASSETS,
+  WALLETS_ADDRESSES,
 } from '../data'
 
 const PSWD = 'super secret p@swd'
@@ -31,6 +42,10 @@ jest.mock('../../../../utils/encryption/getNonce', () => ({
   ]),
 }))
 
+jest.mock('../../getAgreementValue', () => ({
+  getAgreementValue: () => true,
+}))
+
 describe('store/migrations/v1/migrate', () => {
   test('should migrate password to v1', async () => {
     const result: PasswordPersistV1 = await migratePasswordToV1(WALLETS.v0)
@@ -43,7 +58,40 @@ describe('store/migrations/v1/migrate', () => {
       WALLETS.v0,
       PASSWORD.v1,
     )
+
     assert.deepEqual(result, WALLETS.v1)
+  })
+
+  test('should migrate user to v1', async () => {
+    const result: UserPersistV1 = migrateUserToV1(SETTINGS.v0)
+    assert.deepEqual(result, USER.v1)
+
+    const resultDefaultCurrency: UserPersistV1 = migrateUserToV1({})
+
+    assert.deepEqual(resultDefaultCurrency, {
+      ...USER.v1,
+      fiatCurrency: 'USD',
+    })
+  })
+
+  test('should migrate notes to v1', async () => {
+    const result: CommentsPersistV1 = migrateNotesToV1(NOTES.v0)
+    assert.deepEqual(result, NOTES.v1)
+  })
+
+  test('should migrate contacts to v1', async () => {
+    const result: FavoritesPersistV1 = migrateContactsToV1(CONTACTS.v0)
+    assert.deepEqual(result, CONTACTS.v1)
+  })
+
+  test('should migrate digitalAssets to v1', async () => {
+    const result: DigitalAssetsPersistV1 = migrateDigitalAssetsToV1(DIGITAL_ASSETS.v0)
+    assert.deepEqual(result, DIGITAL_ASSETS.v1)
+  })
+
+  test('should migrate walletsAddresses to v1', async () => {
+    const result: WalletsAddressesPersistV1 = migrateWalletsAddressesToV1(WALLETS_ADDRESSES.v0)
+    assert.deepEqual(result, WALLETS_ADDRESSES.v1)
   })
 
   test('should throw because password is incorrect', async () => {
