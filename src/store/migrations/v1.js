@@ -4,8 +4,11 @@ import { gaSendException } from 'utils/analytics'
 import { getXPRVFromMnemonic } from 'utils/mnemonic'
 
 import config from 'config'
+import { CONDITIONS_LIST } from 'data/agreements'
 import * as type from 'utils/type'
 import * as encryption from 'utils/encryption'
+
+import { getAgreementValue } from './getAgreementValue'
 
 import {
   getStoreData,
@@ -17,9 +20,19 @@ import {
 } from './db'
 
 const STORAGE_VERSION: number = config.storageVersion
+const USER_STORE_KEY: string = 'persist:jwallet-web-user'
+const NOTES_STORE_KEY: string = 'persist:jwallet-web-notes'
+const BLOCKS_STORE_KEY: string = 'persist:jwallet-web-blocks'
+const TICKER_STORE_KEY: string = 'persist:jwallet-web-ticker'
 const WALLETS_STORE_KEY: string = 'persist:jwallet-web-wallets'
+const BALANCES_STORE_KEY: string = 'persist:jwallet-web-balances'
+const NETWORKS_STORE_KEY: string = 'persist:jwallet-web-networks'
 const PASSWORD_STORE_KEY: string = 'persist:jwallet-web-password'
+const SETTINGS_STORE_KEY: string = 'persist:jwallet-web-settings'
+const CONTACTS_STORE_KEY: string = 'persist:jwallet-web-favorites'
 const TRANSACTIONS_STORE_KEY: string = 'persist:jwallet-web-transactions'
+const DIGITAL_ASSETS_STORE_KEY: string = 'persist:jwallet-web-digitalAssets'
+const WALLETS_ADDRESSES_STORE_KEY: string = 'persist:jwallet-web-walletsAddresses'
 
 export async function checkMigrationV1Needed(): Promise<boolean> {
   try {
@@ -37,12 +50,19 @@ export async function checkMigrationV1Needed(): Promise<boolean> {
   }
 }
 
-function cutWalletName(name: string): string {
-  if (name.length < 33) {
+function cutStr(
+  name: ?string,
+  length?: number = 32,
+): string {
+  if (!name) {
+    return ''
+  }
+
+  if (name.length <= length) {
     return name
   }
 
-  return name.substr(0, 32)
+  return name.substr(0, length)
 }
 
 function migrateWalletToV1(
@@ -66,8 +86,8 @@ function migrateWalletToV1(
       return {
         ...item,
         xpub: null,
+        name: cutStr(name),
         derivationIndex: null,
-        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -84,7 +104,7 @@ function migrateWalletToV1(
         ...item,
         xpub: null,
         derivationIndex: null,
-        name: cutWalletName(name),
+        name: cutStr(name),
         encrypted: {
           ...encrypted,
           xprv: null,
@@ -94,10 +114,10 @@ function migrateWalletToV1(
     case 'bip32Xpub':
       return !type.isString(bip32XPublicKey) ? null : {
         ...item,
+        name: cutStr(name),
         customType: 'xpub',
         derivationIndex: 0,
         xpub: bip32XPublicKey,
-        name: cutWalletName(name),
         encrypted: (!type.isVoid(encrypted) && type.isObject(encrypted)) ? {
           ...encrypted,
           xprv: null,
@@ -136,8 +156,8 @@ function migrateWalletToV1(
       return {
         ...item,
         derivationIndex: 0,
+        name: cutStr(name),
         xpub: bip32XPublicKey,
-        name: cutWalletName(name),
         encrypted: {
           ...encrypted,
           xprv: encryption.encryptData({
@@ -228,6 +248,119 @@ export async function migrateWalletsToV1(
   }
 }
 
+export function migrateUserToV1(settingsStored: Object): UserPersistV1 {
+  const agreementsConditions: Object = CONDITIONS_LIST.reduce((
+    result: Object,
+    key: string,
+  ) => ({
+    ...result,
+    [key]: getAgreementValue(key),
+  }), {})
+
+  return {
+    agreementsConditions,
+    language: 'en',
+    fiatCurrency: settingsStored.fiatCurrency || 'USD',
+    isIntroductionPassed: true,
+    isAgreementsConfirmed: CONDITIONS_LIST.every(key => !!agreementsConditions[key]),
+  }
+}
+
+export function migrateNotesToV1(notesStored: Object): CommentsPersistV1 {
+  const notes: ?Object = notesStored.items
+
+  return {
+    items: !notes ? {} : Object.keys(notes).reduce((
+      result: Comments,
+      key: CommentId,
+    ) => ({
+      ...result,
+      [key]: cutStr(
+        notes[key],
+        256,
+      ),
+    }), {}),
+  }
+}
+
+export function migrateContactsToV1(contactsStored: Object): FavoritesPersistV1 {
+  const favorites: ?Object = contactsStored.items
+
+  return {
+    items: !favorites ? {} : Object.keys(favorites).reduce((
+      reduceResult: Favorites,
+      key: Address,
+    ) => {
+      const item: ?Favorite = favorites[key]
+
+      if (!item) {
+        return reduceResult
+      }
+
+      reduceResult[key] = {
+        ...item,
+        name: cutStr(item.name),
+        description: cutStr(
+          item.description,
+          256,
+        ),
+      }
+
+      return reduceResult
+    }, {}),
+  }
+}
+
+export function migrateDigitalAssetsToV1(digitalAssetsStored: Object): DigitalAssetsPersistV1 {
+  const digitalAssets: ?Object = digitalAssetsStored.items
+
+  return {
+    items: !digitalAssets ? {} : Object.keys(digitalAssets).reduce((
+      reduceResult: DigitalAssets,
+      key: AssetAddress,
+    ) => {
+      const item: ?DigitalAsset = digitalAssets[key]
+
+      if (!item) {
+        return reduceResult
+      }
+
+      if (!item.isCustom) {
+        reduceResult[key] = item
+
+        return reduceResult
+      }
+
+      reduceResult[key] = {
+        ...item,
+        name: cutStr(item.name),
+        symbol: cutStr(
+          item.symbol,
+          5,
+        ),
+      }
+
+      return reduceResult
+    }, {}),
+  }
+}
+
+export function migrateWalletsAddressesToV1(
+  walletsAddressesStored: Object,
+): WalletsAddressesPersistV1 {
+  const walletsAddresses: ?Object = walletsAddressesStored.addressNames
+
+  return {
+    addressNames: !walletsAddresses ? {} : Object.keys(walletsAddresses).reduce((
+      result: AddressNames,
+      key: Address,
+    ) => ({
+      ...result,
+      [key]: cutStr(walletsAddresses[key]),
+    }), {}),
+  }
+}
+
 export async function migrateToV1(password: string): Promise<void> {
   const walletsStored: Object = await getStoreData(WALLETS_STORE_KEY)
   const passwordPersist: PasswordPersistV1 = await migratePasswordToV1(walletsStored)
@@ -239,11 +372,41 @@ export async function migrateToV1(password: string): Promise<void> {
   )
 
   try {
+    const notesStored: Object = await getStoreData(NOTES_STORE_KEY)
+    const contactsStored: Object = await getStoreData(CONTACTS_STORE_KEY)
+    const settingsStored: Object = await getStoreData(SETTINGS_STORE_KEY)
+    const digitalAssetsStored: Object = await getStoreData(DIGITAL_ASSETS_STORE_KEY)
+    const walletsAddressesStored: Object = await getStoreData(WALLETS_ADDRESSES_STORE_KEY)
+
+    const userPersist: UserPersistV1 = migrateUserToV1(settingsStored)
+    const notesPersist: CommentsPersistV1 = migrateNotesToV1(notesStored)
+    const contactsPersist: FavoritesPersistV1 = migrateContactsToV1(contactsStored)
+
+    const digitalAssetsPersist: DigitalAssetsPersistV1 = migrateDigitalAssetsToV1(
+      digitalAssetsStored,
+    )
+
+    const walletsAddressesPersist: WalletsAddressesPersistV1 = migrateWalletsAddressesToV1(
+      walletsAddressesStored,
+    )
+
     const transaction: IDBTransaction = await initTransaction()
 
+    await deleteStoreData(BLOCKS_STORE_KEY, transaction)
+    await deleteStoreData(TICKER_STORE_KEY, transaction)
+    await deleteStoreData(BALANCES_STORE_KEY, transaction)
+    await deleteStoreData(NETWORKS_STORE_KEY, transaction)
     await deleteStoreData(TRANSACTIONS_STORE_KEY, transaction)
+
     await setStoreData(walletsPersist, WALLETS_STORE_KEY, transaction)
     await setStoreData(passwordPersist, PASSWORD_STORE_KEY, transaction)
+
+    await setStoreData(userPersist, USER_STORE_KEY, transaction)
+    await setStoreData(notesPersist, NOTES_STORE_KEY, transaction)
+    await setStoreData(contactsPersist, CONTACTS_STORE_KEY, transaction)
+    await setStoreData(digitalAssetsPersist, DIGITAL_ASSETS_STORE_KEY, transaction)
+    await setStoreData(walletsAddressesPersist, WALLETS_ADDRESSES_STORE_KEY, transaction)
+
     await setStoreVersion(STORAGE_VERSION, transaction)
   } catch (error) {
     console.error(error)
