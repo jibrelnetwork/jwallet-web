@@ -1,0 +1,58 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+
+  min-height: 100vh;
+  padding-top: $page-header-height;
+}
+
+.info {
+  @include flex-column-center;
+
+  min-height: 100%;
+  flex-grow: 1;
+}
+
+.version,
+.links {
+  @include font(16px, 24px);
+  @include flex-column-center;
+
+  margin-top: 80px;
+}
+
+.version {
+  color: $main-black;
+}
+
+.value {
+  @include flex-row-center;
+
+  min-height: 24px;
+}
+
+.links {
+  margin-bottom: 80px;
+  color: $main-blue;
+}
+
+.link {
+  @include flex-row-center;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.icon {
+  @include sprite-icon-color($main-blue-30);
+}
+
+.copyright {
+  @include flex-row-center;
+  @include font(12px, 20px);
+
+  margin-bottom: 45px;
+  color: $main-black-40;
+}

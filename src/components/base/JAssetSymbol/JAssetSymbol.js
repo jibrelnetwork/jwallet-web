@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
@@ -13,9 +13,9 @@ type JAssetSymbolColor = 'blue' | 'gray' | 'white'
 type JAssetSymbolSize = 24 | 32
 
 type Props = {|
-  address?: ?string,
-  className?: ?string,
-  color?: JAssetSymbolColor,
+  +address?: ?string,
+  +className?: ?string,
+  +color?: JAssetSymbolColor,
   +symbol: string,
   +size: JAssetSymbolSize,
 |}
@@ -28,15 +28,18 @@ export function JAssetSymbolInternal({
   size,
 }: Props) {
   const sizeClassId = `size${size}`
-  const symbolByAddress = address ?
-    ADDRESSES_AVAILABLE[address.toLowerCase()] :
-    null
-  const iconData = symbolByAddress ?
-    iconsAsset[`${symbolByAddress.toLowerCase()}-usage`] :
-    null
-  const symbolShorthand = symbol.length > 4 ?
-    symbol.substr(0, 3) :
-    symbol
+
+  const symbolByAddress = address
+    ? ADDRESSES_AVAILABLE[address.toLowerCase()]
+    : null
+
+  const iconData = symbolByAddress
+    ? iconsAsset[`${symbolByAddress.toUpperCase()}-usage`]
+    : null
+
+  const symbolShorthand = symbol.length > 4
+    ? symbol.substr(0, 3)
+    : symbol
 
   return (
     <div

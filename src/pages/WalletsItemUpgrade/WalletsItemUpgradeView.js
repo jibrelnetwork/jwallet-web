@@ -76,7 +76,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     switch (this.state.currentStep) {
       case STEPS.DATA:
@@ -92,6 +92,14 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
       default:
         return ''
     }
+  }
+
+  getPreviousRouteIconName = (): ?string => {
+    if (this.state.currentStep !== STEPS.DATA) {
+      return null
+    }
+
+    return 'wallet'
   }
 
   goToHome = () => {
@@ -368,6 +376,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
+          previousRouteIconName={this.getPreviousRouteIconName()}
         />
         <Form
           render={this.renderForm}

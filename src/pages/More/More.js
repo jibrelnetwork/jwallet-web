@@ -72,7 +72,10 @@ export function More() {
             iconColor='blue'
           />
         </JLink>
-        <div className={styles.item}>
+        <JLink
+          className={styles.item}
+          href='/about'
+        >
           <Card
             title={i18n._(
               'More.action.about',
@@ -86,9 +89,8 @@ export function More() {
             )}
             iconColor='blue'
             iconName='ic_info_24-use-fill'
-            isDisabled
           />
-        </div>
+        </JLink>
         {
           /**
            * Empty divs below are necessary to align items (3 per row)
