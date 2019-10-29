@@ -79,10 +79,6 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: false,
     previousRoute: null,
   },
-  Support: {
-    isMinimized: false,
-    previousRoute: null,
-  },
   About: {
     isMinimized: true,
     previousRoute: '/more',
