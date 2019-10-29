@@ -18,9 +18,9 @@ import { selectPasswordHint } from 'store/selectors/password'
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   NewPasswordForm,
-  WalletPasswordForm,
 } from 'components'
 
 import styles from './settingsPassword.m.scss'
@@ -144,7 +144,7 @@ class SettingsPasswordView extends Component<Props, StateProps> {
     values = {},
     submitting,
   }: FormRenderProps) => (
-    <WalletPasswordForm
+    <PasswordForm
       handleSubmit={handleSubmit}
       values={values}
       hint={this.props.hint}

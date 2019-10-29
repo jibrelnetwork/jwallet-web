@@ -1,8 +1,8 @@
 @import 'styles/mixins';
 
 .core {
-  position: absolute;
-  bottom: 90px;
+  height: 40px;
+  margin: 50px 0;
 }
 
 .overlay {
@@ -36,5 +36,6 @@
 }
 
 .forgot {
+  align-self: flex-end;
   color: $main-blue;
 }

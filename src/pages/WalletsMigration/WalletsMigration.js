@@ -12,8 +12,8 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import { PasswordForm } from 'components'
 import { migrate } from 'store/migrations'
-import { WalletPasswordForm } from 'components'
 
 import {
   gaSendEvent,
@@ -77,7 +77,7 @@ class WalletsMigration extends Component<Props> {
     const { i18n }: Props = this.props
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         handleSubmit={handleSubmit}
         values={values}
         hint={this.props.hint}
