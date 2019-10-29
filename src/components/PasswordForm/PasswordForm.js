@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Field } from 'react-final-form'
+import { type I18n } from '@lingui/core'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { useI18n } from 'app/hooks'
@@ -28,50 +29,52 @@ export function PasswordForm({
   description,
   isSubmitting,
 }: Props) {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={styles.core}
-    >
+    <div className={styles.core}>
       {description && (
         <div className={styles.description}>
           {description}
         </div>
       )}
-      <Field
-        component={PasswordInput}
-        value={password}
-        label={i18n._(
-          'WalletPasswordForm.password',
-          null,
-          { defaults: 'Security Password' },
-        )}
-        infoMessage={i18n._(
-          'WalletPasswordForm.hint',
-          { hint },
-          { defaults: 'Hint: {hint}' },
-        )}
-        theme='white-icon'
-        name='password'
-        isDisabled={isSubmitting}
-        isAutoFocus
-      />
-      <Button
-        className={ofssetsStyle.mt16}
-        type='submit'
-        isLoading={isSubmitting}
-        isDisabled={!(password || '').trim()}
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
       >
-        {i18n._(
-          'WalletPasswordForm.submit',
-          null,
-          { defaults: 'Continue' },
-        )}
-      </Button>
+        <Field
+          component={PasswordInput}
+          value={password}
+          label={i18n._(
+            'WalletPasswordForm.password',
+            null,
+            { defaults: 'Security Password' },
+          )}
+          infoMessage={i18n._(
+            'WalletPasswordForm.hint',
+            { hint },
+            { defaults: 'Hint: {hint}' },
+          )}
+          theme='white-icon'
+          name='password'
+          isDisabled={isSubmitting}
+          isAutoFocus
+        />
+        <Button
+          className={ofssetsStyle.mt16}
+          type='submit'
+          isLoading={isSubmitting}
+          isDisabled={!(password || '').trim()}
+        >
+          {i18n._(
+            'WalletPasswordForm.submit',
+            null,
+            { defaults: 'Continue' },
+          )}
+        </Button>
+      </form>
       <Forgot />
-    </form>
+    </div>
   )
 }
 
