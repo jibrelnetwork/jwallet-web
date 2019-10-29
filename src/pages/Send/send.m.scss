@@ -13,15 +13,14 @@
 
   position: relative;
   width: 544px;
+  flex-grow: 1;
+  margin-bottom: 32px;
 }
 
 .warning {
-  position: absolute;
-  bottom: 32px;
+  margin-bottom: 32px;
   font-size: 12px;
   line-height: 20px;
   text-align: center;
   color: $main-black-40;
-  font-style: normal;
-  font-weight: normal;
 }
