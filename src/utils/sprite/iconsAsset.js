@@ -14,11 +14,12 @@ const iconsAsset = keyBy<SpriteIcon, string>(
     const [,, width, height] = file.viewBox.split(/(\s+)/).filter(e => e.trim().length > 0)
 
     return {
+      width,
+      height,
       id: file.id,
       url: file.url,
       viewBox: file.viewBox,
-      width,
-      height,
+      colored: true,
     }
   }),
   'id',
