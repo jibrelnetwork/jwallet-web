@@ -167,3 +167,205 @@ export const WALLETS = {
     }],
   },
 }
+
+export const SETTINGS = {
+  v0: {
+    fiatCurrency: 'EUR',
+  },
+}
+
+export const USER = {
+  v1: {
+    agreementsConditions: {
+      understandPrivateDataPolicy: true,
+      consentNoWarranty: true,
+      consentTrackingCookies: true,
+      acceptTermsAndConditions: true,
+    },
+    language: 'en',
+    fiatCurrency: 'EUR',
+    isIntroductionPassed: true,
+    isAgreementsConfirmed: true,
+  },
+}
+
+export const NOTES = {
+  v0: {
+    items: {
+      '12': 'a'.repeat(100),
+      '34': 'b'.repeat(10),
+      '56': 'c'.repeat(1000),
+      '78': 'd',
+      '90': 'e'.repeat(257),
+    },
+  },
+  v1: {
+    items: {
+      '12': 'a'.repeat(100),
+      '34': 'b'.repeat(10),
+      '56': 'c'.repeat(256),
+      '78': 'd',
+      '90': 'e'.repeat(256),
+    },
+  },
+}
+
+export const CONTACTS = {
+  v0: {
+    items: {
+      '123': {
+        address: '123',
+        name: '1'.repeat(100),
+        description: '2'.repeat(1000),
+      },
+      '456': {
+        name: 'a',
+        address: '456',
+        description: 'b',
+      },
+      '789': {
+        address: '789',
+        name: 'a'.repeat(33),
+        description: 'b'.repeat(257),
+      },
+    },
+  },
+  v1: {
+    items: {
+      '123': {
+        address: '123',
+        name: '1'.repeat(32),
+        description: '2'.repeat(256),
+      },
+      '456': {
+        name: 'a',
+        address: '456',
+        description: 'b',
+      },
+      '789': {
+        address: '789',
+        name: 'a'.repeat(32),
+        description: 'b'.repeat(256),
+      },
+    },
+  },
+}
+
+const DIGITAL_ASSET = {
+  name: 'Jibrel Network Token',
+  symbol: 'JNT',
+  blockchainParams: {
+    type: 'erc-20',
+    features: [
+      'mintable',
+    ],
+    address: '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7',
+    decimals: 18,
+    staticGasAmount: 98232,
+    deploymentBlockNumber: 4736154,
+  },
+  display: {
+    isDefaultForcedDisplay: true,
+    digitalAssetsListPriority: 980,
+  },
+  priceFeed: {
+    currencyID: 2498,
+    currencyIDType: 'coinmarketcap',
+  },
+  assetPage: {
+    // eslint-disable-next-line max-len
+    description: 'Jibrel provides currencies, equities, commodities and other financial assets as standard ERC-20 tokens on the Ethereum blockchain',
+    urls: [
+      {
+        type: 'site',
+        url: 'https://jibrel.network/',
+      },
+      {
+        type: 'binance',
+        url: 'https://info.binance.com/en/currencies/jibrel-network-token',
+      },
+      {
+        type: 'coinmarketcap',
+        url: 'https://coinmarketcap.com/currencies/jibrel-network',
+      },
+    ],
+  },
+}
+
+export const DIGITAL_ASSETS = {
+  v0: {
+    items: {
+      '123': {
+        ...DIGITAL_ASSET,
+        name: '1'.repeat(100),
+        symbol: '2'.repeat(10),
+      },
+      '456': {
+        ...DIGITAL_ASSET,
+        name: '3'.repeat(100),
+        symbol: '4'.repeat(10),
+        isCustom: true,
+      },
+      '789': {
+        ...DIGITAL_ASSET,
+        name: '5'.repeat(33),
+        symbol: '6'.repeat(6),
+        isCustom: true,
+      },
+      '000': {
+        ...DIGITAL_ASSET,
+        name: '7',
+        symbol: '8',
+        isCustom: true,
+      },
+    },
+  },
+  v1: {
+    items: {
+      '123': {
+        ...DIGITAL_ASSET,
+        name: '1'.repeat(100),
+        symbol: '2'.repeat(10),
+      },
+      '456': {
+        ...DIGITAL_ASSET,
+        name: '3'.repeat(32),
+        symbol: '4'.repeat(5),
+        isCustom: true,
+      },
+      '789': {
+        ...DIGITAL_ASSET,
+        name: '5'.repeat(32),
+        symbol: '6'.repeat(5),
+        isCustom: true,
+      },
+      '000': {
+        ...DIGITAL_ASSET,
+        name: '7',
+        symbol: '8',
+        isCustom: true,
+      },
+    },
+  },
+}
+
+export const WALLETS_ADDRESSES = {
+  v0: {
+    addressNames: {
+      '12': 'a'.repeat(100),
+      '34': 'b'.repeat(10),
+      '56': 'c'.repeat(1000),
+      '78': 'd',
+      '90': 'e'.repeat(33),
+    },
+  },
+  v1: {
+    addressNames: {
+      '12': 'a'.repeat(32),
+      '34': 'b'.repeat(10),
+      '56': 'c'.repeat(32),
+      '78': 'd',
+      '90': 'e'.repeat(32),
+    },
+  },
+}

@@ -149,16 +149,16 @@ class AppRouter extends Component<Props, StateProps> {
       return <pages.Introduction />
     }
 
-    if (!isAllAgreementsChecked) {
-      return <pages.Agreements />
-    }
-
     if (isMigrationNeeded == null) {
       return null
     }
 
     if (isMigrationNeeded) {
       return <pages.WalletsMigration />
+    }
+
+    if (!isAllAgreementsChecked) {
+      return <pages.Agreements />
     }
 
     if (!hasPassword) {
