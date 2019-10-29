@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "{networkName}のテストネットワークを使用しています",
     "layout.MenuLayout.error.noConnection.description.0": "インターネット接続エラー",
     "layout.MenuLayout.error.noConnection.description.1": "やり直す",
-    "layout.MenuLayout.logo.alt": "Jwalletロゴ",
     "layout.StartLayout.logo.alt": "Jwalletロゴ",
     "WalletsItemModeDisable.actions.address": "保存するアドレス",
     "ContactForm.actions.save": "保存",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "検索結果がありません。",
     "WalletsMigration.description": "ストレージ データを移行するには、セキュリティ パスワードを入力する必要があります。タブを閉じないでください、このプロセスはしばらく時間がかかります。",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "",
+    "About.copyright": "",
+    "About.links.privacy": "",
+    "About.links.terms": "",
+    "About.title": "",
+    "About.version.error": "",
+    "About.version.label": "",
+    "common.AppLogo.logo.alt": "Jwalletロゴ"
 }

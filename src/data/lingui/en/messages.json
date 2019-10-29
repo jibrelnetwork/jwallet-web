@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "You Are Using {networkName} Test Network",
     "layout.MenuLayout.error.noConnection.description.0": "Internet connection error.",
     "layout.MenuLayout.error.noConnection.description.1": "Try again.",
-    "layout.MenuLayout.logo.alt": "Jwallet Logo",
     "layout.StartLayout.logo.alt": "Jwallet Logo",
     "WalletsItemModeDisable.actions.address": "Address to Keep",
     "ContactForm.actions.save": "Save",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "No Search Results.",
     "WalletsMigration.description": "To migrate storage data, you need to enter security password. Please don't close the tab, this process will take a while.",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "Entered mnemonic doesn't suit for current address-based wallet",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "Entered XPRV doesn't suit for current address-based wallet"
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "Entered XPRV doesn't suit for current address-based wallet",
+    "About.copyright": "© 2019 Jibrel Network. All Rights Reserved",
+    "About.links.privacy": "Privacy Policy",
+    "About.links.terms": "Terms of Use",
+    "About.title": "Information",
+    "About.version.error": "unavailable",
+    "About.version.label": "App version",
+    "common.AppLogo.logo.alt": "Jwallet Logo"
 }

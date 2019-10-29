@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "Вы используете тестовую сеть {networkName}",
     "layout.MenuLayout.error.noConnection.description.0": "Ошибка подключения к Интернету.",
     "layout.MenuLayout.error.noConnection.description.1": "Попробуйте снова.",
-    "layout.MenuLayout.logo.alt": "Логотип Jwallet",
     "layout.StartLayout.logo.alt": "Логотип Jwallet",
     "WalletsItemModeDisable.actions.address": "Адрес для хранения",
     "ContactForm.actions.save": "Сохранить",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "Результаты поиска отсутствуют.",
     "WalletsMigration.description": "Чтобы перенести данные хранилища, необходимо ввести пароль безопасности. Пожалуйста, не закрывайте вкладку, этот процесс займет некоторое время.",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "",
+    "About.copyright": "",
+    "About.links.privacy": "",
+    "About.links.terms": "",
+    "About.title": "",
+    "About.version.error": "",
+    "About.version.label": "",
+    "common.AppLogo.logo.alt": "Логотип Jwallet"
 }
