@@ -63,9 +63,11 @@ declare type DigitalAssets = {
   [AssetAddress]: ?DigitalAsset,
 }
 
-declare type DigitalAssetsPersist = {|
+declare type DigitalAssetsPersistV1 = {|
   +items: DigitalAssets,
 |}
+
+declare type DigitalAssetsPersist = DigitalAssetsPersistV1
 
 declare type DigitalAssetsState = {|
   +persist: DigitalAssetsPersist,

@@ -101,9 +101,11 @@ declare type WalletsCreateState = {|
  */
 declare type WalletsBalances = { [OwnerAddress]: ?string }
 
-declare type WalletsAddressesPersist = {|
+declare type WalletsAddressesPersistV1 = {|
   +addressNames: AddressNames,
 |}
+
+declare type WalletsAddressesPersist = WalletsAddressesPersistV1
 
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
