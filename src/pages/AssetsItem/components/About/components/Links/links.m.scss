@@ -10,6 +10,9 @@
 }
 
 .label {
+  @include ellipsis;
+
+  max-width: 180px;
   color: inherit;
   text-transform: capitalize;
   border-bottom: 1px solid $main-blue-30;
@@ -28,4 +31,7 @@
 
 .icon {
   @include sprite-icon-color($main-blue-30);
+
+  width: 24px;
+  height: 24px;
 }
