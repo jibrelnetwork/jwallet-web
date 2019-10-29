@@ -62,9 +62,8 @@ function AssetItem({
     >
       <div className={classNames(styles.item, styles.assetIcon)}>
         <JAssetSymbol
-          address={address}
           symbol={symbol}
-          color='blue'
+          address={address}
           size={32}
         />
       </div>

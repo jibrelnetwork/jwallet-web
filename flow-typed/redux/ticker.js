@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { type FiatCurrencyCode } from '../src/data/currencies'
 

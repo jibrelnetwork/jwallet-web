@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "Está utilizando la red de prueba {networkName}",
     "layout.MenuLayout.error.noConnection.description.0": "Error de conexión a Internet.",
     "layout.MenuLayout.error.noConnection.description.1": "Inténtelo de nuevo.",
-    "layout.MenuLayout.logo.alt": "Logotipo de Jwallet",
     "layout.StartLayout.logo.alt": "Logotipo de Jwallet",
     "WalletsItemModeDisable.actions.address": "Dirección que conservar",
     "ContactForm.actions.save": "Guardar",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "No hay resultados de búsqueda.",
     "WalletsMigration.description": "Para migrar los datos de almacenamiento, debe introducir la contraseña de seguridad. Por favor, no cierre la pestaña, este proceso tomará un tiempo.",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "",
+    "About.copyright": "",
+    "About.links.privacy": "",
+    "About.links.terms": "",
+    "About.title": "",
+    "About.version.error": "",
+    "About.version.label": "",
+    "common.AppLogo.logo.alt": "Logotipo de Jwallet"
 }

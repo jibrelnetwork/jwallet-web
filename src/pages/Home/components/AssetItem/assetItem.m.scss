@@ -77,6 +77,14 @@
   align-items: center;
 }
 
+.asset-icon {
+  opacity: 1;
+
+  &.disabled {
+    opacity: 0.3;
+  }
+}
+
 // utility animation
 // stylelint-disable-next-line no-descending-specificity
 .arrow {

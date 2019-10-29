@@ -7,12 +7,21 @@ import {
   JLink,
 } from 'components/base'
 
-import menuPanelStyle from '../menuPanel.m.scss'
+import styles from '../menuPanel.m.scss'
 
 type Props = {|
   +previousRoute: ?string,
   +isMinimized: boolean,
 |}
+
+const ICONS = {
+  '/': 'home',
+  '/more': 'more',
+  '/wallets': 'wallet',
+  '/history': 'history',
+  '/contacts': 'contact',
+  '/settings': 'settings',
+}
 
 export function Back({
   previousRoute,
@@ -25,9 +34,16 @@ export function Back({
   return (
     <JLink
       href={previousRoute}
-      className={`__back ${menuPanelStyle.back}`}
+      className={`__breadcrumbs ${styles.breadcrumbs}`}
     >
-      <JIcon name='arrow-back-use-fill' />
+      <JIcon
+        className={styles.back}
+        name='arrow-back-use-fill'
+      />
+      <JIcon
+        className={styles.routeIcon}
+        name={`${ICONS[previousRoute]}-use-fill`}
+      />
     </JLink>
   )
 }

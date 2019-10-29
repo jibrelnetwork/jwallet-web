@@ -11,6 +11,7 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 
 export { Button } from './Button/Button'
+export { AppLogo } from './AppLogo/AppLogo'
 export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
 export { Header } from './Header/Header'
