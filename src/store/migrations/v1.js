@@ -21,9 +21,9 @@ import {
 
 const STORAGE_VERSION: number = config.storageVersion
 const USER_STORE_KEY: string = 'persist:jwallet-web-user'
-const NOTES_STORE_KEY: string = 'persist:jwallet-web-notes'
 const BLOCKS_STORE_KEY: string = 'persist:jwallet-web-blocks'
 const TICKER_STORE_KEY: string = 'persist:jwallet-web-ticker'
+const NOTES_STORE_KEY: string = 'persist:jwallet-web-comments'
 const WALLETS_STORE_KEY: string = 'persist:jwallet-web-wallets'
 const BALANCES_STORE_KEY: string = 'persist:jwallet-web-balances'
 const NETWORKS_STORE_KEY: string = 'persist:jwallet-web-networks'
