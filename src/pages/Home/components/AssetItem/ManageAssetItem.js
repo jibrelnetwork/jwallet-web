@@ -40,11 +40,16 @@ function ManageAssetItem({
 }: Props) {
   return (
     <div className={`__asset-item ${styles.core} ${offsetsStyle.mb16}`}>
-      <div className={classNames(styles.item, styles.assetIcon)}>
+      <div
+        className={classNames(
+          styles.item,
+          styles.assetIcon,
+          !isChecked && styles.disabled,
+        )}
+      >
         <JAssetSymbol
-          address={address}
           symbol={symbol}
-          color='blue'
+          address={address}
           size={32}
         />
       </div>
