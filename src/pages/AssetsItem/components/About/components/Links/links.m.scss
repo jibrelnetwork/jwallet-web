@@ -10,12 +10,10 @@
 }
 
 .label {
-  @include ellipsis;
-
   max-width: 180px;
   color: inherit;
   text-transform: capitalize;
-  border-bottom: 1px solid $main-blue-30;
+  text-decoration: underline $main-blue-30;
 }
 
 .anchor {
@@ -25,7 +23,7 @@
   color: $main-blue;
 
   &:hover > .label {
-    border-bottom-color: transparent;
+    text-decoration: underline transparent;
   }
 }
 
