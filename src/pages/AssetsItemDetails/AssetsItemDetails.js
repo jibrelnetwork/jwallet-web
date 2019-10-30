@@ -2,12 +2,13 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { type I18n } from '@lingui/core'
 
+import { useI18n } from 'app/hooks'
 import { PageNotFoundError } from 'errors'
 import { getAddressLink } from 'utils/transactions'
-import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { selectDigitalAsset } from 'store/selectors/digitalAssets'
-import { useI18n } from 'app/hooks'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   TitleHeader,
@@ -45,7 +46,7 @@ function AssetsItemDetails({
   hasDefaultFields,
   blockExplorerUISubdomain,
 }: Props) {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
     <div className={styles.core}>
@@ -114,18 +115,12 @@ function AssetsItemDetails({
   )
 }
 
-AssetsItemDetails.defaultProps = {
-  isCustom: false,
-  hasDefaultFields: false,
-}
-
 function mapStateToProps(
   state: AppState,
-  ownProps: OwnProps,
+  { assetId }: OwnProps,
 ) {
-  const { assetId }: OwnProps = ownProps
-  const { blockExplorerUISubdomain }: Network = selectCurrentNetworkOrThrow(state)
   const asset: ?DigitalAsset = selectDigitalAsset(state, assetId)
+  const { blockExplorerUISubdomain }: Network = selectCurrentNetworkOrThrow(state)
 
   if (!asset) {
     throw new PageNotFoundError()
@@ -140,7 +135,7 @@ function mapStateToProps(
       address,
       decimals,
     },
-  } = asset
+  }: DigitalAsset = asset
 
   return {
     name,

@@ -100,10 +100,11 @@ declare type EditAssetFormFields = {|
 declare type AddAssetState = {|
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields,
+  +requestedAddress: string,
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
-  +requestedAddress: string,
+  +hasDefaultFields: boolean,
 |}
 
 /**
