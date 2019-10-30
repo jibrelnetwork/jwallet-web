@@ -31,29 +31,8 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'store/modules/blocks'
-
-import {
-  OPEN_VIEW,
-  CLOSE_VIEW,
-  SET_FIELD,
-  START_ASSET_LOADING,
-  clean,
-  setField,
-  setFieldError,
-  clearFieldError,
-  setIsAssetValid,
-  startAssetLoading,
-  SUBMIT_ASSET_FORM,
-} from 'store/modules/addAsset'
-
+import * as addAsset from 'store/modules/addAsset'
 import * as digitalAssets from 'store/modules/digitalAssets'
-
-type RequestedAssetFields = {|
-  +name: ?string,
-  +symbol: ?string,
-  +decimals: ?number,
-  +isERC20: ?boolean,
-|}
 
 type ContractMethodResult = string | number
 
@@ -96,22 +75,22 @@ function* checkAssetIsERC20Compatible(
 }
 
 function* clearFields(): Saga<void> {
-  yield put(setField('name', ''))
-  yield put(setField('symbol', ''))
-  yield put(setField('decimals', ''))
+  yield put(addAsset.setField('name', ''))
+  yield put(addAsset.setField('symbol', ''))
+  yield put(addAsset.setField('decimals', ''))
 }
 
 function* clearFieldsError(): Saga<void> {
-  yield put(clearFieldError('address'))
-  yield put(clearFieldError('name'))
-  yield put(clearFieldError('symbol'))
-  yield put(clearFieldError('decimals'))
+  yield put(addAsset.clearFieldError('address'))
+  yield put(addAsset.clearFieldError('name'))
+  yield put(addAsset.clearFieldError('symbol'))
+  yield put(addAsset.clearFieldError('decimals'))
 }
 
 /**
  * Fires, when user changes fields on CustomAssetForm
  */
-function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
+function* onFieldChange(action: ExtractReturn<typeof addAsset.setField>): Saga<void> {
   const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
     = yield select(selectCurrentNetworkOrThrow)
 
@@ -162,7 +141,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     }
 
     // set loading, shows loader on address input, update requestedAddress
-    yield put(startAssetLoading(contractAddress))
+    yield put(addAsset.startAssetLoading(contractAddress))
 
     // wait for result or cancel all
     const { result } = yield race({
@@ -173,22 +152,26 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
         isERC20: checkAssetIsERC20Compatible(network, contractAddress),
       }),
       // cancel on close Add/Edit asset screen
-      close: take(CLOSE_VIEW),
+      close: take(addAsset.CLOSE_VIEW),
       // cancel, when we are trying to request another contract
-      restart: take(START_ASSET_LOADING),
+      restart: take(addAsset.START_ASSET_LOADING),
     })
 
     if (result && result.isERC20) {
-      const {
-        name,
-        symbol,
-        decimals,
-      }: RequestedAssetFields = result
+      const isDecimalsNumber: boolean = (typeof result.decimals === 'number')
 
-      yield put(setIsAssetValid(true))
-      yield put(setField('name', name || ''))
-      yield put(setField('symbol', symbol || ''))
-      yield put(setField('decimals', typeof decimals === 'number' ? decimals.toString() : ''))
+      const name: string = result.name || ''
+      const symbol: string = result.symbol || ''
+      const decimals: string = isDecimalsNumber ? (result.decimals || '').toString() : ''
+
+      yield put(addAsset.setIsAssetValid(true))
+      yield put(addAsset.setField('name', name))
+      yield put(addAsset.setField('symbol', symbol))
+      yield put(addAsset.setField('decimals', decimals))
+
+      yield put(addAsset.setHasDefaultFields(
+        !!name.length && !!symbol.length && !!decimals.length,
+      ))
     } else if (result) {
       throw new InvalidFieldError(
         'address',
@@ -200,12 +183,12 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
       )
     }
   } catch (err) {
-    yield put(setIsAssetValid(false))
+    yield put(addAsset.setIsAssetValid(false))
 
     if (err instanceof InvalidFieldError) {
-      yield put(setFieldError(err.fieldName, err.message))
+      yield put(addAsset.setFieldError(err.fieldName, err.message))
     } else {
-      yield put(setFieldError(
+      yield put(addAsset.setFieldError(
         'address',
         i18n._(
           'AssetsItemAdd.errors.noConnection',
@@ -219,14 +202,15 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
 
 function* onAssetFormSumbit(): Saga<void> {
   const {
-    isAssetValid,
-    isAssetLoaded,
     formFields: {
       name,
       symbol,
       address,
       decimals,
     },
+    isAssetValid,
+    isAssetLoaded,
+    hasDefaultFields,
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
   const contractName = name.trim()
@@ -243,7 +227,7 @@ function* onAssetFormSumbit(): Saga<void> {
 
   // check contract address
   if (!checkAddressValid(contractAddress)) {
-    yield put(setFieldError(
+    yield put(addAsset.setFieldError(
       'address',
       i18n._(
         'AssetsItemAdd.errors.invalidAddress',
@@ -256,7 +240,7 @@ function* onAssetFormSumbit(): Saga<void> {
   }
 
   if (!isAssetLoaded) {
-    yield put(setFieldError(
+    yield put(addAsset.setFieldError(
       'address',
       i18n._(
         'AssetsItemAdd.errors.waitForValidation',
@@ -272,7 +256,7 @@ function* onAssetFormSumbit(): Saga<void> {
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
 
   if (foundAsset) {
-    yield put(setFieldError(
+    yield put(addAsset.setFieldError(
       'address',
       i18n._(
         'AssetsItemAdd.errors.exists',
@@ -285,7 +269,7 @@ function* onAssetFormSumbit(): Saga<void> {
   }
 
   if (contractName.length === 0) {
-    yield put(setFieldError(
+    yield put(addAsset.setFieldError(
       'name',
       i18n._(
         'AssetsItemAdd.errors.emptyName',
@@ -296,7 +280,7 @@ function* onAssetFormSumbit(): Saga<void> {
   }
 
   if (contractSymbol.length === 0 || contractSymbol.length > 10) {
-    yield put(setFieldError(
+    yield put(addAsset.setFieldError(
       'symbol',
       i18n._(
         'AssetsItemAdd.errors.symbolLength',
@@ -312,7 +296,7 @@ function* onAssetFormSumbit(): Saga<void> {
     contractDecimals > 127
   ) {
     yield put(
-      setFieldError(
+      addAsset.setFieldError(
         'decimals',
         i18n._(
           'AssetsItemAdd.errors.decimals',
@@ -341,7 +325,13 @@ function* onAssetFormSumbit(): Saga<void> {
     !decimalsError
   ) {
     yield put(
-      digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
+      digitalAssets.addCustomAsset({
+        hasDefaultFields,
+        name: contractName,
+        symbol: contractSymbol,
+        address: checksumAddres,
+        decimals: contractDecimals,
+      }),
     )
 
     yield put(actions.navigateTo('Home'))
@@ -363,11 +353,11 @@ function* onAssetFormSumbit(): Saga<void> {
 }
 
 function* addAssetOpen(): Saga<void> {
-  yield put(clean())
+  yield put(addAsset.clean())
 }
 
 export function* digitalAssetsAddRootSaga(): Saga<void> {
-  yield takeEvery(OPEN_VIEW, addAssetOpen)
-  yield takeEvery(SET_FIELD, onFieldChange)
-  yield takeEvery(SUBMIT_ASSET_FORM, onAssetFormSumbit)
+  yield takeEvery(addAsset.OPEN_VIEW, addAssetOpen)
+  yield takeEvery(addAsset.SET_FIELD, onFieldChange)
+  yield takeEvery(addAsset.SUBMIT_ASSET_FORM, onAssetFormSumbit)
 }

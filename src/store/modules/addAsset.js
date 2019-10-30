@@ -9,6 +9,7 @@ export const SET_INVALID_FIELD = '@@addAsset/SET_INVALID_FIELD'
 export const START_ASSET_LOADING = '@@addAsset/START_ASSET_LOADING'
 export const TERM_ASSET_LOADING = '@@addAsset/TERM_ASSET_LOADING'
 export const SET_ASSET_IS_VALID = '@@addAsset/SET_ASSET_IS_VALID'
+export const SET_HAS_DEFAULT_FIELDS = '@@addAsset/SET_HAS_DEFAULT_FIELDS'
 
 export const SUBMIT_ASSET_FORM = '@@addAsset/SUBMIT_ASSET_FORM'
 
@@ -56,6 +57,13 @@ export function setIsAssetValid(isAssetValid: boolean) {
   }
 }
 
+export function setHasDefaultFields(hasDefaultFields: boolean) {
+  return {
+    type: SET_HAS_DEFAULT_FIELDS,
+    payload: hasDefaultFields,
+  }
+}
+
 export function setField(fieldName: $Keys<EditAssetFormFields>, value: string) {
   return {
     type: SET_FIELD,
@@ -92,6 +100,7 @@ export type AddAssetAction = ExtractReturn<typeof setField> |
   ExtractReturn<typeof startAssetLoading> |
   ExtractReturn<typeof terminateAssetLoading> |
   ExtractReturn<typeof setIsAssetValid> |
+  ExtractReturn<typeof setHasDefaultFields> |
   ExtractReturn<typeof clean>
 
 const initialState: AddAssetState = {
@@ -107,11 +116,11 @@ const initialState: AddAssetState = {
     symbol: '',
     decimals: '',
   },
-
+  requestedAddress: '',
   isAssetValid: false,
   isAssetLoaded: false,
   isAssetLoading: false,
-  requestedAddress: '',
+  hasDefaultFields: false,
 }
 
 function addAsset(
@@ -187,10 +196,18 @@ function addAsset(
       }
     }
 
+    case SET_HAS_DEFAULT_FIELDS: {
+      return {
+        ...state,
+        hasDefaultFields: action.payload,
+      }
+    }
+
     case CLEAN:
       return initialState
 
-    default: return state
+    default:
+      return state
   }
 }
 
