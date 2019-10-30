@@ -3,11 +3,8 @@
 .core {
   @include flex-column;
 
-  padding: $page-header-height 0;
-
-  &.empty {
-    min-height: 100vh;
-  }
+  min-height: 100vh;
+  padding-top: $page-header-height;
 }
 
 .search {
@@ -40,7 +37,7 @@
   display: block;
   width: 100%;
   max-width: 352px;
-  margin-top: -112px;
+  margin: 40px auto;
   text-align: center;
   color: $main-black-40;
 }
