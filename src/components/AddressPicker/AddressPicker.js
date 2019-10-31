@@ -1,15 +1,10 @@
 // @flow strict
 
 import React from 'react'
-import { map } from 'lodash-es'
 
-import {
-  WalletAddressItem,
-} from 'components'
-
-import {
-  JIcon,
-} from 'components/base'
+import { JIcon } from 'components/base'
+import { WalletAddressItem } from 'components'
+import { getShortenedAddress } from 'utils/address'
 
 import {
   JPickerBody,
@@ -17,13 +12,7 @@ import {
   JPickerCurrent,
 } from 'components/base/JPicker'
 
-import {
-  getShortenedAddress,
-} from 'utils/address'
-
-import {
-  WalletAddressBalance,
-} from './WalletAddressBalance/WalletAddressBalance'
+import { WalletAddressBalance } from './WalletAddressBalance/WalletAddressBalance'
 
 export type AddressPickerItem = {|
   +name: string,
@@ -50,13 +39,19 @@ export function AddressPicker({
     value,
     onBlur: handleBlur,
     onFocus: handleFocus,
-  } = input
+  }: FinalFormInput = input
+
+  const address: ?AddressPickerItem = addresses.find((_, index) => index === value)
+
+  if (!address) {
+    return null
+  }
 
   const {
-    fiatBalance = '',
-    address: activeAddress = '',
-    name: activeAddressName = '',
-  } = addresses.find((_, index) => index === value) || {}
+    fiatBalance,
+    address: activeAddress,
+    name: activeAddressName,
+  }: AddressPickerItem = address
 
   return (
     <JPickerBody
@@ -84,7 +79,7 @@ export function AddressPicker({
         onItemClick={onItemClick}
         activeItemKey={value}
       >
-        {map(addresses, (item: AddressPickerItem) => (
+        {addresses.map((item: AddressPickerItem) => (
           <WalletAddressItem
             key={item.address}
             description={getShortenedAddress(item.address)}
