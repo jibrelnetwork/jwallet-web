@@ -1,7 +1,6 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { type I18n } from '@lingui/core'
 
@@ -107,12 +106,24 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
       addressIndex,
     }: StateProps = this.state
 
-    /* eslint-disable max-len */
+    if (!addresses.length) {
+      return null
+    }
+
     return (
       <div className={styles.core}>
         <UserActionInfo
-          text={i18n._('WalletsItemModeDisable.description', null, { defaults: 'This action will leave only one active wallet address of your choice. \nYou will be able return to the multi-address mode at any time and get access to all \nyour currently available addresses.' })}
-          title={i18n._('WalletsItemModeDisable.title', null, { defaults: 'Disable Multi-Address Mode' })}
+          text={i18n._(
+            'WalletsItemModeDisable.description',
+            null,
+            /* eslint-disable-next-line max-len */
+            { defaults: 'This action will leave only one active wallet address of your choice. \nYou will be able return to the multi-address mode at any time and get access to all \nyour currently available addresses.' },
+          )}
+          title={i18n._(
+            'WalletsItemModeDisable.title',
+            null,
+            { defaults: 'Disable Multi-Address Mode' },
+          )}
           iconClassName={styles.icon}
           iconName='ic_attention_48-use-fill'
         />
@@ -125,16 +136,17 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
           }) => (
             <form
               onSubmit={handleSubmit}
-              className={classNames(
-                styles.form,
-                !addresses.length && styles.empty,
-              )}
+              className={styles.form}
             >
               <Field
                 component={AddressPicker}
                 onItemClick={this.handleClick}
                 addresses={addresses}
-                label={i18n._('WalletsItemModeDisable.actions.address', null, { defaults: 'Address to Keep' })}
+                label={i18n._(
+                  'WalletsItemModeDisable.actions.address',
+                  null,
+                  { defaults: 'Address to Keep' },
+                )}
                 name='addressIndex'
               />
               <Button
@@ -142,13 +154,16 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
                 type='submit'
                 theme='general'
               >
-                {i18n._('WalletsItemModeDisable.actions.submit', null, { defaults: 'Disable' })}
+                {i18n._(
+                  'WalletsItemModeDisable.actions.submit',
+                  null,
+                  { defaults: 'Disable' },
+                )}
               </Button>
             </form>
           )}
         />
       </div>
     )
-    /* eslint-enable max-len */
   }
 }
