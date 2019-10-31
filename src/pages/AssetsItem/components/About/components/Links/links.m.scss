@@ -10,7 +10,8 @@
 }
 
 .label {
-  max-width: 180px;
+  max-width: 210px;
+  line-height: 24px;
   color: inherit;
   text-transform: capitalize;
   text-decoration: underline $main-blue-30;
@@ -32,4 +33,5 @@
 
   width: 24px;
   height: 24px;
+  vertical-align: top;
 }

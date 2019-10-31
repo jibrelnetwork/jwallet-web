@@ -62,11 +62,12 @@ function Links({
           >
             <span className={styles.label}>
               {getURLLabel(i18n, item.type)}
+              {'\u202F'}
+              <JIcon
+                name='ic_open_link_24-use-fill'
+                className={styles.icon}
+              />
             </span>
-            <JIcon
-              name='ic_open_link_24-use-fill'
-              className={styles.icon}
-            />
           </JLink>
         </li>
       ))}
