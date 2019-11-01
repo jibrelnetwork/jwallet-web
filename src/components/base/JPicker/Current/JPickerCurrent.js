@@ -1,69 +1,67 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
 
-import pickerCurrentStyle from './jPickerCurrent.m.scss'
+import styles from './jPickerCurrent.m.scss'
 
 type Props = {|
-  +value: string,
+  +onClick?: ?(() => any),
+  +onInputChange?: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
+  +inputRef: React$Ref<*>,
+  +iconComponent?: ?React$Node,
+  +balancesComponent?: ?React$Node,
   +label: string,
+  +value: string,
+  +inputValue?: string,
+  +hasError?: boolean,
   +isEditable: boolean,
-  inputValue?: string,
-  hasError?: boolean,
-  onClick?: ?(() => any),
-  onInputChange?: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
-  iconComponent?: ?React$Node,
-  balancesComponent?: ?React$Node,
 |}
 
-const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
-  const {
-    value,
-    inputValue,
-    label,
-    isEditable,
-    hasError,
-    onClick,
-    onInputChange,
-    iconComponent,
-    balancesComponent,
-  } = props
-
-  const hasValue = !!value
-
+function JPickerCurrentView({
+  onClick,
+  onInputChange,
+  inputRef,
+  iconComponent,
+  balancesComponent,
+  label,
+  value,
+  inputValue,
+  isEditable,
+  hasError,
+}: Props) {
   return (
     <div
-      className={classNames(
-        pickerCurrentStyle.core,
-        hasError && pickerCurrentStyle.error,
-        isEditable && pickerCurrentStyle.editable,
-        hasValue && pickerCurrentStyle.value,
-        !!iconComponent && pickerCurrentStyle.hasIcon,
-      )}
       onClick={onClick}
+      className={classNames(
+        styles.core,
+        hasError && styles.error,
+        isEditable && styles.editble,
+        !!value && styles.value,
+        !!iconComponent && styles.hasIcon,
+      )}
     >
       <input
-        ref={ref}
-        type='text'
-        className={pickerCurrentStyle.input}
-        placeholder={value}
-        value={inputValue}
-        disabled={!isEditable}
         onChange={onInputChange}
+        ref={inputRef}
+        value={inputValue}
+        placeholder={value}
+        className={styles.input}
+        type='text'
         autoComplete='off'
         maxLength={256}
+        disabled={!isEditable}
       />
-      <span className={pickerCurrentStyle.label}>
+      <span className={styles.label}>
         {label}
       </span>
       {iconComponent && (
-        <div className={pickerCurrentStyle.icon}>
+        <div className={styles.icon}>
           {iconComponent}
         </div>
       )}
       {balancesComponent && (
-        <div className={pickerCurrentStyle.balances}>
+        <div className={styles.balances}>
           {balancesComponent}
         </div>
       )}
@@ -71,19 +69,20 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
   )
 }
 
-JPickerCurrentComponent.defaultProps = {
-  value: '',
-  lebel: '',
-  isEditable: true,
-  editable: false,
-  hasError: false,
+JPickerCurrentView.defaultProps = {
   onClick: null,
-  inputValue: undefined,
   onInputChange: undefined,
   iconComponent: undefined,
   balancesComponent: undefined,
+  value: '',
+  label: '',
+  inputValue: undefined,
+  hasError: false,
+  isEditable: true,
 }
 
-const JPickerCurrent = React.forwardRef/* :: <Props, HTMLInputElement> */(JPickerCurrentComponent)
-
-export { JPickerCurrent }
+// eslint-disable-next-line react/display-name
+export const JPickerCurrent = React.forwardRef/* :: <Props, HTMLInputElement> */((
+  props: Props,
+  ref: React$Ref<*>,
+) => <JPickerCurrentView {...props} inputRef={ref} />)
