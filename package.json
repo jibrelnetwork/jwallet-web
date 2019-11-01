@@ -34,7 +34,8 @@
     "precommit": "npm run lint-staged",
     "lang:add-locale": "lingui add-locale",
     "lang:compile": "./node_modules/.bin/env-cmd env/development npx lingui compile",
-    "lang:sync": "./lang-sync.sh"
+    "lang:sync": "./lang-sync.sh",
+    "submodule:init": "git submodule update --init"
   },
   "dependencies": {
     "@jibrelnetwork/contracts-jsapi": "2.0.0",
