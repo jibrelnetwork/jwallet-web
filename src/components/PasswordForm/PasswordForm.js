@@ -16,7 +16,7 @@ type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
   +values: FormFields,
   +hint: string,
-  +description: ?string,
+  +description: string,
   +isSubmitting: boolean,
 |}
 
@@ -33,11 +33,9 @@ export function PasswordForm({
 
   return (
     <div className={styles.core}>
-      {description && (
-        <div className={styles.description}>
-          {description}
-        </div>
-      )}
+      <div className={styles.description}>
+        {description}
+      </div>
       <form
         onSubmit={handleSubmit}
         className={styles.form}
@@ -79,6 +77,6 @@ export function PasswordForm({
 }
 
 PasswordForm.defaultProps = {
-  description: null,
+  description: '',
   isSubmitting: false,
 }
