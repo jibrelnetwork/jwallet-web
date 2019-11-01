@@ -5,10 +5,9 @@ import classNames from 'classnames'
 
 import styles from './jPickerCurrent.m.scss'
 
-type Props = {|
+type OwnProps = {|
   +onClick?: ?(() => any),
   +onInputChange?: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
-  +inputRef: React$Ref<*>,
   +iconComponent?: ?React$Node,
   +balancesComponent?: ?React$Node,
   +label: string,
@@ -16,6 +15,11 @@ type Props = {|
   +inputValue?: string,
   +hasError?: boolean,
   +isEditable: boolean,
+|}
+
+type Props = {|
+  ...OwnProps,
+  +inputRef: React$Ref<*>,
 |}
 
 function JPickerCurrentView({
@@ -82,7 +86,7 @@ JPickerCurrentView.defaultProps = {
 }
 
 // eslint-disable-next-line react/display-name
-export const JPickerCurrent = React.forwardRef/* :: <Props, HTMLInputElement> */((
-  props: Props,
+export const JPickerCurrent = React.forwardRef/* :: <OwnProps, HTMLInputElement> */((
+  props: OwnProps,
   ref: React$Ref<*>,
 ) => <JPickerCurrentView {...props} inputRef={ref} />)
