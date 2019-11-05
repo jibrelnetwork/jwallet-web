@@ -613,4 +613,5 @@ class WalletsPlugin {
   }
 }
 
-export const walletsPlugin = new WalletsPlugin()
+const walletsPlugin = new WalletsPlugin()
+export default walletsPlugin
