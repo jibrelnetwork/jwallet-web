@@ -15,7 +15,6 @@ export { CopyableField } from './CopyableField/CopyableField'
 export { EditableField } from './EditableField/EditableField'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { WalletActions } from './WalletActions/WalletActions'
-export { CopyIconButton } from './CopyIconButton/CopyIconButton'
 export { UserActionInfo } from './UserActionInfo/UserActionInfo'
 export { CloseableScreen } from './CloseableScreen/CloseableScreen'
 export { GlobalFormError } from './GlobalFormError/GlobalFormError'
@@ -30,12 +29,13 @@ export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export { ContactsItemDetails } from './ContactsItemDetails/ContactsItemDetails'
 export { DigitalAssetAddForm } from './DigitalAssetAddForm/DigitalAssetAddForm'
 export { DigitalAssetEditForm } from './DigitalAssetEditForm/DigitalAssetEditForm'
-export { FieldPreview } from './FieldPreview/FieldPreview'
 export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
 export { AddressPicker } from './AddressPicker/AddressPicker'
 export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 
 export { default as PopupButton } from './PopupButton'
+export { default as FieldPreview } from './FieldPreview'
+export { default as CopyIconButton } from './CopyIconButton'
 
 export {
   QRCode,

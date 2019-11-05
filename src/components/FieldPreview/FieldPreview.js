@@ -1,9 +1,10 @@
 // @flow strict
 
 import React from 'react'
+import { type I18n } from '@lingui/core'
 
+import CopyIconButton from 'components/CopyIconButton'
 import { useI18n } from 'app/hooks'
-import { CopyIconButton } from 'components'
 
 import {
   JLink,
@@ -24,7 +25,7 @@ type Props = {|
   +isCopyable: boolean,
 |}
 
-export function FieldPreview({
+export default function FieldPreview({
   link,
   label,
   title,
@@ -33,7 +34,7 @@ export function FieldPreview({
   isContact,
   isCopyable,
 }: Props) {
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
     <div className={`__field-preview ${styles.core}`}>
@@ -44,8 +45,8 @@ export function FieldPreview({
         <div className={styles.value}>
           {link ? (
             <JLink
+              href={link}
               className={styles.link}
-              href={`https://${link}`}
             >
               {valueToShow || value}
             </JLink>
@@ -71,8 +72,8 @@ export function FieldPreview({
               className={styles.icon}
               name='add-contact-use-fill'
             />
-          </JLink>)
-        }
+          </JLink>
+        )}
         {isCopyable && (
           <CopyIconButton
             title={title}
