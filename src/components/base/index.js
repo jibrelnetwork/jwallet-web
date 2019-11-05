@@ -12,7 +12,6 @@ import JSwitch from './JSwitch'
 
 export { Button } from './Button/Button'
 export { AppLogo } from './AppLogo/AppLogo'
-export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
 export { Header } from './Header/Header'
 export { JLink } from './JLink/JLink'
@@ -24,6 +23,8 @@ export { JTextAreaField } from './JTextArea/JTextAreaField'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 export { JShimmer } from './JShimmer/JShimmer'
 export { ItemCard } from './ItemCard/ItemCard'
+
+export { default as JAssetSymbol } from './JAssetSymbol'
 
 export {
   JFlatButton,
