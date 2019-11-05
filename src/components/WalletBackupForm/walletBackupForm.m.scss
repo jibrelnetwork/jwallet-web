@@ -4,6 +4,7 @@
   @include flex-column-center;
 
   position: relative;
+  margin-bottom: $page-header-height;
 }
 
 .form {

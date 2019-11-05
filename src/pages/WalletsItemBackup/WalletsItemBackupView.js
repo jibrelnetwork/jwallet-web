@@ -24,8 +24,8 @@ import {
 
 import {
   TitleHeader,
+  PasswordForm,
   WalletBackupForm,
-  WalletPasswordForm,
 } from 'components'
 
 import walletsItemBackupStyle from './walletsItemBackup.m.scss'
@@ -253,7 +253,7 @@ class WalletsItemBackupView extends Component<Props, StateProps> {
     switch (currentStep) {
       case STEPS.PASSWORD:
         return (
-          <WalletPasswordForm
+          <PasswordForm
             handleSubmit={handleSubmit}
             values={values}
             hint={this.props.hint}

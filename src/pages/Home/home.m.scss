@@ -1,9 +1,11 @@
 @import 'styles/mixins';
 
 .core {
+  @include flex-column;
+
   width: 100%;
   min-height: 100vh;
-  padding: $page-header-height 0;
+  padding-top: $page-header-height;
 }
 
 .title {
@@ -81,16 +83,16 @@
 }
 
 .assets {
-  &.empty {
-    height: calc(100% - 264px);
+  @include flex-column;
 
+  flex-grow: 1;
+
+  &.empty {
     > .content {
-      display: flex;
-      height: calc(100% - #{$page-header-height});
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: $main-black-40;
+      @include flex-column-center;
+
+      flex-grow: 1;
+      padding: 0;
       user-select: none;
     }
   }
@@ -118,4 +120,15 @@
 
 .save {
   max-width: 100px;
+}
+
+.empty-assets {
+  @include font(16px, 24px);
+
+  display: block;
+  width: 100%;
+  max-width: 352px;
+  margin: 40px auto;
+  text-align: center;
+  color: $main-black-40;
 }

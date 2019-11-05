@@ -63,9 +63,11 @@ declare type DigitalAssets = {
   [AssetAddress]: ?DigitalAsset,
 }
 
-declare type DigitalAssetsPersist = {|
+declare type DigitalAssetsPersistV1 = {|
   +items: DigitalAssets,
 |}
+
+declare type DigitalAssetsPersist = DigitalAssetsPersistV1
 
 declare type DigitalAssetsState = {|
   +persist: DigitalAssetsPersist,
@@ -98,10 +100,11 @@ declare type EditAssetFormFields = {|
 declare type AddAssetState = {|
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields,
+  +requestedAddress: string,
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
-  +requestedAddress: string,
+  +hasDefaultFields: boolean,
 |}
 
 /**

@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "您正在使用{networkName}測試網路",
     "layout.MenuLayout.error.noConnection.description.0": "網路連線錯誤。",
     "layout.MenuLayout.error.noConnection.description.1": "再試一次。",
-    "layout.MenuLayout.logo.alt": "Jwallet標誌",
     "layout.StartLayout.logo.alt": "Jwallet標誌",
     "WalletsItemModeDisable.actions.address": "要保留的位址",
     "ContactForm.actions.save": "儲存",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "沒有搜索結果。",
     "WalletsMigration.description": "要迁移存储数据，您需要输入安全密码。请不要关闭选项卡，此过程将需要一段时间。",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "",
+    "About.copyright": "",
+    "About.links.privacy": "",
+    "About.links.terms": "",
+    "About.title": "",
+    "About.version.error": "",
+    "About.version.label": "",
+    "common.AppLogo.logo.alt": "Jwallet標誌"
 }

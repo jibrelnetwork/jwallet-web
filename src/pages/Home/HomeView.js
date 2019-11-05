@@ -229,10 +229,10 @@ class HomeView extends Component<Props, StateProps> {
   }
 
   renderEmptyList = () => {
-    const { i18n } = this.props
+    const { i18n }: I18n = this.props
 
     return (
-      <figure>
+      <figure className={styles.emptyAssets}>
         <img
           src={noResultImg}
           className={styles.emptyIcon}

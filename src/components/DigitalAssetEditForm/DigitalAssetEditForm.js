@@ -75,7 +75,7 @@ class DigitalAssetEditForm extends PureComponent<Props> {
             { defaults: 'Asset Address' },
           )}
           name='address'
-          maxLength={40}
+          maxLength={42}
           isDisabled={isDisabled || !isAddressEditable}
         />
         <Field
@@ -97,7 +97,7 @@ class DigitalAssetEditForm extends PureComponent<Props> {
             { defaults: 'Symbol' },
           )}
           name='symbol'
-          maxLength={10}
+          maxLength={5}
           isDisabled={isDisabled}
         />
         <Field

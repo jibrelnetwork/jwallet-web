@@ -76,7 +76,7 @@
 }
 
 .label {
-  @include font(14px, 22px);
+  @include font(14px, 16px);
 
   margin-left: 8px;
   font-weight: 600;
@@ -84,6 +84,8 @@
 
 .action {
   @include flex-row-center;
+
+  padding: 4px 10px 4px 8px;
 
   &:not(:last-child) {
     margin-right: 37px;
@@ -101,12 +103,13 @@
   @include flex-row;
   @include property-transition(box-shadow);
 
+  z-index: $z-index-header;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   min-width: 1024px;
-  background-color: transparent;
+  background-color: $pale-grey;
 
   &.menu {
     padding-left: 304px;
@@ -127,9 +130,8 @@
   }
 
   &.scrolled {
-    z-index: $z-index-header;
+    z-index: ($z-index-header + 1);
     box-shadow: $select-shadow;
-    background-color: $pale-grey;
   }
 }
 

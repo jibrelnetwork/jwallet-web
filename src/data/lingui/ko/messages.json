@@ -262,7 +262,6 @@
     "layout.MenuLayout.MenuPanel.testNetwork.info": "{networkName} 테스트 네트워크 사용 중",
     "layout.MenuLayout.error.noConnection.description.0": "인터넷 연결 오류.",
     "layout.MenuLayout.error.noConnection.description.1": "다시 시도하십시오",
-    "layout.MenuLayout.logo.alt": "Jwallet 로고",
     "layout.StartLayout.logo.alt": "Jwallet 로고",
     "WalletsItemModeDisable.actions.address": "저장할 주소",
     "ContactForm.actions.save": "저장",
@@ -422,5 +421,12 @@
     "HistoryList.Empty.text.filtered": "검색 결과 없음.",
     "WalletsMigration.description": "저장소 데이터를 마이그레이션하려면 보안 암호를 입력해야 합니다. 탭을 닫지 마십시오,이 과정은 시간이 좀 걸릴 것입니다.",
     "WalletsItemUpgrade.input.data.error.invalidMnemonicForAddress": "",
-    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": ""
+    "WalletsItemUpgrade.input.data.error.invalidXPRVForAddress": "",
+    "About.copyright": "",
+    "About.links.privacy": "",
+    "About.links.terms": "",
+    "About.title": "",
+    "About.version.error": "",
+    "About.version.label": "",
+    "common.AppLogo.logo.alt": "Jwallet 로고"
 }

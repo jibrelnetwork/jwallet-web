@@ -12,9 +12,9 @@ import {
 } from 'react-final-form'
 
 import walletsPlugin from 'store/plugins/walletsPlugin'
+import { PasswordForm } from 'components'
 import { selectPasswordHint } from 'store/selectors/password'
 import { selectActiveWalletId } from 'store/selectors/wallets'
-import { WalletPasswordForm } from 'components'
 
 type PasswordFormValues= {|
   password: string,
@@ -66,7 +66,7 @@ class PasswordStepForm extends PureComponent<Props> {
     }: FormRenderProps = formRenderProps
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         isSubmitting={submitting}
         handleSubmit={handleSubmit}
         values={values}

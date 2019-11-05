@@ -1,19 +1,19 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 
-import { UserActionInfo } from 'components'
-import { JLink } from 'components/base'
 import { useI18n } from 'app/hooks'
+import { JLink } from 'components/base'
+import { UserActionInfo } from 'components'
 
-import style from './notFound.m.scss'
+import styles from './notFound.m.scss'
 
 export function NotFound() {
   const i18n = useI18n()
 
   return (
-    <div className={style.core}>
-      <div className={style.center}>
+    <div className={styles.core}>
+      <div className={styles.center}>
         <UserActionInfo
           title={i18n._(
             'NotFound.title',
@@ -28,20 +28,21 @@ export function NotFound() {
                 'The page you\'re looking for can\'t be found. Check the URL and try again.',
             },
           )}
-          iconClassName={style.icon}
+          iconClassName={styles.icon}
           iconName='ic_attention_48-use-fill'
         />
-        <JLink
-          theme='button-general-confirm'
-          className={style.button}
-          href='/'
-        >
-          {i18n._(
-            'NotFound.goHome',
-            null,
-            { defaults: 'Go to Home' },
-          )}
-        </JLink>
+        <div className={styles.button}>
+          <JLink
+            href='/'
+            theme='button-general-confirm'
+          >
+            {i18n._(
+              'NotFound.goHome',
+              null,
+              { defaults: 'Go to Home' },
+            )}
+          </JLink>
+        </div>
       </div>
     </div>
   )

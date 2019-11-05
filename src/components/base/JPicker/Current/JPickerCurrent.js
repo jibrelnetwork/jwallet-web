@@ -37,7 +37,7 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
       className={classNames(
         pickerCurrentStyle.core,
         hasError && pickerCurrentStyle.error,
-        isEditable && pickerCurrentStyle.editble,
+        isEditable && pickerCurrentStyle.editable,
         hasValue && pickerCurrentStyle.value,
         !!iconComponent && pickerCurrentStyle.hasIcon,
       )}

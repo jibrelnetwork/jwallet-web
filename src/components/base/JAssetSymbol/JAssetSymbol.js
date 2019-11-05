@@ -4,31 +4,26 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { iconsAsset } from 'utils/sprite'
+
+import styles from './jAssetSymbol.m.scss'
 import { ADDRESSES_AVAILABLE } from './symbolsAvailable'
 
-import jAssetSymbolStyle from './jAssetSymbol.m.scss'
-
-type JAssetSymbolColor = 'blue' | 'gray' | 'white'
 // remember: symbol version would be a little larger than icon version
 type JAssetSymbolSize = 24 | 32
 
 type Props = {|
+  +symbol: string,
   +address?: ?string,
   +className?: ?string,
-  +color?: JAssetSymbolColor,
-  +symbol: string,
   +size: JAssetSymbolSize,
 |}
 
-export function JAssetSymbolInternal({
+export function JAssetSymbol({
+  size,
   symbol,
   address,
-  color,
   className,
-  size,
 }: Props) {
-  const sizeClassId = `size${size}`
-
   const symbolByAddress = address
     ? ADDRESSES_AVAILABLE[address.toLowerCase()]
     : null
@@ -37,52 +32,43 @@ export function JAssetSymbolInternal({
     ? iconsAsset[`${symbolByAddress.toUpperCase()}-usage`]
     : null
 
-  const symbolShorthand = symbol.length > 4
-    ? symbol.substr(0, 3)
-    : symbol
-
   return (
     <div
       className={classNames(
         '__asset-symbol',
-        jAssetSymbolStyle[color],
-        jAssetSymbolStyle[sizeClassId],
+        styles[`size${size}`],
         className,
       )}
     >
-      {symbolByAddress && iconData
-        ? (
-          <svg
-            className={jAssetSymbolStyle.icon}
-            viewBox={iconData.viewBox}
+      {symbolByAddress && iconData ? (
+        <svg
+          className={styles.icon}
+          viewBox={iconData.viewBox}
+        >
+          <use
+            xlinkHref={iconData.url}
+            key={address}
+          />
+        </svg>
+      ) : (
+        <svg className={styles.text} viewBox='0 0 36 36'>
+          <text
+            x='18'
+            y='18'
+            textAnchor='middle'
+            dominantBaseline='central'
           >
-            <use
-              xlinkHref={iconData.url}
-              key={address}
-            />
-          </svg>
-        )
-        : (
-          <svg className={jAssetSymbolStyle.text} viewBox='0 0 36 36'>
-            <text
-              x='18'
-              y='18'
-              textAnchor='middle'
-              dominantBaseline='central'
-            >
-              {symbolShorthand}
-            </text>
-          </svg>
-        )
-      }
+            {(symbol.length > 4) ? symbol.substr(0, 3) : symbol}
+          </text>
+        </svg>
+      )}
     </div>
   )
 }
 
-JAssetSymbolInternal.defaultProps = {
+JAssetSymbol.defaultProps = {
   address: null,
-  color: 'blue',
   className: null,
 }
 
-export const JAssetSymbol = React.memo/* :: <Props> */(JAssetSymbolInternal)
+export const JAssetSymbolEnhanced = React.memo/* :: <Props> */(JAssetSymbol)

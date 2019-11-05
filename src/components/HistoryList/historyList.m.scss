@@ -10,7 +10,7 @@
   @include flex-column;
   @include property-transition(max-width);
 
-  padding: 0 16px;
+  padding: 0 16px 88px 16px;
 }
 
 .right {
@@ -30,11 +30,7 @@
   @include flex-row-center;
 
   flex-grow: 1;
-  margin: 32px 0;
-}
-
-.sidebar {
-  padding-bottom: 16px;
+  min-height: 88px;
 }
 
 .details {
@@ -77,7 +73,7 @@
       right: 0;
       width: 400px;
       max-width: 400px;
-      padding: 0 16px;
+      padding: 0 16px 16px 16px;
       opacity: 1;
     }
   }
@@ -91,5 +87,11 @@
 
   &.empty {
     flex-grow: 1;
+  }
+
+  &.loading {
+    .main {
+      padding: 0 16px;
+    }
   }
 }
