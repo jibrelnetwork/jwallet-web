@@ -1,5 +1,5 @@
 // @flow strict
 
-import CopyIconButton from './CopyIconButton'
+import { CopyIconButtonEnhanced } from './CopyIconButton'
 
-export default CopyIconButton
+export default CopyIconButtonEnhanced

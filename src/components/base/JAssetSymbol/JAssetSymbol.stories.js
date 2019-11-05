@@ -1,35 +1,30 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
   text,
   select,
   withKnobs,
 } from '@storybook/addon-knobs'
 
+import JAssetSymbol from './JAssetSymbol'
 import { ADDRESSES_AVAILABLE } from './symbolsAvailable'
-import { JAssetSymbol } from './JAssetSymbol'
 
 const ADDRESSES_LIST = Object.keys(ADDRESSES_AVAILABLE)
 
-const AVAILABLE_COLORS = [
-  'blue',
-  'white',
-  'gray',
-]
 const AVAILABLE_SIZES = [
   24,
   32,
 ]
+
 const ADDRESS_SELECT = {
   'Ethereum': 'ethereum',
   'Nothing': null,
 }
 
-const toLowerCaseSafe = s => (s && typeof s === 'string') ?
-  s.toLowerCase() :
-  s
+const toLowerCaseSafe = s => (s && typeof s === 'string') ? s.toLowerCase() : s
 
 storiesOf('JAssetSymbol', module).addDecorator(withKnobs)
   .add('Customizable', () => (
@@ -39,7 +34,6 @@ storiesOf('JAssetSymbol', module).addDecorator(withKnobs)
         <JAssetSymbol
           symbol={text('Symbol', 'WWWW')}
           address={select('Address', ADDRESS_SELECT, null)}
-          color={select('Color', AVAILABLE_COLORS, 'blue')}
           size={select('Size', AVAILABLE_SIZES, 24)}
         />
       </div>
@@ -52,7 +46,6 @@ storiesOf('JAssetSymbol', module).addDecorator(withKnobs)
         <JAssetSymbol
           symbol='NONE'
           address={toLowerCaseSafe(text('Address', null))}
-          color='blue'
           size={32}
         />
       </div>

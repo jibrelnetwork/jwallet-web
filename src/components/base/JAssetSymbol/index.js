@@ -1,5 +1,5 @@
 // @flow strict
 
-import { JAssetSymbolEnhanced as JAssetSymbol } from './JAssetSymbol'
+import { JAssetSymbolEnhanced } from './JAssetSymbol'
 
-export default JAssetSymbol
+export default JAssetSymbolEnhanced

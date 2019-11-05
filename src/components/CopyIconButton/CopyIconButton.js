@@ -18,7 +18,7 @@ type Props = {|
   +toastMessage: ?string,
 |}
 
-class CopyIconButton extends PureComponent<Props> {
+export default class CopyIconButton extends PureComponent<Props> {
   static defaultProps = {
     title: null,
     toastMessage: null,
@@ -68,5 +68,4 @@ class CopyIconButton extends PureComponent<Props> {
   }
 }
 
-const CopyIconButtonEnhanced = withI18n()(CopyIconButton)
-export default CopyIconButtonEnhanced
+export const CopyIconButtonEnhanced = withI18n()(CopyIconButton)

@@ -9,7 +9,7 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs'
 
-import { FieldPreview } from './FieldPreview'
+import FieldPreview from './FieldPreview'
 
 const ADDRESS: string = '0xfb27c2394586feb01403ba3643b519c8f209e0'
 
