@@ -5,7 +5,7 @@ WORKDIR /app
 
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
-COPY package.json .
+COPY package.json package-lock.json .
 RUN npm install && npm cache clean --force
 COPY . .
 
