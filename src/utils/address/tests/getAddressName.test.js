@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { getAddressName } from '..'
 
@@ -8,12 +8,30 @@ describe('address getAddressName', () => {
   })
 
   it('it works with name and index', () => {
-    const withName = getAddressName('My Address', 1)
-    expect(withName).toBe('My Address')
+    const result: string = getAddressName(
+      'My Address',
+      1,
+    )
+
+    expect(result).toBe('My Address')
   })
 
-  it('it works without name and index', () => {
-    const withName = getAddressName(null, 1)
-    expect(withName).toBe('Address 2')
+  it('it works without name', () => {
+    const result: string = getAddressName(
+      null,
+      1,
+    )
+
+    expect(result).toBe('Address 2')
+  })
+
+  it('it works with wallet name', () => {
+    const result: string = getAddressName(
+      'My Address',
+      99,
+      'My Wallet',
+    )
+
+    expect(result).toBe('My Wallet / My Address')
   })
 })
