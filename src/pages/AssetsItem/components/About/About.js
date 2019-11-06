@@ -85,9 +85,8 @@ function About({
       <div className={styles.card}>
         <JAssetSymbol
           symbol={symbol}
-          className={styles.symbol}
           address={address}
-          color='blue'
+          className={styles.symbol}
           size={32}
         />
         <div className={classNames(styles.info, assetPage && styles.delimiter)}>

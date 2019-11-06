@@ -4,38 +4,36 @@ import * as React from 'react'
 
 import { JAssetSymbol } from 'components/base'
 
+import styles from './assetItem.m.scss'
 import { AssetBalance } from '../AssetBalance/AssetBalance'
-
-import assetItemStyles from './assetItem.m.scss'
 
 type Props = {
   +name: string,
-  +address: AssetAddress,
   +symbol: string,
-  +assetBalance: ?string,
   +fiatBalance: ?string,
+  +assetBalance: ?string,
+  +address: AssetAddress,
 }
 
 function AssetItem({
   name,
   symbol,
   address,
-  assetBalance,
   fiatBalance,
+  assetBalance,
 }: Props) {
   return (
-    <div className={assetItemStyles.core}>
-      <span className={assetItemStyles.icon}>
+    <div className={styles.core}>
+      <span className={styles.icon}>
         <JAssetSymbol
-          address={address}
           symbol={symbol}
-          color='blue'
+          address={address}
           size={24}
         />
       </span>
-      <div className={assetItemStyles.wrap}>
-        <span className={assetItemStyles.title}>{name}</span>
-        <span className={assetItemStyles.description}>{symbol}</span>
+      <div className={styles.wrap}>
+        <span className={styles.title}>{name}</span>
+        <span className={styles.description}>{symbol}</span>
       </div>
       <AssetBalance
         assetBalance={assetBalance}

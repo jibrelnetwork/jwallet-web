@@ -12,21 +12,40 @@
 }
 
 .back {
+  @include sprite-icon-color($main-blue);
+  @include property-transition(background-color);
+
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.route-icon {
+  @include sprite-icon-color($main-blue);
+
+  width: 24px;
+  height: 24px;
+  margin-left: 3px;
+}
+
+.breadcrumbs {
   @include flex-row-center;
-  @include property-transition(background-color, opacity);
+  @include property-transition(opacity);
 
   z-index: $z-index-menu-back;
   position: absolute;
   top: 48px;
   left: 48px;
-  width: 40px;
-  height: 40px;
+  border: none;
+  background: none;
   transition-delay: 0.15s;
-  border-radius: 50%;
-  background-color: transparent;
+  outline: none;
+  appearance: none;
   cursor: pointer;
 
-  &:hover {
+  &:hover > .back {
     background-color: $main-blue-10;
   }
 }
@@ -34,6 +53,7 @@
 .title {
   @include ellipsis;
 
+  min-height: 40px;
   min-width: 200px;
   max-width: 736px;
   margin-right: auto;
@@ -56,7 +76,7 @@
 }
 
 .label {
-  @include font(14px, 22px);
+  @include font(14px, 16px);
 
   margin-left: 8px;
   font-weight: 600;
@@ -64,6 +84,8 @@
 
 .action {
   @include flex-row-center;
+
+  padding: 4px 10px 4px 8px;
 
   &:not(:last-child) {
     margin-right: 37px;
@@ -81,12 +103,13 @@
   @include flex-row;
   @include property-transition(box-shadow);
 
+  z-index: $z-index-header;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   min-width: 1024px;
-  background-color: transparent;
+  background-color: $pale-grey;
 
   &.menu {
     padding-left: 304px;
@@ -107,9 +130,8 @@
   }
 
   &.scrolled {
-    z-index: $z-index-header;
+    z-index: ($z-index-header + 1);
     box-shadow: $select-shadow;
-    background-color: $pale-grey;
   }
 }
 

@@ -6,6 +6,7 @@
   width: 100%;
   min-height: 100vh;
   flex-grow: 1;
+  padding-top: $page-header-height;
 }
 
 .form {
@@ -13,6 +14,7 @@
 
   position: relative;
   width: 544px;
+  margin: $page-header-height 0;
 }
 
 .icon {

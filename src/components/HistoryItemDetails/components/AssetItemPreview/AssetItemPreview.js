@@ -38,7 +38,6 @@ export function AssetItemPreview({
         <JAssetSymbol
           symbol={symbol}
           address={address}
-          color='blue'
           size={24}
         />
       </div>

@@ -20,6 +20,7 @@ export { HistoryItem } from './HistoryItem/HistoryItem'
 export { HistoryItemCancel } from './HistoryItemCancel/HistoryItemCancel'
 
 export { More } from './More/More'
+export { About } from './About/About'
 
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'

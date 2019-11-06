@@ -26,15 +26,16 @@ export function setInitialItems(items: DigitalAssets) {
   }
 }
 
-export function addCustomAsset(address: Address, name: string, symbol: string, decimals: number) {
+export function addCustomAsset(payload: {
+  name: string,
+  symbol: string,
+  address: Address,
+  decimals: number,
+  hasDefaultFields: boolean,
+}) {
   return {
     type: ADD_CUSTOM_ASSET,
-    payload: {
-      address,
-      name,
-      symbol,
-      decimals,
-    },
+    payload,
   }
 }
 
@@ -112,10 +113,11 @@ const digitalAssets = (
 
     case ADD_CUSTOM_ASSET: {
       const {
-        address,
         name,
         symbol,
+        address,
         decimals,
+        hasDefaultFields,
       } = action.payload
 
       const customAsset: DigitalAsset = {
@@ -126,6 +128,7 @@ const digitalAssets = (
         },
         name,
         symbol,
+        hasDefaultFields,
         isCustom: true,
         isActive: true,
       }

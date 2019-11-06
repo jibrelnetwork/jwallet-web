@@ -28,9 +28,9 @@ import { selectPendingTransactionByHash } from 'store/selectors/transactions'
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   ButtonWithConfirm,
-  WalletPasswordForm,
 } from 'components'
 
 import {
@@ -230,7 +230,7 @@ class HistoryItemCancel extends Component<Props, StateProps> {
     const {
       i18n,
       walletId,
-    } = this.props
+    }: Props = this.props
 
     try {
       const privateKey = await walletsPlugin.getPrivateKey(
@@ -260,6 +260,10 @@ class HistoryItemCancel extends Component<Props, StateProps> {
 
     return (
       <div className={styles.core}>
+        <TitleHeader
+          onBack={this.handleCancelAgreement}
+          previousRouteIconName='history'
+        />
         <UserActionInfo
           text={i18n._(
             'HistoryItemCancel.agreement.text',
@@ -310,7 +314,7 @@ class HistoryItemCancel extends Component<Props, StateProps> {
     const { hint }: Props = this.props
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         isSubmitting={submitting}
         handleSubmit={handleSubmit}
         values={values}

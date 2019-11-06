@@ -25,9 +25,9 @@ import {
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   WalletBackupForm,
-  WalletPasswordForm,
 } from 'components'
 
 import styles from './walletsCreate.m.scss'
@@ -362,7 +362,7 @@ class WalletsCreateView extends Component<Props, StateProps> {
     values = {},
     submitting,
   }: FormRenderProps) => (
-    <WalletPasswordForm
+    <PasswordForm
       handleSubmit={handleSubmit}
       values={values}
       hint={this.props.hint}

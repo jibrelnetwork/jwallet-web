@@ -121,7 +121,6 @@ module.exports = {
         test: /\.svg$/,
         include: [
           path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
-          path.resolve(__dirname, 'src/public/assets/tokens'),
         ],
         use: [
           {
@@ -156,6 +155,7 @@ module.exports = {
       {
         test: /\.svg$/,
         include: [
+          path.resolve(__dirname, 'src/public/assets/tokens'),
           path.resolve(__dirname, 'src/public/assets/icons/sprite-colored'),
         ],
         use: [

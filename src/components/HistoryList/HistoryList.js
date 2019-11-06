@@ -143,6 +143,7 @@ class HistoryList extends Component<Props, StateProps> {
       <div
         className={classNames(
           styles.core,
+          isLoading && styles.loading,
           activeItemKeys && styles.active,
           withFixedHeight && styles.height,
         )}

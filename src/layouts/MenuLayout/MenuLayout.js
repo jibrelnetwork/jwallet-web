@@ -15,7 +15,11 @@ import * as digitalAssets from 'store/modules/digitalAssets'
 
 import styles from './menuLayout.m.scss'
 import { MenuPanel } from './components'
-import { getMenuMeta } from './components/MenuPanel/menuMeta'
+
+import {
+  getMenuMeta,
+  type MenuMeta,
+} from './components/MenuPanel/menuMeta'
 
 type MenuLayoutHandler = () => any
 
@@ -35,6 +39,8 @@ type Props = {|
 |}
 
 class MenuLayout extends Component<Props> {
+  coreRef = React.createRef<HTMLDivElement>()
+
   componentDidMount() {
     const {
       startBlocksSync,
@@ -80,6 +86,12 @@ class MenuLayout extends Component<Props> {
     } else if (isPrevWallets && !isCurrWallets) {
       startBlocksSync()
     }
+
+    if ((routeName !== prevProps.routeName) && this.coreRef && this.coreRef.current) {
+      this.coreRef.current.scrollIntoView({
+        block: 'start',
+      })
+    }
   }
 
   render() {
@@ -90,10 +102,11 @@ class MenuLayout extends Component<Props> {
       isConnectionError,
     }: Props = this.props
 
-    const { isMinimized } = getMenuMeta(routeName)
+    const { isMinimized }: MenuMeta = getMenuMeta(routeName)
 
     return (
       <div
+        ref={this.coreRef}
         className={classNames(
           '__menu-layout',
           `__page-${routeName.toLowerCase()}`,

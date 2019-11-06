@@ -23,10 +23,6 @@ export const routes: Array<{|
   name: 'Home',
   hasMenu: true,
 }, {
-  path: '/about',
-  name: 'About',
-  hasMenu: true,
-}, {
   path: '/assets/add',
   name: 'AssetsItemAdd',
   hasMenu: true,
@@ -97,6 +93,10 @@ export const routes: Array<{|
 }, {
   path: '/more',
   name: 'More',
+  hasMenu: true,
+}, {
+  path: '/about',
+  name: 'About',
   hasMenu: true,
 }, {
   path: '/settings',

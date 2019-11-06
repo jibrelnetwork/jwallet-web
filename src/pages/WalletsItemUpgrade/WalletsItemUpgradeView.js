@@ -29,9 +29,9 @@ import {
 
 import {
   TitleHeader,
+  PasswordForm,
   UserActionInfo,
   MnemonicOptions,
-  WalletPasswordForm,
 } from 'components'
 
 import styles from './walletsItemUpgrade.m.scss'
@@ -76,7 +76,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     switch (this.state.currentStep) {
       case STEPS.DATA:
@@ -92,6 +92,14 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
       default:
         return ''
     }
+  }
+
+  getPreviousRouteIconName = (): ?string => {
+    if (this.state.currentStep !== STEPS.DATA) {
+      return null
+    }
+
+    return 'wallet'
   }
 
   goToHome = () => {
@@ -226,7 +234,6 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
       values,
     )
 
-    const isXPUB: boolean = (type === 'xpub')
     const inputtedDataType: ?WalletCustomType = getTypeByInput(data)
     const isDPathError: boolean = !!derivationPath && !!validateDerivationPath(derivationPath)
     const isDisabled: boolean = !inputtedDataType || !!errorDataMessage || isDPathError
@@ -271,7 +278,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {isXPUB && (inputtedDataType === 'mnemonic') && (
+        {(inputtedDataType === 'mnemonic') && (
           <MnemonicOptions
             derivationPath={derivationPath}
             isFormDisabled={!!isSubmitting}
@@ -301,7 +308,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
     }: FormRenderProps = formRenderProps
 
     return (
-      <WalletPasswordForm
+      <PasswordForm
         handleSubmit={handleSubmit}
         values={values}
         hint={this.props.hint}
@@ -369,6 +376,7 @@ class WalletsItemUpgradeView extends Component<Props, StateProps> {
         <TitleHeader
           onBack={this.handleBack()}
           title={this.getTitle()}
+          previousRouteIconName={this.getPreviousRouteIconName()}
         />
         <Form
           render={this.renderForm}

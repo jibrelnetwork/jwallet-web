@@ -84,9 +84,8 @@ export function AssetPicker({
           value={activeAssetName}
           iconComponent={(
             <JAssetSymbol
-              address={activeAssetAddress}
-              color='blue'
               symbol={activeAssetSymbol}
+              address={activeAssetAddress}
               size={24}
             />
           )}
