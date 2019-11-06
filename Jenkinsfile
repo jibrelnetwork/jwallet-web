@@ -1,6 +1,6 @@
 builder(
-        jUnitReportsPath: 'junit-reports',
-        coverageReportsPath: 'coverage-reports',
+        jUnitReportsPath: 'reports/unit-tests',
+        coverageReportsPath: 'reports/coverage',
         buildTasks: [
                 [
                         name: 'Linters',
