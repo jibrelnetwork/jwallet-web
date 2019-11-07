@@ -14,6 +14,9 @@ import compareDigitalAssetsByBalance from './compareDigitalAssetsByBalance'
 export { sortAssets } from './sortAssets'
 export { getFiatBalance } from './getFiatBalance'
 
+export { default as addETHAsset } from './addETHAsset'
+export { default as mergeDigitalAssets } from './mergeDigitalAssets'
+
 export {
   checkETH,
   checkJNT,
