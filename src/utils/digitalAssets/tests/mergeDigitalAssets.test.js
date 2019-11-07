@@ -26,7 +26,7 @@ describe('mergeDigitalAssets', () => {
     expect(mergeDigitalAssets).toBeDefined()
   })
 
-  test('check that default items are merged correctly', async () => {
+  test('default items are merged correctly', async () => {
     const result: DigitalAssets = await mergeDigitalAssets({})
     const jnt: ?DigitalAsset = result[JNT_ADDRESS]
 
@@ -41,7 +41,7 @@ describe('mergeDigitalAssets', () => {
     expect(jnt.blockchainParams.address).toEqual(JNT_ADDRESS)
   })
 
-  test('check that existed items are merged correctly', async () => {
+  test('existed items are merged correctly', async () => {
     const result: DigitalAssets = await mergeDigitalAssets({
       [AZBIT_ADDRESS]: AZBIT_ASSET,
     })
@@ -59,7 +59,7 @@ describe('mergeDigitalAssets', () => {
     expect(azbit.blockchainParams.address).toEqual(AZBIT_ADDRESS_CS)
   })
 
-  test('check that existed non-custom item will be removed', async () => {
+  test('existed non-custom item will be removed', async () => {
     const result: DigitalAssets = await mergeDigitalAssets({
       [AZBIT_ADDRESS]: {
         ...AZBIT_ASSET,
@@ -73,7 +73,7 @@ describe('mergeDigitalAssets', () => {
     expect(azbit).toBeUndefined()
   })
 
-  test('check that existed non-custom item will not be removed', async () => {
+  test('existed non-custom item will not be removed', async () => {
     const result: DigitalAssets = await mergeDigitalAssets({
       [AZBIT_ADDRESS]: {
         ...AZBIT_ASSET,
@@ -92,7 +92,7 @@ describe('mergeDigitalAssets', () => {
     expect(azbit.isCustom).toBeTruthy()
   })
 
-  test('check that existed custom item will be converted to non-custom', async () => {
+  test('existed custom item will be converted to non-custom', async () => {
     const result: DigitalAssets = await mergeDigitalAssets({
       [JNT_ADDRESS]: AZBIT_ASSET,
     })
