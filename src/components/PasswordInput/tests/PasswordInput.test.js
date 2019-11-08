@@ -13,7 +13,7 @@ jest.mock('../../../utils/sprite/spriteAssets', () => ({
 }))
 
 // eslint-disable-next-line import/first
-import { PasswordInput } from '../PasswordInput'
+import PasswordInput from '../PasswordInput'
 
 describe('PasswordInput', () => {
   test('is available', () => {

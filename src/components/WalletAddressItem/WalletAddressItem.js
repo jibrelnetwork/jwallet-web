@@ -4,31 +4,31 @@ import React from 'react'
 
 import { JIcon } from 'components/base'
 
-import itemStyles from './walletAddressItem.m.scss'
+import styles from './walletAddressItem.m.scss'
 
-type Props = {
+type Props = {|
   +name: string,
-  +description: string,
   +address: string,
+  +description: string,
   +fiatBalance: string,
-}
+|}
 
-export function WalletAddressItem({
+export default function WalletAddressItem({
   name,
-  description,
   address,
+  description,
   fiatBalance,
 }: Props) {
   return (
-    <div className={itemStyles.core}>
-      <JIcon className={itemStyles.icon} color='blue' name='0x-use-fill' />
-      <div className={itemStyles.wrap}>
-        <span className={itemStyles.title}>{name || address}</span>
-        <span className={itemStyles.description}>{description}</span>
+    <div className={styles.core}>
+      <JIcon className={styles.icon} color='blue' name='0x-use-fill' />
+      <div className={styles.wrap}>
+        <span className={styles.title}>{name || address}</span>
+        <span className={styles.description}>{description}</span>
       </div>
       {fiatBalance &&
-      <div className={itemStyles.balance}>
-        <span className={itemStyles.value}>{fiatBalance}</span>
+      <div className={styles.balance}>
+        <span className={styles.value}>{fiatBalance}</span>
       </div>
       }
     </div>

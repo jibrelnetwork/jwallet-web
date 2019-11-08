@@ -9,8 +9,9 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs'
 
-import { SearchInput } from './SearchInput'
-import { SearchFilter } from '../SearchFilter/SearchFilter'
+import SearchFilter from 'components/SearchFilter'
+
+import SearchInput from './SearchInput'
 
 storiesOf('base|Search Input', module)
   .addDecorator(withKnobs)

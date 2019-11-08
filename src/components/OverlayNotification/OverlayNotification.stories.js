@@ -1,12 +1,11 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import OverlayNotification from 'components/OverlayNotification'
+import OverlayNotification from './OverlayNotification'
 
-storiesOf('OverlayNotification')
-
+storiesOf('OverlayNotification', module)
   .add('Default', () => (
     <div className='story'>
       <OverlayNotification

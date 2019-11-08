@@ -3,9 +3,9 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
-import { clipboard } from 'services'
+import clipboard from 'services/clipboard'
 
 import {
   toastsPlugin,
@@ -17,17 +17,17 @@ import {
   JLink,
 } from 'components/base'
 
-import walletActionsStyle from './walletActions.m.scss'
+import styles from './walletActions.m.scss'
 
 type RenameHandler = () => any
 
 type Props = {|
   +onRename: ?RenameHandler,
+  +i18n: I18n,
   +id: WalletId,
   +type: WalletCustomType,
   +isSimplified: ?boolean,
   +isFromAddressManager: ?boolean,
-  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -92,12 +92,12 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
 
   render() {
     const {
+      onRename,
+      i18n,
       id,
       type,
-      onRename,
       isSimplified,
       isFromAddressManager,
-      i18n,
     }: Props = this.props
 
     const { isToggled }: StateProps = this.state
@@ -113,17 +113,17 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
       <div
         className={classNames(
           '__wallet-actions',
-          walletActionsStyle.core,
-          isToggled && walletActionsStyle.toggled,
+          styles.core,
+          isToggled && styles.toggled,
         )}
       >
         <div
           onClick={this.handleToggle}
-          className={walletActionsStyle.overlay}
+          className={styles.overlay}
         />
         <div
           onClick={this.handleToggle}
-          className={walletActionsStyle.icon}
+          className={styles.icon}
         >
           <JIcon
             color='white'
@@ -131,8 +131,8 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
           />
         </div>
         <div className={classNames(
-          walletActionsStyle.actions,
-          !isToggled && walletActionsStyle['-hide'],
+          styles.actions,
+          !isToggled && styles['-hide'],
         )}
         >
           {hasSingleAddress && (
@@ -140,8 +140,8 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
               type='button'
               onClick={this.handleCopyAddress}
               className={classNames(
-                walletActionsStyle.action,
-                walletActionsStyle['-button'],
+                styles.action,
+                styles['-button'],
               )}
             >
               {i18n._('common.WalletActions.copy', null, { defaults: 'Copy Wallet Address' })}
@@ -152,8 +152,8 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
               type='button'
               onClick={this.handleRename}
               className={classNames(
-                walletActionsStyle.action,
-                walletActionsStyle['-button'],
+                styles.action,
+                styles['-button'],
               )}
             >
               {i18n._('common.WalletActions.rename', null, { defaults: 'Rename Wallet' })}
@@ -163,7 +163,7 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
             <JLink
               onClick={this.handleLinkClick}
               href={`/wallets/${id}/upgrade`}
-              className={walletActionsStyle.action}
+              className={styles.action}
             >
               {i18n._('common.WalletActions.unlock', null, { defaults: 'Unlock Features' })}
             </JLink>
@@ -172,7 +172,7 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
             <JLink
               onClick={this.handleLinkClick}
               href={`/wallets/${id}/addresses`}
-              className={walletActionsStyle.action}
+              className={styles.action}
             >
               {i18n._(
                 'common.WalletActions.manageAddresses',
@@ -184,7 +184,7 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
           {isMultiAddressWallet && (
             <JLink
               onClick={this.handleLinkClick}
-              className={walletActionsStyle.action}
+              className={styles.action}
               href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
               {isSimplified
@@ -205,7 +205,7 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
             <JLink
               onClick={this.handleLinkClick}
               href={`/wallets/${id}/backup`}
-              className={walletActionsStyle.action}
+              className={styles.action}
             >
               {i18n._('common.WalletActions.backup', null, { defaults: 'Backup Wallet' })}
             </JLink>
@@ -213,7 +213,7 @@ class WalletActionsComponent extends PureComponent<Props, StateProps> {
           <JLink
             onClick={this.handleLinkClick}
             href={`/wallets/${id}/delete`}
-            className={walletActionsStyle.action}
+            className={styles.action}
           >
             {i18n._('common.WalletActions.delete', null, { defaults: 'Delete Wallet' })}
           </JLink>

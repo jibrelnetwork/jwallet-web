@@ -1,28 +1,28 @@
-// @flow
+// @flow strict
 
 import React, { Component } from 'react'
 import { withI18n } from '@lingui/react'
 import { Field } from 'react-final-form'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
-import { PasswordInput } from 'components'
-import { checkPasswordStrength } from 'utils/encryption'
+import PasswordInput from 'components/PasswordInput'
+import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 
 import {
   Indicator,
   type IndicatorStatus,
 } from './components/Indicator'
 
-import newPasswordFieldStyle from './newPasswordField.m.scss'
+import styles from './newPasswordField.m.scss'
 
 type Props = {|
   +onChange: FormFieldChange,
   +onScoreChange: (boolean) => void,
+  +i18n: I18n,
   +values: FormFields,
   +label: string,
   +isDisabled: boolean,
   +isAutoFocus: boolean,
-  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -61,7 +61,7 @@ function checkStrong(score: number): boolean {
   return (score >= MIN_PASSWORD_STRENGTH_SCORE)
 }
 
-class NewPasswordFieldComponent extends Component<Props, StateProps> {
+export default class NewPasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     isDisabled: false,
     isAutoFocus: false,
@@ -202,7 +202,7 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
     const errorMessage: ?string = isStrong ? null : infoMessage
 
     return (
-      <div className={newPasswordFieldStyle.core}>
+      <div className={styles.core}>
         <Field
           component={PasswordInput}
           onChange={this.handleChange}
@@ -235,4 +235,4 @@ class NewPasswordFieldComponent extends Component<Props, StateProps> {
   }
 }
 
-export const NewPasswordField = withI18n()(NewPasswordFieldComponent)
+export const NewPasswordFieldEnhanced = withI18n()(NewPasswordField)

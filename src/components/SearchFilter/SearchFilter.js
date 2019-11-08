@@ -18,7 +18,7 @@ type Props = {|
   +activeCount: number,
 |}
 
-export function SearchFilter({
+export default function SearchFilter({
   children,
   activeCount,
 }: Props) {

@@ -1,13 +1,14 @@
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
   Form,
   Field,
 } from 'react-final-form'
 
-import { AddressPicker } from './AddressPicker'
+import AddressPicker from './AddressPicker'
 
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (

@@ -2,9 +2,9 @@
 
 import React from 'react'
 
-import { JIcon } from 'components/base'
-import { WalletAddressItem } from 'components'
-import { getShortenedAddress } from 'utils/address'
+import JIcon from 'components/base/JIcon'
+import WalletAddressItem from 'components/WalletAddressItem'
+import getShortenedAddress from 'utils/address/getShortenedAddress'
 
 import {
   JPickerBody,
@@ -12,7 +12,7 @@ import {
   JPickerCurrent,
 } from 'components/base/JPicker'
 
-import { WalletAddressBalance } from './WalletAddressBalance/WalletAddressBalance'
+import Balance from './components/Balance'
 
 export type AddressPickerItem = {|
   +name: string,
@@ -22,18 +22,18 @@ export type AddressPickerItem = {|
 
 export type Props = {|
   +onItemClick: (address: string, index: number) => any,
+  +addresses: AddressPickerItem[],
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +label: string,
-  +addresses: AddressPickerItem[],
 |}
 
-export function AddressPicker({
+export default function AddressPicker({
   onItemClick,
+  addresses,
   meta,
   input,
   label,
-  addresses,
 }: Props) {
   const {
     value,
@@ -64,10 +64,13 @@ export function AddressPicker({
           label={label}
           value={activeAddressName}
           iconComponent={(
-            <JIcon name='0x-use-fill' size='24' color='blue' />
+            <JIcon
+              color='blue'
+              name='0x-use-fill'
+            />
           )}
           balancesComponent={(
-            <WalletAddressBalance
+            <Balance
               fiatBalance={fiatBalance}
               address={getShortenedAddress(activeAddress)}
             />

@@ -10,13 +10,13 @@ import {
   JInputField,
 } from 'components/base'
 
-import passwordInputStyle from './passwordInput.m.scss'
+import styles from './passwordInput.m.scss'
 
 type StateProps = {|
   +isHidden: boolean,
 |}
 
-export class PasswordInput extends Component<JInputFieldProps, StateProps> {
+export default class PasswordInput extends Component<JInputFieldProps, StateProps> {
   constructor(props: JInputFieldProps) {
     super(props)
 
@@ -30,14 +30,14 @@ export class PasswordInput extends Component<JInputFieldProps, StateProps> {
   }
 
   render() {
-    const { isHidden } = this.state
+    const { isHidden }: StateProps = this.state
 
     return (
       <div
         className={classNames(
           '__password-input',
-          passwordInputStyle.core,
-          !isHidden && passwordInputStyle.visible,
+          styles.core,
+          !isHidden && styles.visible,
         )}
       >
         {/* $FlowFixMe */}
@@ -47,7 +47,7 @@ export class PasswordInput extends Component<JInputFieldProps, StateProps> {
         />
         <div
           onClick={this.handleClick}
-          className={classNames(passwordInputStyle.icon, passwordInputStyle.off)}
+          className={classNames(styles.icon, styles.off)}
         >
           <JIcon
             name='visibility-off-use-fill'
@@ -55,7 +55,7 @@ export class PasswordInput extends Component<JInputFieldProps, StateProps> {
         </div>
         <div
           onClick={this.handleClick}
-          className={classNames(passwordInputStyle.icon, passwordInputStyle.on)}
+          className={classNames(styles.icon, styles.on)}
         >
           <JIcon
             name='visibility-on-use-fill'

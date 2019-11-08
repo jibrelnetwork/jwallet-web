@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Children } from 'react'
+import { type I18n } from '@lingui/core'
 
 import { useI18n } from 'app/hooks'
 import { JIcon } from 'components/base'
@@ -11,12 +12,12 @@ import styles from './searchInput.m.scss'
 
 type Props = {|
   +onChange: (SyntheticInputEvent<HTMLInputElement>) => any,
+  +children: ?React$Node,
   +value: ?string,
   +className: ?string,
-  +children: ?React$Node,
 |}
 
-export function SearchInput({
+export default function SearchInput({
   children,
   value,
   className,
@@ -27,12 +28,12 @@ export function SearchInput({
     onFocus: handleFocus,
   }] = useFocus()
 
-  const i18n = useI18n()
+  const i18n: I18n = useI18n()
 
   return (
     <div
       className={classNames(
-        '__search',
+        '__search-input',
         styles.core,
         isFocused && styles.focused,
         className,

@@ -1,10 +1,10 @@
 // @flow strict
 
 import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { Form } from 'react-final-form'
+import { storiesOf } from '@storybook/react'
 
-import { NewPasswordField } from './NewPasswordField'
+import NewPasswordField from './NewPasswordField'
 
 const values = {
   passwordNew: '',

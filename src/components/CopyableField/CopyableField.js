@@ -4,38 +4,35 @@ import React from 'react'
 import classNames from 'classnames'
 import { type I18n } from '@lingui/core'
 
+import CopyIconButton from 'components/CopyIconButton'
 import { useI18n } from 'app/hooks'
-import { CopyIconButton } from 'components'
 
-import copyableFieldStyles from './copyableField.m.scss'
+import styles from './copyableField.m.scss'
 
 type Props = {|
   +value: string,
   +label: string,
 |}
 
-export function CopyableField({
+export default function CopyableField({
   value,
   label,
 }: Props) {
-  const labelOrNothing: string = label
-    ? ` ${label}`
-    : ''
-
   const i18n: I18n = useI18n()
+  const labelOrNothing: string = label ? ` ${label}` : ''
 
   return (
     <div
       className={classNames(
         '__copyable-field',
-        copyableFieldStyles.core,
+        styles.core,
       )}
     >
-      <div className={copyableFieldStyles.content}>
-        <div className={copyableFieldStyles.label}>
+      <div className={styles.content}>
+        <div className={styles.label}>
           {label}
         </div>
-        <div className={copyableFieldStyles.value}>
+        <div className={styles.value}>
           {value.replace(/ /g, '\u00A0')}
         </div>
       </div>

@@ -1,0 +1,20 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+
+  text-align: right;
+}
+
+.balance {
+  @include font(14px, 22px);
+
+  color: $main-blue;
+  font-weight: 600;
+}
+
+.address {
+  @include font(12px, 20px);
+
+  color: $main-black-40;
+}

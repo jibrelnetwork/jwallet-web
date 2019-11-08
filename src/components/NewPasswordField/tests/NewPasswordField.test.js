@@ -56,7 +56,7 @@ jest.mock('../../../workers/scrypt/worker', () => class MOCK_WORKER {
 })
 
 // eslint-disable-next-line import/first
-import { NewPasswordField } from '../NewPasswordField'
+import NewPasswordField from '../NewPasswordField'
 
 describe('NewPasswordField', () => {
   test('is available', () => {

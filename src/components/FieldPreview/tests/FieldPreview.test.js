@@ -1,10 +1,13 @@
+// @flow strict
+
 import React from 'react'
+
 import {
-  shallow,
   mount,
+  shallow,
 } from 'enzyme'
 
-import { FieldPreview } from '../FieldPreview.js'
+import FieldPreview from '../FieldPreview.js'
 
 describe('Render', () => {
   test('Label and body value', () => {

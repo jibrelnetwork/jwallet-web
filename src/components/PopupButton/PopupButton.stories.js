@@ -1,12 +1,12 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { JText } from 'components/base'
-import { PopupButton } from 'components'
+import JText from 'components/base/JText'
+import PopupButton from 'components/PopupButton'
 
-storiesOf('PopupButton')
+storiesOf('PopupButton', module)
   .add('Default', () => (
     <div className='story'>
       <h2>Default</h2>

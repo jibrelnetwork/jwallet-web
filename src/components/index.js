@@ -1,28 +1,18 @@
 // @flow strict
 
-import QRCode from './QRCode'
-import AssetBalance from './AssetBalance'
-import OverlayNotification from './OverlayNotification'
-
 export { Card } from './Card/Card'
 export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
 export { HistoryList } from './HistoryList/HistoryList'
-export { SearchInput } from './SearchInput/SearchInput'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { PasswordForm } from './PasswordForm/PasswordForm'
-export { SearchFilter } from './SearchFilter/SearchFilter'
-export { CopyableField } from './CopyableField/CopyableField'
 export { EditableField } from './EditableField/EditableField'
-export { PasswordInput } from './PasswordInput/PasswordInput'
 export { WalletActions } from './WalletActions/WalletActions'
-export { CopyIconButton } from './CopyIconButton/CopyIconButton'
 export { UserActionInfo } from './UserActionInfo/UserActionInfo'
 export { CloseableScreen } from './CloseableScreen/CloseableScreen'
 export { GlobalFormError } from './GlobalFormError/GlobalFormError'
 export { MnemonicOptions } from './MnemonicOptions/MnemonicOptions'
 export { NewPasswordForm } from './NewPasswordForm/NewPasswordForm'
-export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
@@ -30,15 +20,18 @@ export { TransactionsFilter } from './TransactionsFilter/TransactionsFilter'
 export { ContactsItemDetails } from './ContactsItemDetails/ContactsItemDetails'
 export { DigitalAssetAddForm } from './DigitalAssetAddForm/DigitalAssetAddForm'
 export { DigitalAssetEditForm } from './DigitalAssetEditForm/DigitalAssetEditForm'
-export { FieldPreview } from './FieldPreview/FieldPreview'
-export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
-export { AddressPicker } from './AddressPicker/AddressPicker'
 export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 
+export { default as QRCode } from './QRCode'
 export { default as PopupButton } from './PopupButton'
-
-export {
-  QRCode,
-  AssetBalance,
-  OverlayNotification,
-}
+export { default as SearchInput } from './SearchInput'
+export { default as AssetBalance } from './AssetBalance'
+export { default as FieldPreview } from './FieldPreview'
+export { default as SearchFilter } from './SearchFilter'
+export { default as AddressPicker } from './AddressPicker'
+export { default as CopyableField } from './CopyableField'
+export { default as PasswordInput } from './PasswordInput'
+export { default as CopyIconButton } from './CopyIconButton'
+export { default as NewPasswordField } from './NewPasswordField'
+export { default as WalletAddressItem } from './WalletAddressItem'
+export { default as OverlayNotification } from './OverlayNotification'
