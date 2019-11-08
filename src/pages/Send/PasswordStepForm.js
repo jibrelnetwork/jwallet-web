@@ -1,18 +1,18 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
+import { type I18n } from '@lingui/core'
 
 import {
   Form,
   type FormRenderProps,
 } from 'react-final-form'
 
+import walletsPlugin from 'store/plugins/walletsPlugin'
 import { PasswordForm } from 'components'
-import { walletsPlugin } from 'store/plugins/walletsPlugin'
 import { selectPasswordHint } from 'store/selectors/password'
 import { selectActiveWalletId } from 'store/selectors/wallets'
 
@@ -26,7 +26,7 @@ type OwnProps = {|
 
 type Props = {|
   ...OwnProps,
-  +i18n: I18nType,
+  +i18n: I18n,
   +hint: string,
   +activeWalletId: WalletId,
 |}

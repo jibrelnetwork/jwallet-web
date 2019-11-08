@@ -10,9 +10,9 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
-import ofssetsStyle from 'styles/offsets.m.scss'
+import ofssetStyles from 'styles/offsets.m.scss'
+import walletsPlugin from 'store/plugins/walletsPlugin'
 import { gaSendEvent } from 'utils/analytics'
-import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   getTypeByInput,
@@ -275,7 +275,7 @@ class WalletsImportView extends Component<Props, StateProps> {
           />
         )}
         <Button
-          className={ofssetsStyle.mt16}
+          className={ofssetStyles.mt16}
           type='submit'
           isLoading={isSubmitting}
           isDisabled={!!infoDataMessage || !!errorDataMessage || !(name.trim() && data.trim())}

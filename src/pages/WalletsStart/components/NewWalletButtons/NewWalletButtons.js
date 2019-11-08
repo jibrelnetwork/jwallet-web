@@ -1,47 +1,48 @@
 // @flow strict
 
 import React, {
-  PureComponent,
   Fragment,
+  PureComponent,
 } from 'react'
-import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
 
-import { JLink } from 'components/base'
+import { withI18n } from '@lingui/react'
+import { type I18n } from '@lingui/core'
+
+import JLink from 'components/base/JLink'
 
 import {
   ACTIONS,
   type WalletAction,
 } from 'pages/WalletsStart/constants'
 
-import newWalletButtonsStyle from './newWalletButtons.m.scss'
+import styles from './newWalletButtons.m.scss'
 
 type Props = {|
   +onClick: (WalletAction) => void,
-  +i18n: I18nType,
+  +i18n: I18n,
 |}
 
-class NewWalletButtonsComponent extends PureComponent<Props> {
-  handleClickCreate = (event: SyntheticEvent<HTMLDivElement>) => {
+export default class NewWalletButtons extends PureComponent<Props> {
+  handleClickCreate = (event: SyntheticEvent<HTMLAnchorElement>) => {
     event.preventDefault()
 
     this.props.onClick(ACTIONS.CREATE)
   }
 
-  handleClickImport = (event: SyntheticEvent<HTMLDivElement>) => {
+  handleClickImport = (event: SyntheticEvent<HTMLAnchorElement>) => {
     event.preventDefault()
 
     this.props.onClick(ACTIONS.IMPORT)
   }
 
   render() {
-    const { i18n } = this.props
+    const { i18n }: Props = this.props
 
     return (
       <Fragment>
         <JLink
           onClick={this.handleClickCreate}
-          className={`__create-button ${newWalletButtonsStyle.create}`}
+          className={`__create-button ${styles.create}`}
           href='/wallets/create'
           theme='button-general'
         >
@@ -51,7 +52,7 @@ class NewWalletButtonsComponent extends PureComponent<Props> {
             { defaults: 'Create Wallet' },
           )}
         </JLink>
-        <div className={newWalletButtonsStyle.text}>
+        <div className={styles.text}>
           {i18n._(
             'WalletsStart.createWallet.description',
             null,
@@ -60,7 +61,7 @@ class NewWalletButtonsComponent extends PureComponent<Props> {
         </div>
         <JLink
           onClick={this.handleClickImport}
-          className={`__import-button ${newWalletButtonsStyle.import}`}
+          className={`__import-button ${styles.import}`}
           href='/wallets/import'
           theme='button-secondary'
         >
@@ -70,7 +71,7 @@ class NewWalletButtonsComponent extends PureComponent<Props> {
             { defaults: 'Import Wallet' },
           )}
         </JLink>
-        <div className={newWalletButtonsStyle.text}>
+        <div className={styles.text}>
           {i18n._(
             'WalletsStart.importWallet.description',
             null,
@@ -82,6 +83,4 @@ class NewWalletButtonsComponent extends PureComponent<Props> {
   }
 }
 
-export const NewWalletButtons = withI18n()(
-  NewWalletButtonsComponent,
-)
+export const NewWalletButtonsEnhance = withI18n()(NewWalletButtons)

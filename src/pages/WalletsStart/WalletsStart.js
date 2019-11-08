@@ -18,7 +18,7 @@ import {
 } from 'pages/WalletsStart/constants'
 
 import styles from './walletsStart.m.scss'
-import { NewWalletButtons } from './components/NewWalletButtons/NewWalletButtons'
+import NewWalletButtons from './components/NewWalletButtons'
 
 type Props = {|
   +i18n: I18n,
