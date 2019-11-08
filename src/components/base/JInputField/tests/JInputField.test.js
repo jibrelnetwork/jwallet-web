@@ -1,11 +1,15 @@
+// @flow strict
+
 import React from 'react'
+
 import {
-  shallow,
   mount,
+  shallow,
 } from 'enzyme'
 
-import { JInputField } from '../JInputField'
-import { JFieldMessage } from '../../JFieldMessage/JFieldMessage'
+import { JFieldMessage } from 'components/base'
+
+import JInputField from '../JInputField'
 
 const finalFormInputMock = {
   name: 'foo',
@@ -21,9 +25,7 @@ describe('JInputField', () => {
   })
 
   test('has correct defaultProps', () => {
-    const wrapper = mount(
-      <JInputField />,
-    )
+    const wrapper = mount(<JInputField />)
 
     expect(wrapper.prop('theme')).toBe('white')
     expect(wrapper.prop('type')).toBe('text')
@@ -36,34 +38,16 @@ describe('JInputField', () => {
     expect(wrapper.prop('input')).toBeDefined()
   })
 
-  test('html attributes are applies to input', () => {
-    const wrapper = shallow(
-      <JInputField
-        aria-label='meow'
-      />,
-    )
-
-    const inputEl = wrapper.find('input')
-    expect(inputEl.prop('aria-label')).toBe('meow')
-  })
-
   test('has label', () => {
-    const wrapper = shallow(
-      <JInputField
-        label='Hi'
-      />,
-    )
+    const wrapper = shallow(<JInputField label='Hi' />)
 
     const labelEl = wrapper.find('.label')
+
     expect(labelEl.html()).toBe('<label class="label" for="hiId">Hi</label>')
   })
 
   test('can be disabled', () => {
-    const wrapper = shallow(
-      <JInputField
-        isDisabled
-      />,
-    )
+    const wrapper = shallow(<JInputField isDisabled />)
 
     const wrapEl = wrapper.find('div.wrap')
     const inputEl = wrapper.find('input')
@@ -73,13 +57,10 @@ describe('JInputField', () => {
   })
 
   test('can show infoMessage', () => {
-    const wrapper = shallow(
-      <JInputField
-        infoMessage='Hi'
-      />,
-    )
+    const wrapper = shallow(<JInputField infoMessage='Hi' />)
 
     const messageEl = wrapper.find(JFieldMessage)
+
     expect(messageEl.prop('theme')).toBe('info')
     expect(messageEl.prop('message')).toBe('Hi')
   })
@@ -96,6 +77,7 @@ describe('JInputField', () => {
     )
 
     const messageEl = wrapper.find(JFieldMessage)
+
     expect(messageEl.prop('theme')).toBe('error')
     expect(messageEl.prop('message')).toBe('Hi')
   })
@@ -118,11 +100,7 @@ describe('JInputField', () => {
   })
 
   test('pass FinalForm input to input el', () => {
-    const wrapper = shallow(
-      <JInputField
-        input={finalFormInputMock}
-      />,
-    )
+    const wrapper = shallow(<JInputField input={finalFormInputMock} />)
 
     const inputEl = wrapper.find('input')
 
@@ -143,6 +121,7 @@ describe('JInputField', () => {
     )
 
     const wrapEl = wrapper.find('div.wrap')
+
     expect(wrapEl.hasClass('active')).toBe(true)
   })
 
@@ -154,6 +133,7 @@ describe('JInputField', () => {
     )
 
     const wrapEl = wrapper.find('div.wrap')
+
     expect(wrapEl.hasClass('active')).toBe(true)
   })
 
@@ -166,6 +146,7 @@ describe('JInputField', () => {
     )
 
     const wrapEl = wrapper.find('div.wrap')
+
     expect(wrapEl.hasClass('active')).toBe(true)
   })
 
@@ -177,12 +158,14 @@ describe('JInputField', () => {
     )
 
     const focusedElBeforeClick = document.activeElement
+
     expect(focusedElBeforeClick instanceof HTMLBodyElement).toBe(true)
 
     const labelEl = wrapper.find('.label')
     labelEl.simulate('click')
 
     const focusedElAfterClick = document.activeElement
+
     expect(focusedElAfterClick instanceof HTMLInputElement).toBe(true)
   })
 })

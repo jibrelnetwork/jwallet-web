@@ -9,10 +9,10 @@ import {
   kebabCase,
 } from 'lodash-es'
 
-import { getErrorMessage } from 'utils/form'
-import { JFieldMessage } from 'components/base'
+import getErrorMessage from 'utils/form/getErrorMessage'
+import JFieldMessage from 'components/base/JFieldMessage'
 
-import jTextAreaStyle from './jTextArea.m.scss'
+import styles from './jTextArea.m.scss'
 
 type Theme = 'white'
 
@@ -62,7 +62,7 @@ function heightCalc(currentTarget): void {
   }
 }
 
-export class JTextArea extends PureComponent<Props> {
+export default class JTextArea extends PureComponent<Props> {
   static defaultProps = {
     meta: {},
     input: {},
@@ -154,24 +154,24 @@ export class JTextArea extends PureComponent<Props> {
       <div
         className={classNames(
           '__textarea',
-          jTextAreaStyle.core,
-          jTextAreaStyle[theme],
+          styles.core,
+          styles[theme],
           className,
         )}
       >
         <div
           onClick={this.handleFocus}
           className={classNames(
-            jTextAreaStyle.wrap,
-            hasError && jTextAreaStyle.error,
-            isActive && jTextAreaStyle.active,
-            hasMessage && jTextAreaStyle.message,
-            isDisabled && jTextAreaStyle.disabled,
+            styles.wrap,
+            hasError && styles.error,
+            isActive && styles.active,
+            hasMessage && styles.message,
+            isDisabled && styles.disabled,
           )}
         >
           {label && elementID && (
             <label
-              className={jTextAreaStyle.label}
+              className={styles.label}
               htmlFor={elementID}
             >
               {label}
@@ -183,7 +183,7 @@ export class JTextArea extends PureComponent<Props> {
             onChange={this.handleChange}
             ref={this.textArea}
             id={elementID}
-            className={jTextAreaStyle.input}
+            className={styles.input}
             disabled={isDisabled}
           />
         </div>
@@ -191,7 +191,7 @@ export class JTextArea extends PureComponent<Props> {
           <JFieldMessage
             message={errorMsg || infoMessage}
             theme={hasError ? 'error' : 'info'}
-            className={jTextAreaStyle.fieldMessage}
+            className={styles.fieldMessage}
           />
         )}
       </div>

@@ -1,10 +1,10 @@
-import React from 'react'
-import {
-  shallow,
-} from 'enzyme'
+// @flow strict
 
-import { JIcon } from '../JIcon'
-import jIconStyle from '../jIcon.m.scss'
+import React from 'react'
+import { shallow } from 'enzyme'
+
+import JIcon from '../JIcon'
+import styles from '../jIcon.m.scss'
 
 jest.mock('../../../../utils/sprite/iconsUI', () => ({
   'add-usage': {
@@ -35,7 +35,7 @@ describe('JIcon', () => {
   it('changes icon color by property', () => {
     const wrapper = shallow(<JIcon name='add' color='sky' />)
 
-    expect(wrapper.find('svg').hasClass(jIconStyle.sky)).toBe(true)
+    expect(wrapper.find('svg').hasClass(styles.sky)).toBe(true)
   })
 
   it('adds specified class name', () => {

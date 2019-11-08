@@ -1,11 +1,9 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 
-import { core } from './jShimmer.m.scss'
+import styles from './jShimmer.m.scss'
 
-function JShimmer() {
-  return (<div className={core} />)
+export default function JShimmer() {
+  return <div className={styles.core} />
 }
-
-export { JShimmer }

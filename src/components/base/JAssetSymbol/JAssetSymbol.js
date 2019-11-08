@@ -18,7 +18,7 @@ type Props = {|
   +size: JAssetSymbolSize,
 |}
 
-export function JAssetSymbol({
+export default function JAssetSymbol({
   size,
   symbol,
   address,

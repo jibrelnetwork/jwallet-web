@@ -3,11 +3,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { JCheckbox } from '..'
+import JCheckbox from '../JCheckbox'
 
 const handleChange = console.log
 
-storiesOf('JCheckbox', module)
+storiesOf('base|JCheckbox', module)
   .add('Default', () => (
     <div>
       <h2>Default</h2>

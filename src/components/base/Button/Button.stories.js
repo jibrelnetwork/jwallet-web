@@ -1,21 +1,21 @@
-
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+
 import {
-  withKnobs,
   text,
   select,
+  withKnobs,
 } from '@storybook/addon-knobs'
 
 import {
-  Button,
   JIcon,
+  Button,
 } from 'components/base'
 
-import offset from 'styles/offsets.m.scss'
+import offsetStyles from 'styles/offsets.m.scss'
 
 const THEMES_FOR_STATUSES = [
   'general',
@@ -49,7 +49,7 @@ storiesOf('base|Button', module)
         <Button
           onClick={action('onClick')}
           theme='secondary-confirm'
-          className={offset.mr32}
+          className={offsetStyles.mr32}
         >
           {text('Label', 'Cancel')}
         </Button>

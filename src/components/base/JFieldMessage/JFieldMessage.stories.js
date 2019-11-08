@@ -1,38 +1,32 @@
-
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
-  withKnobs,
   text,
   select,
+  withKnobs,
 } from '@storybook/addon-knobs'
 
-import { JFieldMessage } from './JFieldMessage'
+import JFieldMessage from './JFieldMessage'
 
-const getBackground = background => ({
-  display: 'flex',
-  flexDirection: 'row',
-  width: '100%',
-  background,
-})
-
-const componentCard = {
-  padding: '20px',
-}
-
-storiesOf('JFieldMessage', module)
+storiesOf('base|JFieldMessage', module)
   .addDecorator(withKnobs)
   .add('Error and info messages', () => (
-    <div>
-      <div style={getBackground('#e5e5e5')}>
-        <div style={componentCard} >
-          <JFieldMessage
-            message={text('Message', 'Hello, world!')}
-            theme={select('Theme', ['error', 'info'])}
-          />
-        </div>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        background: '#e5e5e5',
+      }}
+    >
+      <div style={{ padding: '20px' }}>
+        <JFieldMessage
+          message={text('Message', 'Hello, world!')}
+          theme={select('Theme', ['error', 'info'])}
+        />
       </div>
     </div>
   ))

@@ -1,13 +1,17 @@
+// @flow strict
+
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
   text,
   withKnobs,
 } from '@storybook/addon-knobs'
 
-import { Header } from 'components/base'
+import Header from '../Header'
 
-storiesOf('base|Header', module).addDecorator(withKnobs)
+storiesOf('base|Header', module)
+  .addDecorator(withKnobs)
   .add('Customizable', () => (
     <div>
       <Header title={text('Header Text', 'Default header title')} />

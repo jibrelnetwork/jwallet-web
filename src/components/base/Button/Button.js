@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
@@ -33,7 +33,7 @@ const loaderColorMap: { [Theme]: JLoaderColor } = {
   'additional-icon': 'blue',
 }
 
-export class Button extends PureComponent<Props, *> {
+export default class Button extends PureComponent<Props, *> {
   static defaultProps = {
     onClick: null,
     children: null,

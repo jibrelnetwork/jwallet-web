@@ -1,18 +1,18 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
 
-import { JLink } from 'components/base'
+import JLink from 'components/base/JLink'
 
-import style from './itemCard.m.scss'
+import styles from './itemCard.m.scss'
 
 type Props = {|
+  +onClick?: (SyntheticEvent<EventTarget>) => any,
   +children: React$Node,
   +href: string,
-  +isActive?: boolean,
-  +onClick?: (SyntheticEvent<EventTarget>) => mixed,
   +className?: string,
+  +isActive?: boolean,
 |}
 
 function handleClick(onClick: SyntheticEvent<EventTarget> => mixed) {
@@ -23,19 +23,19 @@ function handleClick(onClick: SyntheticEvent<EventTarget> => mixed) {
   }
 }
 
-function Component({
-  className,
+export default function ItemCard({
   onClick,
-  href,
-  isActive,
   children,
+  href,
+  className,
+  isActive,
 }: Props) {
   return (
     <JLink
       onClick={onClick ? handleClick(onClick) : undefined}
       className={classNames(
-        style.core,
-        isActive && style.selected,
+        styles.core,
+        isActive && styles.selected,
         className,
       )}
       href={href}
@@ -45,10 +45,10 @@ function Component({
   )
 }
 
-Component.defaultProps = {
+ItemCard.defaultProps = {
   isActive: false,
   onClick: undefined,
   className: undefined,
 }
 
-export const ItemCard = React.memo<Props>(Component)
+export const ItemCardEnhanced = React.memo<Props>(ItemCard)

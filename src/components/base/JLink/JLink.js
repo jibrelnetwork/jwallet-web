@@ -1,7 +1,7 @@
-// @flow
+// @flow strict
 
 import React from 'react'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { omit } from 'lodash-es'
 
 import {
@@ -9,8 +9,10 @@ import {
   checkIsExternal,
 } from 'utils/uri'
 
-import jLinkStyle from './JLink.m.scss'
+import styles from './JLink.m.scss'
 import { JLinkInternal } from './JLinkInternal'
+
+type JLinkHandler = (event: SyntheticEvent<HTMLAnchorElement>) => any
 
 export type Theme
   = 'text-white'
@@ -22,32 +24,34 @@ export type Theme
   | 'button-additional-icon'
 
 // base component with inexact props
-export type JLinkProps = {
-  theme?: Theme,
-  className?: string,
-  activeClassName?: string,
+export type JLinkProps = {|
+  +onClick: ?JLinkHandler,
   +children: React$Node,
+  +theme: Theme,
   +href: string,
-}
+  +title: ?string,
+  +className: ?string,
+  +activeClassName: ?string,
+|}
 
-export function JLink(initialProps: JLinkProps) {
+export default function JLink(initialProps: JLinkProps) {
   const {
     href,
     theme,
-    className: initialClassName,
     activeClassName,
-  } = initialProps
+    className: initialClassName,
+  }: JLinkProps = initialProps
 
   const props = omit(initialProps, [
+    'rel',
     'theme',
     'className',
     'activeClassName',
-    'rel',
   ])
 
-  const className = classnames(
-    jLinkStyle.core,
-    theme && jLinkStyle[theme],
+  const className = classNames(
+    styles.core,
+    theme && styles[theme],
     initialClassName,
   )
 
@@ -81,4 +85,12 @@ export function JLink(initialProps: JLinkProps) {
       activeClassName={activeClassName}
     />
   )
+}
+
+JLink.defaultProps = {
+  onClick: null,
+  title: null,
+  className: null,
+  theme: 'text-white',
+  activeClassName: null,
 }

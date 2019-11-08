@@ -1,70 +1,54 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
-  withKnobs,
   select,
+  withKnobs,
 } from '@storybook/addon-knobs'
 
-import { JIcon } from 'components/base'
+import JIcon from '../JIcon'
 
 // $FlowFixMe
-const filesSmall = require.context(
-  '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/,
-)
+const filesSmall = require
+  .context('../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/)
 
 // $FlowFixMe
-const filesMedium = require.context(
-  '../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/,
-)
+const filesMedium = require
+  .context('../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/)
 
 // $FlowFixMe
-const filesLarge = require.context(
-  '../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/,
-)
+const filesLarge = require
+  .context('../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/)
 
 // $FlowFixMe
-const filesXLarge = require.context(
-  '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/,
-)
+const filesXLarge = require
+  .context('../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/)
 
 // $FlowFixMe
-const filesColored = require.context(
-  '../../../public/assets/icons/sprite-colored', true, /.*\.svg$/,
-)
+const filesColored = require
+  .context('../../../public/assets/icons/sprite-colored', true, /.*\.svg$/)
 
 const iconsSmall = filesSmall
   .keys()
-  .map(
-    filepath =>
-      filesSmall(filepath).default.id.replace(/-usage$/, ''),
-  )
+  .map(filepath => filesSmall(filepath).default.id.replace(/-usage$/, ''))
+
 const iconsMedium = filesMedium
   .keys()
-  .map(
-    filepath =>
-      filesMedium(filepath).default.id.replace(/-usage$/, ''),
-  )
+  .map(filepath => filesMedium(filepath).default.id.replace(/-usage$/, ''))
+
 const iconsLarge = filesLarge
   .keys()
-  .map(
-    filepath =>
-      filesLarge(filepath).default.id.replace(/-usage$/, ''),
-  )
+  .map(filepath => filesLarge(filepath).default.id.replace(/-usage$/, ''))
+
 const iconsXLarge = filesXLarge
   .keys()
-  .map(
-    filepath =>
-      filesXLarge(filepath).default.id.replace(/-usage$/, ''),
-  )
+  .map(filepath => filesXLarge(filepath).default.id.replace(/-usage$/, ''))
 
 const iconsColored = filesColored
   .keys()
-  .map(
-    filepath =>
-      filesColored(filepath).default.id.replace(/-usage$/, ''),
-  )
+  .map(filepath => filesColored(filepath).default.id.replace(/-usage$/, ''))
 
 const AVAILABLE_COLORS = [
   null,

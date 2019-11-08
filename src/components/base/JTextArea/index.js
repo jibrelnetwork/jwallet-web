@@ -1,4 +1,5 @@
-// @flow
+// @flow strict
 
-export { JTextArea } from './JTextArea'
-export { JTextAreaField } from './JTextAreaField'
+import JTextArea from './JTextArea'
+
+export default JTextArea

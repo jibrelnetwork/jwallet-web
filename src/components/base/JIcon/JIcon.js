@@ -1,21 +1,21 @@
-// @flow
+// @flow strict
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
 import { iconsUI } from 'utils/sprite'
 
-import jIconStyle from './jIcon.m.scss'
+import styles from './jIcon.m.scss'
 
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
-export type JIconProps = {
-  name: string,
-  color: ?JIconColor,
-  className?: ?string,
-}
+export type JIconProps = {|
+  +name: string,
+  +color: ?JIconColor,
+  +className?: ?string,
+|}
 
-export class JIcon extends PureComponent<JIconProps> {
+export default class JIcon extends PureComponent<JIconProps> {
   static defaultProps = {
     color: null,
     className: null,
@@ -36,8 +36,8 @@ export class JIcon extends PureComponent<JIconProps> {
         <div
           className={classNames(
             '__icon',
-            jIconStyle.core,
-            jIconStyle.empty,
+            styles.core,
+            styles.empty,
             className,
           )}
         />
@@ -48,10 +48,10 @@ export class JIcon extends PureComponent<JIconProps> {
       <svg
         className={classNames(
           '__icon',
-          jIconStyle.core,
-          color && jIconStyle[color],
-          iconData.colored && jIconStyle.colored,
-          hasFill && jIconStyle.fill,
+          styles.core,
+          color && styles[color],
+          iconData.colored && styles.colored,
+          hasFill && styles.fill,
           className,
         )}
         width={iconData.width}

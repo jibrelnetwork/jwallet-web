@@ -1,17 +1,17 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
 
-import headerStyle from './header.m.scss'
+import styles from './header.m.scss'
 
 type Props = {|
   +title: string,
-  className?: ?string,
-  children?: React$Node,
+  +className: ?string,
+  +children: React$Node,
 |}
 
-export function Header({
+export default function Header({
   title,
   className,
   children,
@@ -20,12 +20,12 @@ export function Header({
     <div
       className={classNames(
         '__header',
-        headerStyle.core,
+        styles.core,
         className,
       )}
     >
-      <h1 className={headerStyle.title}>{title}</h1>
-      <aside className={headerStyle.aside}>
+      <h1 className={styles.title}>{title}</h1>
+      <aside className={styles.aside}>
         {children}
       </aside>
     </div>
@@ -33,6 +33,6 @@ export function Header({
 }
 
 Header.defaultProps = {
-  className: null,
   children: null,
+  className: null,
 }

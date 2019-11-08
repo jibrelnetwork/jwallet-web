@@ -1,12 +1,14 @@
+// @flow strict
+
 import React from 'react'
 import sinon from 'sinon'
 
 import {
-  shallow,
   mount,
+  shallow,
 } from 'enzyme'
 
-import { JTextArea } from '../JTextArea.js'
+import JTextArea from '../JTextArea'
 
 describe('Render', () => {
   test('default props', () => {
@@ -16,10 +18,10 @@ describe('Render', () => {
     expect(wrapper.find('textarea').prop('rows')).toBe(1)
   })
 
-  test('The `blue` theme is apply class `blue` to textarea', () => {
-    const wrapper = shallow(<JTextArea theme='blue' />)
+  test('The `white` theme is apply class `white` to textarea', () => {
+    const wrapper = shallow(<JTextArea theme='white' />)
 
-    expect(wrapper.hasClass('blue')).toBe(true)
+    expect(wrapper.hasClass('white')).toBe(true)
   })
 
   test('className property is apply to textarea', () => {

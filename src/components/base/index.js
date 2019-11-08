@@ -1,38 +1,22 @@
 // @flow strict
 
-import JFlatButton from './JFlatButton'
-import JInput from './JInput'
-import JLoader from './JLoader'
-import JRadio from './JRadio'
-import JTabs from './JTabs'
-import JText from './JText'
-import JThumbnail from './JThumbnail'
-import JTooltip from './JTooltip'
-import JSwitch from './JSwitch'
-
-export { Button } from './Button/Button'
-export { AppLogo } from './AppLogo/AppLogo'
-export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
-export { JIcon } from './JIcon/JIcon'
-export { Header } from './Header/Header'
-export { JLink } from './JLink/JLink'
-export { JCheckbox } from './JCheckbox/JCheckbox'
-export { JLinkBack } from './JLinkBack/JLinkBack'
-export { JTextArea } from './JTextArea/JTextArea'
-export { JInputField } from './JInputField/JInputField'
-export { JTextAreaField } from './JTextArea/JTextAreaField'
-export { JFieldMessage } from './JFieldMessage/JFieldMessage'
-export { JShimmer } from './JShimmer/JShimmer'
-export { ItemCard } from './ItemCard/ItemCard'
-
-export {
-  JFlatButton,
-  JInput,
-  JLoader,
-  JRadio,
-  JTabs,
-  JText,
-  JThumbnail,
-  JTooltip,
-  JSwitch,
-}
+export { default as JIcon } from './JIcon'
+export { default as JLink } from './JLink'
+export { default as JText } from './JText'
+export { default as Button } from './Button'
+export { default as Header } from './Header'
+export { default as JInput } from './JInput'
+export { default as AppLogo } from './AppLogo'
+export { default as JLoader } from './JLoader'
+export { default as JSwitch } from './JSwitch'
+export { default as ItemCard } from './ItemCard'
+export { default as JShimmer } from './JShimmer'
+export { default as JTooltip } from './JTooltip'
+export { default as JCheckbox } from './JCheckbox'
+export { default as JLinkBack } from './JLinkBack'
+export { default as JTextArea } from './JTextArea'
+export { default as JThumbnail } from './JThumbnail'
+export { default as JFlatButton } from './JFlatButton'
+export { default as JInputField } from './JInputField'
+export { default as JAssetSymbol } from './JAssetSymbol'
+export { default as JFieldMessage } from './JFieldMessage'

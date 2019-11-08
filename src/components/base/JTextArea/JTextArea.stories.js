@@ -1,25 +1,24 @@
-
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+
 import {
-  withKnobs,
   text,
-  boolean,
   number,
+  boolean,
+  withKnobs,
 } from '@storybook/addon-knobs'
+
 import {
   Form,
   Field,
 } from 'react-final-form'
 
-import {
-  JTextArea,
-  JTextAreaField,
-  Button,
-} from 'components/base'
+import Button from 'components/base/Button'
+
+import JTextArea from '../JTextArea'
 
 function handleValidate(e) {
   action('handle validate')(e)
@@ -32,7 +31,8 @@ function handleValidate(e) {
   return {}
 }
 
-storiesOf('JTextAreaField', module).addDecorator(withKnobs)
+storiesOf('base|JTextArea', module)
+  .addDecorator(withKnobs)
   .add('JTextArea as is', () => (
     <div className='story' style={{ background: '#e5e5e5' }}>
       <div className='grid'>
@@ -55,11 +55,11 @@ storiesOf('JTextAreaField', module).addDecorator(withKnobs)
         }) => (
           <form onSubmit={handleSubmit}>
             <Field
+              component={JTextArea}
               name='text-area'
               label={text('Label', 'Enter address 🐻')}
               rows={number('Rows', 2)}
               disabled={boolean('Disabled', false)}
-              component={JTextAreaField}
               offset='mb16'
             />
             <Button type='submit' theme='secondary'>Submit!</Button>

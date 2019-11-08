@@ -4,33 +4,35 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { camelCase } from 'lodash-es'
 
-import { getErrorMessage } from 'utils/form'
-import { JFieldMessage } from 'components/base'
+import getErrorMessage from 'utils/form/getErrorMessage'
+import JFieldMessage from 'components/base/JFieldMessage'
 
-import jInputFieldStyle from './jInputField.m.scss'
+import styles from './jInputField.m.scss'
 
 export type JInputTheme = 'white' | 'white-icon' | 'white-indicator'
 export type JInputType = 'text' | 'password'
 
-export type JInputFieldProps = StyleComponent<JInputTheme> & {
+export type JInputFieldProps = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +id: ?string,
   +label: string,
   +type: JInputType,
+  +theme: JInputTheme,
+  +className: ?string,
   +placeholder: string,
   +infoMessage: ?string,
   +errorMessage: ?string,
   +validateType: FinalFormValidateType,
   +isDisabled: boolean,
   +isAutoFocus: boolean,
-}
+|}
 
 type InputRef = {
   current: null | HTMLInputElement,
 }
 
-export class JInputField extends PureComponent<JInputFieldProps> {
+export default class JInputField extends PureComponent<JInputFieldProps> {
   static defaultProps = {
     meta: {},
     input: {},
@@ -38,6 +40,7 @@ export class JInputField extends PureComponent<JInputFieldProps> {
     label: '',
     type: 'text',
     theme: 'white',
+    className: null,
     placeholder: '',
     infoMessage: null,
     errorMessage: null,
@@ -87,20 +90,20 @@ export class JInputField extends PureComponent<JInputFieldProps> {
       <div
         className={classNames(
           '__j-input-field',
-          jInputFieldStyle.core,
-          jInputFieldStyle[theme],
+          styles.core,
+          styles[theme],
           className,
         )}
       >
         <div
           onClick={this.handleFocus}
           className={classNames(
-            jInputFieldStyle.wrap,
-            hasError && jInputFieldStyle.error,
-            isActive && jInputFieldStyle.active,
-            hasMessage && jInputFieldStyle.message,
-            isDisabled && jInputFieldStyle.disabled,
-            hasValue && jInputFieldStyle.value,
+            styles.wrap,
+            hasError && styles.error,
+            isActive && styles.active,
+            hasMessage && styles.message,
+            isDisabled && styles.disabled,
+            hasValue && styles.value,
           )}
         >
           <input
@@ -108,14 +111,14 @@ export class JInputField extends PureComponent<JInputFieldProps> {
             type={type}
             id={inputId}
             placeholder={placeholder}
-            className={jInputFieldStyle.input}
+            className={styles.input}
             disabled={isDisabled}
             autoFocus={isAutoFocus}
             {...input}
             {...rest}
           />
           {hasLabel && (
-            <label className={jInputFieldStyle.label} htmlFor={inputId}>
+            <label className={styles.label} htmlFor={inputId}>
               {label}
             </label>
           )}
@@ -124,7 +127,7 @@ export class JInputField extends PureComponent<JInputFieldProps> {
           <JFieldMessage
             message={errorMsg || infoMessage}
             theme={hasError ? 'error' : 'info'}
-            className={jInputFieldStyle.fieldMessage}
+            className={styles.fieldMessage}
           />
         )}
       </div>

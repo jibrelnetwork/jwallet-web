@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 
@@ -8,12 +8,12 @@ type Props = {|
   +color: JLoaderColor,
 |}
 
-const JLoader = ({ color }: Props) => (
-  <div className={`j-loader -${color}`}>
-    <div className='dot -first' />
-    <div className='dot -second' />
-    <div className='dot -third' />
-  </div>
-)
-
-export default JLoader
+export default function JLoader({ color }: Props) {
+  return (
+    <div className={`j-loader -${color}`}>
+      <div className='dot -first' />
+      <div className='dot -second' />
+      <div className='dot -third' />
+    </div>
+  )
+}

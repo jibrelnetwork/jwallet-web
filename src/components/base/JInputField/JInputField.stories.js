@@ -1,5 +1,4 @@
-
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
@@ -10,11 +9,11 @@ import {
 } from 'react-final-form'
 
 import {
-  withKnobs,
   text,
+  withKnobs,
 } from '@storybook/addon-knobs'
 
-import { JInputField } from './JInputField'
+import JInputField from './JInputField'
 
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (

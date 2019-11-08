@@ -1,14 +1,13 @@
-// @flow
+// @flow strict
 
+import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { omit } from 'lodash-es'
-import { connect } from 'react-redux'
-import classnames from 'classnames'
 import { Link } from 'react-router5'
+import { connect } from 'react-redux'
 
+import styles from '../JLink/JLink.m.scss'
 import { type Theme } from '../JLink/JLink'
-
-import jLinkStyle from '../JLink/JLink.m.scss'
 
 // base component with inexact props
 type Props = {
@@ -36,7 +35,7 @@ type OwnProps = {|
   onClick?: ?Function,
 |}
 
-export class JLinkBackDisconnected extends PureComponent<Props> {
+export default class JLinkBack extends PureComponent<Props> {
   static defaultProps = {
     theme: null,
     className: null,
@@ -64,8 +63,8 @@ export class JLinkBackDisconnected extends PureComponent<Props> {
       className: initialClassName,
     } = this.props
 
-    const className = classnames(
-      theme && jLinkStyle[theme],
+    const className = classNames(
+      theme && styles[theme],
       initialClassName,
     )
 
@@ -90,6 +89,6 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 // FIXME: support inexact OwnProps
-export const JLinkBack = connect< Props, OwnProps, _, _, _, _ >(
+export const JLinkBackEnhanced = connect<Props, OwnProps, _, _, _, _>(
   mapStateToProps,
-)(JLinkBackDisconnected)
+)(JLinkBack)

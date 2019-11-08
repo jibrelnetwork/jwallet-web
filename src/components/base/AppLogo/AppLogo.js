@@ -15,7 +15,7 @@ type Props = {|
   +color: AppLogoColor,
 |}
 
-export function AppLogo({ color }: Props) {
+export default function AppLogo({ color }: Props) {
   const i18n: I18n = useI18n()
 
   return (
