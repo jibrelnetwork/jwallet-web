@@ -7,7 +7,7 @@ function checkMetaValidateType(
   return !!validateType && !!meta[validateType]
 }
 
-export function getErrorMessage(
+export default function getErrorMessage(
   meta: FinalFormMeta,
   validateType: ?FinalFormValidateType,
   hasErrorsWhileSubmitting?: boolean = false,

@@ -6,7 +6,8 @@ export { encryptData } from './encryptData'
 export { generateSalt } from './generateSalt'
 export { decryptInternalKey } from './decryptInternalKey'
 export { encryptInternalKey } from './encryptInternalKey'
-export { checkPasswordStrength } from './checkPasswordStrength'
+
+export { default as checkPasswordStrength } from './checkPasswordStrength'
 
 export {
   deriveKeyFromPassword,

@@ -1,6 +1,6 @@
 // @flow strict
 
-export function getShortenedAddress(
+export default function getShortenedAddress(
   address: Address,
   startSymbols: number = 10,
   finishSymbols: number = 10,

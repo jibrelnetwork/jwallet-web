@@ -1,3 +1,3 @@
-// @flow
+// @flow strict
 
-export { getErrorMessage } from './getErrorMessage'
+export { default as getErrorMessage } from './getErrorMessage'
