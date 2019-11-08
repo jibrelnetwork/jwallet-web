@@ -57,7 +57,7 @@ import {
 
 import * as walletsUtils from 'utils/wallets'
 
-import { toastsPlugin } from '.'
+import toastsPlugin from './toastsPlugin'
 
 export type ImportWalletPayload = {|
   +data: string,
@@ -613,4 +613,6 @@ class WalletsPlugin {
   }
 }
 
-export const walletsPlugin = new WalletsPlugin()
+const walletsPlugin = new WalletsPlugin()
+
+export default walletsPlugin

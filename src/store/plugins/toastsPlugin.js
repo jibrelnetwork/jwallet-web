@@ -95,4 +95,6 @@ class ToastsPlugin {
   }
 }
 
-export const toastsPlugin = new ToastsPlugin()
+const toastsPlugin = new ToastsPlugin()
+
+export default toastsPlugin

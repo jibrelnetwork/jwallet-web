@@ -1,4 +1,4 @@
 // @flow strict
 
-export { toastsPlugin } from './toastsPlugin'
-export { walletsPlugin } from './walletsPlugin'
+export { default as toastsPlugin } from './toastsPlugin'
+export { default as walletsPlugin } from './walletsPlugin'
