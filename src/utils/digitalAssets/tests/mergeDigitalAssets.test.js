@@ -1,6 +1,7 @@
 // @flow strict
 
 import mergeDigitalAssets from '../mergeDigitalAssets'
+import { AZBIT_ASSET } from './data'
 
 const JNT_SYMBOL: string = 'JNT'
 const JNT_NAME: string = 'Jibrel Network Token'
@@ -8,18 +9,6 @@ const JNT_ADDRESS: AssetAddress = '0xa5Fd1A791C4dfcaacC963D4F73c6Ae5824149eA7'
 
 const AZBIT_ADDRESS: AssetAddress = '0xeccab39acb2caf9adba72c1cb92fdc106b993e0b'
 const AZBIT_ADDRESS_CS: AssetAddress = '0xEccAB39acB2CAF9adBa72C1CB92FDC106B993E0b'
-
-const AZBIT_ASSET: DigitalAsset = {
-  blockchainParams: {
-    type: 'erc-20',
-    address: AZBIT_ADDRESS_CS,
-    decimals: 6,
-  },
-  symbol: 'AZ',
-  name: 'Azbit',
-  isActive: true,
-  isCustom: true,
-}
 
 describe('mergeDigitalAssets', () => {
   test('defined', () => {
