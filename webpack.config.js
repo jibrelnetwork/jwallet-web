@@ -395,6 +395,10 @@ module.exports = {
       '__PROD__': isEnvProduction,
       '__DEFAULT_TICKER_API__': JSON.stringify(process.env.DEFAULT_TICKER_API),
       '__DEFAULT_BLOCKEXPLORER_API__': JSON.stringify(process.env.DEFAULT_BLOCKEXPLORER_API),
+      'process.env.MAIN_RPC_ADDR': JSON.stringify(process.env.MAIN_RPC_ADDR),
+      'process.env.MAIN_RPC_PORT': JSON.stringify(process.env.MAIN_RPC_PORT),
+      'process.env.ROPSTEN_RPC_ADDR': JSON.stringify(process.env.ROPSTEN_RPC_ADDR),
+      'process.env.ROPSTEN_RPC_PORT': JSON.stringify(process.env.ROPSTEN_RPC_PORT),
     }),
 
     // This gives some necessary context to module not found errors, such as

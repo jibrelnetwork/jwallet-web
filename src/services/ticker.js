@@ -14,7 +14,7 @@ type TickerAPIParams = {|
 |}
 
 const AVAILABLE_CURRENCIES: string[] = Object.keys(CURRENCIES)
-const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
+const TICKER_API: string = getENVVar('__TICKER_API__') || __DEFAULT_TICKER_API__
 
 function handleFiatCoursesResponse(response: any): Object {
   if (typeUtils.isVoid(response) || !typeUtils.isObject(response)) {
