@@ -1,5 +1,7 @@
 // @flow
 
+import { getENVVar } from 'utils/config'
+
 export const INIT = '@@networks/INIT'
 export const INIT_FINISH = '@@networks/INIT_FINISH'
 export const SET_NETWORKS = '@@networks/SET_NETWORKS'
@@ -141,8 +143,15 @@ const initialState: NetworksState = {
       id: '3',
       title: 'Ropsten Test Network',
       blockExplorerUISubdomain: 'ropsten',
-      rpcaddr: 'ropsten.jnode.network',
-      rpcport: 443,
+      rpcaddr: getENVVar('__ROPSTEN_RPC_ADDR__')
+        || process.env.ROPSTEN_RPC_ADDR
+        || 'ropsten.jnode.network',
+      rpcport: parseInt(
+        getENVVar('__ROPSTEN_RPC_PORT__')
+          || process.env.ROPSTEN_RPC_PORT
+          || 443,
+        10,
+      ),
       ssl: true,
       isCustom: false,
     },
@@ -150,8 +159,15 @@ const initialState: NetworksState = {
       id: '1',
       blockExplorerUISubdomain: '',
       title: 'Main Ethereum Network',
-      rpcaddr: 'main.jnode.network',
-      rpcport: 443,
+      rpcaddr: getENVVar('__MAIN_RPC_ADDR__')
+        || process.env.MAIN_RPC_ADDR
+        || 'main.jnode.network',
+      rpcport: parseInt(
+        getENVVar('__MAIN_RPC_PORT__')
+        || process.env.MAIN_RPC_PORT
+        || 443,
+        10,
+      ),
       ssl: true,
       isCustom: false,
     },
