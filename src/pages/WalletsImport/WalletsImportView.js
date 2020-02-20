@@ -11,8 +11,8 @@ import {
 } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import walletsPlugin from 'store/plugins/walletsPlugin'
 import { gaSendEvent } from 'utils/analytics'
-import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   getTypeByInput,

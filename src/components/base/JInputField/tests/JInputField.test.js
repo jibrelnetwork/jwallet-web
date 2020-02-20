@@ -28,7 +28,7 @@ describe('JInputField', () => {
     expect(wrapper.prop('theme')).toBe('white')
     expect(wrapper.prop('type')).toBe('text')
     expect(wrapper.prop('isDisabled')).toBe(false)
-    expect(wrapper.prop('validateType')).toBe('touched')
+    expect(wrapper.prop('validateType')).toBe('dirtySinceLastSubmit')
     expect(wrapper.prop('infoMessage')).toBe(null)
     expect(wrapper.prop('label')).toBe('')
     expect(wrapper.prop('placeholder')).toBe('')

@@ -5,11 +5,11 @@ import { withI18n } from '@lingui/react'
 import { type I18n } from '@lingui/core'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import walletsPlugin from 'store/plugins/walletsPlugin'
 import { type FormApi } from 'final-form'
 import { gaSendEvent } from 'utils/analytics'
 import { checkNameExists } from 'utils/wallets'
 import { generateMnemonic } from 'utils/mnemonic'
-import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   Form,

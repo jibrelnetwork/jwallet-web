@@ -56,7 +56,7 @@ jest.mock('../../../workers/scrypt/worker', () => class MOCK_WORKER {
 })
 
 // eslint-disable-next-line import/first
-import { NewPasswordField } from '../NewPasswordField'
+import { NewPasswordFieldView as NewPasswordField } from '../NewPasswordField'
 
 describe('NewPasswordField', () => {
   test('is available', () => {
@@ -79,6 +79,7 @@ describe('NewPasswordField', () => {
         onScoreChange={handleScoreChange}
         values={values}
         label='Label'
+        labelConfirm='Label Confirm'
       />,
     )
 
@@ -88,6 +89,7 @@ describe('NewPasswordField', () => {
     expect(componentInstance.props.onScoreChange).toBe(handleScoreChange)
     expect(componentInstance.props.values).toBe(values)
     expect(componentInstance.props.label).toBe('Label')
+    expect(componentInstance.props.labelConfirm).toBe('Label Confirm')
     expect(componentInstance.props.isDisabled).toBe(false)
     expect(componentInstance.props.isAutoFocus).toBe(false)
 
@@ -104,7 +106,7 @@ describe('NewPasswordField', () => {
     expect(passwordInput.prop('name')).toBe('password')
     expect(passwordInput.prop('infoMessage')).toBe(null)
     expect(passwordInput.prop('errorMessage')).toBe(null)
-    expect(passwordInput.prop('label')).toBe('Label')
+    expect(passwordInput.prop('labelConfirm')).toBe()
     expect(passwordInput.prop('theme')).toBe('white-indicator')
     expect(passwordInput.prop('isDisabled')).toBe(false)
     expect(passwordInput.prop('isAutoFocus')).toBe(false)
@@ -118,7 +120,7 @@ describe('NewPasswordField', () => {
     expect(passwordConfirmInput.prop('value')).toBe('')
     expect(passwordConfirmInput.prop('theme')).toBe('white-icon')
     expect(passwordConfirmInput.prop('name')).toBe('passwordConfirm')
-    expect(passwordConfirmInput.prop('label')).toBe('Repeat Security Password')
+    expect(passwordConfirmInput.prop('label')).toBe('Label Confirm')
     expect(passwordConfirmInput.prop('isDisabled')).toBe(false)
 
     // $FlowFixMe

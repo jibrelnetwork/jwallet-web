@@ -11,8 +11,8 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import walletsPlugin from 'store/plugins/walletsPlugin'
 import { PasswordForm } from 'components'
-import { walletsPlugin } from 'store/plugins/walletsPlugin'
 import { selectPasswordHint } from 'store/selectors/password'
 import { selectActiveWalletId } from 'store/selectors/wallets'
 

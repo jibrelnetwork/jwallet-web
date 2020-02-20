@@ -9,8 +9,8 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs'
 
+import JAssetSymbol from './JAssetSymbol'
 import { ADDRESSES_AVAILABLE } from './symbolsAvailable'
-import { JAssetSymbol } from './JAssetSymbol'
 
 const ADDRESSES_LIST = Object.keys(ADDRESSES_AVAILABLE)
 

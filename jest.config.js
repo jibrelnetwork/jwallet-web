@@ -11,7 +11,7 @@ module.exports = {
       statements: 0,
     },
   },
-  coverageDirectory: '<rootDir>/reports/unit-tests/coverage',
+  coverageDirectory: '<rootDir>/reports/coverage',
   coverageReporters: [
     'lcov',
   ],
@@ -25,7 +25,7 @@ module.exports = {
     '[/\\\\]node_modules[/\\\\](?!lodash-es).+\\.(js|jsx)$',
   ],
   moduleFileExtensions: ['js', 'jsx'],
-  moduleDirectories: ['src', 'node_modules'],
+  moduleDirectories: ['<rootDir>', 'src', 'node_modules'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
     '^lodash-es$': 'lodash',
